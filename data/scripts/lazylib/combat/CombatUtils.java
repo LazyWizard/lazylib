@@ -1,4 +1,4 @@
-package data.scripts.lazylib.ai.combat;
+package data.scripts.lazylib.combat;
 
 import com.fs.starfarer.api.combat.ShipAPI;
 import org.lwjgl.util.vector.Vector2f;
