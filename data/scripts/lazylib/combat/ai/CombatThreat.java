@@ -1,9 +1,10 @@
-package data.scripts.lazylib.ai.combat;
+package data.scripts.lazylib.combat.ai;
 
 import com.fs.starfarer.api.combat.DamageType;
 import com.fs.starfarer.api.combat.FluxTrackerAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import data.scripts.lazylib.combat.CombatUtils;
 
 public class CombatThreat
 {
@@ -25,7 +26,7 @@ public class CombatThreat
                 / enemy.getMutableStats().getMaxTurnRate().getModifiedValue();
 
         // Divide by zero - enemy ship can't turn, only a threat if already aimed
-        if (turnTime == Float.NaN)
+        if (Float.isNaN(turnTime))
         {
             if (weapon.distanceFromArc(threatened.getLocation()) == 0)
             {
@@ -44,10 +45,22 @@ public class CombatThreat
         Threat totalThreat = new Threat();
         // Placeholder due to WeaponAPI's lack of getDamage()
         float tmpThreat = (float) (100 * (Math.pow(weapon.getSize().ordinal() + 1, 3)));
+        float modifier = 1.0f;
+
         // Modify the threat based on how long it would take this weapon to aim
-        float modifier = 1.0f - (1.0f * (turnTime / SECONDS_PLANNED_AHEAD));
+        if (turnTime != 0f)
+        {
+            modifier -= (1.0f * (turnTime / SECONDS_PLANNED_AHEAD));
+        }
+
         // Further modify it based on how long it would take to get in range
-        //modifier *= weapon.getRange() and mathstuff
+        if (CombatUtils.getDistance(threatened, enemy) > weapon.getRange())
+        {
+            float closeTime = (CombatUtils.getDistance(threatened, enemy)
+                    - weapon.getRange())
+                    / enemy.getMutableStats().getMaxSpeed().getModifiedValue();
+            modifier -= (1.0f * (closeTime / SECONDS_PLANNED_AHEAD));
+        }
 
         switch (weapon.getDamageType())
         {
@@ -65,8 +78,6 @@ public class CombatThreat
                 break;
             case OTHER:
                 totalThreat.empThreat += tmpThreat;
-                break;
-            default:
         }
 
         return totalThreat.modify(modifier);
@@ -122,10 +133,20 @@ public class CombatThreat
             this.energyThreat = energyThreat;
             this.fragThreat = fragThreat;
             this.empThreat = empThreat;
+            clamp();
         }
 
         public Threat()
         {
+        }
+
+        private void clamp()
+        {
+            heThreat = Math.max(0, heThreat);
+            kineticThreat = Math.max(0, kineticThreat);
+            energyThreat = Math.max(0, energyThreat);
+            fragThreat = Math.max(0, fragThreat);
+            empThreat = Math.max(0, empThreat);
         }
 
         public Threat add(Threat toAdd)
@@ -135,6 +156,7 @@ public class CombatThreat
             energyThreat += toAdd.energyThreat;
             fragThreat += toAdd.fragThreat;
             empThreat += toAdd.empThreat;
+            clamp();
 
             return this;
         }
@@ -146,6 +168,7 @@ public class CombatThreat
             energyThreat *= percent;
             fragThreat *= percent;
             empThreat *= percent;
+            clamp();
             return this;
         }
 
@@ -168,8 +191,9 @@ public class CombatThreat
                 case OTHER:
                     empThreat += amount;
                     break;
-                default:
             }
+
+            clamp();
         }
 
         public float getThreat(DamageType type)
