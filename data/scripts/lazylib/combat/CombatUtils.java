@@ -7,8 +7,8 @@ import com.fs.starfarer.api.combat.ShieldAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import data.scripts.lazylib.Line;
 import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.geom.Line;
 
 public class CombatUtils
 {
@@ -21,6 +21,13 @@ public class CombatUtils
         MISS
     }
 
+    /**
+     * Finds the part of the ship that would be intersected by a given path.
+     *
+     * @param target The CombatEntityAPI to check collision with.
+     * @param firingLine The Line the projectile traveled. The starting point should be the origin of the projectile.
+     * @return The SegmentAPI that the projectile would hit, null if none hit.
+     */
     public static SegmentAPI getCollisionSegment(CombatEntityAPI target, Line firingLine)
     {
         BoundsAPI bounds = target.getExactBounds();
@@ -33,30 +40,32 @@ public class CombatUtils
 
         SegmentAPI closestSeg = null;
         Line closest = null;
-        org.newdawn.slick.geom.Vector2f intersection;
+        Vector2f closestIntersection = new Vector2f();
+        Vector2f intersection = new Vector2f();
 
         // Convert all segments to lines, do collision checks to find closest hit
         for (SegmentAPI tmp : bounds.getSegments())
         {
             Line segment = convertSegmentToLine(tmp);
-            intersection = firingLine.intersect(segment, true);
 
             // Collision = true
-            if (intersection != null)
+            if (firingLine.intersect(segment, true, intersection))
             {
                 if (closest != null)
                 {
-                    if (segment.distance(firingLine.getStart())
-                            > closest.distance(firingLine.getStart()))
+                    if (getDistance(firingLine.getStart(), intersection)
+                            > getDistance(firingLine.getStart(), closestIntersection))
                     {
-                        closestSeg = tmp;
                         closest = segment;
+                        closestSeg = tmp;
+                        closestIntersection.set(intersection);
                     }
                 }
                 else
                 {
-                    closestSeg = tmp;
                     closest = segment;
+                    closestSeg = tmp;
+                    closestIntersection.set(intersection);
                 }
             }
         }
@@ -65,8 +74,19 @@ public class CombatUtils
         return closestSeg;
     }
 
+    public static Vector2f getCollisionPoint(SegmentAPI segment, Line firingLine)
+    {
+        Vector2f result = new Vector2f();
+        if (firingLine.intersect(convertSegmentToLine(segment), true, result))
+        {
+            return result;
+        }
+
+        return null;
+    }
+
     // TODO
-    public static Vector2f getCollisionPoint(CombatEntityAPI target, Line firingLine)
+    public static Line getFiringLine(WeaponAPI weapon)
     {
         return null;
     }
@@ -74,7 +94,7 @@ public class CombatUtils
     public static DefenseType getDefenseAimedAt(ShipAPI threatened, WeaponAPI weapon)
     {
         // TODO: Replace with weapon.getOrigin() equivalent, if/when added
-        Line weaponFire = new Line(4, 3);
+        //Line weaponFire = new Line(4, 3);
 
         // TODO: filter out weapons that can't hit the target (CollisionClass)
 
@@ -133,8 +153,6 @@ public class CombatUtils
 
     public static Line convertSegmentToLine(SegmentAPI segment)
     {
-        return new Line(new org.newdawn.slick.geom.Vector2f(segment.getP1().x,
-                segment.getP1().y), new org.newdawn.slick.geom.Vector2f(
-                segment.getP2().x, segment.getP2().y));
+        return new Line(segment.getP1(), segment.getP2());
     }
 }
