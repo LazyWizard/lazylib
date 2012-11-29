@@ -22,22 +22,9 @@ public class CombatThreat
             return new Threat();
         }
 
-        float turnTime = weapon.distanceFromArc(threatened.getLocation())
-                / enemy.getMutableStats().getMaxTurnRate().getModifiedValue();
+        float turnTime = CombatUtils.getTimeToAim(enemy, weapon, threatened.getLocation());
 
-        // Divide by zero - enemy ship can't turn, only a threat if already aimed
-        if (Float.isNaN(turnTime))
-        {
-            if (weapon.distanceFromArc(threatened.getLocation()) == 0)
-            {
-                turnTime = 0;
-            }
-            else
-            {
-                return new Threat();
-            }
-        }
-        else if (turnTime > SECONDS_PLANNED_AHEAD)
+        if (turnTime > SECONDS_PLANNED_AHEAD)
         {
             return new Threat();
         }
@@ -111,12 +98,16 @@ public class CombatThreat
         return totalThreat;
     }
 
-    // I miss operator overloading
-    public static Threat getCombinedThreat(Threat t1, Threat t2)
+    public static Threat getCombinedThreat(Threat... threats)
     {
-        return new Threat(t1.heThreat + t2.heThreat, t1.kineticThreat
-                + t2.kineticThreat, t1.energyThreat + t2.energyThreat,
-                t1.fragThreat + t2.fragThreat, t1.empThreat + t2.empThreat);
+        Threat combinedThreat = new Threat();
+        
+        for (Threat tmp : threats)
+        {
+            combinedThreat.add(tmp);
+        }
+
+        return combinedThreat;
     }
 
     /**
