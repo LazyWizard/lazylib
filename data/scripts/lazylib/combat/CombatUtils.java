@@ -21,8 +21,7 @@ public class CombatUtils
         MISS
     }
 
-    // TODO
-    public static SegmentAPI getCollisionPoint(CombatEntityAPI target, Line firingLine)
+    public static SegmentAPI getCollisionSegment(CombatEntityAPI target, Line firingLine)
     {
         BoundsAPI bounds = target.getExactBounds();
 
@@ -32,13 +31,50 @@ public class CombatUtils
             return null;
         }
 
+        SegmentAPI closestSeg = null;
+        Line closest = null;
+        org.newdawn.slick.geom.Vector2f intersection;
+
+        // Convert all segments to lines, do collision checks to find closest hit
+        for (SegmentAPI tmp : bounds.getSegments())
+        {
+            Line segment = convertSegmentToLine(tmp);
+            intersection = firingLine.intersect(segment, true);
+
+            // Collision = true
+            if (intersection != null)
+            {
+                if (closest != null)
+                {
+                    if (segment.distance(firingLine.getStart())
+                            > closest.distance(firingLine.getStart()))
+                    {
+                        closestSeg = tmp;
+                        closest = segment;
+                    }
+                }
+                else
+                {
+                    closestSeg = tmp;
+                    closest = segment;
+                }
+            }
+        }
+
+        // Null if no segment was hit
+        return closestSeg;
+    }
+
+    // TODO
+    public static Vector2f getCollisionPoint(CombatEntityAPI target, Line firingLine)
+    {
         return null;
     }
 
     public static DefenseType getDefenseAimedAt(ShipAPI threatened, WeaponAPI weapon)
     {
         // TODO: Replace with weapon.getOrigin() equivalent, if/when added
-        //Line weaponFire = new Line(weapon., 3);
+        Line weaponFire = new Line(4, 3);
 
         // TODO: filter out weapons that can't hit the target (CollisionClass)
 
@@ -93,5 +129,12 @@ public class CombatUtils
     public static float getDistance(CombatEntityAPI obj1, CombatEntityAPI obj2)
     {
         return getDistance(obj1.getLocation(), obj2.getLocation());
+    }
+
+    public static Line convertSegmentToLine(SegmentAPI segment)
+    {
+        return new Line(new org.newdawn.slick.geom.Vector2f(segment.getP1().x,
+                segment.getP1().y), new org.newdawn.slick.geom.Vector2f(
+                segment.getP2().x, segment.getP2().y));
     }
 }
