@@ -19,7 +19,7 @@ public class CombatThreat
     {
         if (weapon.getAmmo() == 0f)
         {
-            return Threat.EMPTY_THREAT;
+            return new Threat();
         }
 
         float turnTime = weapon.distanceFromArc(threatened.getLocation())
@@ -34,12 +34,12 @@ public class CombatThreat
             }
             else
             {
-                return Threat.EMPTY_THREAT;
+                return new Threat();
             }
         }
         else if (turnTime > SECONDS_PLANNED_AHEAD)
         {
-            return Threat.EMPTY_THREAT;
+            return new Threat();
         }
 
         Threat totalThreat = new Threat();
@@ -50,7 +50,7 @@ public class CombatThreat
         // Modify the threat based on how long it would take this weapon to aim
         if (turnTime != 0f)
         {
-            modifier -= (1.0f * (turnTime / SECONDS_PLANNED_AHEAD));
+            modifier *= 1.0f - (1.0f * (turnTime / SECONDS_PLANNED_AHEAD));
         }
 
         // Further modify it based on how long it would take to get in range
@@ -59,7 +59,7 @@ public class CombatThreat
             float closeTime = (CombatUtils.getDistance(threatened, enemy)
                     - weapon.getRange())
                     / enemy.getMutableStats().getMaxSpeed().getModifiedValue();
-            modifier -= (1.0f * (closeTime / SECONDS_PLANNED_AHEAD));
+            modifier *= 1.0f - (1.0f * (closeTime / SECONDS_PLANNED_AHEAD));
         }
 
         switch (weapon.getDamageType())
@@ -88,7 +88,7 @@ public class CombatThreat
         // Don't consider allies as threats
         if (threatened.getOwner() == enemy.getOwner())
         {
-            return Threat.EMPTY_THREAT;
+            return new Threat();
         }
 
         FluxTrackerAPI flux = enemy.getFluxTracker();
@@ -97,7 +97,7 @@ public class CombatThreat
         if (flux.isOverloadedOrVenting() && Math.max(flux.getOverloadTimeRemaining(),
                 flux.getTimeToVent()) > IGNORE_HELPLESS_BEYOND)
         {
-            return Threat.EMPTY_THREAT;
+            return new Threat();
         }
 
         Threat totalThreat = new Threat();
@@ -119,9 +119,31 @@ public class CombatThreat
                 t1.fragThreat + t2.fragThreat, t1.empThreat + t2.empThreat);
     }
 
+    /**
+     * Compare the threat two ships generate against each other
+     *
+     * @param ship1 the ship to use as the baseline
+     * @param ship2 the ship to compare ship1 against
+     * @return a special Threat object containing the ratios of relative
+     * firepower, e.g. a kinetic threat of 2.0 means ship1 has
+     * double the kinetic firepower ready to use against ship2
+     */
+    public Threat getRelativeThreat(ShipAPI ship1, ShipAPI ship2)
+    {
+        Threat ship1Threat = getThreat(ship1, ship2);
+        Threat ship2Threat = getThreat(ship2, ship1);
+        Threat relativeThreat = new Threat(
+                ship1Threat.heThreat / ship2Threat.heThreat,
+                ship1Threat.kineticThreat / ship2Threat.kineticThreat,
+                ship1Threat.energyThreat / ship2Threat.energyThreat,
+                ship1Threat.fragThreat / ship2Threat.fragThreat,
+                ship1Threat.empThreat / ship2Threat.empThreat);
+
+        return relativeThreat;
+    }
+
     public static class Threat
     {
-        public static final Threat EMPTY_THREAT = new Threat(0, 0, 0, 0, 0);
         private float heThreat = 0f, kineticThreat = 0f, energyThreat = 0f,
                 fragThreat = 0f, empThreat = 0f;
 
