@@ -15,6 +15,7 @@ public class CombatThreat
     /** Ships that are helpless beyond this amount aren't considered a threat */
     private static final float IGNORE_HELPLESS_BEYOND = 5f;
 
+    // TODO: Remove enemy argument after next hotfix in favor of weapon.getOwner()
     public static Threat getThreatFromWeapon(ShipAPI threatened, ShipAPI enemy, WeaponAPI weapon)
     {
         if (weapon.getAmmo() == 0f)
@@ -30,7 +31,7 @@ public class CombatThreat
         }
 
         Threat totalThreat = new Threat();
-        // Placeholder due to WeaponAPI's lack of getDamage()
+        // TODO: replace with CombatUtils.calculateDamage() once that's implemented
         float tmpThreat = (float) (100 * (Math.pow(weapon.getSize().ordinal() + 1, 3)));
         float modifier = 1.0f;
 
@@ -41,6 +42,7 @@ public class CombatThreat
         }
 
         // Further modify it based on how long it would take to get in range
+        // TODO: Update to use weapon origin, tune for decaying projectiles
         if (CombatUtils.getDistance(threatened, enemy) > weapon.getRange())
         {
             float closeTime = (CombatUtils.getDistance(threatened, enemy)
