@@ -49,6 +49,13 @@ public class CombatThreat
             modifier *= 1.0f - (1.0f * (closeTime / SECONDS_PLANNED_AHEAD));
         }
 
+        // TODO after next hotfix
+        /*if (weapon.isFiring())
+        {
+            modifier *= 1.2f;
+        }*/
+
+        // TODO: factor in CombatUtils.getDefenseAimedAt
         switch (weapon.getDamageType())
         {
             case HIGH_EXPLOSIVE:
@@ -72,8 +79,8 @@ public class CombatThreat
 
     public static Threat getThreat(ShipAPI threatened, ShipAPI enemy)
     {
-        // Don't consider allies as threats
-        if (threatened.getOwner() == enemy.getOwner())
+        // Filter out harmless ships
+        if (enemy.isHulk() || threatened.getOwner() == enemy.getOwner())
         {
             return new Threat();
         }
@@ -101,7 +108,7 @@ public class CombatThreat
     public static Threat getCombinedThreat(Threat... threats)
     {
         Threat combinedThreat = new Threat();
-        
+
         for (Threat tmp : threats)
         {
             combinedThreat.add(tmp);

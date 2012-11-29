@@ -1,5 +1,7 @@
 package data.scripts.lazylib.combat;
 
+import com.fs.starfarer.api.combat.BoundsAPI;
+import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.ShieldAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
@@ -19,10 +21,26 @@ public class CombatUtils
         MISS
     }
 
+    // TODO
+    public static SegmentAPI getCollisionPoint(CombatEntityAPI target, Line firingLine)
+    {
+        BoundsAPI bounds = target.getExactBounds();
+
+        // TODO: add code for entities that lack bounds (using collision circle)
+        if (bounds == null)
+        {
+            return null;
+        }
+
+        return null;
+    }
+
     public static DefenseType getDefenseAimedAt(ShipAPI threatened, WeaponAPI weapon)
     {
         // TODO: Replace with weapon.getOrigin() equivalent, if/when added
-        Line weaponFire = new Line(weapon., 3);
+        //Line weaponFire = new Line(weapon., 3);
+
+        // TODO: filter out weapons that can't hit the target (CollisionClass)
 
         ShipSystemAPI cloak = (ShipSystemAPI) threatened.getPhaseCloak();
         if (cloak != null && cloak.isActive())
@@ -33,16 +51,18 @@ public class CombatUtils
         ShieldAPI shield = threatened.getShield();
         if (shield != null && shield.isOn())
         {
-
+            // TODO: Shield collision checks
             return DefenseType.SHIELD;
         }
 
-        return DefenseType.HULL;
+        // TODO: Armor checks
+
+        return DefenseType.MISS;
     }
 
     public static float getTimeToAim(ShipAPI ship, WeaponAPI weapon, Vector2f aimAt)
     {
-        // Placeholder - add current turn velocity and acceleration later
+        // TODO: add current turn velocity and acceleration to equation
         float time = weapon.distanceFromArc(aimAt)
                 / ship.getMutableStats().getMaxTurnRate().getModifiedValue();
 
