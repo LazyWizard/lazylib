@@ -4,8 +4,9 @@ import com.fs.starfarer.api.combat.DamageType;
 import com.fs.starfarer.api.combat.FluxTrackerAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import data.scripts.lazylib.combat.CombatUtils;
+import data.scripts.lazylib.BaseUtils;
 import data.scripts.lazylib.combat.CombatUtils.DefenseType;
+import data.scripts.lazylib.combat.WeaponUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class CombatThreat
             return new Threat();
         }
 
-        float turnTime = CombatUtils.getTimeToAim(enemy, weapon, threatened.getLocation());
+        float turnTime = WeaponUtils.getTimeToAim(enemy, weapon, threatened.getLocation());
 
         if (turnTime > SECONDS_PLANNED_AHEAD)
         {
@@ -34,8 +35,6 @@ public class CombatThreat
         }
 
         Threat totalThreat = new Threat();
-        // TODO: replace with CombatUtils.calculateDamage() once that's implemented
-        float tmpThreat = (float) (100 * (Math.pow(weapon.getSize().ordinal() + 1, 3)));
         List<Float> modifiers = new ArrayList<Float>();
         modifiers.add(1.0f);
 
@@ -47,22 +46,24 @@ public class CombatThreat
 
         // Further modify it based on how long it would take to get in range
         // TODO: Update to use weapon origin, tune for decaying projectiles
-        if (CombatUtils.getDistance(threatened, enemy) > weapon.getRange())
+        if (BaseUtils.getDistance(threatened, enemy) > weapon.getRange())
         {
-            float closeTime = (CombatUtils.getDistance(threatened, enemy)
+            float closeTime = (BaseUtils.getDistance(threatened, enemy)
                     - weapon.getRange())
                     / enemy.getMutableStats().getMaxSpeed().getModifiedValue();
-            modifiers.add(1.0f - (1.0f * (closeTime / SECONDS_PLANNED_AHEAD)));
+
+            // TODO: give this a curve, given way too high a priority right now
+            //modifiers.add(1.0f - (1.0f * (closeTime / SECONDS_PLANNED_AHEAD)));
         }
 
         // TODO: uncomment after next hotfix
         /*if (weapon.isFiring())
          {
-         modifier *= 1.2f;
+         modifiers.add(1.2f);
          }*/
 
 
-        DefenseType defenseType = CombatUtils.getDefenseAimedAt(threatened, weapon);
+        DefenseType defenseType = WeaponUtils.getDefenseAimedAt(threatened, weapon);
         DamageType damageType = weapon.getDamageType();
 
         // Factor in defense efficiency
@@ -81,22 +82,24 @@ public class CombatThreat
                 modifiers.add(damageType.getShieldMult());
         }
 
+        float damage = WeaponUtils.calculateDamage(weapon);
+
         switch (damageType)
         {
             case HIGH_EXPLOSIVE:
-                totalThreat.heThreat += tmpThreat;
+                totalThreat.heThreat += damage;
                 break;
             case KINETIC:
-                totalThreat.kineticThreat += tmpThreat;
+                totalThreat.kineticThreat += damage;
                 break;
             case ENERGY:
-                totalThreat.energyThreat += tmpThreat;
+                totalThreat.energyThreat += damage;
                 break;
             case FRAGMENTATION:
-                totalThreat.fragThreat += tmpThreat;
+                totalThreat.fragThreat += damage;
                 break;
             case OTHER:
-                totalThreat.empThreat += tmpThreat;
+                totalThreat.empThreat += damage;
         }
 
         return totalThreat.modify(modifiers);
