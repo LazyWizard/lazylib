@@ -5,6 +5,9 @@ import com.fs.starfarer.api.combat.FluxTrackerAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.scripts.lazylib.combat.CombatUtils;
+import data.scripts.lazylib.combat.CombatUtils.DefenseType;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CombatThreat
 {
@@ -33,12 +36,13 @@ public class CombatThreat
         Threat totalThreat = new Threat();
         // TODO: replace with CombatUtils.calculateDamage() once that's implemented
         float tmpThreat = (float) (100 * (Math.pow(weapon.getSize().ordinal() + 1, 3)));
-        float modifier = 1.0f;
+        List<Float> modifiers = new ArrayList<Float>();
+        modifiers.add(1.0f);
 
         // Modify the threat based on how long it would take this weapon to aim
         if (turnTime != 0f)
         {
-            modifier *= 1.0f - (1.0f * (turnTime / SECONDS_PLANNED_AHEAD));
+            modifiers.add(1.0f - (1.0f * (turnTime / SECONDS_PLANNED_AHEAD)));
         }
 
         // Further modify it based on how long it would take to get in range
@@ -48,17 +52,36 @@ public class CombatThreat
             float closeTime = (CombatUtils.getDistance(threatened, enemy)
                     - weapon.getRange())
                     / enemy.getMutableStats().getMaxSpeed().getModifiedValue();
-            modifier *= 1.0f - (1.0f * (closeTime / SECONDS_PLANNED_AHEAD));
+            modifiers.add(1.0f - (1.0f * (closeTime / SECONDS_PLANNED_AHEAD)));
         }
 
-        // TODO after next hotfix
+        // TODO: uncomment after next hotfix
         /*if (weapon.isFiring())
-        {
-            modifier *= 1.2f;
-        }*/
+         {
+         modifier *= 1.2f;
+         }*/
 
-        // TODO: factor in CombatUtils.getDefenseAimedAt
-        switch (weapon.getDamageType())
+
+        DefenseType defenseType = CombatUtils.getDefenseAimedAt(threatened, weapon);
+        DamageType damageType = weapon.getDamageType();
+
+        // Factor in defense efficiency
+        switch (defenseType)
+        {
+            case MISS:
+            case PHASE:
+                return new Threat();
+            case HULL:
+                modifiers.add(damageType.getHullMult());
+                break;
+            case ARMOR:
+                modifiers.add(damageType.getArmorMult());
+                break;
+            case SHIELD:
+                modifiers.add(damageType.getShieldMult());
+        }
+
+        switch (damageType)
         {
             case HIGH_EXPLOSIVE:
                 totalThreat.heThreat += tmpThreat;
@@ -76,7 +99,7 @@ public class CombatThreat
                 totalThreat.empThreat += tmpThreat;
         }
 
-        return totalThreat.modify(modifier);
+        return totalThreat.modify(modifiers);
     }
 
     public static Threat getThreat(ShipAPI threatened, ShipAPI enemy)
@@ -183,8 +206,17 @@ public class CombatThreat
             return this;
         }
 
-        public Threat modify(float percent)
+        public Threat modify(List<Float> modifiers)
         {
+            float percent = 0f;
+
+            for (Float tmp : modifiers)
+            {
+                percent += tmp;
+            }
+
+            percent /= modifiers.size();
+
             heThreat *= percent;
             kineticThreat *= percent;
             energyThreat *= percent;
