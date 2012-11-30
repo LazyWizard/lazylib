@@ -1,4 +1,4 @@
-package data.scripts.lazylib;
+package org.lazywizard.lazylib;
 
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import org.lwjgl.util.vector.Vector2f;
@@ -8,6 +8,11 @@ public class BaseUtils
     public static float getDistance(CombatEntityAPI obj1, CombatEntityAPI obj2)
     {
         return getDistance(obj1.getLocation(), obj2.getLocation());
+    }
+
+    public static float getDistance(CombatEntityAPI entity, Vector2f vector)
+    {
+        return getDistance(entity.getLocation(), vector);
     }
 
     public static float getDistance(Vector2f vector1, Vector2f vector2)
