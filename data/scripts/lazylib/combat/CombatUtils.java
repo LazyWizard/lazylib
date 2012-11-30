@@ -2,8 +2,10 @@ package data.scripts.lazylib.combat;
 
 import com.fs.starfarer.api.combat.BoundsAPI;
 import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
+import com.fs.starfarer.api.combat.CollisionClass;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.ShieldAPI;
+import com.fs.starfarer.api.combat.ShieldAPI.ShieldType;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
@@ -41,15 +43,16 @@ public class CombatUtils
         SegmentAPI closestSeg = null;
         Line closest = null;
         Vector2f closestIntersection = new Vector2f();
-        Vector2f intersection = new Vector2f();
+        Vector2f intersection;
 
         // Convert all segments to lines, do collision checks to find closest hit
         for (SegmentAPI tmp : bounds.getSegments())
         {
             Line segment = convertSegmentToLine(tmp);
+            intersection = firingLine.intersect(segment);
 
             // Collision = true
-            if (firingLine.intersect(segment, true, intersection))
+            if (intersection != null)
             {
                 if (closest != null)
                 {
@@ -76,8 +79,9 @@ public class CombatUtils
 
     public static Vector2f getCollisionPoint(SegmentAPI segment, Line firingLine)
     {
-        Vector2f result = new Vector2f();
-        if (firingLine.intersect(convertSegmentToLine(segment), true, result))
+        Vector2f result = firingLine.intersect(convertSegmentToLine(segment));
+
+        if (result != null)
         {
             return result;
         }
@@ -91,17 +95,36 @@ public class CombatUtils
         return null;
     }
 
+    // TODO
+    public static boolean checkCanHit(WeaponAPI weapon, CombatEntityAPI entity)
+    {
+        //CollisionClass wepCollide = weapon.getProjectileCollisionClass();
+        //CollisionClass entCollide = entity.getCollisionClass();
+
+        // TODO: Collision logic
+
+        return true;
+    }
+
     public static DefenseType getDefenseAimedAt(ShipAPI threatened, WeaponAPI weapon)
     {
         // TODO: Replace with weapon.getOrigin() equivalent, if/when added
         //Line weaponFire = new Line(4, 3);
 
         // TODO: filter out weapons that can't hit the target (CollisionClass)
-
-        ShipSystemAPI cloak = (ShipSystemAPI) threatened.getPhaseCloak();
-        if (cloak != null && cloak.isActive())
+        if (!checkCanHit(weapon, threatened))
         {
-            return DefenseType.PHASE;
+            return DefenseType.MISS;
+        }
+
+        if (threatened.getHullSpec().getDefenseType() == ShieldType.PHASE)
+        {
+            ShipSystemAPI cloak = (ShipSystemAPI) threatened.getPhaseCloak();
+
+            if (cloak != null && cloak.isActive())
+            {
+                return DefenseType.PHASE;
+            }
         }
 
         ShieldAPI shield = threatened.getShield();
