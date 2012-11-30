@@ -1,4 +1,4 @@
-package data.scripts.lazylib.combat;
+package org.lazywizard.lazylib.combat;
 
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
@@ -6,7 +6,7 @@ import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.FluxTrackerAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
-import data.scripts.lazylib.BaseUtils;
+import org.lazywizard.lazylib.BaseUtils;
 
 public class AIUtils
 {

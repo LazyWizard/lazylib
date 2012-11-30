@@ -1,14 +1,14 @@
-package data.scripts.lazylib.combat.ai;
+package org.lazywizard.lazylib.combat.ai;
 
 import com.fs.starfarer.api.combat.DamageType;
 import com.fs.starfarer.api.combat.FluxTrackerAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import data.scripts.lazylib.BaseUtils;
-import data.scripts.lazylib.combat.CombatUtils.DefenseType;
-import data.scripts.lazylib.combat.WeaponUtils;
 import java.util.ArrayList;
 import java.util.List;
+import org.lazywizard.lazylib.BaseUtils;
+import org.lazywizard.lazylib.combat.CombatUtils.DefenseType;
+import org.lazywizard.lazylib.combat.WeaponUtils;
 
 public class CombatThreat
 {
