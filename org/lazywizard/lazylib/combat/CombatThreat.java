@@ -1,4 +1,4 @@
-package org.lazywizard.lazylib.combat.ai;
+package org.lazywizard.lazylib.combat;
 
 import com.fs.starfarer.api.combat.DamageType;
 import com.fs.starfarer.api.combat.FluxTrackerAPI;
@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.lazywizard.lazylib.BaseUtils;
 import org.lazywizard.lazylib.combat.CombatUtils.DefenseType;
-import org.lazywizard.lazylib.combat.WeaponUtils;
 
 public class CombatThreat
 {
