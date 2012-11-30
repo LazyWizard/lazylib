@@ -42,13 +42,12 @@ public class WeaponUtils
         SegmentAPI closestSeg = null;
         Line closest = null;
         Vector2f closestIntersection = new Vector2f();
-        Vector2f intersection;
 
         // Convert all segments to lines, do collision checks to find closest hit
         for (SegmentAPI tmp : bounds.getSegments())
         {
             Line segment = CombatUtils.convertSegmentToLine(tmp);
-            intersection = firingLine.intersect(segment);
+            Vector2f intersection = firingLine.intersect(segment);
 
             // Collision = true
             if (intersection != null)
@@ -158,5 +157,11 @@ public class WeaponUtils
         }
 
         return time;
+    }
+
+    // TODO
+    public static float getSecondsOfAmmoRemaining(WeaponAPI weapon)
+    {
+        return 0f;
     }
 }
