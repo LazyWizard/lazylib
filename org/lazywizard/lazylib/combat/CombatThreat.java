@@ -21,7 +21,7 @@ public class CombatThreat
     // TODO: Remove enemy argument after next hotfix in favor of weapon.getOwner()
     public static Threat getThreatFromWeapon(ShipAPI threatened, ShipAPI enemy, WeaponAPI weapon)
     {
-        if (weapon.getAmmo() == 0f)
+        if (weapon.usesAmmo() && weapon.getAmmo() == 0f)
         {
             return new Threat();
         }

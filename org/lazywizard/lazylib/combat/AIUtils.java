@@ -1,7 +1,6 @@
 package org.lazywizard.lazylib.combat;
 
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
-import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.FluxTrackerAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
@@ -10,13 +9,12 @@ import org.lazywizard.lazylib.BaseUtils;
 
 public class AIUtils
 {
-    public static BattleObjectiveAPI getNearestObjective(CombatEntityAPI entity,
-            CombatEngineAPI engine)
+    public static BattleObjectiveAPI getNearestObjective(CombatEntityAPI entity)
     {
         BattleObjectiveAPI closest = null;
         float distance, closestDistance = Float.MAX_VALUE;
 
-        for (BattleObjectiveAPI tmp : engine.getObjectives())
+        for (BattleObjectiveAPI tmp : CombatUtils.getCombatEngine().getObjectives())
         {
             distance = BaseUtils.getDistance(tmp.getLocation(),
                     entity.getLocation());
