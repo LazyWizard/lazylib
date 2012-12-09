@@ -19,7 +19,8 @@ public class CombatThreat
     private static final float IGNORE_HELPLESS_BEYOND = 5f;
 
     // TODO: Remove enemy argument after next hotfix in favor of weapon.getOwner()
-    public static Threat getThreatFromWeapon(ShipAPI threatened, ShipAPI enemy, WeaponAPI weapon)
+    public static Threat getThreatFromWeapon(ShipAPI threatened, ShipAPI enemy,
+            WeaponAPI weapon, boolean includeFutureThreat)
     {
         if (weapon.usesAmmo() && weapon.getAmmo() == 0f)
         {
@@ -28,7 +29,7 @@ public class CombatThreat
 
         float turnTime = WeaponUtils.getTimeToAim(enemy, weapon, threatened.getLocation());
 
-        if (turnTime > SECONDS_PLANNED_AHEAD)
+        if (turnTime != 0 && (!includeFutureThreat || turnTime > SECONDS_PLANNED_AHEAD))
         {
             return new Threat();
         }
@@ -37,22 +38,26 @@ public class CombatThreat
         List<Float> modifiers = new ArrayList<Float>();
         modifiers.add(1.0f);
 
-        // Modify the threat based on how long it would take this weapon to aim
-        if (turnTime != 0f)
+        // Include possible future threats in the calculation
+        if (includeFutureThreat)
         {
-            modifiers.add(1.0f - (1.0f * (turnTime / SECONDS_PLANNED_AHEAD)));
-        }
+            // Modify the threat based on how long it would take this weapon to aim
+            if (turnTime != 0f)
+            {
+                modifiers.add(1.0f - (1.0f * (turnTime / SECONDS_PLANNED_AHEAD)));
+            }
 
-        // Further modify it based on how long it would take to get in range
-        // TODO: Update to use weapon origin, tune for decaying projectiles
-        if (BaseUtils.getDistance(threatened, enemy) > weapon.getRange())
-        {
-            float closeTime = (BaseUtils.getDistance(threatened, enemy)
-                    - weapon.getRange())
-                    / enemy.getMutableStats().getMaxSpeed().getModifiedValue();
+            // Further modify it based on how long it would take to get in range
+            // TODO: Update to use weapon origin, tune for decaying projectiles
+            if (BaseUtils.getDistance(threatened, enemy) > weapon.getRange())
+            {
+                float closeTime = (BaseUtils.getDistance(threatened, enemy)
+                        - weapon.getRange())
+                        / enemy.getMutableStats().getMaxSpeed().getModifiedValue();
 
-            // TODO: give this a curve, given way too high a priority right now
-            //modifiers.add(1.0f - (1.0f * (closeTime / SECONDS_PLANNED_AHEAD)));
+                // TODO: give this a curve, given way too high a priority right now
+                //modifiers.add(1.0f - (1.0f * (closeTime / SECONDS_PLANNED_AHEAD)));
+            }
         }
 
         // TODO: uncomment after next hotfix
@@ -104,7 +109,14 @@ public class CombatThreat
         return totalThreat.modify(modifiers);
     }
 
-    public static Threat getThreat(ShipAPI threatened, ShipAPI enemy)
+    public static Threat getThreatFromWeapon(ShipAPI threatened, ShipAPI enemy,
+            WeaponAPI weapon)
+    {
+        return getThreatFromWeapon(threatened, enemy, weapon, false);
+    }
+
+    public static Threat getThreat(ShipAPI threatened, ShipAPI enemy,
+            boolean includeFutureThreat)
     {
         // Filter out harmless ships
         if (enemy.isHulk() || threatened.getOwner() == enemy.getOwner())
@@ -115,8 +127,9 @@ public class CombatThreat
         FluxTrackerAPI flux = enemy.getFluxTracker();
 
         // Don't consider ships that will be helpless for a significant time as a threat
-        if (flux.isOverloadedOrVenting() && Math.max(flux.getOverloadTimeRemaining(),
-                flux.getTimeToVent()) > IGNORE_HELPLESS_BEYOND)
+        if (flux.isOverloadedOrVenting() && (!includeFutureThreat ||
+                Math.max(flux.getOverloadTimeRemaining(),
+                flux.getTimeToVent()) > IGNORE_HELPLESS_BEYOND))
         {
             return new Threat();
         }
@@ -126,10 +139,16 @@ public class CombatThreat
 
         for (WeaponAPI wep : enemy.getAllWeapons())
         {
-            totalThreat.add(getThreatFromWeapon(threatened, enemy, wep));
+            totalThreat.add(getThreatFromWeapon(threatened, enemy, wep,
+                    includeFutureThreat));
         }
 
         return totalThreat;
+    }
+
+    public static Threat getThreat(ShipAPI threatened, ShipAPI enemy)
+    {
+        return getThreat(threatened, enemy, false);
     }
 
     public static Threat getCombinedThreat(Threat... threats)
