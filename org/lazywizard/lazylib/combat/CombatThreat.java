@@ -11,17 +11,15 @@ import org.lazywizard.lazylib.combat.CombatUtils.DefenseType;
 
 public class CombatThreat
 {
-    /** Controls threat generated from weapons that aren't aiming
-     * at you currently, but could be within this amount of seconds
-     */
-    private static final float SECONDS_PLANNED_AHEAD = 3f;
     /** Ships that are helpless beyond this amount aren't considered a threat */
     private static final float IGNORE_HELPLESS_BEYOND = 5f;
 
     // TODO: Remove enemy argument after next hotfix in favor of weapon.getOwner()
     public static Threat getThreatFromWeapon(ShipAPI threatened, ShipAPI enemy,
-            WeaponAPI weapon, boolean includeFutureThreat)
+            WeaponAPI weapon, float secondsPlannedAhead)
     {
+        boolean includeFutureThreat = (secondsPlannedAhead != 0 ? true : false);
+
         if (weapon.usesAmmo() && weapon.getAmmo() == 0f)
         {
             return new Threat();
@@ -29,7 +27,7 @@ public class CombatThreat
 
         float turnTime = WeaponUtils.getTimeToAim(enemy, weapon, threatened.getLocation());
 
-        if (turnTime != 0 && (!includeFutureThreat || turnTime > SECONDS_PLANNED_AHEAD))
+        if (turnTime != 0 && (!includeFutureThreat || turnTime > secondsPlannedAhead))
         {
             return new Threat();
         }
@@ -44,7 +42,7 @@ public class CombatThreat
             // Modify the threat based on how long it would take this weapon to aim
             if (turnTime != 0f)
             {
-                modifiers.add(1.0f - (1.0f * (turnTime / SECONDS_PLANNED_AHEAD)));
+                modifiers.add(1.0f - (1.0f * (turnTime / secondsPlannedAhead)));
             }
 
             // Further modify it based on how long it would take to get in range
@@ -56,7 +54,7 @@ public class CombatThreat
                         / enemy.getMutableStats().getMaxSpeed().getModifiedValue();
 
                 // TODO: give this a curve, given way too high a priority right now
-                //modifiers.add(1.0f - (1.0f * (closeTime / SECONDS_PLANNED_AHEAD)));
+                //modifiers.add(1.0f - (1.0f * (closeTime / secondsPlannedAhead)));
             }
         }
 
@@ -112,11 +110,11 @@ public class CombatThreat
     public static Threat getThreatFromWeapon(ShipAPI threatened, ShipAPI enemy,
             WeaponAPI weapon)
     {
-        return getThreatFromWeapon(threatened, enemy, weapon, false);
+        return getThreatFromWeapon(threatened, enemy, weapon, 0f);
     }
 
     public static Threat getThreat(ShipAPI threatened, ShipAPI enemy,
-            boolean includeFutureThreat)
+            float secondsPlannedAhead)
     {
         // Filter out harmless ships
         if (enemy.isHulk() || threatened.getOwner() == enemy.getOwner())
@@ -127,8 +125,8 @@ public class CombatThreat
         FluxTrackerAPI flux = enemy.getFluxTracker();
 
         // Don't consider ships that will be helpless for a significant time as a threat
-        if (flux.isOverloadedOrVenting() && (!includeFutureThreat ||
-                Math.max(flux.getOverloadTimeRemaining(),
+        if (flux.isOverloadedOrVenting() && (secondsPlannedAhead == 0f
+                || Math.max(flux.getOverloadTimeRemaining(),
                 flux.getTimeToVent()) > IGNORE_HELPLESS_BEYOND))
         {
             return new Threat();
@@ -140,7 +138,7 @@ public class CombatThreat
         for (WeaponAPI wep : enemy.getAllWeapons())
         {
             totalThreat.add(getThreatFromWeapon(threatened, enemy, wep,
-                    includeFutureThreat));
+                    secondsPlannedAhead));
         }
 
         return totalThreat;
@@ -148,7 +146,7 @@ public class CombatThreat
 
     public static Threat getThreat(ShipAPI threatened, ShipAPI enemy)
     {
-        return getThreat(threatened, enemy, false);
+        return getThreat(threatened, enemy, 0f);
     }
 
     public static Threat getCombinedThreat(Threat... threats)

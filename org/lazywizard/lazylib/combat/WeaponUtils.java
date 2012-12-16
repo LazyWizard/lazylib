@@ -9,8 +9,8 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import org.lazywizard.lazylib.BaseUtils;
-import org.lazywizard.lazylib.Line;
 import org.lazywizard.lazylib.combat.CombatUtils.DefenseType;
+import org.lazywizard.lazylib.geom.Line;
 import org.lwjgl.util.vector.Vector2f;
 
 public class WeaponUtils

@@ -11,7 +11,7 @@ import com.fs.starfarer.api.input.InputEventAPI;
 import java.util.ArrayList;
 import java.util.List;
 import org.lazywizard.lazylib.BaseUtils;
-import org.lazywizard.lazylib.Line;
+import org.lazywizard.lazylib.geom.Line;
 import org.lwjgl.util.vector.Vector2f;
 
 public class CombatUtils implements EveryFrameCombatPlugin
