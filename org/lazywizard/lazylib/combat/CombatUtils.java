@@ -16,7 +16,7 @@ import org.lwjgl.util.vector.Vector2f;
 public class CombatUtils implements EveryFrameCombatPlugin
 {
     private static CombatEngineAPI engine;
-    private static float combatTime;
+    private static float combatTime = 0f;
 
     public static enum DefenseType
     {
@@ -153,6 +153,6 @@ public class CombatUtils implements EveryFrameCombatPlugin
     public void init(CombatEngineAPI engine)
     {
         CombatUtils.engine = engine;
-        combatTime = 0f;
+        CombatUtils.combatTime = 0f;
     }
 }
