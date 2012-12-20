@@ -27,7 +27,7 @@ public class MathUtils
     {
         Vector2f dir = Vector2f.sub(destination, source, null);
 
-        if (dir.x != 0 && dir.y != 0)
+        if (!(dir.x == 0 && dir.y == 0))
         {
             dir = dir.normalise(null);
         }
@@ -56,5 +56,12 @@ public class MathUtils
     public static Vector2f getRandomPointOnCircumference(Vector2f center, float radius)
     {
         return getPointOnCircumference(center, radius, (float) Math.random() * 360);
+    }
+
+    public static Vector2f getRandomPointInCircle(Vector2f center, float radius)
+    {
+        // TODO: choose a more uniform distribution method
+        return getRandomPointOnCircumference(center,
+                (float) (radius * Math.random()));
     }
 }
