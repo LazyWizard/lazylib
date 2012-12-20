@@ -6,7 +6,6 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import java.util.ArrayList;
 import java.util.List;
-import org.lazywizard.lazylib.BaseUtils;
 import org.lazywizard.lazylib.combat.CombatUtils.DefenseType;
 
 public class CombatThreat
@@ -47,7 +46,7 @@ public class CombatThreat
 
             // Further modify it based on how long it would take to get in range
             // TODO: Update to use weapon origin, tune for decaying projectiles
-            if (BaseUtils.getDistance(threatened, enemy) > weapon.getRange())
+            /*if (BaseUtils.getDistance(threatened, enemy) > weapon.getRange())
             {
                 float closeTime = (BaseUtils.getDistance(threatened, enemy)
                         - weapon.getRange())
@@ -55,7 +54,7 @@ public class CombatThreat
 
                 // TODO: give this a curve, given way too high a priority right now
                 //modifiers.add(1.0f - (1.0f * (closeTime / secondsPlannedAhead)));
-            }
+            }*/
         }
 
         // TODO: uncomment after next hotfix

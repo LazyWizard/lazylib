@@ -9,7 +9,7 @@ public class FastTrig
 {
     /**
      * Fast Trig functions for x86.
-     * This forces the trig functiosn to stay within the safe area on the x86 processor (-45 degrees to +45 degrees)
+     * This forces the trig function to stay within the safe area on the x86 processor (-45 degrees to +45 degrees)
      * The results may be very slightly off from what the Math and StrictMath trig functions give due to
      * rounding in the angle reduction but it will be very very close.
      *
@@ -18,7 +18,6 @@ public class FastTrig
      */
     private static double reduceSinAngle(double radians)
     {
-        double orig = radians;
         radians %= Math.PI * 2.0; // put us in -2PI to +2PI space
         if (Math.abs(radians) > Math.PI)
         { // put us in -PI to +PI space

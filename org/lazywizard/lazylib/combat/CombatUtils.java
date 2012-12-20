@@ -1,17 +1,16 @@
 package org.lazywizard.lazylib.combat;
 
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
-import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.DamagingProjectileAPI;
 import com.fs.starfarer.api.combat.EveryFrameCombatPlugin;
+import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.input.InputEventAPI;
 import java.util.ArrayList;
 import java.util.List;
-import org.lazywizard.lazylib.BaseUtils;
-import org.lazywizard.lazylib.geom.Line;
+import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class CombatUtils implements EveryFrameCombatPlugin
@@ -26,11 +25,6 @@ public class CombatUtils implements EveryFrameCombatPlugin
         SHIELD,
         PHASE,
         MISS
-    }
-
-    public static Line convertSegmentToLine(SegmentAPI segment)
-    {
-        return new Line(segment.getP1(), segment.getP2());
     }
 
     public static CombatEngineAPI getCombatEngine()
@@ -49,7 +43,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
         for (DamagingProjectileAPI tmp : engine.getProjectiles())
         {
-            if (BaseUtils.getDistance(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
             {
                 projectiles.add(tmp);
             }
@@ -58,13 +52,28 @@ public class CombatUtils implements EveryFrameCombatPlugin
         return projectiles;
     }
 
+    public static List<MissileAPI> getMissilesWithinRange(Vector2f location, float range)
+    {
+        List<MissileAPI> missiles = new ArrayList<MissileAPI>();
+
+        for (MissileAPI tmp : engine.getMissiles())
+        {
+            if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
+            {
+                missiles.add(tmp);
+            }
+        }
+
+        return missiles;
+    }
+
     public static List<ShipAPI> getShipsWithinRange(Vector2f location, float range)
     {
         List<ShipAPI> ships = new ArrayList<ShipAPI>();
 
         for (ShipAPI tmp : engine.getShips())
         {
-            if (BaseUtils.getDistance(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
             {
                 ships.add(tmp);
             }
@@ -73,13 +82,28 @@ public class CombatUtils implements EveryFrameCombatPlugin
         return ships;
     }
 
+    public static List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location, float range)
+    {
+        List<CombatEntityAPI> asteroids = new ArrayList<CombatEntityAPI>();
+
+        for (CombatEntityAPI tmp : engine.getAsteroids())
+        {
+            if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
+            {
+                asteroids.add(tmp);
+            }
+        }
+
+        return asteroids;
+    }
+
     public static List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location, float range)
     {
         List<BattleObjectiveAPI> objectives = new ArrayList<BattleObjectiveAPI>();
 
         for (BattleObjectiveAPI tmp : engine.getObjectives())
         {
-            if (BaseUtils.getDistance(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
             {
                 objectives.add(tmp);
             }
@@ -94,7 +118,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
         for (CombatEntityAPI tmp : engine.getShips())
         {
-            if (BaseUtils.getDistance(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
             {
                 entities.add(tmp);
             }
@@ -102,27 +126,19 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
         for (CombatEntityAPI tmp : engine.getProjectiles())
         {
-            if (BaseUtils.getDistance(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
             {
                 entities.add(tmp);
             }
         }
 
-        for (CombatEntityAPI tmp : engine.getMissiles())
+        /*for (CombatEntityAPI tmp : engine.getAsteroids())
         {
-            if (BaseUtils.getDistance(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
             {
                 entities.add(tmp);
             }
-        }
-
-        for (CombatEntityAPI tmp : engine.getAsteroids())
-        {
-            if (BaseUtils.getDistance(location, tmp.getLocation()) <= range)
-            {
-                entities.add(tmp);
-            }
-        }
+        }*/
 
         return entities;
     }

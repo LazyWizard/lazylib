@@ -1,4 +1,4 @@
-All classes in this package are from the Slick library,
+All classes in this package are from the Slick2D library,
 modified to work with LWJGL vectors.
 
 Copyright (c) 2007, Slick 2D
