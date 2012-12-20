@@ -25,7 +25,14 @@ public class MathUtils
 
     public static Vector2f getDirectionalVector(Vector2f source, Vector2f destination)
     {
-        return (Vector2f) Vector2f.sub(destination, source, null).normalise();
+        Vector2f dir = Vector2f.sub(destination, source, null);
+
+        if (dir.x != 0 && dir.y != 0)
+        {
+            dir = dir.normalise(null);
+        }
+
+        return dir;
     }
 
     public static Vector2f getDirectionalVector(CombatEntityAPI source, Vector2f destination)
