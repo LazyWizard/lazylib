@@ -5,7 +5,9 @@ import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.FluxTrackerAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
-import org.lazywizard.lazylib.BaseUtils;
+import java.util.ArrayList;
+import java.util.List;
+import org.lazywizard.lazylib.MathUtils;
 
 public class AIUtils
 {
@@ -16,7 +18,7 @@ public class AIUtils
 
         for (BattleObjectiveAPI tmp : CombatUtils.getCombatEngine().getObjectives())
         {
-            distance = BaseUtils.getDistance(tmp.getLocation(),
+            distance = MathUtils.getDistance(tmp.getLocation(),
                     entity.getLocation());
 
             if (distance < closestDistance)
@@ -27,6 +29,46 @@ public class AIUtils
         }
 
         return closest;
+    }
+
+    public static ShipAPI getNearestEnemy(CombatEntityAPI entity)
+    {
+        ShipAPI closest = null;
+        float distance, closestDistance = Float.MAX_VALUE;
+
+        for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
+        {
+            if (tmp.getOwner() == entity.getOwner() || tmp.isHulk() || tmp.isShuttlePod())
+            {
+                continue;
+            }
+
+            distance = MathUtils.getDistance(tmp.getLocation(),
+                    entity.getLocation());
+
+            if (distance < closestDistance)
+            {
+                closest = tmp;
+                closestDistance = distance;
+            }
+        }
+
+        return closest;
+    }
+
+    public static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity)
+    {
+        List<ShipAPI> enemies = new ArrayList<ShipAPI>();
+
+        for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
+        {
+            if (tmp.getOwner() != entity.getOwner() && !tmp.isHulk() && !tmp.isShuttlePod())
+            {
+                enemies.add(tmp);
+            }
+        }
+
+        return enemies;
     }
 
     public static boolean canUseSystemThisFrame(ShipAPI ship, ShipSystemAPI system)

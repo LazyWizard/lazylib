@@ -8,8 +8,9 @@ import com.fs.starfarer.api.combat.ShieldAPI.ShieldType;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import org.lazywizard.lazylib.BaseUtils;
+import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.combat.CombatUtils.DefenseType;
+import org.lazywizard.lazylib.geom.Convert;
 import org.lazywizard.lazylib.geom.Line;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -46,7 +47,7 @@ public class WeaponUtils
         // Convert all segments to lines, do collision checks to find closest hit
         for (SegmentAPI tmp : bounds.getSegments())
         {
-            Line segment = CombatUtils.convertSegmentToLine(tmp);
+            Line segment = Convert.segmentToLine(tmp);
             Vector2f intersection = firingLine.intersect(segment);
 
             // Collision = true
@@ -54,8 +55,8 @@ public class WeaponUtils
             {
                 if (closest != null)
                 {
-                    if (BaseUtils.getDistance(firingLine.getStart(), intersection)
-                            > BaseUtils.getDistance(firingLine.getStart(), closestIntersection))
+                    if (MathUtils.getDistance(firingLine.getStart(), intersection)
+                            > MathUtils.getDistance(firingLine.getStart(), closestIntersection))
                     {
                         closest = segment;
                         closestSeg = tmp;
@@ -77,7 +78,7 @@ public class WeaponUtils
 
     public static Vector2f getCollisionPoint(SegmentAPI segment, Line firingLine)
     {
-        Vector2f result = firingLine.intersect(CombatUtils.convertSegmentToLine(segment));
+        Vector2f result = firingLine.intersect(Convert.segmentToLine(segment));
 
         if (result != null)
         {

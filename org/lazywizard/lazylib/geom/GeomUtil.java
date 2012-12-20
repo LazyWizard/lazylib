@@ -1,7 +1,7 @@
 package org.lazywizard.lazylib.geom;
 
 import java.util.ArrayList;
-import org.lazywizard.lazylib.BaseUtils;
+import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -465,7 +465,7 @@ public class GeomUtil
             Vector2f pt = line.intersect(local, true);
             if (pt != null)
             {
-                float newDis = BaseUtils.getDistance(pt, line.getStart());
+                float newDis = MathUtils.getDistance(pt, line.getStart());
                 if ((newDis < distance) && (newDis > EPSILON))
                 {
                     hit = new HitResult();
