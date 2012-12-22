@@ -1,6 +1,7 @@
 package org.lazywizard.lazylib;
 
 import com.fs.starfarer.api.combat.CombatEntityAPI;
+import java.util.*;
 import org.lazywizard.lazylib.geom.FastTrig;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -47,7 +48,7 @@ public class MathUtils
 
     public static Vector2f getPointOnCircumference(Vector2f center, float radius, float angle)
     {
-        float rad = (float) Math.toRadians(angle);
+        double rad = Math.toRadians(angle);
 
         return new Vector2f((float) FastTrig.cos(rad) * radius + center.x,
                 (float) FastTrig.sin(rad) * radius + center.y);
@@ -63,5 +64,26 @@ public class MathUtils
         // TODO: choose a more uniform distribution method
         return getRandomPointOnCircumference(center,
                 (float) (radius * Math.random()));
+    }
+
+    public static List<Vector2f> getPointsAlongCircumference(Vector2f center, float radius, int numPoints, float angleOffset)
+    {
+        angleOffset %= 360;
+
+        List<Vector2f> points = new ArrayList();
+        for (int x = 0; x < numPoints; x++)
+        {
+            points.add(getPointOnCircumference(center, radius, angleOffset));
+            angleOffset += (360f / numPoints);
+            angleOffset %= 360;
+        }
+
+        return points;
+    }
+
+    public static boolean isPointWithinCircle(Vector2f point, Vector2f center, float radius)
+    {
+        return Math.pow(point.x - center.x, 2) + Math.pow(point.y - center.y, 2)
+                < Math.pow(radius, 2);
     }
 }
