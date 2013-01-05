@@ -132,13 +132,13 @@ public class CombatUtils implements EveryFrameCombatPlugin
             }
         }
 
-        /*for (CombatEntityAPI tmp : engine.getAsteroids())
+        for (CombatEntityAPI tmp : engine.getAsteroids())
         {
             if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
             {
                 entities.add(tmp);
             }
-        }*/
+        }
 
         return entities;
     }

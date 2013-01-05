@@ -5,17 +5,18 @@ import com.fs.starfarer.api.campaign.CargoStackAPI;
 
 public class CargoUtils
 {
-    public static void moveStack(CargoStackAPI stack, CargoAPI from, CargoAPI to)
+    public static void moveStack(CargoStackAPI stack, CargoAPI to)
     {
         to.addItems(stack.getType(), stack.getData(), stack.getSize());
-        from.removeItems(stack.getType(), stack.getData(), stack.getSize());
+        stack.getCargo().removeItems(stack.getType(),
+                stack.getData(), stack.getSize());
     }
 
     public static void moveCargo(CargoAPI from, CargoAPI to)
     {
         for (CargoStackAPI stack : from.getStacksCopy())
         {
-            moveStack(stack, from, to);
+            moveStack(stack, to);
         }
     }
 
