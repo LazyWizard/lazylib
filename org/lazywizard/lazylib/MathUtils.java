@@ -28,12 +28,12 @@ public class MathUtils
     {
         Vector2f dir = Vector2f.sub(destination, source, null);
 
-        if (!(dir.x == 0 && dir.y == 0))
+        if (dir.x == 0 && dir.y == 0)
         {
-            dir = dir.normalise(null);
+            return dir;
         }
 
-        return dir;
+        return dir.normalise(null);
     }
 
     public static Vector2f getDirectionalVector(CombatEntityAPI source, Vector2f destination)
@@ -44,6 +44,28 @@ public class MathUtils
     public static Vector2f getDirectionalVector(CombatEntityAPI source, CombatEntityAPI destination)
     {
         return getDirectionalVector(source.getLocation(), destination.getLocation());
+    }
+
+    public static float getFacing(Vector2f vector)
+    {
+        double angle = Math.toDegrees(Math.atan2(vector.y, vector.x));
+
+        if ((angle < -360) || (angle > 360))
+        {
+            angle = angle % 360;
+        }
+
+        if (angle < 0)
+        {
+            angle = 360 + angle;
+        }
+
+        return (float) angle;
+    }
+
+    public static float getAngle(Vector2f from, Vector2f to)
+    {
+        return getFacing(getDirectionalVector(from, to));
     }
 
     public static Vector2f getPointOnCircumference(Vector2f center, float radius, float angle)
@@ -85,5 +107,12 @@ public class MathUtils
     {
         return Math.pow(point.x - center.x, 2) + Math.pow(point.y - center.y, 2)
                 < Math.pow(radius, 2);
+    }
+
+    public static void main(String[] args)
+    {
+        Vector2f vec1 = new Vector2f(0, 0);
+        Vector2f vec2 = new Vector2f(0, 1);
+        System.out.println("Angle between vectors: " + getAngle(vec1, vec2));
     }
 }

@@ -177,7 +177,7 @@ public strictfp class Circle extends Ellipse
      * @param other The rectangle to check against
      * @return True if they touch
      */
-    private boolean intersects(Rectangle other)
+    public boolean intersects(Rectangle other)
     {
         Rectangle box = other;
         Circle circle = this;
@@ -219,7 +219,7 @@ public strictfp class Circle extends Ellipse
      * @param other The line to check against
      * @return True if they touch
      */
-    private boolean intersects(Line other)
+    public boolean intersects(Line other)
     {
         // put it nicely into vectors
         Vector2f lineSegmentStart = new Vector2f(other.getX1(), other.getY1());
