@@ -71,7 +71,7 @@ public class AIUtils
         return enemies;
     }
 
-    public static boolean canUseSystemThisFrame(ShipAPI ship, ShipSystemAPI system)
+    public static boolean canUseSystemThisFrame(ShipAPI ship)
     {
         FluxTrackerAPI flux = ship.getFluxTracker();
         if (flux.isOverloadedOrVenting())
@@ -79,7 +79,7 @@ public class AIUtils
             return false;
         }
 
-        //ShipSystemAPI system = (ShipSystemAPI) ship.getPhaseCloak();
+        ShipSystemAPI system = ship.getSystem();
         if (system == null || system.isOutOfAmmo()
                 || system.getCooldownRemaining() > 0f
                 || system.getFluxPerUse() > (flux.getMaxFlux() - flux.getCurrFlux()))
