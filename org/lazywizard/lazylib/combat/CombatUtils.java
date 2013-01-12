@@ -39,7 +39,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
     public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location, float range)
     {
-        List<DamagingProjectileAPI> projectiles = new ArrayList<DamagingProjectileAPI>();
+        List<DamagingProjectileAPI> projectiles = new ArrayList();
 
         for (DamagingProjectileAPI tmp : engine.getProjectiles())
         {
@@ -54,7 +54,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
     public static List<MissileAPI> getMissilesWithinRange(Vector2f location, float range)
     {
-        List<MissileAPI> missiles = new ArrayList<MissileAPI>();
+        List<MissileAPI> missiles = new ArrayList();
 
         for (MissileAPI tmp : engine.getMissiles())
         {
@@ -69,7 +69,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
     public static List<ShipAPI> getShipsWithinRange(Vector2f location, float range)
     {
-        List<ShipAPI> ships = new ArrayList<ShipAPI>();
+        List<ShipAPI> ships = new ArrayList();
 
         for (ShipAPI tmp : engine.getShips())
         {
@@ -84,7 +84,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
     public static List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location, float range)
     {
-        List<CombatEntityAPI> asteroids = new ArrayList<CombatEntityAPI>();
+        List<CombatEntityAPI> asteroids = new ArrayList();
 
         for (CombatEntityAPI tmp : engine.getAsteroids())
         {
@@ -99,7 +99,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
     public static List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location, float range)
     {
-        List<BattleObjectiveAPI> objectives = new ArrayList<BattleObjectiveAPI>();
+        List<BattleObjectiveAPI> objectives = new ArrayList();
 
         for (BattleObjectiveAPI tmp : engine.getObjectives())
         {
@@ -114,7 +114,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
     public static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location, float range)
     {
-        List<CombatEntityAPI> entities = new ArrayList<CombatEntityAPI>();
+        List<CombatEntityAPI> entities = new ArrayList();
 
         for (CombatEntityAPI tmp : engine.getShips())
         {
