@@ -58,13 +58,28 @@ public class AIUtils
 
     public static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity)
     {
-        List<ShipAPI> enemies = new ArrayList<ShipAPI>();
+        List<ShipAPI> enemies = new ArrayList();
 
         for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
         {
             if (tmp.getOwner() != entity.getOwner() && !tmp.isHulk() && !tmp.isShuttlePod())
             {
                 enemies.add(tmp);
+            }
+        }
+
+        return enemies;
+    }
+
+    public static List<ShipAPI> getNearbyEnemies(CombatEntityAPI entity, float range)
+    {
+        List<ShipAPI> enemies = new ArrayList();
+
+        for (ShipAPI enemy : getEnemiesOnMap(entity))
+        {
+            if (MathUtils.getDistance(entity, enemy) <= range)
+            {
+                enemies.add(enemy);
             }
         }
 
