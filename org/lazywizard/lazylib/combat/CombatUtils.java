@@ -8,6 +8,7 @@ import com.fs.starfarer.api.combat.EveryFrameCombatPlugin;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.input.InputEventAPI;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import org.lazywizard.lazylib.MathUtils;
@@ -15,7 +16,7 @@ import org.lwjgl.util.vector.Vector2f;
 
 public class CombatUtils implements EveryFrameCombatPlugin
 {
-    private static CombatEngineAPI engine;
+    private static WeakReference<CombatEngineAPI> engine;
     private static float combatTime = 0f;
 
     public static enum DefenseType
@@ -29,7 +30,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
     public static CombatEngineAPI getCombatEngine()
     {
-        return engine;
+        return engine.get();
     }
 
     public static float getElapsedCombatTime()
@@ -41,7 +42,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     {
         List<DamagingProjectileAPI> projectiles = new ArrayList();
 
-        for (DamagingProjectileAPI tmp : engine.getProjectiles())
+        for (DamagingProjectileAPI tmp : getCombatEngine().getProjectiles())
         {
             if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
             {
@@ -56,7 +57,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     {
         List<MissileAPI> missiles = new ArrayList();
 
-        for (MissileAPI tmp : engine.getMissiles())
+        for (MissileAPI tmp : getCombatEngine().getMissiles())
         {
             if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
             {
@@ -71,7 +72,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     {
         List<ShipAPI> ships = new ArrayList();
 
-        for (ShipAPI tmp : engine.getShips())
+        for (ShipAPI tmp : getCombatEngine().getShips())
         {
             if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
             {
@@ -86,7 +87,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     {
         List<CombatEntityAPI> asteroids = new ArrayList();
 
-        for (CombatEntityAPI tmp : engine.getAsteroids())
+        for (CombatEntityAPI tmp : getCombatEngine().getAsteroids())
         {
             if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
             {
@@ -101,7 +102,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     {
         List<BattleObjectiveAPI> objectives = new ArrayList();
 
-        for (BattleObjectiveAPI tmp : engine.getObjectives())
+        for (BattleObjectiveAPI tmp : getCombatEngine().getObjectives())
         {
             if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
             {
@@ -116,7 +117,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     {
         List<CombatEntityAPI> entities = new ArrayList();
 
-        for (CombatEntityAPI tmp : engine.getShips())
+        for (CombatEntityAPI tmp : getCombatEngine().getShips())
         {
             if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
             {
@@ -124,7 +125,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
             }
         }
 
-        for (CombatEntityAPI tmp : engine.getProjectiles())
+        for (CombatEntityAPI tmp : getCombatEngine().getProjectiles())
         {
             if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
             {
@@ -132,7 +133,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
             }
         }
 
-        for (CombatEntityAPI tmp : engine.getAsteroids())
+        for (CombatEntityAPI tmp : getCombatEngine().getAsteroids())
         {
             if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
             {
@@ -152,7 +153,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     @Override
     public void init(CombatEngineAPI engine)
     {
-        CombatUtils.engine = engine;
+        CombatUtils.engine = new WeakReference(engine);
         CombatUtils.combatTime = 0f;
     }
 }
