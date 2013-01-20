@@ -104,4 +104,8 @@ public class AIUtils
 
         return true;
     }
+    
+    private AIUtils()
+    {
+    }
 }

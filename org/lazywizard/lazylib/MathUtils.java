@@ -115,4 +115,8 @@ public class MathUtils
         Vector2f vec2 = new Vector2f(0, 1);
         System.out.println("Angle between vectors: " + getAngle(vec1, vec2));
     }
+
+    private MathUtils()
+    {
+    }
 }

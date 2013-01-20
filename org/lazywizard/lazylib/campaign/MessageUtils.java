@@ -2,9 +2,9 @@ package org.lazywizard.lazylib.campaign;
 
 import com.fs.starfarer.api.Global;
 
-public class CampaignUtils
+public class MessageUtils
 {
-    /** How long a line can be before being split by {@link CampaignUtils#showMessage(java.lang.String)} */
+    /** How long a line can be before being split by {@link MessageUtils#showMessage(java.lang.String)} */
     public static final int LINE_LENGTH = 80;
 
     /**
@@ -109,5 +109,9 @@ public class CampaignUtils
         {
             Global.getSector().addMessage(message);
         }
+    }
+
+    private MessageUtils()
+    {
     }
 }

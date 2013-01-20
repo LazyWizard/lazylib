@@ -2,7 +2,7 @@ package org.lazywizard.lazylib;
 
 import java.util.*;
 
-public class BaseUtils
+public class CollectionUtils
 {
     public static <T> T weightedRandom(Map<T, Float> pickFrom)
     {
@@ -52,5 +52,9 @@ public class BaseUtils
     public static String implode(Collection<String> toImplode)
     {
         return implode(toImplode, ", ");
+    }
+
+    private CollectionUtils()
+    {
     }
 }

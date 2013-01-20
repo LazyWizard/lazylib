@@ -1,0 +1,3 @@
+ 0.1b (January 19, 2012)
+=========================
+Initial WIP release, no JavaDoc yet

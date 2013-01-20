@@ -11,8 +11,14 @@ public final class Convert
         return new Line(segment.getP1(), segment.getP2());
     }
 
-    public static Polygon entityToPolygon(CombatEntityAPI entity)
+    public static Shape entityToShape(CombatEntityAPI entity)
     {
+        if (entity.getExactBounds() == null)
+        {
+            return new Circle(entity.getLocation().x, entity.getLocation().y,
+                    entity.getCollisionRadius());
+        }
+
         return boundsToPolygon(entity.getExactBounds());
     }
 
