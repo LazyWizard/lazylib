@@ -94,4 +94,8 @@ public class CargoUtils
 
         return totalSpace;
     }
+
+    private CargoUtils()
+    {
+    }
 }

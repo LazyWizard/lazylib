@@ -156,4 +156,8 @@ public class CombatUtils implements EveryFrameCombatPlugin
         CombatUtils.engine = new WeakReference(engine);
         CombatUtils.combatTime = 0f;
     }
+
+    protected CombatUtils()
+    {
+    }
 }
