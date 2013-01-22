@@ -4,6 +4,37 @@ import java.util.*;
 
 public class CollectionUtils
 {
+    private static final Random rng = new Random();
+
+    public static <T> List<T> weightedRandom(Map<T, Float> pickFrom, int numToPick)
+    {
+        float totalWeight = 0.0f;
+        for (Float tmp : pickFrom.values())
+        {
+            totalWeight += tmp;
+        }
+
+        List<T> ret = new ArrayList();
+        float random;
+
+        for (int x = 0; x < numToPick; x++)
+        {
+            random = rng.nextFloat() * totalWeight;
+            for (Map.Entry<T, Float> tmp : pickFrom.entrySet())
+            {
+                random -= tmp.getValue();
+
+                if (random <= 0.0f)
+                {
+                    ret.add(tmp.getKey());
+                    break;
+                }
+            }
+        }
+
+        return ret;
+    }
+
     public static <T> T weightedRandom(Map<T, Float> pickFrom)
     {
         float totalWeight = 0.0f;
@@ -12,7 +43,7 @@ public class CollectionUtils
             totalWeight += tmp;
         }
 
-        float random = (float) Math.random() * totalWeight;
+        float random = rng.nextFloat() * totalWeight;
         for (Map.Entry<T, Float> tmp : pickFrom.entrySet())
         {
             random -= tmp.getValue();
@@ -52,6 +83,27 @@ public class CollectionUtils
     public static String implode(Collection<String> toImplode)
     {
         return implode(toImplode, ", ");
+    }
+
+    public static void main(String[] args)
+    {
+        Map fleets = new HashMap();
+        fleets.put("supplyConvoy", 75f);
+        fleets.put("fuelConvoy", 25f);
+        fleets.put("personnelConvoy", 25f);
+        fleets.put("shipConvoy", 25f);
+
+        //System.out.print((String) weightedRandom(fleets) + " ");
+
+        List types = CollectionUtils.weightedRandom(fleets, 30);
+        for (int x = 1; x <= types.size(); x++)
+        {
+            System.out.print((String) types.get(x-1) + " ");
+            if (x % 10 == 0)
+            {
+                System.out.println();
+            }
+        }
     }
 
     private CollectionUtils()
