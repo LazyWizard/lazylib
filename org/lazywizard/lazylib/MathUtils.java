@@ -83,9 +83,12 @@ public class MathUtils
 
     public static Vector2f getRandomPointInCircle(Vector2f center, float radius)
     {
-        // TODO: choose a more uniform distribution method
-        return getRandomPointOnCircumference(center,
-                (float) (radius * Math.random()));
+        double t = 2 * Math.PI * Math.random(),
+                u = Math.random() + Math.random(),
+                r = (u > 1 ? 2 - u : u);
+        return new Vector2f((float) (r * FastTrig.cos(t) + center.x),
+                (float) (r * FastTrig.sin(t) + center.y));
+        //return getRandomPointOnCircumference(center, (float) (radius * Math.random()));
     }
 
     public static List<Vector2f> getPointsAlongCircumference(Vector2f center, float radius, int numPoints, float angleOffset)
