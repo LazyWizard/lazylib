@@ -8,6 +8,11 @@ public class CollectionUtils
 
     public static <T> List<T> weightedRandom(Map<T, Float> pickFrom, int numToPick)
     {
+        if (pickFrom.isEmpty() || numToPick == 0)
+        {
+            return Collections.EMPTY_LIST;
+        }
+
         float totalWeight = 0.0f;
         for (Float tmp : pickFrom.values())
         {
@@ -37,24 +42,7 @@ public class CollectionUtils
 
     public static <T> T weightedRandom(Map<T, Float> pickFrom)
     {
-        float totalWeight = 0.0f;
-        for (Float tmp : pickFrom.values())
-        {
-            totalWeight += tmp;
-        }
-
-        float random = rng.nextFloat() * totalWeight;
-        for (Map.Entry<T, Float> tmp : pickFrom.entrySet())
-        {
-            random -= tmp.getValue();
-
-            if (random <= 0.0f)
-            {
-                return tmp.getKey();
-            }
-        }
-
-        return null;
+        return (pickFrom.isEmpty() ? null : weightedRandom(pickFrom, 1).get(0));
     }
 
     public static String implode(Collection<String> toImplode, String separator)
@@ -93,12 +81,12 @@ public class CollectionUtils
         fleets.put("personnelConvoy", 25f);
         fleets.put("shipConvoy", 25f);
 
-        //System.out.print((String) weightedRandom(fleets) + " ");
+        //System.out.println((String) weightedRandom(fleets));
 
         List types = CollectionUtils.weightedRandom(fleets, 30);
         for (int x = 1; x <= types.size(); x++)
         {
-            System.out.print((String) types.get(x-1) + " ");
+            System.out.print((String) types.get(x - 1) + " ");
             if (x % 10 == 0)
             {
                 System.out.println();
