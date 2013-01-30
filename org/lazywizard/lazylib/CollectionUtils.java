@@ -57,7 +57,7 @@ public class CollectionUtils
 
         for (int x = 0; x < tmp.length; x++)
         {
-            if (x != 0)
+            if (x != 0 && separator != null)
             {
                 ret.append(separator);
             }

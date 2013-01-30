@@ -3,6 +3,7 @@ package org.lazywizard.lazylib;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import java.util.*;
 import org.lazywizard.lazylib.geom.FastTrig;
+import org.lazywizard.lazylib.geom.Polygon;
 import org.lwjgl.util.vector.Vector2f;
 
 public class MathUtils
@@ -112,6 +113,10 @@ public class MathUtils
                 < Math.pow(radius, 2);
     }
 
+    /*public static boolean isCircleWithinArc(Vector2f circleOrigin, float circleRadius, Vector2f arcOrigin, float arcAngle, float arcSize)
+     {
+     // TODO
+     }*/
     public static void main(String[] args)
     {
         Vector2f vec1 = new Vector2f(0, 0);
