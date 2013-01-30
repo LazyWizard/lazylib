@@ -3,6 +3,7 @@ package org.lazywizard.lazylib.geom;
 import com.fs.starfarer.api.combat.BoundsAPI;
 import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
+import org.lwjgl.util.vector.Vector2f;
 
 public final class Convert
 {
@@ -11,6 +12,13 @@ public final class Convert
         return new Line(segment.getP1(), segment.getP2());
     }
 
+    // TODO
+    /*public static Line vectorToLine(Vector2f vector)
+     {
+     Vector2f tmp = //
+
+     return new Line(vector.x, vector.y, tmp.x, tmp.y);
+     }*/
     public static Shape entityToShape(CombatEntityAPI entity)
     {
         if (entity.getExactBounds() == null)
