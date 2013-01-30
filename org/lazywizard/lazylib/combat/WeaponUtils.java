@@ -1,8 +1,8 @@
 package org.lazywizard.lazylib.combat;
 
+import com.fs.starfarer.api.combat.ArmorGridAPI;
 import com.fs.starfarer.api.combat.BoundsAPI;
 import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
-import com.fs.starfarer.api.combat.CollisionClass;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShieldAPI;
@@ -10,9 +10,7 @@ import com.fs.starfarer.api.combat.ShieldAPI.ShieldType;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import com.fs.starfarer.api.combat.WeaponAPI.WeaponType;
 import org.lazywizard.lazylib.MathUtils;
-import org.lazywizard.lazylib.combat.CombatUtils.DefenseType;
 import org.lazywizard.lazylib.geom.Circle;
 import org.lazywizard.lazylib.geom.Convert;
 import org.lazywizard.lazylib.geom.Line;
@@ -148,40 +146,49 @@ public class WeaponUtils
         return new Line(start.x, start.y, end.x, end.y);
     }
 
-    /*// TODO: Add collision class culling logic
-    public static boolean checkCanHit(WeaponAPI weapon, CombatEntityAPI entity)
+    public static boolean isWithinArc(CombatEntityAPI entity, WeaponAPI weapon)
     {
-        if (weapon.usesAmmo() && weapon.getAmmo() == 0)
-        {
-            return false;
-        }
-
+        // Check if weapon is in range
         if (MathUtils.getDistance(entity, weapon.getLocation())
-                > (weapon.getRange() * 1.2f)) // Include fadeout
+                > (weapon.getRange() + entity.getCollisionRadius()))
         {
             return false;
         }
 
-        // TODO: add check if target is within weapon's arc
-
-        if (weapon.getType() == WeaponType.MISSILE)
+        // Check if weapon is aimed at the target's center
+        if (weapon.distanceFromArc(entity.getLocation()) == 0)
         {
-            //if (weapon.getDerivedStats().
-        }
-        else
-        {
+            return true;
         }
 
-        return true;
+        // Check if weapon is aimed at any part of the target
+        float arc = weapon.getArc() / 2f;
+        Vector2f loc1 = weapon.getLocation();
+        Vector2f loc2 = MathUtils.getPointOnCircumference(loc1, weapon.getRange(),
+                weapon.getArcFacing() - arc);
+        Vector2f loc3 = MathUtils.getPointOnCircumference(loc1, weapon.getRange(),
+                weapon.getArcFacing() + arc);
+        Line line1 = new Line(loc1.x, loc1.y, loc2.x, loc2.y);
+        Line line2 = new Line(loc1.x, loc1.y, loc3.x, loc3.y);
+        Line line3 = new Line(loc2.x, loc2.y, loc3.x, loc3.y);
+        float radSquared = entity.getCollisionRadius() * entity.getCollisionRadius();
+
+        if (line1.distanceSquared(entity.getLocation()) < radSquared
+                || line2.distanceSquared(entity.getLocation()) < radSquared
+                || line3.distanceSquared(entity.getLocation()) < radSquared)
+        {
+            return true;
+        }
+
+        // Not aimed at the target
+        return false;
     }
 
     public static DefenseType getDefenseAimedAt(ShipAPI threatened, WeaponAPI weapon)
     {
-        // TODO: Replace with weapon.getOrigin() equivalent, if/when added
-        //Line weaponFire = new Line(4, 3);
-
         // TODO: filter out weapons that can't hit the target (CollisionClass)
-        if (!checkCanHit(weapon, threatened))
+
+        if (!isWithinArc(threatened, weapon))
         {
             return DefenseType.MISS;
         }
@@ -196,16 +203,23 @@ public class WeaponUtils
             }
         }
 
-        ShieldAPI shield = threatened.getShield();
-        if (shield != null && shield.isOn())
+        Vector2f hit = getCollisionPoint(threatened, getFiringLine(weapon));
+        if (hit == null)
         {
-            // TODO: Shield collision checks
+            return DefenseType.MISS;
+        }
+
+        // TODO: check for glancing blows against shield
+        ShieldAPI shield = threatened.getShield();
+        if (shield != null && shield.isOn() && shield.isWithinArc(hit))
+        {
             return DefenseType.SHIELD;
         }
 
         // TODO: Armor checks
-
         return DefenseType.ARMOR;
+
+        //return DefenseType.HULL;
     }
 
     public static float getTimeToAim(ShipAPI ship, WeaponAPI weapon, Vector2f aimAt)
@@ -228,5 +242,5 @@ public class WeaponUtils
         }
 
         return time;
-    }*/
+    }
 }

@@ -19,15 +19,6 @@ public class CombatUtils implements EveryFrameCombatPlugin
     private static WeakReference<CombatEngineAPI> engine;
     private static float combatTime = 0f;
 
-    public static enum DefenseType
-    {
-        HULL,
-        ARMOR,
-        SHIELD,
-        PHASE,
-        MISS
-    }
-
     public static CombatEngineAPI getCombatEngine()
     {
         return engine.get();
