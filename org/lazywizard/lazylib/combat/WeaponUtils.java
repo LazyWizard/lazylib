@@ -138,8 +138,8 @@ public class WeaponUtils
     public static boolean isWithinArc(CombatEntityAPI entity, WeaponAPI weapon)
     {
         // Check if weapon is in range
-        if (MathUtils.getDistance(entity, weapon.getLocation())
-                > (weapon.getRange() + entity.getCollisionRadius()))
+        if (MathUtils.getDistanceSquared(entity, weapon.getLocation())
+                > Math.pow(weapon.getRange() + entity.getCollisionRadius(), 2))
         {
             return false;
         }
