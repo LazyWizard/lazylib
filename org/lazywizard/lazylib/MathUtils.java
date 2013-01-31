@@ -24,6 +24,22 @@ public class MathUtils
         return (float) Math.hypot(a, b);
     }
 
+    public static float getDistanceSquared(CombatEntityAPI obj1, CombatEntityAPI obj2)
+    {
+        return getDistanceSquared(obj1.getLocation(), obj2.getLocation());
+    }
+
+    public static float getDistanceSquared(CombatEntityAPI entity, Vector2f vector)
+    {
+        return getDistanceSquared(entity.getLocation(), vector);
+    }
+
+    public static float getDistanceSquared(Vector2f vector1, Vector2f vector2)
+    {
+        return (float) (Math.pow(vector1.x - vector2.x, 2)
+                + Math.pow(vector1.y - vector2.y, 2));
+    }
+
     public static Vector2f getDirectionalVector(Vector2f source, Vector2f destination)
     {
         Vector2f dir = Vector2f.sub(destination, source, null);

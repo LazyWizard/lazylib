@@ -1,6 +1,5 @@
 package org.lazywizard.lazylib.combat;
 
-import com.fs.starfarer.api.combat.ArmorGridAPI;
 import com.fs.starfarer.api.combat.BoundsAPI;
 import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
@@ -55,7 +54,7 @@ public class WeaponUtils
         return calculateActualDamage(weapon.getDerivedStats().getDps(), weapon);
     }
 
-    public static float calculateBurstDamage(WeaponAPI weapon)
+    public static float calculateDamagePerBurst(WeaponAPI weapon)
     {
         return calculateActualDamage(weapon.getDerivedStats().getBurstDamage(), weapon);
     }
@@ -99,24 +98,14 @@ public class WeaponUtils
             {
                 if (closestIntersection == null)
                 {
+                    closest = segment;
                     closestIntersection = new Vector2f(intersection);
                 }
-                else
+                else if (MathUtils.getDistanceSquared(firingLine.getStart(), intersection)
+                        > MathUtils.getDistanceSquared(firingLine.getStart(), closestIntersection))
                 {
-                    if (closest != null)
-                    {
-                        if (MathUtils.getDistance(firingLine.getStart(), intersection)
-                                > MathUtils.getDistance(firingLine.getStart(), closestIntersection))
-                        {
-                            closest = segment;
-                            closestIntersection.set(intersection);
-                        }
-                    }
-                    else
-                    {
-                        closest = segment;
-                        closestIntersection.set(intersection);
-                    }
+                    closest = segment;
+                    closestIntersection.set(intersection);
                 }
             }
         }
