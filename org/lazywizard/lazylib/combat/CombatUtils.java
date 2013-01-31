@@ -32,10 +32,11 @@ public class CombatUtils implements EveryFrameCombatPlugin
     public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location, float range)
     {
         List<DamagingProjectileAPI> projectiles = new ArrayList();
+        range *= range;
 
         for (DamagingProjectileAPI tmp : getCombatEngine().getProjectiles())
         {
-            if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistanceSquared(location, tmp.getLocation()) <= range)
             {
                 projectiles.add(tmp);
             }
@@ -47,10 +48,11 @@ public class CombatUtils implements EveryFrameCombatPlugin
     public static List<MissileAPI> getMissilesWithinRange(Vector2f location, float range)
     {
         List<MissileAPI> missiles = new ArrayList();
+        range *= range;
 
         for (MissileAPI tmp : getCombatEngine().getMissiles())
         {
-            if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistanceSquared(location, tmp.getLocation()) <= range)
             {
                 missiles.add(tmp);
             }
@@ -62,10 +64,16 @@ public class CombatUtils implements EveryFrameCombatPlugin
     public static List<ShipAPI> getShipsWithinRange(Vector2f location, float range)
     {
         List<ShipAPI> ships = new ArrayList();
+        range *= range;
 
         for (ShipAPI tmp : getCombatEngine().getShips())
         {
-            if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
+            if (tmp.isHulk() || tmp.isShuttlePod())
+            {
+                continue;
+            }
+
+            if (MathUtils.getDistanceSquared(location, tmp.getLocation()) <= range)
             {
                 ships.add(tmp);
             }
@@ -77,10 +85,11 @@ public class CombatUtils implements EveryFrameCombatPlugin
     public static List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location, float range)
     {
         List<CombatEntityAPI> asteroids = new ArrayList();
+        range *= range;
 
         for (CombatEntityAPI tmp : getCombatEngine().getAsteroids())
         {
-            if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistanceSquared(location, tmp.getLocation()) <= range)
             {
                 asteroids.add(tmp);
             }
@@ -92,10 +101,11 @@ public class CombatUtils implements EveryFrameCombatPlugin
     public static List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location, float range)
     {
         List<BattleObjectiveAPI> objectives = new ArrayList();
+        range *= range;
 
         for (BattleObjectiveAPI tmp : getCombatEngine().getObjectives())
         {
-            if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistanceSquared(location, tmp.getLocation()) <= range)
             {
                 objectives.add(tmp);
             }
@@ -107,10 +117,11 @@ public class CombatUtils implements EveryFrameCombatPlugin
     public static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location, float range)
     {
         List<CombatEntityAPI> entities = new ArrayList();
+        range *= range;
 
         for (CombatEntityAPI tmp : getCombatEngine().getShips())
         {
-            if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistanceSquared(location, tmp.getLocation()) <= range)
             {
                 entities.add(tmp);
             }
@@ -118,7 +129,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
         for (CombatEntityAPI tmp : getCombatEngine().getProjectiles())
         {
-            if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistanceSquared(location, tmp.getLocation()) <= range)
             {
                 entities.add(tmp);
             }
@@ -126,7 +137,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
         for (CombatEntityAPI tmp : getCombatEngine().getAsteroids())
         {
-            if (MathUtils.getDistance(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistanceSquared(location, tmp.getLocation()) <= range)
             {
                 entities.add(tmp);
             }

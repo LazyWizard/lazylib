@@ -74,10 +74,11 @@ public class AIUtils
     public static List<ShipAPI> getNearbyEnemies(CombatEntityAPI entity, float range)
     {
         List<ShipAPI> enemies = new ArrayList();
+        range *= range;
 
         for (ShipAPI enemy : getEnemiesOnMap(entity))
         {
-            if (MathUtils.getDistance(entity, enemy) <= range)
+            if (MathUtils.getDistanceSquared(entity, enemy) <= range)
             {
                 enemies.add(enemy);
             }
@@ -104,7 +105,7 @@ public class AIUtils
 
         return true;
     }
-    
+
     private AIUtils()
     {
     }
