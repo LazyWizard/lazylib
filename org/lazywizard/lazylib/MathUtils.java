@@ -1,5 +1,6 @@
 package org.lazywizard.lazylib;
 
+import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import java.util.*;
 import org.lazywizard.lazylib.geom.FastTrig;
@@ -7,6 +8,11 @@ import org.lwjgl.util.vector.Vector2f;
 
 public class MathUtils
 {
+    public static float getDistance(SectorEntityToken token1, SectorEntityToken token2)
+    {
+        return getDistance(token1.getLocation(), token2.getLocation());
+    }
+
     public static float getDistance(CombatEntityAPI obj1, CombatEntityAPI obj2)
     {
         return getDistance(obj1.getLocation(), obj2.getLocation());
@@ -22,6 +28,11 @@ public class MathUtils
         float a = vector1.x - vector2.x;
         float b = vector1.y - vector2.y;
         return (float) Math.hypot(a, b);
+    }
+
+    public static float getDistanceSquared(SectorEntityToken token1, SectorEntityToken token2)
+    {
+        return getDistanceSquared(token1.getLocation(), token2.getLocation());
     }
 
     public static float getDistanceSquared(CombatEntityAPI obj1, CombatEntityAPI obj2)

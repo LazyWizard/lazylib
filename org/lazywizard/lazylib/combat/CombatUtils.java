@@ -19,16 +19,32 @@ public class CombatUtils implements EveryFrameCombatPlugin
     private static WeakReference<CombatEngineAPI> engine;
     private static float combatTime = 0f;
 
+    /**
+     * Returns the current battle's {@link CombatEngineAPI}.
+     *
+     * @return The {@link CombatEngineAPI} used by the current battle
+     */
     public static CombatEngineAPI getCombatEngine()
     {
         return engine.get();
     }
 
+    /**
+     * Returns the length of the current battle.
+     *
+     * @return The total elapsed time for this combat encounter, in seconds
+     */
     public static float getElapsedCombatTime()
     {
         return combatTime;
     }
 
+    /**
+     *
+     * @param location 
+     * @param range
+     * @return
+     */
     public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location, float range)
     {
         List<DamagingProjectileAPI> projectiles = new ArrayList();

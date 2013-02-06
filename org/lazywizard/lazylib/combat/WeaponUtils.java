@@ -1,5 +1,7 @@
 package org.lazywizard.lazylib.combat;
 
+import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.characters.MutableCharacterStatsAPI;
 import com.fs.starfarer.api.combat.BoundsAPI;
 import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
@@ -9,6 +11,7 @@ import com.fs.starfarer.api.combat.ShieldAPI.ShieldType;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import com.fs.starfarer.api.mission.FleetSide;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.geom.Circle;
 import org.lazywizard.lazylib.geom.Convert;
@@ -84,27 +87,24 @@ public class WeaponUtils
             }
         }
 
-        Line closest = null;
         Vector2f closestIntersection = null;
 
         // Convert all segments to lines, do collision checks to find closest hit
         for (SegmentAPI tmp : bounds.getSegments())
         {
-            Line segment = Convert.segmentToLine(tmp);
-            Vector2f intersection = firingLine.intersect(segment, true);
+            Vector2f intersection =
+                    firingLine.intersect(Convert.segmentToLine(tmp), true);
 
             // Collision = true
             if (intersection != null)
             {
                 if (closestIntersection == null)
                 {
-                    closest = segment;
                     closestIntersection = new Vector2f(intersection);
                 }
                 else if (MathUtils.getDistanceSquared(firingLine.getStart(), intersection)
                         > MathUtils.getDistanceSquared(firingLine.getStart(), closestIntersection))
                 {
-                    closest = segment;
                     closestIntersection.set(intersection);
                 }
             }
@@ -157,14 +157,12 @@ public class WeaponUtils
                 weapon.getArcFacing() - arc);
         Vector2f loc3 = MathUtils.getPointOnCircumference(loc1, weapon.getRange(),
                 weapon.getArcFacing() + arc);
-        Line line1 = new Line(loc1.x, loc1.y, loc2.x, loc2.y);
-        Line line2 = new Line(loc1.x, loc1.y, loc3.x, loc3.y);
-        Line line3 = new Line(loc2.x, loc2.y, loc3.x, loc3.y);
+        Line line1 = new Line(loc1.x, loc1.y, loc3.x, loc3.y);
+        Line line2 = new Line(loc2.x, loc2.y, loc3.x, loc3.y);
         float radSquared = entity.getCollisionRadius() * entity.getCollisionRadius();
 
         if (line1.distanceSquared(entity.getLocation()) < radSquared
-                || line2.distanceSquared(entity.getLocation()) < radSquared
-                || line3.distanceSquared(entity.getLocation()) < radSquared)
+                || line2.distanceSquared(entity.getLocation()) < radSquared)
         {
             return true;
         }

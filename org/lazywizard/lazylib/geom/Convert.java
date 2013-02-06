@@ -3,13 +3,13 @@ package org.lazywizard.lazylib.geom;
 import com.fs.starfarer.api.combat.BoundsAPI;
 import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
-import org.lwjgl.util.vector.Vector2f;
 
 public final class Convert
 {
     public static Line segmentToLine(SegmentAPI segment)
     {
-        return new Line(segment.getP1(), segment.getP2());
+        return new Line(segment.getP1().x, segment.getP1().y,
+                segment.getP2().x, segment.getP2().y);
     }
 
     // TODO
