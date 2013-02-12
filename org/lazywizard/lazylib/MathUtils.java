@@ -113,8 +113,8 @@ public class MathUtils
         double t = 2 * Math.PI * Math.random(),
                 u = Math.random() + Math.random(),
                 r = (u > 1 ? 2 - u : u);
-        return new Vector2f((float) (r * FastTrig.cos(t) + center.x),
-                (float) (r * FastTrig.sin(t) + center.y));
+        return new Vector2f((float) (r * FastTrig.cos(t) + center.x) * radius,
+                (float) (r * FastTrig.sin(t) + center.y) * radius);
         //return getRandomPointOnCircumference(center, (float) (radius * Math.random()));
     }
 
@@ -141,9 +141,15 @@ public class MathUtils
 
     public static void main(String[] args)
     {
-        Vector2f vec1 = new Vector2f(0, 0);
-        Vector2f vec2 = new Vector2f(0, 1);
-        System.out.println("Angle between vectors: " + getAngle(vec1, vec2));
+        Vector2f tmp;
+        for (int x = 0; x < 50; x++)
+        {
+            System.out.print(MathUtils.getRandomPointInCircle(new Vector2f(0, 0), 50).toString());
+            if (x % 10 == 0)
+            {
+                System.out.println();
+            }
+        }
     }
 
     private MathUtils()
