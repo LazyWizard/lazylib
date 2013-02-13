@@ -1,6 +1,8 @@
 package org.lazywizard.lazylib;
 
 import com.fs.starfarer.api.campaign.SectorEntityToken;
+import com.fs.starfarer.api.combat.BoundsAPI;
+import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import java.util.*;
 import org.lazywizard.lazylib.geom.FastTrig;
@@ -139,16 +141,52 @@ public class MathUtils
                 < Math.pow(radius, 2);
     }
 
+    public static boolean isPointWithinBounds(Vector2f point, CombatEntityAPI entity)
+    {
+        if (entity.getExactBounds() == null)
+        {
+            return isPointWithinCircle(point, entity.getLocation(),
+                    entity.getCollisionRadius());
+        }
+
+        List<SegmentAPI> segments = entity.getExactBounds().getSegments();
+        List<Vector2f> points = new ArrayList();
+        for (int x = 0; x < segments.size(); x++)
+        {
+            points.add(segments.get(x).getP1());
+
+            if (x == (segments.size() - 1))
+            {
+                points.add(segments.get(x).getP2());
+            }
+        }
+
+        int i, j;
+        boolean result = false;
+        for (i = 0, j = points.size() - 1; i < points.size(); j = i++)
+        {
+            if ((points.get(i).y > point.y) != (points.get(j).y > point.y)
+                    && (point.x < (points.get(j).x - points.get(i).x)
+                    * (point.y - points.get(i).y)
+                    / (points.get(j).y - points.get(i).y) + points.get(i).x))
+            {
+                result = !result;
+            }
+        }
+        return result;
+    }
+
     public static void main(String[] args)
     {
-        Vector2f tmp;
         for (int x = 0; x < 50; x++)
         {
-            System.out.print(MathUtils.getRandomPointInCircle(new Vector2f(0, 0), 50).toString());
-            if (x % 10 == 0)
+            if (x % 5 == 0)
             {
                 System.out.println();
             }
+
+            System.out.print(MathUtils.getRandomPointInCircle(new Vector2f(0, 0),
+                    50).toString() + " ");
         }
     }
 
