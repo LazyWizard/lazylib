@@ -4,7 +4,9 @@ import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.combat.BoundsAPI;
 import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
+import java.awt.Color;
 import java.util.*;
+import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lazywizard.lazylib.geom.FastTrig;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -115,8 +117,8 @@ public class MathUtils
         double t = 2 * Math.PI * Math.random(),
                 u = Math.random() + Math.random(),
                 r = (u > 1 ? 2 - u : u);
-        return new Vector2f((float) (r * FastTrig.cos(t) + center.x) * radius,
-                (float) (r * FastTrig.sin(t) + center.y) * radius);
+        return new Vector2f((float) (r * FastTrig.cos(t)) * radius + center.x,
+                (float) (r * FastTrig.sin(t)) * radius + center.y);
         //return getRandomPointOnCircumference(center, (float) (radius * Math.random()));
     }
 
@@ -148,12 +150,20 @@ public class MathUtils
             return isPointWithinCircle(point, entity.getLocation(),
                     entity.getCollisionRadius());
         }
+        BoundsAPI bounds = entity.getExactBounds();
+        bounds.update(entity.getLocation(), entity.getFacing());
+        //Polygon poly = Convert.boundsToPolygon(bounds);
+        //return poly.contains(point.x, point.y);
 
-        List<SegmentAPI> segments = entity.getExactBounds().getSegments();
+        // TODO: Fix this!
+        List<SegmentAPI> segments = bounds.getSegments();
         List<Vector2f> points = new ArrayList();
         for (int x = 0; x < segments.size(); x++)
         {
             points.add(segments.get(x).getP1());
+            /*CombatUtils.getCombatEngine().addHitParticle(
+             segments.get(x).getP1(), entity.getVelocity(),
+             5f, 1f, 2.5f, Color.YELLOW);*/
 
             if (x == (segments.size() - 1))
             {
@@ -185,7 +195,7 @@ public class MathUtils
                 System.out.println();
             }
 
-            System.out.print(MathUtils.getRandomPointInCircle(new Vector2f(0, 0),
+            System.out.print(MathUtils.getRandomPointInCircle(new Vector2f(100, 0),
                     50).toString() + " ");
         }
     }
