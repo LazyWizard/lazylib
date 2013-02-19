@@ -14,17 +14,17 @@ public class AIUtils
     public static BattleObjectiveAPI getNearestObjective(CombatEntityAPI entity)
     {
         BattleObjectiveAPI closest = null;
-        float distance, closestDistance = Float.MAX_VALUE;
+        float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
         for (BattleObjectiveAPI tmp : CombatUtils.getCombatEngine().getObjectives())
         {
-            distance = MathUtils.getDistance(tmp.getLocation(),
+            distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
                     entity.getLocation());
 
-            if (distance < closestDistance)
+            if (distanceSquared < closestDistanceSquared)
             {
                 closest = tmp;
-                closestDistance = distance;
+                closestDistanceSquared = distanceSquared;
             }
         }
 
@@ -34,7 +34,7 @@ public class AIUtils
     public static ShipAPI getNearestEnemy(CombatEntityAPI entity)
     {
         ShipAPI closest = null;
-        float distance, closestDistance = Float.MAX_VALUE;
+        float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
         for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
         {
@@ -43,13 +43,63 @@ public class AIUtils
                 continue;
             }
 
-            distance = MathUtils.getDistance(tmp.getLocation(),
+            distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
                     entity.getLocation());
 
-            if (distance < closestDistance)
+            if (distanceSquared < closestDistanceSquared)
             {
                 closest = tmp;
-                closestDistance = distance;
+                closestDistanceSquared = distanceSquared;
+            }
+        }
+
+        return closest;
+    }
+
+    public static ShipAPI getNearestAlly(CombatEntityAPI entity)
+    {
+        ShipAPI closest = null;
+        float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
+
+        for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
+        {
+            if (tmp.getOwner() != entity.getOwner() || tmp.isHulk() || tmp.isShuttlePod())
+            {
+                continue;
+            }
+
+            distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
+                    entity.getLocation());
+
+            if (distanceSquared < closestDistanceSquared)
+            {
+                closest = tmp;
+                closestDistanceSquared = distanceSquared;
+            }
+        }
+
+        return closest;
+    }
+
+    public static ShipAPI getNearestShip(CombatEntityAPI entity)
+    {
+        ShipAPI closest = null;
+        float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
+
+        for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
+        {
+            if (tmp.isHulk() || tmp.isShuttlePod())
+            {
+                continue;
+            }
+
+            distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
+                    entity.getLocation());
+
+            if (distanceSquared < closestDistanceSquared)
+            {
+                closest = tmp;
+                closestDistanceSquared = distanceSquared;
             }
         }
 
@@ -85,6 +135,37 @@ public class AIUtils
         }
 
         return enemies;
+    }
+
+        public static List<ShipAPI> getAlliesOnMap(CombatEntityAPI entity)
+    {
+        List<ShipAPI> enemies = new ArrayList();
+
+        for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
+        {
+            if (tmp.getOwner() == entity.getOwner() && !tmp.isHulk() && !tmp.isShuttlePod())
+            {
+                enemies.add(tmp);
+            }
+        }
+
+        return enemies;
+    }
+
+    public static List<ShipAPI> getNearbyAllies(CombatEntityAPI entity, float range)
+    {
+        List<ShipAPI> allies = new ArrayList();
+        range *= range;
+
+        for (ShipAPI ally : getAlliesOnMap(entity))
+        {
+            if (MathUtils.getDistanceSquared(entity, ally) <= range)
+            {
+                allies.add(ally);
+            }
+        }
+
+        return allies;
     }
 
     public static boolean canUseSystemThisFrame(ShipAPI ship)
