@@ -4,9 +4,7 @@ import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.combat.BoundsAPI;
 import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
-import java.awt.Color;
 import java.util.*;
-import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lazywizard.lazylib.geom.FastTrig;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -51,8 +49,8 @@ public class MathUtils
 
     public static float getDistanceSquared(Vector2f vector1, Vector2f vector2)
     {
-        return (float) (Math.pow(vector1.x - vector2.x, 2)
-                + Math.pow(vector1.y - vector2.y, 2));
+        float a = vector1.x - vector2.x, b = vector1.y - vector2.y;
+        return (a * a) + (b * b);
     }
 
     public static Vector2f getDirectionalVector(Vector2f source, Vector2f destination)
@@ -139,8 +137,8 @@ public class MathUtils
 
     public static boolean isPointWithinCircle(Vector2f point, Vector2f center, float radius)
     {
-        return Math.pow(point.x - center.x, 2) + Math.pow(point.y - center.y, 2)
-                < Math.pow(radius, 2);
+        float a = point.x - center.x, b = point.y - center.y;
+        return (a * a) + (b * b) < (radius * radius);
     }
 
     public static boolean isPointWithinBounds(Vector2f point, CombatEntityAPI entity)
@@ -155,7 +153,7 @@ public class MathUtils
         //Polygon poly = Convert.boundsToPolygon(bounds);
         //return poly.contains(point.x, point.y);
 
-        // TODO: Fix this!
+        // TODO: Test this thoroughly!
         List<SegmentAPI> segments = bounds.getSegments();
         List<Vector2f> points = new ArrayList();
         for (int x = 0; x < segments.size(); x++)
