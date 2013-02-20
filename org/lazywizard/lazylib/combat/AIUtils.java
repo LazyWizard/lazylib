@@ -63,7 +63,7 @@ public class AIUtils
 
         for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
         {
-            if (tmp.getOwner() != entity.getOwner() || tmp.isHulk() || tmp.isShuttlePod())
+            if (tmp == entity || tmp.getOwner() != entity.getOwner() || tmp.isHulk() || tmp.isShuttlePod())
             {
                 continue;
             }
@@ -88,7 +88,7 @@ public class AIUtils
 
         for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
         {
-            if (tmp.isHulk() || tmp.isShuttlePod())
+            if (tmp == entity || tmp.isHulk() || tmp.isShuttlePod())
             {
                 continue;
             }
@@ -143,7 +143,7 @@ public class AIUtils
 
         for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
         {
-            if (tmp.getOwner() == entity.getOwner() && !tmp.isHulk() && !tmp.isShuttlePod())
+            if (tmp != entity && tmp.getOwner() == entity.getOwner() && !tmp.isHulk() && !tmp.isShuttlePod())
             {
                 enemies.add(tmp);
             }

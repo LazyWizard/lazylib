@@ -1,7 +1,5 @@
 package org.lazywizard.lazylib.combat;
 
-import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.characters.MutableCharacterStatsAPI;
 import com.fs.starfarer.api.combat.BoundsAPI;
 import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
@@ -11,7 +9,6 @@ import com.fs.starfarer.api.combat.ShieldAPI.ShieldType;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import com.fs.starfarer.api.mission.FleetSide;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.geom.Circle;
 import org.lazywizard.lazylib.geom.Convert;
