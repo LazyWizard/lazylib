@@ -8,23 +8,46 @@ import java.util.*;
 import org.lazywizard.lazylib.geom.FastTrig;
 import org.lwjgl.util.vector.Vector2f;
 
+/**
+ * Contains methods for working with vectors, angles, distances, circles and bounds
+ *
+ * @author LazyWizard
+ */
 public class MathUtils
 {
+    /**
+     * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     */
     public static float getDistance(SectorEntityToken token1, SectorEntityToken token2)
     {
         return getDistance(token1.getLocation(), token2.getLocation());
     }
 
+    /**
+     * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     */
     public static float getDistance(CombatEntityAPI obj1, CombatEntityAPI obj2)
     {
         return getDistance(obj1.getLocation(), obj2.getLocation());
     }
 
+    /**
+     * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     */
     public static float getDistance(CombatEntityAPI entity, Vector2f vector)
     {
         return getDistance(entity.getLocation(), vector);
     }
 
+    /**
+     * Returns the distance between two vectors.
+     *
+     * For comparing distances, it is <i>vastly</i> more efficient to use
+     * {@link MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f,
+     * org.lwjgl.util.vector.Vector2f)}.
+     *
+     * @return The distance between the two vectors.
+     */
     public static float getDistance(Vector2f vector1, Vector2f vector2)
     {
         float a = vector1.x - vector2.x;
@@ -32,21 +55,39 @@ public class MathUtils
         return (float) Math.hypot(a, b);
     }
 
+    /**
+     * @see MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     */
     public static float getDistanceSquared(SectorEntityToken token1, SectorEntityToken token2)
     {
         return getDistanceSquared(token1.getLocation(), token2.getLocation());
     }
 
+    /**
+     * @see MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     */
     public static float getDistanceSquared(CombatEntityAPI obj1, CombatEntityAPI obj2)
     {
         return getDistanceSquared(obj1.getLocation(), obj2.getLocation());
     }
 
+    /**
+     * @see MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     */
     public static float getDistanceSquared(CombatEntityAPI entity, Vector2f vector)
     {
         return getDistanceSquared(entity.getLocation(), vector);
     }
 
+    /**
+     * Returns the distance squared between two vectors (avoids a costly sqrt()).
+     *
+     * When comparing distances, use this function instead of
+     * {@link MathUtils#getDistance(org.lwjgl.util.vector.Vector2f,
+     * org.lwjgl.util.vector.Vector2f)}.
+     *
+     * @return The distance squared between the two vectors.
+     */
     public static float getDistanceSquared(Vector2f vector1, Vector2f vector2)
     {
         float a = vector1.x - vector2.x, b = vector1.y - vector2.y;
