@@ -5,7 +5,6 @@ import com.fs.starfarer.api.combat.BoundsAPI;
 import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import java.util.*;
-import org.lazywizard.lazylib.geom.FastTrig;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -137,7 +136,7 @@ public class MathUtils
 
     /**
      * Returns a normalized {@link Vector2f} pointing from {@code source} to {@code destination}.
-     * 
+     *
      * @see MathUtils#getDirectionalVector(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
      */
     public static Vector2f getDirectionalVector(CombatEntityAPI source, CombatEntityAPI destination)
