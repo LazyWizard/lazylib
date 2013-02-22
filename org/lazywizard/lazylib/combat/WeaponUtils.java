@@ -1,18 +1,11 @@
 package org.lazywizard.lazylib.combat;
 
-import com.fs.starfarer.api.combat.BoundsAPI;
-import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
-import com.fs.starfarer.api.combat.ShieldAPI;
-import com.fs.starfarer.api.combat.ShieldAPI.ShieldType;
 import com.fs.starfarer.api.combat.ShipAPI;
-import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import org.lazywizard.lazylib.Line;
 import org.lazywizard.lazylib.MathUtils;
-import org.lazywizard.lazylib.geom.Circle;
-import org.lazywizard.lazylib.geom.Convert;
-import org.lazywizard.lazylib.geom.Line;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -21,6 +14,13 @@ import org.lwjgl.util.vector.Vector2f;
  */
 public class WeaponUtils
 {
+    /**
+     * Calculates the damage done by a weapon after MutableShipStats are applied.
+     *
+     * @param baseDamage The base damage of this weapon.
+     * @param weapon The {@link WeaponAPI} to check for bonuses on.
+     * @return The actual damage done by {@code weapon} after bonuses are applied.
+     */
     public static float calculateActualDamage(float baseDamage, WeaponAPI weapon)
     {
         if (weapon.getShip() == null)
@@ -48,81 +48,46 @@ public class WeaponUtils
         return baseDamage;
     }
 
+    /**
+     * Calculates the damage done per shot by a weapon after MutableShipStats are applied.
+     *
+     * @param weapon The weapon to check.
+     * @return The actual damage done by {@code weapon} per shot, after bonuses.
+     */
     public static float calculateDamagePerShot(WeaponAPI weapon)
     {
         return calculateActualDamage(weapon.getDerivedStats().getDamagePerShot(), weapon);
     }
 
+    /**
+     * Calculates the damage done per second by a weapon after MutableShipStats are applied.
+     *
+     * @param weapon The weapon to check.
+     * @return The actual damage done by {@code weapon} per second, after bonuses.
+     */
     public static float calculateDamagePerSecond(WeaponAPI weapon)
     {
         return calculateActualDamage(weapon.getDerivedStats().getDps(), weapon);
     }
 
+    /**
+     * Calculates the damage done per burst by a weapon after MutableShipStats are applied.
+     *
+     * @param weapon The weapon to check.
+     * @return The actual damage done by {@code weapon} per burst, after bonuses.
+     */
     public static float calculateDamagePerBurst(WeaponAPI weapon)
     {
         return calculateActualDamage(weapon.getDerivedStats().getBurstDamage(), weapon);
     }
 
     /**
-     * Finds the part of the ship that would be intersected by a given path.
+     * Checks if a {@link CombatEntityAPI} is within the arc and range of a {@link WeaponAPI}.
      *
-     * @param target The CombatEntityAPI to check collision with.
-     * @param firingLine The Line the projectile traveled. The starting point should be the origin of the projectile.
-     * @return The {@link Vector2f} of the point the projectile would hit at, or null if it doesn't hit.
+     * @param entity The {@link CombatEntityAPI} to check if {@code weapon} is aimed at.
+     * @param weapon The {@link WeaponAPI} to test against.
+     * @return {@code true} if in arc and in range, {@code false} otherwise.
      */
-    public static Vector2f getCollisionPoint(CombatEntityAPI target, Line firingLine)
-    {
-        BoundsAPI bounds = target.getExactBounds();
-
-        // Entities that lack bounds will use the collision circle instead
-        if (bounds == null)
-        {
-            Vector2f loc = target.getLocation();
-            return firingLine.intersect(new Circle(loc.x, loc.y,
-                    target.getCollisionRadius()));
-        }
-
-        Vector2f closestIntersection = null;
-
-        // Convert all segments to lines, do collision checks to find closest hit
-        for (SegmentAPI tmp : bounds.getSegments())
-        {
-            Vector2f intersection =
-                    firingLine.intersect(Convert.segmentToLine(tmp), true);
-
-            // Collision = true
-            if (intersection != null)
-            {
-                if (closestIntersection == null)
-                {
-                    closestIntersection = new Vector2f(intersection);
-                }
-                else if (MathUtils.getDistanceSquared(firingLine.getStart(), intersection)
-                        > MathUtils.getDistanceSquared(firingLine.getStart(), closestIntersection))
-                {
-                    closestIntersection.set(intersection);
-                }
-            }
-        }
-
-        // Null if no segment was hit
-        return closestIntersection;
-    }
-
-    public static Vector2f getCollisionPoint(SegmentAPI segment, Line firingLine)
-    {
-        return firingLine.intersect(Convert.segmentToLine(segment), true);
-    }
-
-    public static Line getFiringLine(WeaponAPI weapon)
-    {
-        Vector2f end = new Vector2f(MathUtils.getPointOnCircumference(weapon.getLocation(),
-                weapon.getRange(), weapon.getArcFacing()));
-
-        return new Line(weapon.getLocation().x, weapon.getLocation().y,
-                end.x, end.y);
-    }
-
     public static boolean isWithinArc(CombatEntityAPI entity, WeaponAPI weapon)
     {
         // Check if weapon is in range
@@ -140,17 +105,18 @@ public class WeaponUtils
 
         // Check if weapon is aimed at any part of the target
         float arc = weapon.getArc() / 2f;
+        Vector2f loc = entity.getLocation();
         Vector2f loc1 = weapon.getLocation();
         Vector2f loc2 = MathUtils.getPointOnCircumference(loc1, weapon.getRange(),
                 weapon.getArcFacing() - arc);
         Vector2f loc3 = MathUtils.getPointOnCircumference(loc1, weapon.getRange(),
                 weapon.getArcFacing() + arc);
-        Line line1 = new Line(loc1.x, loc1.y, loc3.x, loc3.y);
-        Line line2 = new Line(loc2.x, loc2.y, loc3.x, loc3.y);
+        Line line1 = new Line(loc1, loc3);
+        Line line2 = new Line(loc2, loc3);
         float radSquared = entity.getCollisionRadius() * entity.getCollisionRadius();
 
-        if (line1.distanceSquared(entity.getLocation()) < radSquared
-                || line2.distanceSquared(entity.getLocation()) < radSquared)
+        if (line1.ptLineDistSq(loc.x, loc.y) < radSquared
+                || line2.ptLineDistSq(loc.x, loc.y) < radSquared)
         {
             return true;
         }
@@ -159,51 +125,60 @@ public class WeaponUtils
         return false;
     }
 
-    public static DefenseType getDefenseAimedAt(ShipAPI threatened, WeaponAPI weapon)
+    /*public static DefenseType getDefenseAimedAt(ShipAPI threatened, WeaponAPI weapon)
+     {
+     // TODO: filter out weapons that can't hit the target (CollisionClass)
+
+     if (!isWithinArc(threatened, weapon))
+     {
+     return DefenseType.MISS;
+     }
+
+     if (threatened.getHullSpec().getDefenseType() == ShieldType.PHASE)
+     {
+     ShipSystemAPI cloak = (ShipSystemAPI) threatened.getPhaseCloak();
+
+     if (cloak != null && cloak.isActive())
+     {
+     return DefenseType.PHASE;
+     }
+     }
+
+     Vector2f hit = getCollisionPoint(threatened, getFiringLine(weapon));
+     if (hit == null)
+     {
+     return DefenseType.MISS;
+     }
+
+     // TODO: check for glancing blows against shield
+     ShieldAPI shield = threatened.getShield();
+     if (shield != null && shield.isOn() && shield.isWithinArc(hit))
+     {
+     return DefenseType.SHIELD;
+     }
+
+     // TODO: Armor checks
+     return DefenseType.ARMOR;
+
+     //return DefenseType.HULL;
+     }*/
+    /**
+     * Calculate how long it would take to turn a {@link WeaponAPI} to aim at a location.
+     *
+     * @param weapon The {@link WeaponAPI} to turn.
+     * @param aimAt The {@link Vector2f} to aim at.
+     * @return The time in seconds it would take to aim {@code weapon}.
+     */
+    public static float getTimeToAim(WeaponAPI weapon, Vector2f aimAt)
     {
-        // TODO: filter out weapons that can't hit the target (CollisionClass)
-
-        if (!isWithinArc(threatened, weapon))
-        {
-            return DefenseType.MISS;
-        }
-
-        if (threatened.getHullSpec().getDefenseType() == ShieldType.PHASE)
-        {
-            ShipSystemAPI cloak = (ShipSystemAPI) threatened.getPhaseCloak();
-
-            if (cloak != null && cloak.isActive())
-            {
-                return DefenseType.PHASE;
-            }
-        }
-
-        Vector2f hit = getCollisionPoint(threatened, getFiringLine(weapon));
-        if (hit == null)
-        {
-            return DefenseType.MISS;
-        }
-
-        // TODO: check for glancing blows against shield
-        ShieldAPI shield = threatened.getShield();
-        if (shield != null && shield.isOn() && shield.isWithinArc(hit))
-        {
-            return DefenseType.SHIELD;
-        }
-
-        // TODO: Armor checks
-        return DefenseType.ARMOR;
-
-        //return DefenseType.HULL;
-    }
-
-    public static float getTimeToAim(ShipAPI ship, WeaponAPI weapon, Vector2f aimAt)
-    {
+        ShipAPI ship = weapon.getShip();
+        float turnSpeed = (ship == null ? 0
+                : ship.getMutableStats().getMaxTurnRate().getModifiedValue());
         // TODO: add current turn velocity and acceleration to equation
         float time = weapon.distanceFromArc(aimAt)
-                / ship.getMutableStats().getMaxTurnRate().getModifiedValue();
+                / turnSpeed;
 
-        // Divide by zero - ship can't turn, only a threat if already aimed
+        // Divide by zero - no ship or can't turn, only a threat if already aimed
         if (Float.isNaN(time))
         {
             if (weapon.distanceFromArc(aimAt) == 0)
@@ -217,5 +192,9 @@ public class WeaponUtils
         }
 
         return time;
+    }
+
+    private WeaponUtils()
+    {
     }
 }

@@ -1,14 +1,12 @@
 package org.lazywizard.lazylib;
 
 import com.fs.starfarer.api.campaign.SectorEntityToken;
-import com.fs.starfarer.api.combat.BoundsAPI;
-import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import java.util.*;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
- * Contains methods for working with vectors, angles, distances, circles and bounds.
+ * Contains methods for working with vectors, angles, distances, and circles.
  *
  * @author LazyWizard
  */
@@ -263,51 +261,14 @@ public class MathUtils
         return (a * a) + (b * b) < (radius * radius);
     }
 
+
     /**
-     * Checks if a point is inside of the bounds of a {@link CombatEntityAPI}.
-     *
-     * @param point The {@link Vector2f} to check.
-     * @param entity The {@link CombatEntityAPI} whose {@link BoundsAPI} we are checking against.
-     * @return {@code true} if {@link point} is within the bounds of {@code entity}, {@code false} otherwise.
+     * @deprecated Use {@link CollisionUtils#isPointWithinBounds(org.lwjgl.util.vector.Vector2f, com.fs.starfarer.api.combat.CombatEntityAPI)} instead.
      */
+    @Deprecated
     public static boolean isPointWithinBounds(Vector2f point, CombatEntityAPI entity)
     {
-        if (entity.getExactBounds() == null)
-        {
-            return isPointWithinCircle(point, entity.getLocation(),
-                    entity.getCollisionRadius());
-        }
-        BoundsAPI bounds = entity.getExactBounds();
-        bounds.update(entity.getLocation(), entity.getFacing());
-        //Polygon poly = Convert.boundsToPolygon(bounds);
-        //return poly.contains(point.x, point.y);
-
-        // TODO: Test this thoroughly!
-        List<SegmentAPI> segments = bounds.getSegments();
-        List<Vector2f> points = new ArrayList();
-        for (int x = 0; x < segments.size(); x++)
-        {
-            points.add(segments.get(x).getP1());
-
-            if (x == (segments.size() - 1))
-            {
-                points.add(segments.get(x).getP2());
-            }
-        }
-
-        int i, j;
-        boolean result = false;
-        for (i = 0, j = points.size() - 1; i < points.size(); j = i++)
-        {
-            if ((points.get(i).y > point.y) != (points.get(j).y > point.y)
-                    && (point.x < (points.get(j).x - points.get(i).x)
-                    * (point.y - points.get(i).y)
-                    / (points.get(j).y - points.get(i).y) + points.get(i).x))
-            {
-                result = !result;
-            }
-        }
-        return result;
+        return CollisionUtils.isPointWithinBounds(point, entity);
     }
 
     /*public static void main(String[] args)
