@@ -15,6 +15,12 @@ import org.lazywizard.lazylib.MathUtils;
  */
 public class AIUtils
 {
+    /**
+     * Find the closest {@link BattleObjectiveAPI} to an entity.
+     *
+     * @param entity The {@link CombatEntityAPI} to search around.
+     * @return The {@link BattleObjectiveAPI} closest to {@code entity}.
+     */
     public static BattleObjectiveAPI getNearestObjective(CombatEntityAPI entity)
     {
         BattleObjectiveAPI closest = null;
@@ -35,6 +41,12 @@ public class AIUtils
         return closest;
     }
 
+    /**
+     * Find the closest enemy of an entity.
+     *
+     * @param entity The {@link CombatEntityAPI} to search around.
+     * @return The enemy closest to {@code entity}.
+     */
     public static ShipAPI getNearestEnemy(CombatEntityAPI entity)
     {
         ShipAPI closest = null;
@@ -60,6 +72,12 @@ public class AIUtils
         return closest;
     }
 
+    /**
+     * Find the closest ally of an entity.
+     *
+     * @param entity The {@link CombatEntityAPI} to search around.
+     * @return The ally closest to {@code entity}.
+     */
     public static ShipAPI getNearestAlly(CombatEntityAPI entity)
     {
         ShipAPI closest = null;
@@ -85,6 +103,12 @@ public class AIUtils
         return closest;
     }
 
+    /**
+     * Find the closest ship near entity.
+     *
+     * @param entity The {@link CombatEntityAPI} to search around.
+     * @return The ship closest to {@code entity}.
+     */
     public static ShipAPI getNearestShip(CombatEntityAPI entity)
     {
         ShipAPI closest = null;
@@ -110,6 +134,12 @@ public class AIUtils
         return closest;
     }
 
+            /**
+     * Find all present enemies of an entity.
+     *
+     * @param entity The {@link CombatEntityAPI} to search around.
+     * @return All enemies of {@code entity} on the battle map.
+     */
     public static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity)
     {
         List<ShipAPI> enemies = new ArrayList();
@@ -125,6 +155,13 @@ public class AIUtils
         return enemies;
     }
 
+    /**
+     * Finds all enemies within a certain range around an entity.
+     *
+     * @param entity The entity to search around.
+     * @param range How far around {@code entity} to search.
+     * @return A {@link List} containing all enemy ships within range.
+     */
     public static List<ShipAPI> getNearbyEnemies(CombatEntityAPI entity, float range)
     {
         List<ShipAPI> enemies = new ArrayList();
@@ -141,7 +178,13 @@ public class AIUtils
         return enemies;
     }
 
-        public static List<ShipAPI> getAlliesOnMap(CombatEntityAPI entity)
+    /**
+     * Find all present allies of an entity.
+     *
+     * @param entity The {@link CombatEntityAPI} to search around.
+     * @return All allies of {@code entity} on the battle map.
+     */
+    public static List<ShipAPI> getAlliesOnMap(CombatEntityAPI entity)
     {
         List<ShipAPI> enemies = new ArrayList();
 
@@ -156,6 +199,13 @@ public class AIUtils
         return enemies;
     }
 
+        /**
+     * Finds all allies within a certain range around an entity.
+     *
+     * @param entity The entity to search around.
+     * @param range How far around {@code entity} to search.
+     * @return A {@link List} containing all allied ships within range.
+     */
     public static List<ShipAPI> getNearbyAllies(CombatEntityAPI entity, float range)
     {
         List<ShipAPI> allies = new ArrayList();
@@ -172,6 +222,13 @@ public class AIUtils
         return allies;
     }
 
+    /**
+     * Check if a ship's system can be used this frame.
+     * This still returns true if the shipsystem is already on!
+     *
+     * @param ship The ship to check the system of.
+     * @return {@code true} if {@code ship} can use its system, {@code false} otherwise.
+     */
     public static boolean canUseSystemThisFrame(ShipAPI ship)
     {
         FluxTrackerAPI flux = ship.getFluxTracker();

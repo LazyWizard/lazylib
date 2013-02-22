@@ -24,9 +24,9 @@ public class CombatUtils implements EveryFrameCombatPlugin
     private static float combatTime = 0f;
 
     /**
-     * Returns the current battle's {@link CombatEngineAPI}.
+     * Returns the currently used {@link CombatEngineAPI}.
      *
-     * @return The {@link CombatEngineAPI} used by the current battle
+     * @return The {@link CombatEngineAPI} used by the current battle.
      */
     public static CombatEngineAPI getCombatEngine()
     {
@@ -36,7 +36,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     /**
      * Returns the length of the current battle.
      *
-     * @return The total elapsed time for this combat encounter, in seconds
+     * @return The total elapsed time for this combat encounter, in seconds.
      */
     public static float getElapsedCombatTime()
     {
@@ -44,10 +44,11 @@ public class CombatUtils implements EveryFrameCombatPlugin
     }
 
     /**
+     * Returns all projectiles in range of a given location.
      *
-     * @param location
-     * @param range
-     * @return
+     * @param location The location to search around.
+     * @param range How far around {@code location} to search.
+     * @return A {@link List} of {@link DamagingProjectileAPI}s within range of {@code location}.
      */
     public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location, float range)
     {
@@ -65,6 +66,13 @@ public class CombatUtils implements EveryFrameCombatPlugin
         return projectiles;
     }
 
+    /**
+     * Returns all missiles in range of a given location.
+     *
+     * @param location The location to search around.
+     * @param range How far around {@code location} to search.
+     * @return A {@link List} of {@link MissileAPI}s within range of {@code location}.
+     */
     public static List<MissileAPI> getMissilesWithinRange(Vector2f location, float range)
     {
         List<MissileAPI> missiles = new ArrayList();
@@ -81,6 +89,13 @@ public class CombatUtils implements EveryFrameCombatPlugin
         return missiles;
     }
 
+    /**
+     * Returns all ships in range of a given location.
+     *
+     * @param location The location to search around.
+     * @param range How far around {@code location} to search.
+     * @return A {@link List} of {@link ShipAPI}s within range of {@code location}.
+     */
     public static List<ShipAPI> getShipsWithinRange(Vector2f location, float range)
     {
         List<ShipAPI> ships = new ArrayList();
@@ -102,6 +117,13 @@ public class CombatUtils implements EveryFrameCombatPlugin
         return ships;
     }
 
+        /**
+     * Returns all asteroids in range of a given location.
+     *
+     * @param location The location to search around.
+     * @param range How far around {@code location} to search.
+     * @return A {@link List} of asteroids within range of {@code location}.
+     */
     public static List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location, float range)
     {
         List<CombatEntityAPI> asteroids = new ArrayList();
@@ -118,6 +140,13 @@ public class CombatUtils implements EveryFrameCombatPlugin
         return asteroids;
     }
 
+        /**
+     * Returns all objectives in range of a given location.
+     *
+     * @param location The location to search around.
+     * @param range How far around {@code location} to search.
+     * @return A {@link List} of {@link BattleObjectiveAPI}s within range of {@code location}.
+     */
     public static List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location, float range)
     {
         List<BattleObjectiveAPI> objectives = new ArrayList();
@@ -134,6 +163,13 @@ public class CombatUtils implements EveryFrameCombatPlugin
         return objectives;
     }
 
+        /**
+     * Returns all entities in range of a given location.
+     *
+     * @param location The location to search around.
+     * @param range How far around {@code location} to search.
+     * @return A {@link List} of {@link CombatEntityAPI}s within range of {@code location}.
+     */
     public static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location, float range)
     {
         List<CombatEntityAPI> entities = new ArrayList();
@@ -166,12 +202,18 @@ public class CombatUtils implements EveryFrameCombatPlugin
         return entities;
     }
 
+    /**
+     * Automatically called by the game. Don't call this manually.
+     */
     @Override
     public void advance(float amount, List<InputEventAPI> events)
     {
         combatTime += amount;
     }
 
+    /**
+     * Automatically called by the game. Don't call this manually.
+     */
     @Override
     public void init(CombatEngineAPI engine)
     {
