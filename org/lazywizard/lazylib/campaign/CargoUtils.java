@@ -40,7 +40,7 @@ public class CargoUtils
     /**
      * Returns the amount of space taken by weapons in a {@link CargoAPI}.
      *
-     * @param cargo The [@link CargoAPI} to analyze.
+     * @param cargo The {@link CargoAPI} to analyze.
      * @return The amount of space taken by weapons in {@code cargo}.
      */
     public static float getSpaceTakenByWeapons(CargoAPI cargo)
@@ -61,7 +61,7 @@ public class CargoUtils
     /**
      * Returns the amount of space taken by crew in a {@link CargoAPI}.
      *
-     * @param cargo The [@link CargoAPI} to analyze.
+     * @param cargo The {@link CargoAPI} to analyze.
      * @return The amount of space taken by crew in {@code cargo}.
      */
     public static float getSpaceTakenByCrew(CargoAPI cargo)
@@ -82,7 +82,7 @@ public class CargoUtils
     /**
      * Returns the amount of space taken by supplies in a {@link CargoAPI}.
      *
-     * @param cargo The [@link CargoAPI} to analyze.
+     * @param cargo The {@link CargoAPI} to analyze.
      * @return The amount of space taken by supplies in {@code cargo}.
      */
     public static float getSpaceTakenBySupplies(CargoAPI cargo)
@@ -103,7 +103,7 @@ public class CargoUtils
     /**
      * Returns the amount of space taken by fuel in a {@link CargoAPI}.
      *
-     * @param cargo The [@link CargoAPI} to analyze.
+     * @param cargo The {@link CargoAPI} to analyze.
      * @return The amount of space taken by fuel in {@code cargo}.
      */
     public static float getSpaceTakenByFuel(CargoAPI cargo)
@@ -124,7 +124,7 @@ public class CargoUtils
     /**
      * Returns the amount of space taken by all resources in a {@link CargoAPI}.
      *
-     * @param cargo The [@link CargoAPI} to analyze.
+     * @param cargo The {@link CargoAPI} to analyze.
      * @return The amount of space taken by resource stacks in {@code cargo}.
      */
     public static float getSpaceTakenByResources(CargoAPI cargo)
