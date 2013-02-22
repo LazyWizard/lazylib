@@ -1,4 +1,4 @@
-package org.lazywizard.lazylib.geom;
+package org.lazywizard.lazylib;
 
 /**
  * Utility to handle Java's odd trig performance issues

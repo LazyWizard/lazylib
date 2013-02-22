@@ -10,6 +10,14 @@ public class CollectionUtils
 {
     private static final Random rng = new Random();
 
+    /**
+     * Returns a {@link List} of items chosen via a weighted random from a {@link Map}.
+     *
+     * @param pickFrom A {@link Map} of items to choose from.
+     * The value is the weight, in float form, of that item being chosen.
+     * @param numToPick How many items to choose from {@code pickFrom}'s keys.
+     * @return A {@link List} containing the subset of {@code pickFrom} chosen.
+     */
     public static <T> List<T> weightedRandom(Map<T, Float> pickFrom, int numToPick)
     {
         if (pickFrom.isEmpty() || numToPick == 0)
@@ -44,11 +52,26 @@ public class CollectionUtils
         return ret;
     }
 
+    /**
+     * Returns a single item chosen via a weighted random from a {@link Map}.
+     *
+     * @param pickFrom A {@link Map} of items to choose from.
+     * The value is the weight, in float form, of that item being chosen.
+     * @return A single item chosen from {@code pickFrom}'s keys.
+     */
     public static <T> T weightedRandom(Map<T, Float> pickFrom)
     {
         return (pickFrom.isEmpty() ? null : weightedRandom(pickFrom, 1).get(0));
     }
 
+    /**
+     * Combines and separates a {@link Collection} of strings. Useful for comma-separated lists.
+     *
+     * @param toImplode A {@link Collection} of {@link String}s to be combined.
+     * @param separator The separator character to split [@code toImplode} with.
+     * @return A single {@link String} consisting of {@code toImplode}'s values
+     * separated with [@code separator}.
+     */
     public static String implode(Collection<String> toImplode, String separator)
     {
         if (toImplode.isEmpty())
@@ -72,6 +95,14 @@ public class CollectionUtils
         return ret.toString();
     }
 
+    /**
+     * Creates a comma-separated {@link String} from a {@link Collection}.
+     *
+     * @param toImplode A {@link Collection} of {@link String}s to be combined.
+     * @return A single {@link String} consisting of {@code toImplode}'s values
+     * separated with commas.
+     * @see CollectionUtils#implode(java.util.Collection, java.lang.String)
+     */
     public static String implode(Collection<String> toImplode)
     {
         return implode(toImplode, ", ");

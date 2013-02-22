@@ -1,5 +1,4 @@
-All classes in this package are from the Slick2D library,
-modified to work with LWJGL vectors.
+The FastTrig class in this package is taken from the Slick2D library.
 
 Copyright (c) 2007, Slick 2D
 All rights reserved.
