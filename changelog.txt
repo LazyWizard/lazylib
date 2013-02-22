@@ -1,3 +1,3 @@
- 0.1b (January 19, 2012)
+ 1.0 (February 22, 2013)
 =========================
-Initial WIP release, no JavaDoc yet
+Initial mod-version release, contains 12 classes and 62 methods.
