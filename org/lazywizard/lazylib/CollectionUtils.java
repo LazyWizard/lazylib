@@ -2,6 +2,10 @@ package org.lazywizard.lazylib;
 
 import java.util.*;
 
+/**
+ * Contains methods for working with Collections.
+ * @author LazyWizard
+ */
 public class CollectionUtils
 {
     private static final Random rng = new Random();

@@ -15,6 +15,10 @@ import org.lazywizard.lazylib.geom.Convert;
 import org.lazywizard.lazylib.geom.Line;
 import org.lwjgl.util.vector.Vector2f;
 
+/**
+ * Contains methods that deal with weapons and weapon arcs.
+ * @author LazyWizard
+ */
 public class WeaponUtils
 {
     public static float calculateActualDamage(float baseDamage, WeaponAPI weapon)

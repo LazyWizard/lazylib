@@ -9,13 +9,15 @@ import org.lazywizard.lazylib.geom.FastTrig;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
- * Contains methods for working with vectors, angles, distances, circles and bounds
+ * Contains methods for working with vectors, angles, distances, circles and bounds.
  *
  * @author LazyWizard
  */
 public class MathUtils
 {
     /**
+     * Returns the distance between two {@link SectorEntityToken}s.
+     *
      * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
      */
     public static float getDistance(SectorEntityToken token1, SectorEntityToken token2)
@@ -24,6 +26,8 @@ public class MathUtils
     }
 
     /**
+     * Returns the distance between two {@link CombatEntityAPI}s.
+     *
      * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
      */
     public static float getDistance(CombatEntityAPI obj1, CombatEntityAPI obj2)
@@ -32,6 +36,8 @@ public class MathUtils
     }
 
     /**
+     * Returns the distance between a {@link CombatEntityAPI} and a {@link Vector2f}.
+     *
      * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
      */
     public static float getDistance(CombatEntityAPI entity, Vector2f vector)
@@ -40,7 +46,7 @@ public class MathUtils
     }
 
     /**
-     * Returns the distance between two vectors.
+     * Returns the distance between two {@link Vector2f}s.
      *
      * For comparing distances, it is <i>vastly</i> more efficient to use
      * {@link MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f,
@@ -56,6 +62,8 @@ public class MathUtils
     }
 
     /**
+     * Returns the distance squared between two {@link SectorEntityToken}s.
+     *
      * @see MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
      */
     public static float getDistanceSquared(SectorEntityToken token1, SectorEntityToken token2)
@@ -64,6 +72,8 @@ public class MathUtils
     }
 
     /**
+     * Returns the distance squared between two {@link CombatEntityAPI}s.
+     *
      * @see MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
      */
     public static float getDistanceSquared(CombatEntityAPI obj1, CombatEntityAPI obj2)
@@ -72,6 +82,8 @@ public class MathUtils
     }
 
     /**
+     * Returns the distance squared between a {@link CombatEntityAPI} and a {@link Vector2f}.
+     *
      * @see MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
      */
     public static float getDistanceSquared(CombatEntityAPI entity, Vector2f vector)
@@ -80,7 +92,7 @@ public class MathUtils
     }
 
     /**
-     * Returns the distance squared between two vectors (avoids a costly sqrt()).
+     * Returns the distance squared between two {@link Vector2f}s (avoids a costly sqrt()).
      *
      * When comparing distances, use this function instead of
      * {@link MathUtils#getDistance(org.lwjgl.util.vector.Vector2f,
@@ -94,6 +106,13 @@ public class MathUtils
         return (a * a) + (b * b);
     }
 
+    /**
+     * Returns a normalized {@link Vector2f} pointing from {@code source} to {@code destination}.
+     *
+     * @param source The origin of the vector.
+     * @param destination The location to point at.
+     * @return A normalized {@link Vector2f} pointing at {@code destination}.
+     */
     public static Vector2f getDirectionalVector(Vector2f source, Vector2f destination)
     {
         Vector2f dir = Vector2f.sub(destination, source, null);
@@ -106,16 +125,28 @@ public class MathUtils
         return dir.normalise(null);
     }
 
+    /**
+     * @see MathUtils#getDirectionalVector(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     */
     public static Vector2f getDirectionalVector(CombatEntityAPI source, Vector2f destination)
     {
         return getDirectionalVector(source.getLocation(), destination);
     }
 
+    /**
+     * @see MathUtils#getDirectionalVector(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     */
     public static Vector2f getDirectionalVector(CombatEntityAPI source, CombatEntityAPI destination)
     {
         return getDirectionalVector(source.getLocation(), destination.getLocation());
     }
 
+    /**
+     * Returns the facing of a {@link Vector2f}.
+     *
+     * @param vector The vector to get the facing of.
+     * @return The facing (angle) of {@code vector}.
+     */
     public static float getFacing(Vector2f vector)
     {
         double angle = Math.toDegrees(Math.atan2(vector.y, vector.x));
@@ -133,11 +164,26 @@ public class MathUtils
         return (float) angle;
     }
 
+    /**
+     * Returns the angle between two {@link Vector2f}s.
+     *
+     * @param from The source {@link Vector2f}.
+     * @param to The {@link Vector2f} to get the angle to.
+     * @return The angle from {@code from} to {@code to}.
+     */
     public static float getAngle(Vector2f from, Vector2f to)
     {
         return getFacing(getDirectionalVector(from, to));
     }
 
+    /**
+     * Returns a point along the circumference of a circle at the given angle.
+     *
+     * @param center The center point of the circle.
+     * @param radius The radius of the circle.
+     * @param angle The angle, in degrees, to get the point at.
+     * @return A {@link Vector2f} at [@code angle} degrees along the circumference of the given circle.
+     */
     public static Vector2f getPointOnCircumference(Vector2f center, float radius, float angle)
     {
         double rad = Math.toRadians(angle);
@@ -146,11 +192,26 @@ public class MathUtils
                 (float) FastTrig.sin(rad) * radius + center.y);
     }
 
+    /**
+     * Returns a random point along the circumference of a circle.
+     *
+     * @param center The center point of the circle.
+     * @param radius The radius of the circle.
+     * @return A random point along the circumference of the given circle.
+     * @see MathUtils#getPointOnCircumference(org.lwjgl.util.vector.Vector2f, float, float)
+     */
     public static Vector2f getRandomPointOnCircumference(Vector2f center, float radius)
     {
         return getPointOnCircumference(center, radius, (float) Math.random() * 360);
     }
 
+    /**
+     * Returns a random point inside of a circle with uniform distribution.
+     *
+     * @param center The center point of the circle.
+     * @param radius The radius of the circle.
+     * @return A random point inside of the given circle.
+     */
     public static Vector2f getRandomPointInCircle(Vector2f center, float radius)
     {
         double t = 2 * Math.PI * Math.random(),
@@ -161,6 +222,15 @@ public class MathUtils
         //return getRandomPointOnCircumference(center, (float) (radius * Math.random()));
     }
 
+    /**
+     * Returns an evenly distributed {@link List} of points along a circle's circumference.
+     *
+     * @param center The center point of the circle.
+     * @param radius The radius of the circle.
+     * @param numPoints How many points to generate.
+     * @param angleOffset The offset angle of the initial point.
+     * @return A {@link List} of {@link Vector2f}s that are evenly distributed along the circle's circumference.
+     */
     public static List<Vector2f> getPointsAlongCircumference(Vector2f center, float radius, int numPoints, float angleOffset)
     {
         angleOffset %= 360;
@@ -176,12 +246,27 @@ public class MathUtils
         return points;
     }
 
+    /**
+     * Returns whether a point is within the bounds of a circle or not.
+     *
+     * @param point The {@link Vector2f} to check.
+     * @param center The center point of the circle.
+     * @param radius The radius of the circle.
+     * @return {@code true} if {@link point} is within the circle, {@code false} otherwise.
+     */
     public static boolean isPointWithinCircle(Vector2f point, Vector2f center, float radius)
     {
         float a = point.x - center.x, b = point.y - center.y;
         return (a * a) + (b * b) < (radius * radius);
     }
 
+    /**
+     * Checks if a point is inside of the bounds of a {@link CombatEntityAPI}.
+     *
+     * @param point The {@link Vector2f} to check.
+     * @param entity The {@link CombatEntityAPI} whose {@link BoundsAPI} we are checking against.
+     * @return {@code true} if {@link point} is within the bounds of {@code entity}, {@code false} otherwise.
+     */
     public static boolean isPointWithinBounds(Vector2f point, CombatEntityAPI entity)
     {
         if (entity.getExactBounds() == null)

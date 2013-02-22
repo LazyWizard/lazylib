@@ -3,6 +3,10 @@ package org.lazywizard.lazylib.campaign;
 import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.CargoStackAPI;
 
+/**
+ * Contains methods for working with cargo and item stacks.
+ * @author LazyWizard
+ */
 public class CargoUtils
 {
     public static void moveStack(CargoStackAPI stack, CargoAPI to)

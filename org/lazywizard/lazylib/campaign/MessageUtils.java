@@ -2,6 +2,10 @@ package org.lazywizard.lazylib.campaign;
 
 import com.fs.starfarer.api.Global;
 
+/**
+ * Allows formatted, multi-line, word-wrapped sector messages
+ * @author LazyWizard
+ */
 public class MessageUtils
 {
     /** How long a line can be before being split by {@link MessageUtils#showMessage(java.lang.String)} */
