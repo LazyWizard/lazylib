@@ -78,14 +78,8 @@ public class WeaponUtils
         if (bounds == null)
         {
             Vector2f loc = target.getLocation();
-            if (firingLine.intersects(new Circle(loc.x, loc.y, target.getCollisionRadius())))
-            {
-                return loc;
-            }
-            else
-            {
-                return null;
-            }
+            return firingLine.intersect(new Circle(loc.x, loc.y,
+                    target.getCollisionRadius()));
         }
 
         Vector2f closestIntersection = null;
@@ -117,23 +111,16 @@ public class WeaponUtils
 
     public static Vector2f getCollisionPoint(SegmentAPI segment, Line firingLine)
     {
-        Vector2f result = firingLine.intersect(Convert.segmentToLine(segment), true);
-
-        if (result != null)
-        {
-            return result;
-        }
-
-        return null;
+        return firingLine.intersect(Convert.segmentToLine(segment), true);
     }
 
     public static Line getFiringLine(WeaponAPI weapon)
     {
-        Vector2f start = weapon.getLocation();
-        Vector2f end = new Vector2f(MathUtils.getPointOnCircumference(start,
+        Vector2f end = new Vector2f(MathUtils.getPointOnCircumference(weapon.getLocation(),
                 weapon.getRange(), weapon.getArcFacing()));
 
-        return new Line(start.x, start.y, end.x, end.y);
+        return new Line(weapon.getLocation().x, weapon.getLocation().y,
+                end.x, end.y);
     }
 
     public static boolean isWithinArc(CombatEntityAPI entity, WeaponAPI weapon)
