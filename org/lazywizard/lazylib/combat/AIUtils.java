@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.lazywizard.lazylib.MathUtils;
 
+/**
+ * Contains methods that deal with a single combat entity.
+ * @author LazyWizard
+ */
 public class AIUtils
 {
     public static BattleObjectiveAPI getNearestObjective(CombatEntityAPI entity)

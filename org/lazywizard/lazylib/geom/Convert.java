@@ -4,6 +4,10 @@ import com.fs.starfarer.api.combat.BoundsAPI;
 import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 
+/**
+ * Contains methods to convert between Starsector/Slick2D geometry types.
+ * @author LazyWizard
+ */
 public final class Convert
 {
     public static Line segmentToLine(SegmentAPI segment)

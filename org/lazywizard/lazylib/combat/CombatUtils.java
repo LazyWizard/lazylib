@@ -14,6 +14,10 @@ import java.util.List;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
+/**
+ * Contains methods that deal with the battle map in general.
+ * @author LazyWizard
+ */
 public class CombatUtils implements EveryFrameCombatPlugin
 {
     private static WeakReference<CombatEngineAPI> engine;
@@ -41,7 +45,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
     /**
      *
-     * @param location 
+     * @param location
      * @param range
      * @return
      */
