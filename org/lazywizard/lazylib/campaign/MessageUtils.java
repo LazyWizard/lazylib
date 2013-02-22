@@ -14,9 +14,9 @@ public class MessageUtils
     /**
      * Formats and word-wraps the supplied text, then outputs it to the player.
      *
-     * @param preamble the header for this message, won't be indented
-     * @param message the main body of text
-     * @param indent whether to indent each line of the main body
+     * @param preamble The header for this message, won't be indented.
+     * @param message The main body of text.
+     * @param indent Whether to indent each line of the main body.
      */
     public static void showMessage(String preamble,
             String message, boolean indent)
@@ -96,7 +96,7 @@ public class MessageUtils
     /**
      * Formats and word-wraps the supplied text, then outputs it to the player.
      *
-     * @param message the message to output
+     * @param message The message to output.
      */
     public static void showMessage(String message)
     {
