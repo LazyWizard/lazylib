@@ -126,6 +126,8 @@ public class MathUtils
     }
 
     /**
+     * Returns a normalized {@link Vector2f} pointing from {@code source} to {@code destination}.
+     *
      * @see MathUtils#getDirectionalVector(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
      */
     public static Vector2f getDirectionalVector(CombatEntityAPI source, Vector2f destination)
@@ -134,6 +136,8 @@ public class MathUtils
     }
 
     /**
+     * Returns a normalized {@link Vector2f} pointing from {@code source} to {@code destination}.
+     * 
      * @see MathUtils#getDirectionalVector(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
      */
     public static Vector2f getDirectionalVector(CombatEntityAPI source, CombatEntityAPI destination)
@@ -285,9 +289,6 @@ public class MathUtils
         for (int x = 0; x < segments.size(); x++)
         {
             points.add(segments.get(x).getP1());
-            /*CombatUtils.getCombatEngine().addHitParticle(
-             segments.get(x).getP1(), entity.getVelocity(),
-             5f, 1f, 2.5f, Color.YELLOW);*/
 
             if (x == (segments.size() - 1))
             {
@@ -322,6 +323,12 @@ public class MathUtils
             System.out.print(MathUtils.getRandomPointInCircle(new Vector2f(100, 0),
                     50).toString() + " ");
         }
+
+        System.out.println("\n");
+
+        Vector2f v1 = new Vector2f(5, 15), v2 = new Vector2f(0,-3.5f);
+        System.out.println("Distance: " + getDistance(v1, v2) + " | " + getDistance(v2, v1));
+        System.out.println("Distance squared: " + getDistanceSquared(v1, v2) + " | " + getDistanceSquared(v2, v1));
     }
 
     private MathUtils()
