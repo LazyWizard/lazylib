@@ -9,6 +9,12 @@ import com.fs.starfarer.api.campaign.CampaignFleetAPI;
  */
 public class FleetUtils
 {
+    /**
+     * Checks if a fleet is the player fleet.
+     *
+     * @param fleet The {@link CampaignFleetAPI} to be checked.
+     * @return {@code true} if {@code fleet} is the player fleet, {@code false} otherwise.
+     */
     public static boolean isPlayer(CampaignFleetAPI fleet)
     {
         return fleet == Global.getSector().getPlayerFleet();

@@ -108,27 +108,26 @@ public class CollectionUtils
         return implode(toImplode, ", ");
     }
 
-    public static void main(String[] args)
-    {
-        Map fleets = new HashMap();
-        fleets.put("supplyConvoy", 75f);
-        fleets.put("fuelConvoy", 25f);
-        fleets.put("personnelConvoy", 25f);
-        fleets.put("shipConvoy", 25f);
+    /*public static void main(String[] args)
+     {
+     Map fleets = new HashMap();
+     fleets.put("supplyConvoy", 75f);
+     fleets.put("fuelConvoy", 25f);
+     fleets.put("personnelConvoy", 25f);
+     fleets.put("shipConvoy", 25f);
 
-        //System.out.println((String) weightedRandom(fleets));
+     //System.out.println((String) weightedRandom(fleets));
 
-        List types = CollectionUtils.weightedRandom(fleets, 30);
-        for (int x = 1; x <= types.size(); x++)
-        {
-            System.out.print((String) types.get(x - 1) + " ");
-            if (x % 10 == 0)
-            {
-                System.out.println();
-            }
-        }
-    }
-
+     List types = CollectionUtils.weightedRandom(fleets, 30);
+     for (int x = 1; x <= types.size(); x++)
+     {
+     System.out.print((String) types.get(x - 1) + " ");
+     if (x % 10 == 0)
+     {
+     System.out.println();
+     }
+     }
+     }*/
     private CollectionUtils()
     {
     }

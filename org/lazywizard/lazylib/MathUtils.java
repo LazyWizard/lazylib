@@ -310,26 +310,25 @@ public class MathUtils
         return result;
     }
 
-    public static void main(String[] args)
-    {
-        for (int x = 0; x < 50; x++)
-        {
-            if (x % 5 == 0)
-            {
-                System.out.println();
-            }
+    /*public static void main(String[] args)
+     {
+     for (int x = 0; x < 50; x++)
+     {
+     if (x % 5 == 0)
+     {
+     System.out.println();
+     }
 
-            System.out.print(MathUtils.getRandomPointInCircle(new Vector2f(100, 0),
-                    50).toString() + " ");
-        }
+     System.out.print(MathUtils.getRandomPointInCircle(new Vector2f(100, 0),
+     50).toString() + " ");
+     }
 
-        System.out.println("\n");
+     System.out.println("\n");
 
-        Vector2f v1 = new Vector2f(5, 15), v2 = new Vector2f(0,-3.5f);
-        System.out.println("Distance: " + getDistance(v1, v2) + " | " + getDistance(v2, v1));
-        System.out.println("Distance squared: " + getDistanceSquared(v1, v2) + " | " + getDistanceSquared(v2, v1));
-    }
-
+     Vector2f v1 = new Vector2f(5, 15), v2 = new Vector2f(0,-3.5f);
+     System.out.println("Distance: " + getDistance(v1, v2) + " | " + getDistance(v2, v1));
+     System.out.println("Distance squared: " + getDistanceSquared(v1, v2) + " | " + getDistanceSquared(v2, v1));
+     }*/
     private MathUtils()
     {
     }
