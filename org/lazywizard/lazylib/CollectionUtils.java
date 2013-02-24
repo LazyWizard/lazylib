@@ -65,7 +65,7 @@ public class CollectionUtils
     }
 
     /**
-     * Combines and separates a {@link Collection} of strings. Useful for comma-separated lists.
+     * Combines and separates a {@link Collection} of {@link String}s. Useful for comma-separated lists.
      *
      * @param toImplode A {@link Collection} of {@link String}s to be combined.
      * @param separator The separator character to split [@code toImplode} with.
@@ -96,7 +96,7 @@ public class CollectionUtils
     }
 
     /**
-     * Creates a comma-separated {@link String} from a {@link Collection}.
+     * Creates a comma-separated {@link String} from a {@link Collection} of {@link String}s.
      *
      * @param toImplode A {@link Collection} of {@link String}s to be combined.
      * @return A single {@link String} consisting of {@code toImplode}'s values

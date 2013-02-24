@@ -64,7 +64,7 @@ public class CollisionUtils
     }
 
     /**
-     * Finds the point of intersection between two {@link Line}s.
+     * Finds the point of intersection between two lines.
      *
      * @param start1 The start of the first line to test collision with.
      * @param end1 The end of the first line to test collision with.
