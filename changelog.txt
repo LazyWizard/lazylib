@@ -1,3 +1,11 @@
- 1.0 (February 22, 2013)
+ 1.0 (February 23, 2013)
 =========================
-Initial mod-version release, contains 12 classes and 62 methods.
+Initial utility mod release, contains 12 classes and 62 methods.
+Added JavaDoc (included with mod download)
+Changes from bundled jar version:
+ - Removed Slick2D classes (save FastTrig)
+ - Added CollisionUtils class (bounds checking and collision detection)
+ - Rewrote WeaponUtils to use the new CollisionUtils instead of Slick2D
+ - Moved FastTrig from org.lazywizard.lazylib.geom to org.lazywizard.lazylib
+ - Fixed several bugs (including a broken getRandomPointInCircle())
+ - Slight optimization of math-heavy methods
