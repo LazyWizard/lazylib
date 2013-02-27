@@ -21,7 +21,7 @@ public class FastTrig
         radians %= Math.PI * 2.0; // put us in -2PI to +2PI space
         if (Math.abs(radians) > Math.PI)
         { // put us in -PI to +PI space
-            radians = radians - (Math.PI * 2.0);
+            radians -= (Math.PI * 2.0);
         }
         if (Math.abs(radians) > Math.PI / 2)
         {// put us in -PI/2 to +PI/2 space
@@ -59,5 +59,9 @@ public class FastTrig
     public static double cos(double radians)
     {
         return sin(radians + Math.PI / 2);
+    }
+
+    private FastTrig()
+    {
     }
 }

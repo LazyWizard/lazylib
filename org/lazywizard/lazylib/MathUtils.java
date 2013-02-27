@@ -2,7 +2,8 @@ package org.lazywizard.lazylib;
 
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -20,6 +21,16 @@ public class MathUtils
     public static float getDistance(SectorEntityToken token1, SectorEntityToken token2)
     {
         return getDistance(token1.getLocation(), token2.getLocation());
+    }
+
+    /**
+     * Returns the distance between a {@link SectorEntityToken} and a {@link Vector2f).
+     *
+     * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     */
+    public static float getDistance(SectorEntityToken token, Vector2f vector)
+    {
+        return getDistance(token.getLocation(), vector);
     }
 
     /**
@@ -66,6 +77,16 @@ public class MathUtils
     public static float getDistanceSquared(SectorEntityToken token1, SectorEntityToken token2)
     {
         return getDistanceSquared(token1.getLocation(), token2.getLocation());
+    }
+
+    /**
+     * Returns the distance squared between a {@link SectorEntityToken} and a {@link Vector2f).
+     *
+     * @see MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     */
+    public static float getDistanceSquared(SectorEntityToken token, Vector2f vector)
+    {
+        return getDistanceSquared(token.getLocation(), vector);
     }
 
     /**
@@ -154,12 +175,12 @@ public class MathUtils
 
         if ((angle < -360) || (angle > 360))
         {
-            angle = angle % 360;
+            angle %= 360;
         }
 
         if (angle < 0)
         {
-            angle = 360 + angle;
+            angle += 360;
         }
 
         return (float) angle;
@@ -260,7 +281,6 @@ public class MathUtils
         float a = point.x - center.x, b = point.y - center.y;
         return (a * a) + (b * b) < (radius * radius);
     }
-
 
     /**
      * @deprecated Use {@link CollisionUtils#isPointWithinBounds(org.lwjgl.util.vector.Vector2f, com.fs.starfarer.api.combat.CombatEntityAPI)} instead.
