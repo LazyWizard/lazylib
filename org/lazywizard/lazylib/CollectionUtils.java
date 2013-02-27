@@ -117,6 +117,9 @@ public class CollectionUtils
         return implode(toImplode, ", ");
     }
 
+    /**
+     * A {@link Comparator} that sorts {@link CombatEntityAPI}s by distance from a {@link Vector2f}.
+     */
     public static class SortEntitiesByDistance implements Comparator<CombatEntityAPI>
     {
         private Vector2f location;
@@ -125,11 +128,22 @@ public class CollectionUtils
         {
         }
 
+        /**
+         * @param location The central location to judge distance from.
+         */
         public SortEntitiesByDistance(Vector2f location)
         {
             this.location = location;
         }
 
+        /**
+         * Compares the distances of two {@link CombatEntityAPI}s from a central location.
+         *
+         * @param o1 The first {@link CombatEntityAPI}.
+         * @param o2 The second {@link CombatEntityAPI}.
+         * @return A comparison of the distances of {@code o1} and {@code o2}
+         * from {@code location}.
+         */
         @Override
         public int compare(CombatEntityAPI o1, CombatEntityAPI o2)
         {
@@ -138,6 +152,9 @@ public class CollectionUtils
         }
     }
 
+    /**
+     * A {@link Comparator} that sorts {@link SectorEntityToken}s by distance from a {@link Vector2f}.
+     */
     public static class SortTokensByDistance implements Comparator<SectorEntityToken>
     {
         private Vector2f location;
@@ -146,11 +163,22 @@ public class CollectionUtils
         {
         }
 
+        /**
+         * @param location The central location to judge distance from.
+         */
         public SortTokensByDistance(Vector2f location)
         {
             this.location = location;
         }
 
+        /**
+         * Compares the distances of two {@link SectorEntityToken}s from a central location.
+         *
+         * @param o1 The first {@link SectorEntityToken}.
+         * @param o2 The second {@link SectorEntityToken}.
+         * @return A comparison of the distances of {@code o1} and {@code o2}
+         * from {@code location}.
+         */
         @Override
         public int compare(SectorEntityToken o1, SectorEntityToken o2)
         {
