@@ -1,5 +1,7 @@
 package org.lazywizard.lazylib.combat;
 
+import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
@@ -8,7 +10,10 @@ import com.fs.starfarer.api.combat.EveryFrameCombatPlugin;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.input.InputEventAPI;
+import com.fs.starfarer.api.mission.FleetSide;
+import data.scripts.plugins.LazyLibBattleCreationPlugin;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -324,6 +329,49 @@ public class CombatUtils implements EveryFrameCombatPlugin
     public static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location, float range)
     {
         return getEntitiesWithinRange(location, range, false);
+    }
+
+    /**
+     * Get the {@link CampaignFleetAPI} associated with a side in battle. This
+     * will return {@code null} if {@link LazyLibBattleCreationPlugin} is not
+     * loaded.
+     *
+     * @param side The {@link FleetSide} to get the {@link CampaignFleetAPI} of.
+     * @return The {@link CampaignFleetAPI} associated with {@code side}, or
+     * {@code null} if not in campaign or the battle creation plugin isn't loaded.
+     */
+    public static CampaignFleetAPI getCampaignFleet(FleetSide side)
+    {
+        if (!engine.get().isInCampaign())
+        {
+            return null;
+        }
+
+        Method tmp;
+        try
+        {
+            tmp = ClassLoader.class.getDeclaredMethod("findLoadedClass", new Class[]
+                    {
+                        String.class
+                    });
+
+            tmp.setAccessible(true);
+            ClassLoader cl = Global.getSettings().getScriptClassLoader();
+
+            if (tmp.invoke(cl,
+                    "data.scripts.plugins.LazyLibBattleCreationPlugin") == null)
+            {
+                return null;
+            }
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+
+        return (side == FleetSide.PLAYER
+                ? LazyLibBattleCreationPlugin.getPlayerFleet()
+                : LazyLibBattleCreationPlugin.getEnemyFleet());
     }
 
     /**

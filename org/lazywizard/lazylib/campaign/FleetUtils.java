@@ -17,6 +17,11 @@ public class FleetUtils
      */
     public static boolean isPlayer(CampaignFleetAPI fleet)
     {
+        if (fleet == null)
+        {
+            return false;
+        }
+
         return fleet == Global.getSector().getPlayerFleet();
     }
 
