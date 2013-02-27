@@ -1,3 +1,13 @@
+ 1.1 (February 27, 2013)
+=========================
+Added LazyLib class to org.lazywizard.lazylib (contains version information)
+Added a few missing JavaDoc entries and updated others for clarity
+All getWithinRange() methods now have an optional sort-by-distance parameter
+Added Comparators to CollectionUtils for sorting by distance from a Vector
+ - SortEntitiesByDistance(Vector2f location): sorts CombatEntityAPIs
+ - SortTokensByDistance(Vector2f location): sorts SectorEntityTokens
+ - SortObjectivesByDistance(Vector2f location): sorts BattleObjectiveAPIs
+
  1.0 (February 23, 2013)
 =========================
 Initial utility mod release, contains 12 classes and 62 methods.

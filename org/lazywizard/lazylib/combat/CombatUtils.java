@@ -244,7 +244,27 @@ public class CombatUtils implements EveryFrameCombatPlugin
             }
         }
 
+        if (sortByDistance)
+        {
+            Collections.sort(objectives,
+                    new CollectionUtils.SortObjectivesByDistance(location));
+        }
+
         return objectives;
+    }
+
+    /**
+     * Returns all objectives in range of a given location.
+     *
+     * @param location The location to search around.
+     * @param range How far around {@code location} to search.
+     * @return A {@link List} of {@link BattleObjectiveAPI}s within range of {@code location}.
+     * @see CombatUtils#getObjectivesWithinRange(org.lwjgl.util.vector.Vector2f, float, boolean)
+     */
+    public static List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location,
+            float range)
+    {
+        return getObjectivesWithinRange(location, range, false);
     }
 
     /**
