@@ -1,6 +1,7 @@
 package org.lazywizard.lazylib;
 
 import com.fs.starfarer.api.campaign.SectorEntityToken;
+import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -184,6 +185,42 @@ public class CollectionUtils
         {
             return ((Float) MathUtils.getDistanceSquared(o1, location)).compareTo(
                     (Float) MathUtils.getDistanceSquared(o2, location));
+        }
+    }
+
+    /**
+     * A {@link Comparator} that sorts {@link BattleObjectiveAPI}s by distance from a {@link Vector2f}.
+     */
+    public static class SortObjectivesByDistance implements Comparator<BattleObjectiveAPI>
+    {
+        private Vector2f location;
+
+        private SortObjectivesByDistance()
+        {
+        }
+
+        /**
+         * @param location The central location to judge distance from.
+         */
+        public SortObjectivesByDistance(Vector2f location)
+        {
+            this.location = location;
+        }
+
+        /**
+         * Compares the distances of two {@link BattleObjectiveAPI}s from a central location.
+         *
+         * @param o1 The first {@link BattleObjectiveAPI}.
+         * @param o2 The second {@link BattleObjectiveAPI}.
+         * @return A comparison of the distances of {@code o1} and {@code o2}
+         * from {@code location}.
+         */
+        @Override
+        public int compare(BattleObjectiveAPI o1, BattleObjectiveAPI o2)
+        {
+            return ((Float) MathUtils.getDistanceSquared(o1.getLocation(),
+                    location)).compareTo((Float) MathUtils.
+                    getDistanceSquared(o2.getLocation(), location));
         }
     }
 
