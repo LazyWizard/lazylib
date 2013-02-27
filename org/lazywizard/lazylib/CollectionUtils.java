@@ -1,6 +1,15 @@
 package org.lazywizard.lazylib;
 
-import java.util.*;
+import com.fs.starfarer.api.campaign.SectorEntityToken;
+import com.fs.starfarer.api.combat.CombatEntityAPI;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import org.lwjgl.util.vector.Vector2f;
 
 /**
  * Contains methods for working with Collections.
@@ -108,26 +117,48 @@ public class CollectionUtils
         return implode(toImplode, ", ");
     }
 
-    /*public static void main(String[] args)
-     {
-     Map fleets = new HashMap();
-     fleets.put("supplyConvoy", 75f);
-     fleets.put("fuelConvoy", 25f);
-     fleets.put("personnelConvoy", 25f);
-     fleets.put("shipConvoy", 25f);
+    public static class SortEntitiesByDistance implements Comparator<CombatEntityAPI>
+    {
+        private Vector2f location;
 
-     //System.out.println((String) weightedRandom(fleets));
+        private SortEntitiesByDistance()
+        {
+        }
 
-     List types = CollectionUtils.weightedRandom(fleets, 30);
-     for (int x = 1; x <= types.size(); x++)
-     {
-     System.out.print((String) types.get(x - 1) + " ");
-     if (x % 10 == 0)
-     {
-     System.out.println();
-     }
-     }
-     }*/
+        public SortEntitiesByDistance(Vector2f location)
+        {
+            this.location = location;
+        }
+
+        @Override
+        public int compare(CombatEntityAPI o1, CombatEntityAPI o2)
+        {
+            return ((Float) MathUtils.getDistanceSquared(o1, location)).compareTo(
+                    (Float) MathUtils.getDistanceSquared(o2, location));
+        }
+    }
+
+    public static class SortTokensByDistance implements Comparator<SectorEntityToken>
+    {
+        private Vector2f location;
+
+        private SortTokensByDistance()
+        {
+        }
+
+        public SortTokensByDistance(Vector2f location)
+        {
+            this.location = location;
+        }
+
+        @Override
+        public int compare(SectorEntityToken o1, SectorEntityToken o2)
+        {
+            return ((Float) MathUtils.getDistanceSquared(o1, location)).compareTo(
+                    (Float) MathUtils.getDistanceSquared(o2, location));
+        }
+    }
+
     private CollectionUtils()
     {
     }
