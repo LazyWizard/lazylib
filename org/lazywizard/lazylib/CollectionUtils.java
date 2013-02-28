@@ -14,6 +14,7 @@ import org.lwjgl.util.vector.Vector2f;
 
 /**
  * Contains methods for working with Collections.
+ *
  * @author LazyWizard
  */
 public class CollectionUtils
@@ -30,7 +31,7 @@ public class CollectionUtils
      */
     public static <T> List<T> weightedRandom(Map<T, Float> pickFrom, int numToPick)
     {
-        if (pickFrom.isEmpty() || numToPick == 0)
+        if (pickFrom.isEmpty() || numToPick <= 0)
         {
             return Collections.EMPTY_LIST;
         }
@@ -41,7 +42,7 @@ public class CollectionUtils
             totalWeight += tmp;
         }
 
-        List<T> ret = new ArrayList();
+        List<T> ret = new ArrayList(numToPick);
         float random;
 
         for (int x = 0; x < numToPick; x++)
@@ -71,7 +72,30 @@ public class CollectionUtils
      */
     public static <T> T weightedRandom(Map<T, Float> pickFrom)
     {
-        return (pickFrom.isEmpty() ? null : weightedRandom(pickFrom, 1).get(0));
+        if (pickFrom.isEmpty())
+        {
+            return null;
+        }
+
+        float totalWeight = 0.0f;
+        for (Float tmp : pickFrom.values())
+        {
+            totalWeight += tmp;
+        }
+
+        float random = (float) Math.random() * totalWeight;
+        for (Map.Entry<T, Float> tmp : pickFrom.entrySet())
+        {
+            random -= tmp.getValue();
+
+            if (random <= 0.0f)
+            {
+                return tmp.getKey();
+            }
+        }
+
+        throw new RuntimeException("weightedRandom() failed to return a value!");
+        //return (pickFrom.isEmpty() ? null : weightedRandom(pickFrom, 1).get(0));
     }
 
     /**

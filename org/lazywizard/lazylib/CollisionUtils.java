@@ -146,7 +146,7 @@ public class CollisionUtils
 
         // TODO: Test this thoroughly!
         List<SegmentAPI> segments = bounds.getSegments();
-        List<Vector2f> points = new ArrayList();
+        List<Vector2f> points = new ArrayList(segments.size() + 1);
         for (int x = 0; x < segments.size(); x++)
         {
             points.add(segments.get(x).getP1());
