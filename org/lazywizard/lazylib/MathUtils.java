@@ -257,7 +257,7 @@ public class MathUtils
     {
         angleOffset %= 360;
 
-        List<Vector2f> points = new ArrayList();
+        List<Vector2f> points = new ArrayList(numPoints);
         for (int x = 0; x < numPoints; x++)
         {
             points.add(getPointOnCircumference(center, radius, angleOffset));
