@@ -78,9 +78,9 @@ public class CollectionUtils
      * Combines and separates a {@link Collection} of {@link String}s. Useful for comma-separated lists.
      *
      * @param toImplode A {@link Collection} of {@link String}s to be combined.
-     * @param separator The separator character to split [@code toImplode} with.
+     * @param separator The separator character to split {@code toImplode} with.
      * @return A single {@link String} consisting of {@code toImplode}'s values
-     * separated with [@code separator}.
+     * separated with {@code separator}.
      */
     public static String implode(Collection<String> toImplode, String separator)
     {
@@ -148,8 +148,8 @@ public class CollectionUtils
         @Override
         public int compare(CombatEntityAPI o1, CombatEntityAPI o2)
         {
-            return ((Float) MathUtils.getDistanceSquared(o1, location)).compareTo(
-                    (Float) MathUtils.getDistanceSquared(o2, location));
+            return Float.compare(MathUtils.getDistanceSquared(o1, location),
+                    MathUtils.getDistanceSquared(o2, location));
         }
     }
 
@@ -183,8 +183,8 @@ public class CollectionUtils
         @Override
         public int compare(SectorEntityToken o1, SectorEntityToken o2)
         {
-            return ((Float) MathUtils.getDistanceSquared(o1, location)).compareTo(
-                    (Float) MathUtils.getDistanceSquared(o2, location));
+            return Float.compare(MathUtils.getDistanceSquared(o1, location),
+                    MathUtils.getDistanceSquared(o2, location));
         }
     }
 
@@ -218,9 +218,9 @@ public class CollectionUtils
         @Override
         public int compare(BattleObjectiveAPI o1, BattleObjectiveAPI o2)
         {
-            return ((Float) MathUtils.getDistanceSquared(o1.getLocation(),
-                    location)).compareTo((Float) MathUtils.
-                    getDistanceSquared(o2.getLocation(), location));
+            return Float.compare(MathUtils.getDistanceSquared(o1.getLocation(),
+                    location), MathUtils.getDistanceSquared(o2.getLocation(),
+                    location));
         }
     }
 
