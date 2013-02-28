@@ -7,7 +7,7 @@ package org.lazywizard.lazylib;
  */
 public class LazyLib
 {
-    private static final float VERSION = 1.1f;
+    private static final float VERSION = 1.2f;
 
     /**
      * Get the version number of this LazyLib instance.

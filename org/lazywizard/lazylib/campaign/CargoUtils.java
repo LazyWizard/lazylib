@@ -17,9 +17,12 @@ public class CargoUtils
      */
     public static void moveStack(CargoStackAPI stack, CargoAPI to)
     {
-        to.addItems(stack.getType(), stack.getData(), stack.getSize());
-        stack.getCargo().removeItems(stack.getType(),
-                stack.getData(), stack.getSize());
+        if (!stack.isNull())
+        {
+            to.addItems(stack.getType(), stack.getData(), stack.getSize());
+            stack.getCargo().removeItems(stack.getType(),
+                    stack.getData(), stack.getSize());
+        }
     }
 
     /**
@@ -134,6 +137,27 @@ public class CargoUtils
         for (CargoStackAPI stack : cargo.getStacksCopy())
         {
             if (stack.isResourceStack())
+            {
+                totalSpace += stack.getCargoSpace();
+            }
+        }
+
+        return totalSpace;
+    }
+
+    /**
+     * Returns the amount of space taken by all cargo types in a {@link CargoAPI}.
+     *
+     * @param cargo The {@link CargoAPI} to analyze.
+     * @return The amount of space used in {@code cargo}.
+     */
+    public static float getSpaceTakenByCargo(CargoAPI cargo)
+    {
+        float totalSpace = 0f;
+
+        for (CargoStackAPI stack : cargo.getStacksCopy())
+        {
+            if (!stack.isNull())
             {
                 totalSpace += stack.getCargoSpace();
             }
