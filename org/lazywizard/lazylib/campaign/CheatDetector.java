@@ -1,6 +1,9 @@
-package org.lazywizard.lazylib;
+package org.lazywizard.lazylib.campaign;
 
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.campaign.LocationAPI;
+import com.fs.starfarer.api.campaign.SectorAPI;
+import com.fs.starfarer.api.campaign.SpawnPointPlugin;
 import com.fs.starfarer.api.characters.MutableCharacterStatsAPI;
 import com.fs.starfarer.api.plugins.LevelupPlugin;
 import data.scripts.plugins.LevelupPluginImpl;
@@ -8,16 +11,17 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class CheatDetection
+public abstract class CheatDetector implements SpawnPointPlugin
 {
-    private static final boolean ALLOW_DEV_MODE = false;
-    private static final boolean ALLOW_CHEAT_MODS = false;
-    private static final boolean VALIDATE_STATS = true;
     private static final Set APTITUDE_IDS = new HashSet(), SKILL_IDS = new HashSet();
     private static final String[] CHEAT_MOD_CLASSES =
     {
         "data.scripts.console.Console", // Console mod
     };
+    private boolean allowDevMode = false;
+    private boolean allowCheatMods = false;
+    private boolean validateStats = true;
+    private transient boolean hasChecked = false;
 
     static
     {
@@ -62,14 +66,30 @@ public class CheatDetection
         SKILL_IDS.add("vfleet_trade_contracts"); // Fleet Control
     }
 
-    public static boolean hasCheatsEnabled()
+    public void setAllowDevMode(boolean allowDevMode)
     {
-        if (!ALLOW_DEV_MODE && Global.getSettings().getBoolean("devMode"))
+        this.allowDevMode = allowDevMode;
+    }
+
+    public void setAllowCheatMods(boolean allowCheatMods)
+    {
+        this.allowCheatMods = allowCheatMods;
+    }
+
+    public void setValidateStats(boolean validateStats)
+    {
+        this.validateStats = validateStats;
+    }
+
+    private boolean checkCheating()
+    {
+        if (!allowDevMode && Global.getSettings().getBoolean("devMode"))
         {
-            return true;
+            Global.getSector().addMessage("Dev mode detected.");
+            //return true;
         }
 
-        if (!ALLOW_CHEAT_MODS)
+        if (!allowCheatMods)
         {
             ClassLoader tmp = Global.getSettings().getScriptClassLoader();
             for (int x = 0; x < CHEAT_MOD_CLASSES.length; x++)
@@ -78,7 +98,9 @@ public class CheatDetection
                 {
                     //tmp.loadClass(CHEAT_MOD_CLASSES[x]);
                     Class.forName(CHEAT_MOD_CLASSES[x], false, tmp);
-                    return true;
+                    Global.getSector().addMessage("Found restricted class "
+                            + CHEAT_MOD_CLASSES[x]);
+                    //return true;
                 }
                 catch (ClassNotFoundException ex)
                 {
@@ -86,9 +108,9 @@ public class CheatDetection
             }
         }
 
-        if (VALIDATE_STATS)
+        if (validateStats)
         {
-            float skillPoints, aptitudePoints, level, experience;
+            float skillPoints, aptitudePoints, level;
             MutableCharacterStatsAPI player =
                     Global.getSector().getPlayerFleet().getCommanderStats();
 
@@ -117,15 +139,35 @@ public class CheatDetection
 
             if (expectedApt != aptitudePoints || expectedSkill != skillPoints)
             {
-                return true;
+                Global.getSector().addMessage("Level: " + level + " |  AP: "
+                        + aptitudePoints + "(" + expectedApt + ") | SP: "
+                        + skillPoints + "(" + expectedSkill + ")");
+                //return true;
             }
         }
 
         return false;
     }
 
-    private CheatDetection()
+    @Override
+    public void advance(SectorAPI sector, LocationAPI location)
     {
-        // Can't be instantiated nor subclassed
+        if (!hasChecked)
+        {
+            hasChecked = true;
+
+            if (checkCheating())
+            {
+                onCaughtCheating();
+            }
+        }
+    }
+
+    protected abstract void onCaughtCheating();
+
+    public Object readResolve()
+    {
+        hasChecked = false;
+        return this;
     }
 }

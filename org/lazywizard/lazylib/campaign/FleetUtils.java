@@ -5,11 +5,14 @@ import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import org.lazywizard.lazylib.CollectionUtils;
 import org.lazywizard.lazylib.MathUtils;
 
 /**
  * Contains methods for working with fleets and fleet data.
+ *
  * @author LazyWizard
  */
 public class FleetUtils
@@ -28,6 +31,39 @@ public class FleetUtils
         }
 
         return fleet == Global.getSector().getPlayerFleet();
+    }
+
+    /**
+     * Checks if two fleets are allies.
+     * @param fleet1 The first {@link CampaignFleetAPI} to check.
+     * @param fleet2 The second {@link CampaignFleetAPI} to check.
+     * @return {@code true} if the fleets are allies, {@code false} otherwise.
+     */
+    public static boolean areAllies(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
+    {
+        return fleet1.getFaction().getRelationship(fleet2.getFaction().getId()) > 0;
+    }
+
+    /**
+     * Checks if two fleets are enemies.
+     * @param fleet1 The first {@link CampaignFleetAPI} to check.
+     * @param fleet2 The second {@link CampaignFleetAPI} to check.
+     * @return {@code true} if the fleets are enemies, {@code false} otherwise.
+     */
+    public static boolean areEnemies(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
+    {
+        return fleet1.getFaction().getRelationship(fleet2.getFaction().getId()) < 0;
+    }
+
+    /**
+     * Checks if two fleets are neutral towards each other.
+     * @param fleet1 The first {@link CampaignFleetAPI} to check.
+     * @param fleet2 The second {@link CampaignFleetAPI} to check.
+     * @return {@code true} if the fleets are neutral, {@code false} otherwise.
+     */
+    public static boolean areNeutral(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
+    {
+        return fleet1.getFaction().getRelationship(fleet2.getFaction().getId()) == 0;
     }
 
     /**
@@ -76,7 +112,7 @@ public class FleetUtils
 
         for (CampaignFleetAPI tmp : system.getFleets())
         {
-            if (tmp.getFaction() == fleet.getFaction())
+            if (!tmp.isAlive() || !areEnemies(fleet, tmp))
             {
                 continue;
             }
@@ -108,7 +144,7 @@ public class FleetUtils
 
         for (CampaignFleetAPI tmp : system.getFleets())
         {
-            if (tmp == fleet || tmp.getFaction() != fleet.getFaction())
+            if (tmp == fleet || !tmp.isAlive() || !areAllies(fleet, tmp))
             {
                 continue;
             }
@@ -140,7 +176,7 @@ public class FleetUtils
 
         for (CampaignFleetAPI tmp : system.getFleets())
         {
-            if (tmp == token)
+            if (tmp == token || !tmp.isAlive())
             {
                 continue;
             }
@@ -159,21 +195,21 @@ public class FleetUtils
     }
 
     /**
-     * Find all present enemies of an entity.
+     * Find all enemies of a {@link CampaignFleetAPI} present in the system.
      *
-     * @param entity The {@link CombatEntityAPI} to search around.
-     * @param sortByDistance Whether to sort the results by distance from {@code entity}.
-     * @return All enemies of {@code entity} on the battle map.
+     * @param fleet The {@link CampaignFleetAPI} to search around.
+     * @param sortByDistance Whether to sort the results by distance from {@code fleet}.
+     * @return All enemies of {@code fleet} in the system.
      */
-    public static List<CampaignFleetAPI> getEnemyFleetsInSystem(CombatEntityAPI entity,
+    public static List<CampaignFleetAPI> getEnemyFleetsInSystem(CampaignFleetAPI fleet,
             boolean sortByDistance)
     {
         StarSystemAPI system = (StarSystemAPI) fleet.getContainingLocation();
         List<CampaignFleetAPI> enemies = new ArrayList();
 
-        for (CampaignFleetAPI tmp : CombatUtils.getCombatEngine().getShips())
+        for (CampaignFleetAPI tmp : system.getFleets())
         {
-            if (tmp.getFaction() != entity.getFaction() && !tmp.isHulk() && !tmp.isShuttlePod())
+            if (tmp.isAlive() && areEnemies(fleet, tmp))
             {
                 enemies.add(tmp);
             }
@@ -182,41 +218,41 @@ public class FleetUtils
         if (sortByDistance)
         {
             Collections.sort(enemies,
-                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
+                    new CollectionUtils.SortTokensByDistance(fleet.getLocation()));
         }
 
         return enemies;
     }
 
     /**
-     * Find all present enemies of an entity.
+     * Find all enemies of a {@link CampaignFleetAPI} present in the system.
      *
-     * @param entity The {@link CombatEntityAPI} to search around.
-     * @return All enemies of {@code entity} on the battle map.
-     * @see AIUtils#getEnemiesOnMap(com.fs.starfarer.api.combat.CombatEntityAPI, boolean)
+     * @param fleet The {@link CampaignFleetAPI} to search around.
+     * @return All enemies of {@code fleet} in the system.
+     * @see FleetUtils#getEnemyFleetsInSystem(com.fs.starfarer.api.campaign.CampaignFleetAPI, boolean)
      */
-    public static List<CampaignFleetAPI> getEnemyFleetsInSystem(CombatEntityAPI entity)
+    public static List<CampaignFleetAPI> getEnemyFleetsInSystem(CampaignFleetAPI fleet)
     {
-        return getEnemyFleetsInSystem(entity, false);
+        return getEnemyFleetsInSystem(fleet, false);
     }
 
     /**
-     * Finds all enemies within a certain range around an entity.
+     * Finds all enemy fleets within a certain range around a {@link CampaignFleetAPI}.
      *
-     * @param entity The entity to search around.
-     * @param range How far around {@code entity} to search.
-     * @param sortByDistance Whether to sort the results by distance from {@code entity}.
-     * @return A {@link List} containing all enemy ships within range.
+     * @param fleet The entity to search around.
+     * @param range How far around {@code fleet} to search.
+     * @param sortByDistance Whether to sort the results by distance from {@code fleet}.
+     * @return A {@link List} containing all enemy fleets within range.
      */
-    public static List<CampaignFleetAPI> getNearbyEnemyFleets(CombatEntityAPI entity,
+    public static List<CampaignFleetAPI> getNearbyEnemyFleets(CampaignFleetAPI fleet,
             float range, boolean sortByDistance)
     {
         List<CampaignFleetAPI> enemies = new ArrayList();
         range *= range;
 
-        for (CampaignFleetAPI enemy : getEnemyFleetsInSystem(entity))
+        for (CampaignFleetAPI enemy : getEnemyFleetsInSystem(fleet))
         {
-            if (MathUtils.getDistanceSquared(entity, enemy) <= range)
+            if (MathUtils.getDistanceSquared(fleet, enemy) <= range)
             {
                 enemies.add(enemy);
             }
@@ -225,42 +261,41 @@ public class FleetUtils
         if (sortByDistance)
         {
             Collections.sort(enemies,
-                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
+                    new CollectionUtils.SortTokensByDistance(fleet.getLocation()));
         }
 
         return enemies;
     }
 
     /**
-     * Finds all enemies within a certain range around an entity.
+     * Finds all enemy fleets within a certain range around a {@link CampaignFleetAPI}.
      *
-     * @param entity The entity to search around.
-     * @param range How far around {@code entity} to search.
-     * @return A {@link List} containing all enemy ships within range.
-     * @see AIUtils#getNearbyEnemies(com.fs.starfarer.api.combat.CombatEntityAPI, float, boolean)
+     * @param fleet The entity to search around.
+     * @param range How far around {@code fleet} to search.
+     * @return A {@link List} containing all enemy fleets within range.
+     * @see FleetUtils#getNearbyEnemyFleets(com.fs.starfarer.api.campaign.CampaignFleetAPI, float, boolean)
      */
-    public static List<CampaignFleetAPI> getNearbyEnemyFleets(CombatEntityAPI entity, float range)
+    public static List<CampaignFleetAPI> getNearbyEnemyFleets(CampaignFleetAPI fleet, float range)
     {
-        return getNearbyEnemyFleets(entity, range, false);
+        return getNearbyEnemyFleets(fleet, range, false);
     }
 
     /**
-     * Find all present allies of an entity.
+     * Find all allies of a {@link CampaignFleetAPI} present in the system.
      *
-     * @param entity The {@link CombatEntityAPI} to search around.
-     * @param sortByDistance Whether to sort the results by distance from {@code entity}.
-     * @return All allies of {@code entity} on the battle map.
+     * @param fleet The {@link CampaignFleetAPI} to search around.
+     * @param sortByDistance Whether to sort the results by distance from {@code fleet}.
+     * @return All allies of {@code fleet} in the system.
      */
-    public static List<CampaignFleetAPI> getAlliedFleetsInSystem(CombatEntityAPI entity,
+    public static List<CampaignFleetAPI> getAlliedFleetsInSystem(CampaignFleetAPI fleet,
             boolean sortByDistance)
     {
         StarSystemAPI system = (StarSystemAPI) fleet.getContainingLocation();
         List<CampaignFleetAPI> allies = new ArrayList();
 
-        for (CampaignFleetAPI tmp : CombatUtils.getCombatEngine().getShips())
+        for (CampaignFleetAPI tmp : system.getFleets())
         {
-            if (tmp != entity && tmp.getFaction() == entity.getFaction()
-                    && !tmp.isHulk() && !tmp.isShuttlePod())
+            if (tmp != fleet && tmp.isAlive() && areAllies(fleet, tmp))
             {
                 allies.add(tmp);
             }
@@ -269,41 +304,41 @@ public class FleetUtils
         if (sortByDistance)
         {
             Collections.sort(allies,
-                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
+                    new CollectionUtils.SortTokensByDistance(fleet.getLocation()));
         }
 
         return allies;
     }
 
     /**
-     * Find all present allies of an entity.
+     * Find all allies of a {@link CampaignFleetAPI} present in the system.
      *
-     * @param entity The {@link CombatEntityAPI} to search around.
-     * @return All allies of {@code entity} on the battle map.
-     * @see AIUtils#getAlliesOnMap(com.fs.starfarer.api.combat.CombatEntityAPI, boolean)
+     * @param fleet The {@link CampaignFleetAPI} to search around.
+     * @return All allies of {@code fleet} in the system.
+     * @see FleetUtils#getAlliedFleetsInSystem(com.fs.starfarer.api.campaign.CampaignFleetAPI, boolean)
      */
-    public static List<CampaignFleetAPI> getAlliedFleetsInSystem(CombatEntityAPI entity)
+    public static List<CampaignFleetAPI> getAlliedFleetsInSystem(CampaignFleetAPI fleet)
     {
-        return getAlliedFleetsInSystem(entity, false);
+        return getAlliedFleetsInSystem(fleet, false);
     }
 
     /**
-     * Finds all allies within a certain range around an entity.
+     * Finds all allied fleets within a certain range around a {@link CampaignFleetAPI}.
      *
-     * @param entity The entity to search around.
-     * @param range How far around {@code entity} to search.
-     * @param sortByDistance Whether to sort the results by distance from {@code entity}.
-     * @return A {@link List} containing all allied ships within range.
+     * @param fleet The entity to search around.
+     * @param range How far around {@code fleet} to search.
+     * @param sortByDistance Whether to sort the results by distance from {@code fleet}.
+     * @return A {@link List} containing all allied fleets within range.
      */
-    public static List<CampaignFleetAPI> getNearbyAlliedFleets(CombatEntityAPI entity,
+    public static List<CampaignFleetAPI> getNearbyAlliedFleets(CampaignFleetAPI fleet,
             float range, boolean sortByDistance)
     {
         List<CampaignFleetAPI> allies = new ArrayList();
         range *= range;
 
-        for (CampaignFleetAPI ally : getAlliedFleetsInSystem(entity))
+        for (CampaignFleetAPI ally : getAlliedFleetsInSystem(fleet))
         {
-            if (MathUtils.getDistanceSquared(entity, ally) <= range)
+            if (MathUtils.getDistanceSquared(fleet, ally) <= range)
             {
                 allies.add(ally);
             }
@@ -312,23 +347,23 @@ public class FleetUtils
         if (sortByDistance)
         {
             Collections.sort(allies,
-                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
+                    new CollectionUtils.SortTokensByDistance(fleet.getLocation()));
         }
 
         return allies;
     }
 
     /**
-     * Finds all allies within a certain range around an entity.
+     * Finds all allied fleets within a certain range around a {@link CampaignFleetAPI}.
      *
-     * @param entity The entity to search around.
-     * @param range How far around {@code entity} to search.
-     * @return A {@link List} containing all allied ships within range.
-     * @see AIUtils#getNearbyAllies(com.fs.starfarer.api.combat.CombatEntityAPI, float, boolean)
+     * @param fleet The entity to search around.
+     * @param range How far around {@code fleet} to search.
+     * @return A {@link List} containing all allied fleets within range.
+     * @see FleetUtils#getNearbyAlliedFleets(com.fs.starfarer.api.campaign.CampaignFleetAPI, float, boolean)
      */
-    public static List<CampaignFleetAPI> getNearbyAlliedFleets(CombatEntityAPI entity, float range)
+    public static List<CampaignFleetAPI> getNearbyAlliedFleets(CampaignFleetAPI fleet, float range)
     {
-        return getNearbyAlliedFleets(entity, range, false);
+        return getNearbyAlliedFleets(fleet, range, false);
     }
 
     private FleetUtils()
