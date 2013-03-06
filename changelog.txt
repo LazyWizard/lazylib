@@ -1,3 +1,15 @@
+ 1.2 (March xx, 2013)
+======================
+Greatly expanded FleetUtils (equivalent to AIUtils, but for CampaignFleetAPIs)
+Removed DefenseType for now (it was unused as its associated class was removed)
+Added basic cheat detection:
+ - Spawn point method: extend org.lazywizard.lazylib.campaign.CheatDetector
+   and override onCaughtCheating() (the check is done each reload).
+   You can choose what is checked with setAllowDevMode(), setAllowCheatMods()
+   and setValidateStats().
+ - Manual method: call CheatDetector's checkDevMode(), checkCheatMods() and
+   checkStats() methods.
+
  1.1 (February 27, 2013)
 =========================
 Added LazyLib class to org.lazywizard.lazylib (contains version information)

@@ -66,6 +66,72 @@ public abstract class CheatDetector implements SpawnPointPlugin
         SKILL_IDS.add("vfleet_trade_contracts"); // Fleet Control
     }
 
+    public static boolean checkDevMode()
+    {
+        return Global.getSettings().getBoolean("devMode");
+    }
+
+    public static boolean checkCheatMods()
+    {
+        ClassLoader tmp = Global.getSettings().getScriptClassLoader();
+        for (int x = 0; x < CHEAT_MOD_CLASSES.length; x++)
+        {
+            try
+            {
+                //tmp.loadClass(CHEAT_MOD_CLASSES[x]);
+                Class.forName(CHEAT_MOD_CLASSES[x], false, tmp);
+                Global.getSector().addMessage("Found restricted class "
+                        + CHEAT_MOD_CLASSES[x]);
+                return true;
+            }
+            catch (ClassNotFoundException ex)
+            {
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean checkStats()
+    {
+        float skillPoints, aptitudePoints, level;
+        MutableCharacterStatsAPI player =
+                Global.getSector().getPlayerFleet().getCommanderStats();
+
+        aptitudePoints = player.getAptitudePoints();
+        for (Iterator aptitudes = APTITUDE_IDS.iterator(); aptitudes.hasNext();)
+        {
+            aptitudePoints += player.getAptitudeLevel((String) aptitudes.next());
+        }
+
+        skillPoints = player.getSkillPoints();
+        for (Iterator skills = SKILL_IDS.iterator(); skills.hasNext();)
+        {
+            skillPoints += player.getSkillLevel((String) skills.next());
+        }
+
+        level = (skillPoints - 4) / 2;
+
+        float expectedApt = 0, expectedSkill = 0;
+        LevelupPlugin tmp = new LevelupPluginImpl();
+
+        for (int x = 1; x <= level; x++)
+        {
+            expectedApt += tmp.getAptitudePointsAtLevel(x);
+            expectedSkill += tmp.getSkillPointsAtLevel(x);
+        }
+
+        if (expectedApt != aptitudePoints || expectedSkill != skillPoints)
+        {
+            Global.getSector().addMessage("Level: " + level + " |  AP: "
+                    + aptitudePoints + "(" + expectedApt + ") | SP: "
+                    + skillPoints + "(" + expectedSkill + ")");
+            return true;
+        }
+
+        return false;
+    }
+
     public void setAllowDevMode(boolean allowDevMode)
     {
         this.allowDevMode = allowDevMode;
@@ -83,67 +149,11 @@ public abstract class CheatDetector implements SpawnPointPlugin
 
     private boolean checkCheating()
     {
-        if (!allowDevMode && Global.getSettings().getBoolean("devMode"))
+        if ((!allowDevMode && checkDevMode())
+                || (!allowCheatMods && checkCheatMods())
+                || (validateStats && checkStats()))
         {
-            Global.getSector().addMessage("Dev mode detected.");
-            //return true;
-        }
-
-        if (!allowCheatMods)
-        {
-            ClassLoader tmp = Global.getSettings().getScriptClassLoader();
-            for (int x = 0; x < CHEAT_MOD_CLASSES.length; x++)
-            {
-                try
-                {
-                    //tmp.loadClass(CHEAT_MOD_CLASSES[x]);
-                    Class.forName(CHEAT_MOD_CLASSES[x], false, tmp);
-                    Global.getSector().addMessage("Found restricted class "
-                            + CHEAT_MOD_CLASSES[x]);
-                    //return true;
-                }
-                catch (ClassNotFoundException ex)
-                {
-                }
-            }
-        }
-
-        if (validateStats)
-        {
-            float skillPoints, aptitudePoints, level;
-            MutableCharacterStatsAPI player =
-                    Global.getSector().getPlayerFleet().getCommanderStats();
-
-            aptitudePoints = player.getAptitudePoints();
-            for (Iterator aptitudes = APTITUDE_IDS.iterator(); aptitudes.hasNext();)
-            {
-                aptitudePoints += player.getAptitudeLevel((String) aptitudes.next());
-            }
-
-            skillPoints = player.getSkillPoints();
-            for (Iterator skills = SKILL_IDS.iterator(); skills.hasNext();)
-            {
-                skillPoints += player.getSkillLevel((String) skills.next());
-            }
-
-            level = (skillPoints - 4) / 2;
-
-            float expectedApt = 0, expectedSkill = 0;
-            LevelupPlugin tmp = new LevelupPluginImpl();
-
-            for (int x = 1; x <= level; x++)
-            {
-                expectedApt += tmp.getAptitudePointsAtLevel(x);
-                expectedSkill += tmp.getSkillPointsAtLevel(x);
-            }
-
-            if (expectedApt != aptitudePoints || expectedSkill != skillPoints)
-            {
-                Global.getSector().addMessage("Level: " + level + " |  AP: "
-                        + aptitudePoints + "(" + expectedApt + ") | SP: "
-                        + skillPoints + "(" + expectedSkill + ")");
-                //return true;
-            }
+            return true;
         }
 
         return false;
