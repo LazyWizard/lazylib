@@ -1,3 +1,11 @@
+Added basic cheat detection:
+ - Spawn point method: extend org.lazywizard.lazylib.campaign.CheatDetector
+   and override onCaughtCheating() (the check is done each reload).
+   You can choose what is checked with setAllowDevMode(), setAllowCheatMods()
+   and setValidateStats().
+ - Manual method: call CheatDetector's checkDevMode(), checkCheatMods() and
+   checkStats() methods.
+
 package org.lazywizard.lazylib.campaign;
 
 import com.fs.starfarer.api.Global;
@@ -13,7 +21,8 @@ import java.util.Set;
 
 public abstract class CheatDetector implements SpawnPointPlugin
 {
-    private static final Set APTITUDE_IDS = new HashSet(), SKILL_IDS = new HashSet();
+    private static final Set<String> APTITUDE_IDS = new HashSet();
+    private static final Set<String> SKILL_IDS = new HashSet();
     private static final String[] CHEAT_MOD_CLASSES =
     {
         "data.scripts.console.Console", // Console mod
@@ -112,7 +121,7 @@ public abstract class CheatDetector implements SpawnPointPlugin
 
         level = (skillPoints - 4) / 2;
 
-        float expectedApt = 0, expectedSkill = 0;
+        float expectedApt = 0, expectedSkill = 4;
         LevelupPlugin tmp = new LevelupPluginImpl();
 
         for (int x = 1; x <= level; x++)
