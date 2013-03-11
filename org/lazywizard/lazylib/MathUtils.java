@@ -164,15 +164,13 @@ public class MathUtils
     }
 
     /**
-     * Returns the facing of a {@link Vector2f}.
+     * Clamps an angle within 360 degrees (ex: 400 degrees becomes 40 degrees).
      *
-     * @param vector The vector to get the facing of.
-     * @return The facing (angle) of {@code vector}.
+     * @param angle The angle to be clamped.
+     * @return A value between 0 and 360 degrees.
      */
-    public static float getFacing(Vector2f vector)
+    public static float clampAngle(float angle)
     {
-        double angle = Math.toDegrees(Math.atan2(vector.y, vector.x));
-
         if ((angle < -360) || (angle > 360))
         {
             angle %= 360;
@@ -183,7 +181,18 @@ public class MathUtils
             angle += 360;
         }
 
-        return (float) angle;
+        return angle;
+    }
+
+    /**
+     * Returns the facing of a {@link Vector2f}.
+     *
+     * @param vector The vector to get the facing of.
+     * @return The facing (angle) of {@code vector}.
+     */
+    public static float getFacing(Vector2f vector)
+    {
+        return clampAngle((float) Math.toDegrees(Math.atan2(vector.y, vector.x)));
     }
 
     /**

@@ -332,7 +332,10 @@ public class CombatUtils implements EveryFrameCombatPlugin
     @Override
     public void advance(float amount, List<InputEventAPI> events)
     {
-        combatTime += amount;
+        if (!getCombatEngine().isPaused())
+        {
+            combatTime += amount;
+        }
     }
 
     /**
