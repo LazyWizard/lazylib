@@ -1,6 +1,6 @@
  1.2 (March xx, 2013)
 ======================
-Greatly expanded FleetUtils (equivalent to AIUtils, but for CampaignFleetAPIs)
+Greatly expanded FleetUtils (equivalent to AIUtils but for CampaignFleetAPIs)
 Removed DefenseType for now (it was unused as its associated class was removed)
 
  1.1 (February 27, 2013)
