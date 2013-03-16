@@ -23,7 +23,7 @@ import org.lwjgl.util.vector.Vector2f;
 public class CombatUtils implements EveryFrameCombatPlugin
 {
     private static WeakReference<CombatEngineAPI> engine;
-    private static float combatTime = 0f;
+    private static float combatTime = 0f, combatTimeIncludingPaused = 0f;
 
     /**
      * Returns the currently used {@link CombatEngineAPI}.
@@ -33,6 +33,17 @@ public class CombatUtils implements EveryFrameCombatPlugin
     public static CombatEngineAPI getCombatEngine()
     {
         return engine.get();
+    }
+
+    /**
+     * Returns the length of the current battle, including time spent paused.
+     *
+     * @return The total elapsed time (including time spent paused) for this
+     * combat encounter, in seconds.
+     */
+    public static float getElapsedCombatTimeIncludingPaused()
+    {
+        return combatTimeIncludingPaused;
     }
 
     /**
@@ -332,6 +343,8 @@ public class CombatUtils implements EveryFrameCombatPlugin
     @Override
     public void advance(float amount, List<InputEventAPI> events)
     {
+        combatTimeIncludingPaused += amount;
+
         if (!getCombatEngine().isPaused())
         {
             combatTime += amount;
@@ -346,6 +359,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     {
         CombatUtils.engine = new WeakReference(engine);
         CombatUtils.combatTime = 0f;
+        CombatUtils.combatTimeIncludingPaused = 0f;
     }
 
     protected CombatUtils()
