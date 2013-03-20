@@ -3,6 +3,7 @@ package org.lazywizard.lazylib;
 import com.fs.starfarer.api.combat.BoundsAPI;
 import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 import org.lwjgl.util.vector.Vector2f;
@@ -116,8 +117,8 @@ public class CollisionUtils
     public static boolean getCollides(Vector2f lineStart, Vector2f lineEnd,
             Vector2f center, float radius)
     {
-        if ((new Line(lineStart, lineEnd)).ptSegDist(center.x, center.y)
-                <= radius)
+        if ((new Line2D.Float(lineStart.x, lineStart.y, lineEnd.x,
+                lineEnd.y)).ptSegDist(center.x, center.y) <= radius)
         {
             return true;
         }

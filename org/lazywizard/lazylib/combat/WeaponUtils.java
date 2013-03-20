@@ -4,7 +4,7 @@ import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import org.lazywizard.lazylib.Line;
+import java.awt.geom.Line2D;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -111,8 +111,8 @@ public class WeaponUtils
                 weapon.getArcFacing() - arc);
         Vector2f loc3 = MathUtils.getPointOnCircumference(loc1, weapon.getRange(),
                 weapon.getArcFacing() + arc);
-        Line line1 = new Line(loc1, loc3);
-        Line line2 = new Line(loc2, loc3);
+        Line2D.Float line1 = new Line2D.Float(loc1.x, loc1.y, loc3.x, loc3.y);
+        Line2D.Float line2 = new Line2D.Float(loc2.x, loc2.y, loc3.x, loc3.y);
         float radSquared = entity.getCollisionRadius() * entity.getCollisionRadius();
 
         if (line1.ptLineDistSq(loc.x, loc.y) < radSquared

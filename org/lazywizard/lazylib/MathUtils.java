@@ -217,7 +217,7 @@ public class MathUtils
      */
     public static Vector2f getPointOnCircumference(Vector2f center, float radius, float angle)
     {
-        double rad = Math.toRadians(angle);
+        double rad = Math.toRadians(clampAngle(angle));
 
         return new Vector2f((float) FastTrig.cos(rad) * radius + center.x,
                 (float) FastTrig.sin(rad) * radius + center.y);
