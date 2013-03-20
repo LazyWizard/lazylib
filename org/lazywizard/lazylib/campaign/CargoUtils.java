@@ -2,6 +2,7 @@ package org.lazywizard.lazylib.campaign;
 
 import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.CargoStackAPI;
+import com.fs.starfarer.api.campaign.SectorEntityToken;
 
 /**
  * Contains methods for working with cargo and item stacks.
@@ -22,6 +23,20 @@ public class CargoUtils
             to.addItems(stack.getType(), stack.getData(), stack.getSize());
             stack.getCargo().removeItems(stack.getType(),
                     stack.getData(), stack.getSize());
+        }
+    }
+
+    /**
+     * Moves an entire {@link CargoStackAPI} from its current location to the {@link CargoAPI} of another {@link SectorEntityToken}.
+     *
+     * @param stack The {@link CargoStackAPI} to be moved.
+     * @param to The destination {@link SectorEntityToken}.
+     */
+    public static void moveStack(CargoStackAPI stack, SectorEntityToken to)
+    {
+        if (to != null && to.getCargo() != null)
+        {
+            moveStack(stack, to.getCargo());
         }
     }
 

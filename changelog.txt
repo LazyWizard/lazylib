@@ -1,9 +1,9 @@
- 1.2 (March 19, 2013)
+ 1.2 (March 20, 2013)
 ======================
 Greatly expanded FleetUtils (equivalent to AIUtils but for CampaignFleetAPIs)
 Added clampAngle() to MathUtils (normalizes angle between 0 and 360 degrees)
 Added applyForce() to CombatUtils (basic implementation of Newton's Second Law)
-Removed DefenseType for now (it was unused as its associated class was removed)
+Removed DefenseType and Line classes for now (unused internal data types)
 
  1.1 (February 27, 2013)
 =========================
