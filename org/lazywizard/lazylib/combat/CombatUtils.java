@@ -338,6 +338,47 @@ public class CombatUtils implements EveryFrameCombatPlugin
     }
 
     /**
+     * Apply force to an object. This only uses a barebones implementation of
+     * Newton's Second Law.
+     *
+     * @param entity The {@link CombatEntityAPI} to apply the force to.
+     * @param direction The directional vector of the force (this will automatically be normalized).
+     * @param force How much force to apply.
+     */
+    public static void applyForce(CombatEntityAPI entity, Vector2f direction, float force)
+    {
+        // Filter out forces without a direction
+        if (direction.lengthSquared() == 0)
+        {
+            return;
+        }
+
+        // Avoid divide-by-zero errors...
+        float mass = Math.max(1f, entity.getMass());
+        // Calculate the velocity change and its resulting vector
+        float velChange = force / mass;
+        Vector2f dir = null;
+        direction.normalise(dir);
+        dir.scale(velChange);
+        // Apply our velocity change
+        Vector2f.add(dir, entity.getVelocity(), entity.getVelocity());
+    }
+
+    /**
+     * Apply force to an object. This only uses a barebones implementation of
+     * Newton's Second Law.
+     *
+     * @param entity The {@link CombatEntityAPI} to apply the force to.
+     * @param direction The angle the force will be applied towards.
+     * @param force How much force to apply.
+     */
+    public static void applyForce(CombatEntityAPI entity, float direction, float force)
+    {
+        applyForce(entity, MathUtils.getPointOnCircumference(new Vector2f(0, 0),
+                1f, direction), force);
+    }
+
+    /**
      * Automatically called by the game. Don't call this manually.
      */
     @Override
