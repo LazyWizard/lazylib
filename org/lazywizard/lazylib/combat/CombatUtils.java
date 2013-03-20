@@ -352,6 +352,9 @@ public class CombatUtils implements EveryFrameCombatPlugin
             return;
         }
 
+        // Force is far too weak otherwise
+        force *= 100f;
+
         // Avoid divide-by-zero errors...
         float mass = Math.max(1f, entity.getMass());
         // Calculate the velocity change and its resulting vector
