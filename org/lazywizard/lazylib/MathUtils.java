@@ -1,7 +1,11 @@
 package org.lazywizard.lazylib;
 
 import com.fs.starfarer.api.campaign.SectorEntityToken;
+import com.fs.starfarer.api.combat.BoundsAPI;
+import com.fs.starfarer.api.combat.CollisionClass;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
+import com.fs.starfarer.api.combat.ShieldAPI;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import org.lwjgl.util.vector.Vector2f;
@@ -34,23 +38,25 @@ public class MathUtils
     }
 
     /**
-     * Returns the distance between two {@link CombatEntityAPI}s.
+     * Returns the distance between two {@link CombatEntityAPI}s, including collision radius.
      *
      * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
      */
     public static float getDistance(CombatEntityAPI obj1, CombatEntityAPI obj2)
     {
-        return getDistance(obj1.getLocation(), obj2.getLocation());
+        return Math.max(0f, getDistance(obj1.getLocation(), obj2.getLocation())
+                - (obj1.getCollisionRadius() + obj2.getCollisionRadius()));
     }
 
     /**
-     * Returns the distance between a {@link CombatEntityAPI} and a {@link Vector2f}.
+     * Returns the distance between a {@link CombatEntityAPI} and a {@link Vector2f} (includes collision radius).
      *
      * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
      */
     public static float getDistance(CombatEntityAPI entity, Vector2f vector)
     {
-        return getDistance(entity.getLocation(), vector);
+        return Math.max(0f, getDistance(entity.getLocation(), vector)
+                - entity.getCollisionRadius());
     }
 
     /**
@@ -90,24 +96,62 @@ public class MathUtils
     }
 
     /**
-     * Returns the distance squared between two {@link CombatEntityAPI}s.
+     * Returns the distance squared between two {@link CombatEntityAPI}s (includes collision radii).
      *
      * @see MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     * @deprecated Use {@link MathUtils#getDistance(com.fs.starfarer.api.combat.CombatEntityAPI,
+     * com.fs.starfarer.api.combat.CombatEntityAPI)} instead. With the addition of collision
+     * radius checking, there's no way to avoid calculating the square root.
      */
+    @Deprecated
     public static float getDistanceSquared(CombatEntityAPI obj1, CombatEntityAPI obj2)
     {
-        return getDistanceSquared(obj1.getLocation(), obj2.getLocation());
+        // There's no way to do this while avoiding a sqrt, so might as well...
+        float distance = getDistance(obj1, obj2);
+        return distance * distance;
+        //return getDistanceSquared(obj1.getLocation(), obj2.getLocation());
     }
 
+    /*public static float getDistanceSquared2(CombatEntityAPI obj1, CombatEntityAPI obj2)
+    {
+        //(p-c)^2 + r^2 - 2 * r * (p-c)
+        float a = obj1.getLocation().x - obj2.getLocation().x,
+                b = obj1.getLocation().y - obj2.getLocation().y,
+                rads = obj1.getCollisionRadius() + obj2.getCollisionRadius(),
+                hypot = (float) Math.hypot(a, b);
+        if (hypot == 0)
+        {
+            return 0;
+        }
+
+        return ((a * a) + (b * b)) + rads * rads
+                - (rads * 2) * hypot;
+    }*/
+
     /**
-     * Returns the distance squared between a {@link CombatEntityAPI} and a {@link Vector2f}.
+     * Returns the distance squared between a {@link CombatEntityAPI} and a {@link Vector2f} (includes collision radius).
      *
      * @see MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     * @deprecated Use {@link MathUtils#getDistance(com.fs.starfarer.api.combat.CombatEntityAPI,
+     * org.lwjgl.util.vector.Vector2f)} instead. With the addition of collision
+     * radius checking, there's no way to avoid calculating the square root.
      */
+    @Deprecated
     public static float getDistanceSquared(CombatEntityAPI entity, Vector2f vector)
     {
-        return getDistanceSquared(entity.getLocation(), vector);
+        // There's no way to do this while avoiding a sqrt, so might as well...
+        float distance = getDistance(entity, vector);
+        return distance * distance;
+        //return getDistanceSquared(entity.getLocation(), vector);
     }
+
+    /*public static float getDistanceSquared2(CombatEntityAPI entity, Vector2f vector)
+    {
+        //(p-c)^2 + r^2 - 2 * r * (p-c)
+        float a = entity.getLocation().x - vector.x, b = entity.getLocation().y - vector.y;
+        return ((a * a) + (b * b)) + entity.getCollisionRadius() * entity.getCollisionRadius()
+                - (entity.getCollisionRadius() * 2) * (float) Math.hypot(a, b);
+    }*/
 
     /**
      * Returns the distance squared between two {@link Vector2f}s (avoids a costly sqrt()).
@@ -300,25 +344,299 @@ public class MathUtils
         return CollisionUtils.isPointWithinBounds(point, entity);
     }
 
-    /*public static void main(String[] args)
-     {
-     for (int x = 0; x < 50; x++)
-     {
-     if (x % 5 == 0)
-     {
-     System.out.println();
-     }
+    public static void main(String[] args)
+    {
+        long startTime = System.nanoTime();
+        /*for (int x = 0; x < 50; x++)
+         {
+         if (x % 5 == 0)
+         {
+         System.out.println();
+         }
 
-     System.out.print(MathUtils.getRandomPointInCircle(new Vector2f(100, 0),
-     50).toString() + " ");
-     }
+         System.out.print(MathUtils.getRandomPointInCircle(new Vector2f(100, 0),
+         50).toString() + " ");
+         }
 
-     System.out.println("\n");
+         System.out.println("Time taken: " + (format.format((double) (System.nanoTime() - startTime)
+         / 1000000000d)) + " seconds.");
+         startTime = System.nanoTime();*/
 
-     Vector2f v1 = new Vector2f(5, 15), v2 = new Vector2f(0,-3.5f);
-     System.out.println("Distance: " + getDistance(v1, v2) + " | " + getDistance(v2, v1));
-     System.out.println("Distance squared: " + getDistanceSquared(v1, v2) + " | " + getDistanceSquared(v2, v1));
-     }*/
+        DecimalFormat format = new DecimalFormat("0.00000");
+        final Vector2f loc1 = new Vector2f(5, 15);
+        final Vector2f loc2 = new Vector2f(-5, 300);
+        final float rad1 = 10f;
+        final float rad2 = 15f;
+        CombatEntityAPI v1 = new CombatEntityAPI()
+        {
+            @Override
+            public Vector2f getLocation()
+            {
+                return loc1;
+            }
+
+            @Override
+            public Vector2f getVelocity()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public float getFacing()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setFacing(float facing)
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public float getAngularVelocity()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setAngularVelocity(float angVel)
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public int getOwner()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setOwner(int owner)
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public float getCollisionRadius()
+            {
+                return rad1;
+            }
+
+            @Override
+            public CollisionClass getCollisionClass()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setCollisionClass(CollisionClass collisionClass)
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public float getMass()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setMass(float mass)
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public BoundsAPI getExactBounds()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public ShieldAPI getShield()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public float getHullLevel()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public float getHitpoints()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public float getMaxHitpoints()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        };
+        CombatEntityAPI v2 = new CombatEntityAPI()
+        {
+            @Override
+            public Vector2f getLocation()
+            {
+                return loc2;
+            }
+
+            @Override
+            public Vector2f getVelocity()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public float getFacing()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setFacing(float facing)
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public float getAngularVelocity()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setAngularVelocity(float angVel)
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public int getOwner()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setOwner(int owner)
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public float getCollisionRadius()
+            {
+                return rad2;
+            }
+
+            @Override
+            public CollisionClass getCollisionClass()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setCollisionClass(CollisionClass collisionClass)
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public float getMass()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setMass(float mass)
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public BoundsAPI getExactBounds()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public ShieldAPI getShield()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public float getHullLevel()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public float getHitpoints()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public float getMaxHitpoints()
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        };
+
+        startTime = System.nanoTime();
+        System.out.println("Distance: " + getDistance(v1, loc2) + " ("
+                + v1.getCollisionRadius() + ") | " + getDistance(v1.getLocation(), loc2));
+        System.out.println("Distance squared: " + getDistanceSquared(v1, loc2) + " ("
+                + v1.getCollisionRadius() + ") | " + getDistanceSquared(v1.getLocation(), loc2));
+        System.out.println("Final test: " + getDistance(v1, loc2) + " | " + Math.sqrt(getDistanceSquared(v1, loc2)));
+        System.out.println("Distance to self: "
+                + getDistance(v1.getLocation(), v1.getLocation())
+                + " " + getDistanceSquared(v1.getLocation(), v1.getLocation())
+                + " " + getDistance(v1, v1)
+                + " " + getDistanceSquared(v1, v1));
+        System.out.println("Time taken: " + (format.format((double) (System.nanoTime() - startTime)
+                / 1000000000d)) + " seconds.");
+        startTime = System.nanoTime();
+        System.out.println();
+
+        System.out.println("Distance: " + getDistance(v1, v2) + " ("
+                + v1.getCollisionRadius() + ", " + v2.getCollisionRadius()
+                + ") | " + getDistance(v1.getLocation(), v2.getLocation()));
+        System.out.println("Distance squared: " + getDistanceSquared(v1, v2) + " ("
+                + v1.getCollisionRadius() + ", " + +v2.getCollisionRadius()
+                + ") | " + getDistanceSquared(v1.getLocation(), v2.getLocation()));
+        System.out.println("Final test: " + getDistance(v1, v2) + " | " + Math.sqrt(getDistanceSquared(v1, v2)));
+        System.out.println("Distance to self: "
+                + getDistance(v1.getLocation(), v1.getLocation())
+                + " " + getDistanceSquared(v1.getLocation(), v1.getLocation())
+                + " " + getDistance(v1, v1)
+                + " " + getDistanceSquared(v1, v1));
+        System.out.println("Time taken: " + (format.format((double) (System.nanoTime() - startTime)
+                / 1000000000d)) + " seconds.");
+        startTime = System.nanoTime();
+        System.out.println();
+
+        /*System.out.println("Distance: " + getDistance(v1, v2) + " ("
+                + v1.getCollisionRadius() + ", " + v2.getCollisionRadius()
+                + ") | " + getDistance(v1.getLocation(), v2.getLocation()));
+        System.out.println("Distance squared: " + getDistanceSquared2(v1, v2) + " ("
+                + v1.getCollisionRadius() + ", " + +v2.getCollisionRadius()
+                + ") | " + getDistanceSquared(v1.getLocation(), v2.getLocation()));
+        System.out.println("Final test: " + getDistance(v1, v2) + " | " + Math.sqrt(getDistanceSquared2(v1, v2)));
+        System.out.println("Distance to self: "
+                + getDistance(v1.getLocation(), v1.getLocation())
+                + " " + getDistanceSquared(v1.getLocation(), v1.getLocation())
+                + " " + getDistance(v1, v1)
+                + " " + getDistanceSquared2(v1, v1));
+        System.out.println("Time taken: " + (format.format((double) (System.nanoTime() - startTime)
+                / 1000000000d)) + " seconds.");*/
+    }
+
     private MathUtils()
     {
     }
