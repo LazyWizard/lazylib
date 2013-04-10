@@ -7,7 +7,7 @@ package org.lazywizard.lazylib;
  */
 public class LazyLib
 {
-    private static final float LIBRARY_VERSION = 1.2f;
+    private static final float LIBRARY_VERSION = 1.3f;
     private static final String GAME_VERSION = "0.54.1a";
 
     /**

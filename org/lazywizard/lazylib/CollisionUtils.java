@@ -140,6 +140,7 @@ public class CollisionUtils
             return MathUtils.isPointWithinCircle(point, entity.getLocation(),
                     entity.getCollisionRadius());
         }
+        
         BoundsAPI bounds = entity.getExactBounds();
         bounds.update(entity.getLocation(), entity.getFacing());
         //Polygon poly = Convert.boundsToPolygon(bounds);

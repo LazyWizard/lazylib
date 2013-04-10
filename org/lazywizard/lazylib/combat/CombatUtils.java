@@ -72,7 +72,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
         for (DamagingProjectileAPI tmp : getCombatEngine().getProjectiles())
         {
-            if (MathUtils.getDistanceSquared(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistanceSquared(tmp, location) <= range)
             {
                 projectiles.add(tmp);
             }
@@ -115,7 +115,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
         for (MissileAPI tmp : getCombatEngine().getMissiles())
         {
-            if (MathUtils.getDistanceSquared(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistanceSquared(tmp, location) <= range)
             {
                 missiles.add(tmp);
             }
@@ -158,12 +158,12 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
         for (ShipAPI tmp : getCombatEngine().getShips())
         {
-            if (tmp.isHulk() || tmp.isShuttlePod())
+            if (tmp.isShuttlePod())
             {
                 continue;
             }
 
-            if (MathUtils.getDistanceSquared(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistanceSquared(tmp, location) <= range)
             {
                 ships.add(tmp);
             }
@@ -206,7 +206,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
         for (CombatEntityAPI tmp : getCombatEngine().getAsteroids())
         {
-            if (MathUtils.getDistanceSquared(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistanceSquared(tmp, location) <= range)
             {
                 asteroids.add(tmp);
             }
@@ -249,7 +249,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
         for (BattleObjectiveAPI tmp : getCombatEngine().getObjectives())
         {
-            if (MathUtils.getDistanceSquared(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistanceSquared(tmp.getLocation(), location) <= range)
             {
                 objectives.add(tmp);
             }
@@ -294,7 +294,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
         for (CombatEntityAPI tmp : getCombatEngine().getShips())
         {
-            if (MathUtils.getDistanceSquared(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistanceSquared(tmp, location) <= range)
             {
                 entities.add(tmp);
             }
@@ -302,7 +302,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
         for (CombatEntityAPI tmp : getCombatEngine().getProjectiles())
         {
-            if (MathUtils.getDistanceSquared(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistanceSquared(tmp, location) <= range)
             {
                 entities.add(tmp);
             }
@@ -310,7 +310,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
         for (CombatEntityAPI tmp : getCombatEngine().getAsteroids())
         {
-            if (MathUtils.getDistanceSquared(location, tmp.getLocation()) <= range)
+            if (MathUtils.getDistanceSquared(tmp, location) <= range)
             {
                 entities.add(tmp);
             }
