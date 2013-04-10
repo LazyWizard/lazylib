@@ -1,6 +1,7 @@
- 1.3 (April xx, 2013)
+ 1.3 (April 10, 2013)
 ======================
 MathUtil's getDistance() methods now include collision radius, if applicable
+Note: this change may alter the behavior of existing scripts!
 
  1.2 (March 20, 2013)
 ======================
