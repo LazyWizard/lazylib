@@ -36,13 +36,14 @@ public class WeaponUtils
                 break;
             case ENERGY:
                 baseDamage *= stats.getEnergyWeaponDamageMult().getModifiedValue();
-                if (weapon.isBeam())
-                {
-                    baseDamage *= stats.getBeamWeaponDamageMult().getModifiedValue();
-                }
                 break;
             case MISSILE:
                 baseDamage *= stats.getMissileWeaponDamageMult().getModifiedValue();
+        }
+
+        if (weapon.isBeam())
+        {
+            baseDamage *= stats.getBeamWeaponDamageMult().getModifiedValue();
         }
 
         return baseDamage;
