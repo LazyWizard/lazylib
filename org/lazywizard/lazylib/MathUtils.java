@@ -226,7 +226,7 @@ public class MathUtils
     /**
      * Returns a point along the circumference of a circle at the given angle.
      *
-     * @param center The center point of the circle.
+     * @param center The center point of the circle (can be null for a 0, 0 origin).
      * @param radius The radius of the circle.
      * @param angle The angle, in degrees, to get the point at.
      * @return A {@link Vector2f} at [@code angle} degrees along the circumference of the given circle.
@@ -235,8 +235,10 @@ public class MathUtils
     {
         double rad = Math.toRadians(clampAngle(angle));
 
-        return new Vector2f((float) FastTrig.cos(rad) * radius + center.x,
-                (float) FastTrig.sin(rad) * radius + center.y);
+        return new Vector2f((float) FastTrig.cos(rad) * radius
+                + (center == null ? 0f : center.x),
+                (float) FastTrig.sin(rad) * radius
+                + (center == null ? 0 : center.y));
     }
 
     /**
@@ -255,7 +257,7 @@ public class MathUtils
     /**
      * Returns a random point inside of a circle with uniform distribution.
      *
-     * @param center The center point of the circle.
+     * @param center The center point of the circle (can be null for a 0, 0 origin).
      * @param radius The radius of the circle.
      * @return A random point inside of the given circle.
      */
@@ -264,15 +266,17 @@ public class MathUtils
         double t = 2 * Math.PI * Math.random(),
                 u = Math.random() + Math.random(),
                 r = (u > 1 ? 2 - u : u);
-        return new Vector2f((float) (r * FastTrig.cos(t)) * radius + center.x,
-                (float) (r * FastTrig.sin(t)) * radius + center.y);
+        return new Vector2f((float) (r * FastTrig.cos(t)) * radius
+                + (center == null ? 0f : center.x),
+                (float) (r * FastTrig.sin(t)) * radius
+                + (center == null ? 0f : center.y));
         //return getRandomPointOnCircumference(center, (float) (radius * Math.random()));
     }
 
     /**
      * Returns an evenly distributed {@link List} of points along a circle's circumference.
      *
-     * @param center The center point of the circle.
+     * @param center The center point of the circle (can be null for a 0, 0 origin).
      * @param radius The radius of the circle.
      * @param numPoints How many points to generate.
      * @param angleOffset The offset angle of the initial point.
