@@ -244,7 +244,7 @@ public class MathUtils
     /**
      * Returns a random point along the circumference of a circle.
      *
-     * @param center The center point of the circle.
+     * @param center The center point of the circle (can be null for a 0, 0 origin).
      * @param radius The radius of the circle.
      * @return A random point along the circumference of the given circle.
      * @see MathUtils#getPointOnCircumference(org.lwjgl.util.vector.Vector2f, float, float)
@@ -301,13 +301,14 @@ public class MathUtils
      * Returns whether a point is within the bounds of a circle or not.
      *
      * @param point The {@link Vector2f} to check.
-     * @param center The center point of the circle.
+     * @param center The center point of the circle (can be null for a 0, 0 origin).
      * @param radius The radius of the circle.
      * @return {@code true} if {@link point} is within the circle, {@code false} otherwise.
      */
     public static boolean isPointWithinCircle(Vector2f point, Vector2f center, float radius)
     {
-        float a = point.x - center.x, b = point.y - center.y;
+        float a = point.x - (center == null ? 0f : center.x),
+                b = point.y - (center == null ? 0f : center.y);
         return (a * a) + (b * b) < (radius * radius);
     }
 
