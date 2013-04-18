@@ -5,6 +5,7 @@ import com.fs.starfarer.api.combat.CollisionClass;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.ShieldAPI;
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import org.lazywizard.lazylib.LazyLib;
@@ -16,6 +17,72 @@ public class FakeEntity implements CombatEntityAPI
     private Object toFollow;
     private Method getLocation;
     private Vector2f location = null;
+
+    public static void main(String[] args)
+    {
+        Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+        int numTests = 10000000;
+        Vector2f vec1 = new Vector2f(5f, 25f);
+        Object obj = new Object()
+        {
+            private Vector2f vec2 = new Vector2f(5f, 25f);
+
+            public Vector2f getLocation()
+            {
+                return vec2;
+            }
+        };
+        FakeEntity fe1 = new FakeEntity(vec1);
+        FakeEntity fe2 = new FakeEntity(obj);
+
+        Method met;
+
+        DecimalFormat format = new DecimalFormat("###,##0.00000000000");
+        System.out.println("Running "
+                + DecimalFormat.getNumberInstance().format(numTests)
+                + " tests at max priority:");
+
+        long startTime = System.nanoTime();
+        for (int x = 0; x < numTests; x++)
+        {
+            fe1.getLocation();
+        }
+        long endTime = System.nanoTime();
+        System.out.println("Time taken (Vector2f):           "
+                + (format.format((double) (endTime - startTime)
+                / 1000000000d)) + " seconds (" + format.format(
+                ((double) (endTime - startTime)
+                / 1000000000d) / (double) numTests) + " avg).");
+        startTime = System.nanoTime();
+        for (int x = 0; x < numTests; x++)
+        {
+            fe2.getLocation();
+        }
+        endTime = System.nanoTime();
+        System.out.println("Time taken (FakeEntity):         "
+                + (format.format((double) (endTime - startTime)
+                / 1000000000d)) + " seconds (" + format.format(
+                ((double) (endTime - startTime)
+                / 1000000000d) / (double) numTests) + " avg).");
+        startTime = System.nanoTime();
+        for (int x = 0; x < numTests; x++)
+        {
+            try
+            {
+                fe2.getClass().getMethod("getLocation", null).invoke(fe2);
+            }
+            catch (Exception ex)
+            {
+                throw new RuntimeException(ex);
+            }
+        }
+        endTime = System.nanoTime();
+        System.out.println("Time taken (FakeEntity nocache): "
+                + (format.format((double) (endTime - startTime)
+                / 1000000000d)) + " seconds (" + format.format(
+                ((double) (endTime - startTime)
+                / 1000000000d) / (double) numTests) + " avg).");
+    }
 
     private FakeEntity()
     {
@@ -39,14 +106,13 @@ public class FakeEntity implements CombatEntityAPI
         {
             try
             {
-                getLocation = toFollow.getClass().getMethod("getLocation",
-                        (Class<?>) null);
+                getLocation = toFollow.getClass().getMethod("getLocation", null);
 
                 if (getLocation.getReturnType() != Vector2f.class)
                 {
                     throw new RuntimeException("Class "
-                        + toFollow.getClass().getSimpleName()
-                        + "'s getLocation() does not return a Vector2f!");
+                            + toFollow.getClass().getSimpleName()
+                            + "'s getLocation() does not return a Vector2f!");
                 }
             }
             catch (NoSuchMethodException ex)
