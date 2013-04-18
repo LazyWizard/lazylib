@@ -7,6 +7,7 @@ package org.lazywizard.lazylib;
  */
 public class LazyLib
 {
+    private static final boolean IS_DEV_BUILD = true;
     private static final float LIBRARY_VERSION = 1.3f;
     private static final String GAME_VERSION = "0.54.1a";
 
@@ -28,6 +29,16 @@ public class LazyLib
     public static String getSupportedGameVersion()
     {
         return GAME_VERSION;
+    }
+
+    /**
+     * Check if this is a dev (beta) build of LazyLib.
+     *
+     * @return {@code true} if this is a beta build of LazyLib, {@code false} otherwise.
+     */
+    public static boolean isDevBuild()
+    {
+        return IS_DEV_BUILD;
     }
 
     /**
