@@ -10,7 +10,9 @@ import org.lwjgl.util.vector.Vector2f;
 
 /**
  * Contains methods that deal with weapons and weapon arcs.
+ *
  * @author LazyWizard
+ * @since 1.0
  */
 public class WeaponUtils
 {
@@ -20,6 +22,7 @@ public class WeaponUtils
      * @param baseDamage The base damage of this weapon.
      * @param weapon The {@link WeaponAPI} to check for bonuses on.
      * @return The actual damage done by {@code weapon} after bonuses are applied.
+     * @since 1.0
      */
     public static float calculateActualDamage(float baseDamage, WeaponAPI weapon)
     {
@@ -54,6 +57,7 @@ public class WeaponUtils
      *
      * @param weapon The weapon to check.
      * @return The actual damage done by {@code weapon} per shot, after bonuses.
+     * @since 1.0
      */
     public static float calculateDamagePerShot(WeaponAPI weapon)
     {
@@ -65,6 +69,7 @@ public class WeaponUtils
      *
      * @param weapon The weapon to check.
      * @return The actual damage done by {@code weapon} per second, after bonuses.
+     * @since 1.0
      */
     public static float calculateDamagePerSecond(WeaponAPI weapon)
     {
@@ -76,6 +81,7 @@ public class WeaponUtils
      *
      * @param weapon The weapon to check.
      * @return The actual damage done by {@code weapon} per burst, after bonuses.
+     * @since 1.0
      */
     public static float calculateDamagePerBurst(WeaponAPI weapon)
     {
@@ -88,6 +94,7 @@ public class WeaponUtils
      * @param entity The {@link CombatEntityAPI} to check if {@code weapon} is aimed at.
      * @param weapon The {@link WeaponAPI} to test against.
      * @return {@code true} if in arc and in range, {@code false} otherwise.
+     * @since 1.0
      */
     public static boolean isWithinArc(CombatEntityAPI entity, WeaponAPI weapon)
     {
@@ -169,6 +176,7 @@ public class WeaponUtils
      * @param weapon The {@link WeaponAPI} to turn.
      * @param aimAt The {@link Vector2f} to aim at.
      * @return The time in seconds it would take to aim {@code weapon}.
+     * @since 1.0
      */
     public static float getTimeToAim(WeaponAPI weapon, Vector2f aimAt)
     {

@@ -14,6 +14,7 @@ import org.lazywizard.lazylib.MathUtils;
  * Contains methods for working with fleets and fleet data.
  *
  * @author LazyWizard
+ * @since 1.0
  */
 public class FleetUtils
 {
@@ -22,6 +23,7 @@ public class FleetUtils
      *
      * @param fleet The {@link CampaignFleetAPI} to be checked.
      * @return {@code true} if {@code fleet} is the player fleet, {@code false} otherwise.
+     * @since 1.0
      */
     public static boolean isPlayer(CampaignFleetAPI fleet)
     {
@@ -38,6 +40,7 @@ public class FleetUtils
      * @param fleet1 The first {@link CampaignFleetAPI} to check.
      * @param fleet2 The second {@link CampaignFleetAPI} to check.
      * @return {@code true} if the fleets are allies, {@code false} otherwise.
+     * @since 1.2
      */
     public static boolean areAllies(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
     {
@@ -49,6 +52,7 @@ public class FleetUtils
      * @param fleet1 The first {@link CampaignFleetAPI} to check.
      * @param fleet2 The second {@link CampaignFleetAPI} to check.
      * @return {@code true} if the fleets are enemies, {@code false} otherwise.
+     * @since 1.2
      */
     public static boolean areEnemies(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
     {
@@ -60,6 +64,7 @@ public class FleetUtils
      * @param fleet1 The first {@link CampaignFleetAPI} to check.
      * @param fleet2 The second {@link CampaignFleetAPI} to check.
      * @return {@code true} if the fleets are neutral, {@code false} otherwise.
+     * @since 1.2
      */
     public static boolean areNeutral(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
     {
@@ -71,6 +76,7 @@ public class FleetUtils
      *
      * @param token The {@link SectorEntityToken} to search around.
      * @return The orbital station closest to {@code token}.
+     * @since 1.2
      */
     public static SectorEntityToken getNearestStation(SectorEntityToken token)
     {
@@ -103,6 +109,7 @@ public class FleetUtils
      *
      * @param fleet The {@link CampaignFleetAPI} to search around.
      * @return The enemy {@link CampaignFleetAPI} closest to {@code fleet}.
+     * @since 1.2
      */
     public static CampaignFleetAPI getNearestEnemyFleet(CampaignFleetAPI fleet)
     {
@@ -135,6 +142,7 @@ public class FleetUtils
      *
      * @param fleet The {@link CampaignFleetAPI} to search around.
      * @return The allied {@link CampaignFleetAPI} closest to {@code fleet}.
+     * @since 1.2
      */
     public static CampaignFleetAPI getNearestAlliedFleet(CampaignFleetAPI fleet)
     {
@@ -167,6 +175,7 @@ public class FleetUtils
      *
      * @param token The {@link SectorEntityToken} to search around.
      * @return The {@link CampaignFleetAPI} closest to {@code token}.
+     * @since 1.2
      */
     public static CampaignFleetAPI getNearestFleet(SectorEntityToken token)
     {
@@ -200,6 +209,7 @@ public class FleetUtils
      * @param fleet The {@link CampaignFleetAPI} to search around.
      * @param sortByDistance Whether to sort the results by distance from {@code fleet}.
      * @return All enemies of {@code fleet} in the system.
+     * @since 1.2
      */
     public static List<CampaignFleetAPI> getEnemyFleetsInSystem(CampaignFleetAPI fleet,
             boolean sortByDistance)
@@ -230,6 +240,7 @@ public class FleetUtils
      * @param fleet The {@link CampaignFleetAPI} to search around.
      * @return All enemies of {@code fleet} in the system.
      * @see FleetUtils#getEnemyFleetsInSystem(com.fs.starfarer.api.campaign.CampaignFleetAPI, boolean)
+     * @since 1.2
      */
     public static List<CampaignFleetAPI> getEnemyFleetsInSystem(CampaignFleetAPI fleet)
     {
@@ -243,6 +254,7 @@ public class FleetUtils
      * @param range How far around {@code fleet} to search.
      * @param sortByDistance Whether to sort the results by distance from {@code fleet}.
      * @return A {@link List} containing all enemy fleets within range.
+     * @since 1.2
      */
     public static List<CampaignFleetAPI> getNearbyEnemyFleets(CampaignFleetAPI fleet,
             float range, boolean sortByDistance)
@@ -274,6 +286,7 @@ public class FleetUtils
      * @param range How far around {@code fleet} to search.
      * @return A {@link List} containing all enemy fleets within range.
      * @see FleetUtils#getNearbyEnemyFleets(com.fs.starfarer.api.campaign.CampaignFleetAPI, float, boolean)
+     * @since 1.2
      */
     public static List<CampaignFleetAPI> getNearbyEnemyFleets(CampaignFleetAPI fleet, float range)
     {
@@ -286,6 +299,7 @@ public class FleetUtils
      * @param fleet The {@link CampaignFleetAPI} to search around.
      * @param sortByDistance Whether to sort the results by distance from {@code fleet}.
      * @return All allies of {@code fleet} in the system.
+     * @since 1.2
      */
     public static List<CampaignFleetAPI> getAlliedFleetsInSystem(CampaignFleetAPI fleet,
             boolean sortByDistance)
@@ -316,6 +330,7 @@ public class FleetUtils
      * @param fleet The {@link CampaignFleetAPI} to search around.
      * @return All allies of {@code fleet} in the system.
      * @see FleetUtils#getAlliedFleetsInSystem(com.fs.starfarer.api.campaign.CampaignFleetAPI, boolean)
+     * @since 1.2
      */
     public static List<CampaignFleetAPI> getAlliedFleetsInSystem(CampaignFleetAPI fleet)
     {
@@ -329,6 +344,7 @@ public class FleetUtils
      * @param range How far around {@code fleet} to search.
      * @param sortByDistance Whether to sort the results by distance from {@code fleet}.
      * @return A {@link List} containing all allied fleets within range.
+     * @since 1.2
      */
     public static List<CampaignFleetAPI> getNearbyAlliedFleets(CampaignFleetAPI fleet,
             float range, boolean sortByDistance)
@@ -360,6 +376,7 @@ public class FleetUtils
      * @param range How far around {@code fleet} to search.
      * @return A {@link List} containing all allied fleets within range.
      * @see FleetUtils#getNearbyAlliedFleets(com.fs.starfarer.api.campaign.CampaignFleetAPI, float, boolean)
+     * @since 1.2
      */
     public static List<CampaignFleetAPI> getNearbyAlliedFleets(CampaignFleetAPI fleet, float range)
     {

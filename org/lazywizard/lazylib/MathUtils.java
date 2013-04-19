@@ -10,6 +10,7 @@ import org.lwjgl.util.vector.Vector2f;
  * Contains methods for working with vectors, angles, distances, and circles.
  *
  * @author LazyWizard
+ * @since 1.0
  */
 public class MathUtils
 {
@@ -17,6 +18,7 @@ public class MathUtils
      * Returns the distance between two {@link SectorEntityToken}s.
      *
      * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     * @since 1.0
      */
     public static float getDistance(SectorEntityToken token1, SectorEntityToken token2)
     {
@@ -27,6 +29,7 @@ public class MathUtils
      * Returns the distance between a {@link SectorEntityToken} and a {@link Vector2f).
      *
      * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     * @since 1.1
      */
     public static float getDistance(SectorEntityToken token, Vector2f vector)
     {
@@ -37,6 +40,7 @@ public class MathUtils
      * Returns the distance between two {@link CombatEntityAPI}s, including collision radius.
      *
      * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     * @since 1.0
      */
     public static float getDistance(CombatEntityAPI obj1, CombatEntityAPI obj2)
     {
@@ -48,6 +52,7 @@ public class MathUtils
      * Returns the distance between a {@link CombatEntityAPI} and a {@link Vector2f} (includes collision radius).
      *
      * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     * @since 1.0
      */
     public static float getDistance(CombatEntityAPI entity, Vector2f vector)
     {
@@ -63,6 +68,7 @@ public class MathUtils
      * org.lwjgl.util.vector.Vector2f)}.
      *
      * @return The distance between the two vectors.
+     * @since 1.0
      */
     public static float getDistance(Vector2f vector1, Vector2f vector2)
     {
@@ -75,6 +81,7 @@ public class MathUtils
      * Returns the distance squared between two {@link SectorEntityToken}s.
      *
      * @see MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     * @since 1.0
      */
     public static float getDistanceSquared(SectorEntityToken token1, SectorEntityToken token2)
     {
@@ -85,6 +92,7 @@ public class MathUtils
      * Returns the distance squared between a {@link SectorEntityToken} and a {@link Vector2f).
      *
      * @see MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     * @since 1.1
      */
     public static float getDistanceSquared(SectorEntityToken token, Vector2f vector)
     {
@@ -98,6 +106,7 @@ public class MathUtils
      * @deprecated Use {@link MathUtils#getDistance(com.fs.starfarer.api.combat.CombatEntityAPI,
      * com.fs.starfarer.api.combat.CombatEntityAPI)} instead. With the addition of collision
      * radius checking, there's no way to avoid calculating the square root.
+     * @since 1.0
      */
     @Deprecated
     public static float getDistanceSquared(CombatEntityAPI obj1, CombatEntityAPI obj2)
@@ -115,6 +124,7 @@ public class MathUtils
      * @deprecated Use {@link MathUtils#getDistance(com.fs.starfarer.api.combat.CombatEntityAPI,
      * org.lwjgl.util.vector.Vector2f)} instead. With the addition of collision
      * radius checking, there's no way to avoid calculating the square root.
+     * @since 1.0
      */
     @Deprecated
     public static float getDistanceSquared(CombatEntityAPI entity, Vector2f vector)
@@ -133,6 +143,7 @@ public class MathUtils
      * org.lwjgl.util.vector.Vector2f)}.
      *
      * @return The distance squared between the two vectors.
+     * @since 1.0
      */
     public static float getDistanceSquared(Vector2f vector1, Vector2f vector2)
     {
@@ -146,6 +157,7 @@ public class MathUtils
      * @param source The origin of the vector.
      * @param destination The location to point at.
      * @return A normalized {@link Vector2f} pointing at {@code destination}.
+     * @since 1.0
      */
     public static Vector2f getDirectionalVector(Vector2f source, Vector2f destination)
     {
@@ -163,6 +175,7 @@ public class MathUtils
      * Returns a normalized {@link Vector2f} pointing from {@code source} to {@code destination}.
      *
      * @see MathUtils#getDirectionalVector(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     * @since 1.0
      */
     public static Vector2f getDirectionalVector(CombatEntityAPI source, Vector2f destination)
     {
@@ -173,6 +186,7 @@ public class MathUtils
      * Returns a normalized {@link Vector2f} pointing from {@code source} to {@code destination}.
      *
      * @see MathUtils#getDirectionalVector(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     * @since 1.0
      */
     public static Vector2f getDirectionalVector(CombatEntityAPI source, CombatEntityAPI destination)
     {
@@ -184,6 +198,7 @@ public class MathUtils
      *
      * @param angle The angle to be clamped.
      * @return A value between 0 and 360 degrees.
+     * @since 1.2
      */
     public static float clampAngle(float angle)
     {
@@ -205,6 +220,7 @@ public class MathUtils
      *
      * @param vector The vector to get the facing of.
      * @return The facing (angle) of {@code vector}.
+     * @since 1.0
      */
     public static float getFacing(Vector2f vector)
     {
@@ -217,6 +233,7 @@ public class MathUtils
      * @param from The source {@link Vector2f}.
      * @param to The {@link Vector2f} to get the angle to.
      * @return The angle from {@code from} to {@code to}.
+     * @since 1.0
      */
     public static float getAngle(Vector2f from, Vector2f to)
     {
@@ -230,6 +247,7 @@ public class MathUtils
      * @param radius The radius of the circle.
      * @param angle The angle, in degrees, to get the point at.
      * @return A {@link Vector2f} at [@code angle} degrees along the circumference of the given circle.
+     * @since 1.0
      */
     public static Vector2f getPointOnCircumference(Vector2f center, float radius, float angle)
     {
@@ -248,6 +266,7 @@ public class MathUtils
      * @param radius The radius of the circle.
      * @return A random point along the circumference of the given circle.
      * @see MathUtils#getPointOnCircumference(org.lwjgl.util.vector.Vector2f, float, float)
+     * @since 1.0
      */
     public static Vector2f getRandomPointOnCircumference(Vector2f center, float radius)
     {
@@ -260,6 +279,7 @@ public class MathUtils
      * @param center The center point of the circle (can be null for a 0, 0 origin).
      * @param radius The radius of the circle.
      * @return A random point inside of the given circle.
+     * @since 1.0
      */
     public static Vector2f getRandomPointInCircle(Vector2f center, float radius)
     {
@@ -281,6 +301,7 @@ public class MathUtils
      * @param numPoints How many points to generate.
      * @param angleOffset The offset angle of the initial point.
      * @return A {@link List} of {@link Vector2f}s that are evenly distributed along the circle's circumference.
+     * @since 1.0
      */
     public static List<Vector2f> getPointsAlongCircumference(Vector2f center, float radius, int numPoints, float angleOffset)
     {
@@ -304,6 +325,7 @@ public class MathUtils
      * @param center The center point of the circle (can be null for a 0, 0 origin).
      * @param radius The radius of the circle.
      * @return {@code true} if {@link point} is within the circle, {@code false} otherwise.
+     * @since 1.0
      */
     public static boolean isPointWithinCircle(Vector2f point, Vector2f center, float radius)
     {
@@ -314,6 +336,7 @@ public class MathUtils
 
     /**
      * @deprecated Use {@link CollisionUtils#isPointWithinBounds(org.lwjgl.util.vector.Vector2f, com.fs.starfarer.api.combat.CombatEntityAPI)} instead.
+     * @since 1.0
      */
     @Deprecated
     public static boolean isPointWithinBounds(Vector2f point, CombatEntityAPI entity)

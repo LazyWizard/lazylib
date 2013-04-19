@@ -12,6 +12,7 @@ import org.lwjgl.util.vector.Vector2f;
  * Contains methods for working with bounds and collision detection.
  *
  * @author LazyWizard
+ * @since 1.0
  */
 public class CollisionUtils
 {
@@ -22,6 +23,7 @@ public class CollisionUtils
      * @param lineStart The start of the line to test collision with.
      * @param lineEnd The end of the line to test collision with.
      * @return The {@link Vector2f} of the point the line would hit at, or null if it doesn't hit.
+     * @since 1.0
      */
     public static Vector2f getCollisionPoint(Vector2f lineStart, Vector2f lineEnd, CombatEntityAPI target)
     {
@@ -73,6 +75,7 @@ public class CollisionUtils
      * @param start2 The start of the second line to test collision with.
      * @param end2 The end of the second line to test collision with.
      * @return The {@link Vector2f} that the two lines intersect at, null if they don't collide.
+     * @since 1.0
      */
     public static Vector2f getCollisionPoint(Vector2f start1, Vector2f end1, Vector2f start2, Vector2f end2)
     {
@@ -113,6 +116,7 @@ public class CollisionUtils
      * @param center The center point of the circle.
      * @param radius The radius of the circle.
      * @return {@code true} if the line collides with the circle, {@code false} otherwise.
+     * @since 1.0
      */
     public static boolean getCollides(Vector2f lineStart, Vector2f lineEnd,
             Vector2f center, float radius)
@@ -132,6 +136,7 @@ public class CollisionUtils
      * @param point The {@link Vector2f} to check.
      * @param entity The {@link CombatEntityAPI} whose {@link BoundsAPI} we are checking against.
      * @return {@code true} if {@link point} is within the bounds of {@code entity}, {@code false} otherwise.
+     * @since 1.0
      */
     public static boolean isPointWithinBounds(Vector2f point, CombatEntityAPI entity)
     {
@@ -140,7 +145,7 @@ public class CollisionUtils
             return MathUtils.isPointWithinCircle(point, entity.getLocation(),
                     entity.getCollisionRadius());
         }
-        
+
         BoundsAPI bounds = entity.getExactBounds();
         bounds.update(entity.getLocation(), entity.getFacing());
         //Polygon poly = Convert.boundsToPolygon(bounds);
