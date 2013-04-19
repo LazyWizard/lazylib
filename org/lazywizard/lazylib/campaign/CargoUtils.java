@@ -6,7 +6,9 @@ import com.fs.starfarer.api.campaign.SectorEntityToken;
 
 /**
  * Contains methods for working with cargo and item stacks.
+ *
  * @author LazyWizard
+ * @since 1.0
  */
 public class CargoUtils
 {
@@ -15,6 +17,7 @@ public class CargoUtils
      *
      * @param stack The {@link CargoStackAPI} to be moved.
      * @param to The destination {@link CargoAPI}.
+     * @since 1.0
      */
     public static void moveStack(CargoStackAPI stack, CargoAPI to)
     {
@@ -31,6 +34,7 @@ public class CargoUtils
      *
      * @param stack The {@link CargoStackAPI} to be moved.
      * @param to The destination {@link SectorEntityToken}.
+     * @since 1.2
      */
     public static void moveStack(CargoStackAPI stack, SectorEntityToken to)
     {
@@ -46,6 +50,7 @@ public class CargoUtils
      * @param from The {@link CargoAPI} to be emptied.
      * @param to The destination {@link CargoAPI}.
      * @see CargoUtils#moveStack(com.fs.starfarer.api.campaign.CargoStackAPI, com.fs.starfarer.api.campaign.CargoAPI)
+     * @since 1.0
      */
     public static void moveCargo(CargoAPI from, CargoAPI to)
     {
@@ -60,6 +65,7 @@ public class CargoUtils
      *
      * @param cargo The {@link CargoAPI} to analyze.
      * @return The amount of space taken by weapons in {@code cargo}.
+     * @since 1.0
      */
     public static float getSpaceTakenByWeapons(CargoAPI cargo)
     {
@@ -81,6 +87,7 @@ public class CargoUtils
      *
      * @param cargo The {@link CargoAPI} to analyze.
      * @return The amount of space taken by crew in {@code cargo}.
+     * @since 1.0
      */
     public static float getSpaceTakenByCrew(CargoAPI cargo)
     {
@@ -102,6 +109,7 @@ public class CargoUtils
      *
      * @param cargo The {@link CargoAPI} to analyze.
      * @return The amount of space taken by supplies in {@code cargo}.
+     * @since 1.0
      */
     public static float getSpaceTakenBySupplies(CargoAPI cargo)
     {
@@ -123,6 +131,7 @@ public class CargoUtils
      *
      * @param cargo The {@link CargoAPI} to analyze.
      * @return The amount of space taken by fuel in {@code cargo}.
+     * @since 1.0
      */
     public static float getSpaceTakenByFuel(CargoAPI cargo)
     {
@@ -144,6 +153,7 @@ public class CargoUtils
      *
      * @param cargo The {@link CargoAPI} to analyze.
      * @return The amount of space taken by resource stacks in {@code cargo}.
+     * @since 1.0
      */
     public static float getSpaceTakenByResources(CargoAPI cargo)
     {
@@ -165,6 +175,7 @@ public class CargoUtils
      *
      * @param cargo The {@link CargoAPI} to analyze.
      * @return The amount of space used in {@code cargo}.
+     * @since 1.2
      */
     public static float getSpaceTakenByCargo(CargoAPI cargo)
     {

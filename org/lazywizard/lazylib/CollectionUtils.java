@@ -28,6 +28,7 @@ public class CollectionUtils
      * The value is the weight, in float form, of that item being chosen.
      * @param numToPick How many items to choose from {@code pickFrom}'s keys.
      * @return A {@link List} containing the subset of {@code pickFrom} chosen.
+     * @since 1.0
      */
     public static <T> List<T> weightedRandom(Map<T, Float> pickFrom, int numToPick)
     {
@@ -69,6 +70,7 @@ public class CollectionUtils
      * @param pickFrom A {@link Map} of items to choose from.
      * The value is the weight, in float form, of that item being chosen.
      * @return A single item chosen from {@code pickFrom}'s keys.
+     * @since 1.0
      */
     public static <T> T weightedRandom(Map<T, Float> pickFrom)
     {
@@ -105,6 +107,7 @@ public class CollectionUtils
      * @param separator The separator character to split {@code toImplode} with.
      * @return A single {@link String} consisting of {@code toImplode}'s values
      * separated with {@code separator}.
+     * @since 1.0
      */
     public static String implode(Collection<String> toImplode, String separator)
     {
@@ -136,6 +139,7 @@ public class CollectionUtils
      * @return A single {@link String} consisting of {@code toImplode}'s values
      * separated with commas.
      * @see CollectionUtils#implode(java.util.Collection, java.lang.String)
+     * @since 1.0
      */
     public static String implode(Collection<String> toImplode)
     {
@@ -144,6 +148,7 @@ public class CollectionUtils
 
     /**
      * A {@link Comparator} that sorts {@link CombatEntityAPI}s by distance from a {@link Vector2f}.
+     * @since 1.1
      */
     public static class SortEntitiesByDistance implements Comparator<CombatEntityAPI>
     {
@@ -155,6 +160,7 @@ public class CollectionUtils
 
         /**
          * @param location The central location to judge distance from.
+         * @since 1.1
          */
         public SortEntitiesByDistance(Vector2f location)
         {
@@ -168,6 +174,7 @@ public class CollectionUtils
          * @param o2 The second {@link CombatEntityAPI}.
          * @return A comparison of the distances of {@code o1} and {@code o2}
          * from {@code location}.
+         * @since 1.1
          */
         @Override
         public int compare(CombatEntityAPI o1, CombatEntityAPI o2)
@@ -179,6 +186,7 @@ public class CollectionUtils
 
     /**
      * A {@link Comparator} that sorts {@link SectorEntityToken}s by distance from a {@link Vector2f}.
+     * @since 1.1
      */
     public static class SortTokensByDistance implements Comparator<SectorEntityToken>
     {
@@ -190,6 +198,7 @@ public class CollectionUtils
 
         /**
          * @param location The central location to judge distance from.
+         * @since 1.1
          */
         public SortTokensByDistance(Vector2f location)
         {
@@ -203,6 +212,7 @@ public class CollectionUtils
          * @param o2 The second {@link SectorEntityToken}.
          * @return A comparison of the distances of {@code o1} and {@code o2}
          * from {@code location}.
+         * @since 1.1
          */
         @Override
         public int compare(SectorEntityToken o1, SectorEntityToken o2)
@@ -214,6 +224,7 @@ public class CollectionUtils
 
     /**
      * A {@link Comparator} that sorts {@link BattleObjectiveAPI}s by distance from a {@link Vector2f}.
+     * @since 1.1
      */
     public static class SortObjectivesByDistance implements Comparator<BattleObjectiveAPI>
     {
@@ -225,6 +236,7 @@ public class CollectionUtils
 
         /**
          * @param location The central location to judge distance from.
+         * @since 1.1
          */
         public SortObjectivesByDistance(Vector2f location)
         {
@@ -238,6 +250,7 @@ public class CollectionUtils
          * @param o2 The second {@link BattleObjectiveAPI}.
          * @return A comparison of the distances of {@code o1} and {@code o2}
          * from {@code location}.
+         * @since 1.1
          */
         @Override
         public int compare(BattleObjectiveAPI o1, BattleObjectiveAPI o2)

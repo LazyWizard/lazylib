@@ -4,7 +4,9 @@ import com.fs.starfarer.api.Global;
 
 /**
  * Allows formatted, multi-line, word-wrapped sector messages
+ *
  * @author LazyWizard
+ * @since 1.0
  */
 public class MessageUtils
 {
@@ -17,6 +19,7 @@ public class MessageUtils
      * @param preamble The header for this message, won't be indented.
      * @param message The main body of text.
      * @param indent Whether to indent each line of the main body.
+     * @since 1.0
      */
     public static void showMessage(String preamble,
             String message, boolean indent)
@@ -97,6 +100,7 @@ public class MessageUtils
      * Formats and word-wraps the supplied text, then outputs it to the player.
      *
      * @param message The message to output.
+     * @since 1.0
      */
     public static void showMessage(String message)
     {

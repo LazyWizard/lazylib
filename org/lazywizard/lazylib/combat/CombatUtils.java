@@ -18,7 +18,9 @@ import org.lwjgl.util.vector.Vector2f;
 
 /**
  * Contains methods that deal with the battle map in general.
+ *
  * @author LazyWizard
+ * @since 1.0
  */
 public class CombatUtils implements EveryFrameCombatPlugin
 {
@@ -29,6 +31,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
      * Returns the currently used {@link CombatEngineAPI}.
      *
      * @return The {@link CombatEngineAPI} used by the current battle.
+     * @since 1.0
      */
     public static CombatEngineAPI getCombatEngine()
     {
@@ -40,6 +43,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
      *
      * @return The total elapsed time (including time spent paused) for this
      * combat encounter, in seconds.
+     * @since 1.2
      */
     public static float getElapsedCombatTimeIncludingPaused()
     {
@@ -50,6 +54,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
      * Returns the length of the current battle.
      *
      * @return The total elapsed time for this combat encounter, in seconds.
+     * @since 1.0
      */
     public static float getElapsedCombatTime()
     {
@@ -63,6 +68,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
      * @param range How far around {@code location} to search.
      * @param sortByDistance Whether to sort the results by distance from {@code location}.
      * @return A {@link List} of {@link DamagingProjectileAPI}s within range of {@code location}.
+     * @since 1.1
      */
     public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
@@ -93,6 +99,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
      * @param range How far around {@code location} to search.
      * @return A {@link List} of {@link DamagingProjectileAPI}s within range of {@code location}.
      * @see CombatUtils#getProjectilesWithinRange(org.lwjgl.util.vector.Vector2f, float, boolean)
+     * @since 1.0
      */
     public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location, float range)
     {
@@ -106,6 +113,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
      * @param range How far around {@code location} to search.
      * @param sortByDistance Whether to sort the results by distance from {@code location}.
      * @return A {@link List} of {@link MissileAPI}s within range of {@code location}.
+     * @since 1.1
      */
     public static List<MissileAPI> getMissilesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
@@ -136,6 +144,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
      * @param range How far around {@code location} to search.
      * @return A {@link List} of {@link MissileAPI}s within range of {@code location}.
      * @see CombatUtils#getMissilesWithinRange(org.lwjgl.util.vector.Vector2f, float, boolean)
+     * @since 1.0
      */
     public static List<MissileAPI> getMissilesWithinRange(Vector2f location, float range)
     {
@@ -149,6 +158,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
      * @param range How far around {@code location} to search.
      * @param sortByDistance Whether to sort the results by distance from {@code location}.
      * @return A {@link List} of {@link ShipAPI}s within range of {@code location}.
+     * @since 1.1
      */
     public static List<ShipAPI> getShipsWithinRange(Vector2f location,
             float range, boolean sortByDistance)
@@ -184,6 +194,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
      * @param range How far around {@code location} to search.
      * @return A {@link List} of {@link ShipAPI}s within range of {@code location}.
      * @see CombatUtils#getShipsWithinRange(org.lwjgl.util.vector.Vector2f, float, boolean)
+     * @since 1.0
      */
     public static List<ShipAPI> getShipsWithinRange(Vector2f location, float range)
     {
@@ -197,6 +208,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
      * @param range How far around {@code location} to search.
      * @param sortByDistance Whether to sort the results by distance from {@code location}.
      * @return A {@link List} of asteroids within range of {@code location}.
+     * @since 1.1
      */
     public static List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location,
             float range, boolean sortByDistance)
@@ -227,6 +239,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
      * @param range How far around {@code location} to search.
      * @return A {@link List} of asteroids within range of {@code location}.
      * @see CombatUtils#getAsteroidsWithinRange(org.lwjgl.util.vector.Vector2f, float, boolean)
+     * @since 1.0
      */
     public static List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location, float range)
     {
@@ -240,6 +253,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
      * @param range How far around {@code location} to search.
      * @param sortByDistance Whether to sort the results by distance from {@code location}.
      * @return A {@link List} of {@link BattleObjectiveAPI}s within range of {@code location}.
+     * @since 1.1
      */
     public static List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
@@ -271,6 +285,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
      * @param range How far around {@code location} to search.
      * @return A {@link List} of {@link BattleObjectiveAPI}s within range of {@code location}.
      * @see CombatUtils#getObjectivesWithinRange(org.lwjgl.util.vector.Vector2f, float, boolean)
+     * @since 1.0
      */
     public static List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location,
             float range)
@@ -285,6 +300,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
      * @param range How far around {@code location} to search.
      * @param sortByDistance Whether to sort the results by distance from {@code location}.
      * @return A {@link List} of {@link CombatEntityAPI}s within range of {@code location}.
+     * @since 1.1
      */
     public static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
@@ -331,6 +347,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
      * @param range How far around {@code location} to search.
      * @return A {@link List} of {@link CombatEntityAPI}s within range of {@code location}.
      * @see CombatUtils#getEntitiesWithinRange(org.lwjgl.util.vector.Vector2f, float, boolean)
+     * @since 1.0
      */
     public static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location, float range)
     {
@@ -343,6 +360,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
      * @param entity The {@link CombatEntityAPI} to apply the force to.
      * @param direction The directional vector of the force (this will automatically be normalized).
      * @param force How much force to apply.
+     * @since 1.2
      */
     public static void applyForce(CombatEntityAPI entity, Vector2f direction, float force)
     {
@@ -372,6 +390,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
      * @param entity The {@link CombatEntityAPI} to apply the force to.
      * @param direction The angle the force will be applied towards.
      * @param force How much force to apply.
+     * @since 1.2
      */
     public static void applyForce(CombatEntityAPI entity, float direction, float force)
     {
