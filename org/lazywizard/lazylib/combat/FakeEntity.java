@@ -10,12 +10,93 @@ import java.util.Map;
 import org.lazywizard.lazylib.LazyLib;
 import org.lwjgl.util.vector.Vector2f;
 
+/**
+ * A bare-bones implementation of {@link CombatEntityAPI}, mostly useful for EMP arcs.
+ *
+ * @author LazyWizard
+ */
 public class FakeEntity implements CombatEntityAPI
 {
     private static final Map<Class, Method> methodCache = new HashMap();
     private Object toFollow;
     private Method getLocation;
     private Vector2f location = null;
+
+    /*public static void main(String[] args)
+    {
+        Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+        int numTests = 10000000;
+        long startTime, endTime;
+        Vector2f vec1;
+        FakeEntity fe1, fe2;
+        double totalTime, total1, total2, total3;
+        Object obj = new Object()
+        {
+            private Vector2f vec2 = new Vector2f(5f, 25f);
+
+            public Vector2f getLocation()
+            {
+                return vec2;
+            }
+        };
+
+        java.util.DecimalFormat format = new java.util.DecimalFormat("###,##0.00000000000");
+        System.out.println("Running "
+                + DecimalFormat.getNumberInstance().format(numTests)
+                + " tests at max priority:");
+
+        startTime = System.nanoTime();
+        vec1 = new Vector2f(5f, 25f);
+        fe1 = new FakeEntity(vec1);
+        for (int x = 0; x < numTests; x++)
+        {
+            fe1.getLocation();
+        }
+        endTime = System.nanoTime();
+        totalTime = (double) (endTime - startTime) / 1000000000d;
+        total1 = totalTime;
+        System.out.println("Time taken (Vector2f):           "
+                + format.format(totalTime) + " seconds (" + format.format(
+                totalTime / (double) numTests) + " avg).");
+
+        startTime = System.nanoTime();
+        fe2 = new FakeEntity(obj);
+        for (int x = 0; x < numTests; x++)
+        {
+            fe2.getLocation();
+        }
+        endTime = System.nanoTime();
+        totalTime = (double) (endTime - startTime) / 1000000000d;
+        total2 = totalTime;
+        System.out.println("Time taken (FakeEntity cached):  "
+                + format.format(totalTime) + " seconds (" + format.format(
+                totalTime / (double) numTests) + " avg).");
+
+        startTime = System.nanoTime();
+        for (int x = 0; x < numTests; x++)
+        {
+            try
+            {
+                fe2.getClass().getMethod("getLocation", (Class<?>[]) null).invoke(fe2);
+            }
+            catch (Exception ex)
+            {
+                throw new RuntimeException(ex);
+            }
+        }
+        endTime = System.nanoTime();
+        totalTime = (double) (endTime - startTime) / 1000000000d;
+        total3 = totalTime;
+        System.out.println("Time taken (FakeEntity nocache): "
+                + format.format(totalTime) + " seconds (" + format.format(
+                totalTime / (double) numTests) + " avg).");
+
+        System.out.println("\nFinal report:\nFakeEntity with cache is "
+                + (int) (total2 / total1) + " times slower than Vector2f.\n"
+                + "FakeEntity without cache is " + (int) ((total3 / total1) + .5)
+                + " times slower than Vector2f.\nCached FakeEntity is "
+                + (int) ((total3 / total2) + .5) + " times faster than uncached.");
+    }*/
 
     private FakeEntity()
     {
@@ -39,7 +120,8 @@ public class FakeEntity implements CombatEntityAPI
         {
             try
             {
-                getLocation = toFollow.getClass().getMethod("getLocation", null);
+                getLocation = toFollow.getClass().getMethod("getLocation",
+                        (Class<?>[]) null);
 
                 if (getLocation.getReturnType() != Vector2f.class)
                 {
