@@ -1,11 +1,18 @@
  1.4 (April xx, 2013)
 ======================
+Added @since annotations (useful for finding the lowest library version needed)
 MathUtil's circle-based methods can now use a null center point for a 0,0 center
+Added FakeEntity class (barebones implementation of CombatEntityAPI):
+ - Useful for spawnEmpArc(), which can target a CombatEntityAPI
+ - Has a constructor that takes a Vector2f, for a static location
+ - Can also take an Object that has a getLocation() method, for mobile targets
+   (useful for targeting a specific WeaponAPI). This uses reflection!
 
  1.3 (April 10, 2013)
 ======================
 MathUtil's getDistance() methods now include collision radius, if applicable
 Note: this change may alter the behavior of existing scripts!
+Use the getDistance() methods that take two Vector2f for the old behavior
 
  1.2 (March 20, 2013)
 ======================
