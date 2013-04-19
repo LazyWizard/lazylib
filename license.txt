@@ -1,4 +1,4 @@
-The FastTrig class in this package is taken from the Slick2D library.
+The FastTrig class used in this mod is taken from the Slick2D library.
 
 Copyright (c) 2007, Slick 2D
 All rights reserved.

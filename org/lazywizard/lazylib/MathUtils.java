@@ -4,6 +4,7 @@ import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -14,6 +15,8 @@ import org.lwjgl.util.vector.Vector2f;
  */
 public class MathUtils
 {
+    private static final Random rng = new Random();
+
     /**
      * Returns the distance between two {@link SectorEntityToken}s.
      *
@@ -332,6 +335,19 @@ public class MathUtils
         float a = point.x - (center == null ? 0f : center.x),
                 b = point.y - (center == null ? 0f : center.y);
         return (a * a) + (b * b) < (radius * radius);
+    }
+
+    /**
+     * Returns a random number within a given range.
+     *
+     * @param min The minimum value to select.
+     * @param max The maximum value to select.
+     * @return A random {@link Float} between {@code min} and {@code max}.
+     * @since 1.4
+     */
+    public static float getRandomNumberInRange(float min, float max)
+    {
+        return rng.nextFloat() * (max - min) + min;
     }
 
     /**
