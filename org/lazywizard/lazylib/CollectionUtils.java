@@ -16,6 +16,7 @@ import org.lwjgl.util.vector.Vector2f;
  * Contains methods for working with Collections.
  *
  * @author LazyWizard
+ * @since 1.0
  */
 public class CollectionUtils
 {

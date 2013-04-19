@@ -4,6 +4,7 @@ package org.lazywizard.lazylib;
  * Contains information on the current version of LazyLib.
  *
  * @author LazyWizard
+ * @since 1.1
  */
 public class LazyLib
 {
