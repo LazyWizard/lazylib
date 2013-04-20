@@ -1,7 +1,10 @@
  1.4 (April xx, 2013)
 ======================
 Added @since annotations (useful for finding the lowest library version needed)
-MathUtil's circle-based methods can now use a null center point for a 0,0 center
+MathUtil's circle-based methods can now pass in a null center for a 0, 0 origin
+Added AnimatedWeapon class:
+ - Used for weapons that only animate when firing
+ - Can set a custom framerate and tell it to pause on certain frames
 Added FakeEntity class (barebones implementation of CombatEntityAPI):
  - Useful for spawnEmpArc(), which can target a CombatEntityAPI
  - Has a constructor that takes a Vector2f, for a static location
