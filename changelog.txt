@@ -1,11 +1,29 @@
  1.4 (April xx, 2013)
 ======================
 Added @since annotations (useful for finding the lowest library version needed)
-MathUtil's circle-based methods can now pass in a null center for a 0, 0 origin
-Added AnimatedWeapon class:
+XMinor math optimizations to deal with the changes made in the 1.3 update
+Changes to MathUtils:
+ - Circle-based methods can now pass in a null center for a 0, 0 origin
+ - Added getRandomNumberInRange(float min, float max)
+Changes to AIUtils:
+ - Added getNearestMissile(CombatEntityAPI entity)
+ - Added getNearestEnemyMissile(CombatEntityAPI entity)
+ - Added getEnemyMissilesOnMap(CombatEntityAPI entity, [boolean sortByDistance])
+ - Added getNearbyEnemyMissiles(CombatEntityAPI entity, float range,
+      [boolean sortByDistance])
+Changes to WeaponUtils:
+ - Added getEnemyMissilesInRange(WeaponAPI weapon, [boolean sortByDistance])
+ - Added aimTowardsPoint(WeaponAPI weapon, Vector2f point, float time)
+XAdded KeyHandler class (abstract, must be subclassed):
+X - Can see what keys were pressed or released this frame
+X - Can get a list of all keys that are currently pressed
+X - Can check how long a key has been pressed for
+Added AnimatedWeapon class (abstract, must be subclassed):
  - Used for weapons that only animate when firing
  - Can set a custom framerate and tell it to pause on certain frames
-Added FakeEntity class (barebones implementation of CombatEntityAPI):
+X - Can change what frames will be played
+X - Can set custom frames to be played when disabled, charging, etc
+Added SimpleEntity class (barebones implementation of CombatEntityAPI):
  - Useful for spawnEmpArc(), which can target a CombatEntityAPI
  - Has a constructor that takes a Vector2f, for a static location
  - Can also take an Object that has a getLocation() method, for mobile targets

@@ -3,6 +3,7 @@ package org.lazywizard.lazylib.combat;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.FluxTrackerAPI;
+import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import java.util.ArrayList;
@@ -127,6 +128,38 @@ public class AIUtils
         for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
         {
             if (tmp == entity || tmp.isHulk() || tmp.isShuttlePod())
+            {
+                continue;
+            }
+
+            distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
+                    entity.getLocation());
+
+            if (distanceSquared < closestDistanceSquared)
+            {
+                closest = tmp;
+                closestDistanceSquared = distanceSquared;
+            }
+        }
+
+        return closest;
+    }
+
+    /**
+     * Find the closest missile near entity.
+     *
+     * @param entity The {@link CombatEntityAPI} to search around.
+     * @return The {@link MissileAPI} closest to {@code entity}.
+     * @since 1.4
+     */
+    public static MissileAPI getNearestMissile(CombatEntityAPI entity)
+    {
+        MissileAPI closest = null;
+        float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
+
+        for (MissileAPI tmp : CombatUtils.getCombatEngine().getMissiles())
+        {
+            if (tmp == entity)
             {
                 continue;
             }
@@ -321,6 +354,127 @@ public class AIUtils
     public static List<ShipAPI> getNearbyAllies(CombatEntityAPI entity, float range)
     {
         return getNearbyAllies(entity, range, false);
+    }
+
+    /**
+     * Find the closest enemy missile near an entity.
+     *
+     * @param entity The {@link CombatEntityAPI} to search around.
+     * @return The enemy {@link MissileAPI} closest to {@code entity}.
+     * @since 1.4
+     */
+    public static MissileAPI getNearestEnemyMissile(CombatEntityAPI entity)
+    {
+        MissileAPI closest = null;
+        float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
+
+        for (MissileAPI tmp : CombatUtils.getCombatEngine().getMissiles())
+        {
+            if (tmp.getOwner() == entity.getOwner())
+            {
+                continue;
+            }
+
+            distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
+                    entity.getLocation());
+
+            if (distanceSquared < closestDistanceSquared)
+            {
+                closest = tmp;
+                closestDistanceSquared = distanceSquared;
+            }
+        }
+
+        return closest;
+    }
+
+    /**
+     * Find all present enemies of an entity.
+     *
+     * @param entity The {@link CombatEntityAPI} to search around.
+     * @param sortByDistance Whether to sort the results by distance from {@code entity}.
+     * @return All enemies of {@code entity} on the battle map.
+     * @since 1.4
+     */
+    public static List<MissileAPI> getEnemyMissilesOnMap(CombatEntityAPI entity,
+            boolean sortByDistance)
+    {
+        List<MissileAPI> enemies = new ArrayList();
+
+        for (MissileAPI tmp : CombatUtils.getCombatEngine().getMissiles())
+        {
+            if (tmp.getOwner() != entity.getOwner())
+            {
+                enemies.add(tmp);
+            }
+        }
+
+        if (sortByDistance)
+        {
+            Collections.sort(enemies,
+                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
+        }
+
+        return enemies;
+    }
+
+    /**
+     * Find all present enemy missiles of an entity.
+     *
+     * @param entity The {@link CombatEntityAPI} to search around.
+     * @return All enemy {@link MissileAPI}s of {@code entity} on the battle map.
+     * @see AIUtils#getEnemyMissilesOnMap(com.fs.starfarer.api.combat.CombatEntityAPI, boolean)
+     * @since 1.4
+     */
+    public static List<MissileAPI> getEnemyMissilesOnMap(CombatEntityAPI entity)
+    {
+        return getEnemyMissilesOnMap(entity, false);
+    }
+
+    /**
+     * Finds all enemy missiles within a certain range around an entity.
+     *
+     * @param entity The entity to search around.
+     * @param range How far around {@code entity} to search.
+     * @param sortByDistance Whether to sort the results by distance from {@code entity}.
+     * @return A {@link List} containing all enemy missiles within range.
+     * @since 1.4
+     */
+    public static List<MissileAPI> getNearbyEnemyMissiles(CombatEntityAPI entity,
+            float range, boolean sortByDistance)
+    {
+        List<MissileAPI> enemies = new ArrayList();
+        range *= range;
+
+        for (MissileAPI enemy : getEnemyMissilesOnMap(entity))
+        {
+            if (MathUtils.getDistanceSquared(entity, enemy) <= range)
+            {
+                enemies.add(enemy);
+            }
+        }
+
+        if (sortByDistance)
+        {
+            Collections.sort(enemies,
+                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
+        }
+
+        return enemies;
+    }
+
+    /**
+     * Finds all enemy missiles within a certain range around an entity.
+     *
+     * @param entity The entity to search around.
+     * @param range How far around {@code entity} to search.
+     * @return A {@link List} containing all enemy missiles within range.
+     * @see AIUtils#getNearbyEnemyMissiles(com.fs.starfarer.api.combat.CombatEntityAPI, float, boolean)
+     * @since 1.4
+     */
+    public static List<MissileAPI> getNearbyEnemyMissiles(CombatEntityAPI entity, float range)
+    {
+        return getNearbyEnemyMissiles(entity, range, false);
     }
 
     /**

@@ -13,14 +13,14 @@ import org.lwjgl.util.vector.Vector2f;
  * @author LazyWizard
  * @since 1.4
  */
-public class FakeEntity extends FakeEntityBase
+public class SimpleEntity extends SimpleEntityBase
 {
     private static final Map<Class, Method> methodCache = new HashMap();
     private Object toFollow;
     private Method getLocation;
     private Vector2f location = null;
 
-    private FakeEntity()
+    private SimpleEntity()
     {
     }
 
@@ -32,7 +32,7 @@ public class FakeEntity extends FakeEntityBase
      * MUST have the method getLocation(), which MUST return a {@link Vector2f}!
      * @since 1.4
      */
-    public FakeEntity(Object toFollow)
+    public SimpleEntity(Object toFollow)
     {
         this.toFollow = toFollow;
         Class tmp = toFollow.getClass();
@@ -66,7 +66,7 @@ public class FakeEntity extends FakeEntityBase
 
             if (LazyLib.isDevBuild())
             {
-                System.out.println("FakeEntity cached: "
+                System.out.println("SimpleEntity cached: "
                         + tmp.getCanonicalName() + " | "
                         + getLocation.toGenericString() + ".");
             }
@@ -79,13 +79,13 @@ public class FakeEntity extends FakeEntityBase
      * @param location
      * @since 1.4
      */
-    public FakeEntity(Vector2f location)
+    public SimpleEntity(Vector2f location)
     {
         this.location = location;
     }
 
     /**
-     * Returns the location this {@link FakeEntity} is mimicking.
+     * Returns the location this {@link SimpleEntity} is mimicking.
      *
      * @return The {@link Vector2f} passed in at creation, or the result of
      * getLocation() on the followed {@link Object}, depending on which constructor was used.

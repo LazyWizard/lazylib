@@ -6,20 +6,20 @@ import com.fs.starfarer.api.combat.EveryFrameWeaponEffectPlugin;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import java.util.*;
 
-public class AnimatedWeapon implements EveryFrameWeaponEffectPlugin
+public abstract class AnimatedWeapon implements EveryFrameWeaponEffectPlugin
 {
     // Default to 15 frames per second
     private float timeSinceLastFrame, timeBetweenFrames = 1.0f / 15f;
-    private Map pauseFrames = new HashMap();
+    private Map<Integer, Integer> pauseFrames = new HashMap();
     private int curFrame = 0, pausedFor = 0;
     private boolean isFiring = false;
 
-    protected void setFramesPerSecond(float fps)
+    protected final void setFramesPerSecond(float fps)
     {
         timeBetweenFrames = 1.0f / fps;
     }
 
-    protected void pauseOnFrame(int frame, int pauseFor)
+    protected final void pauseOnFrame(int frame, int pauseFor)
     {
         pauseFrames.put(frame, pauseFor);
     }
@@ -28,7 +28,7 @@ public class AnimatedWeapon implements EveryFrameWeaponEffectPlugin
     {
         if (pauseFrames.containsKey(curFrame))
         {
-            if (pausedFor < (Integer) pauseFrames.get(curFrame))
+            if (pausedFor < pauseFrames.get(curFrame))
             {
                 pausedFor++;
                 return;
@@ -43,7 +43,7 @@ public class AnimatedWeapon implements EveryFrameWeaponEffectPlugin
     }
 
     @Override
-    public void advance(float amount, CombatEngineAPI engine, WeaponAPI weapon)
+    public final void advance(float amount, CombatEngineAPI engine, WeaponAPI weapon)
     {
         if (engine.isPaused())
         {
