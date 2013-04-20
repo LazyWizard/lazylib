@@ -8,12 +8,12 @@ import org.lwjgl.util.vector.Vector2f;
 
 /**
  * Just a dump for the unimportant {@link CombatEntityAPI} methods to avoid
- * clutter in {@link FakeEntity}.
+ * clutter in {@link SimpleEntity}.
  *
  * @author LazyWizard
  * @since 1.4
  */
-abstract class FakeEntityBase implements CombatEntityAPI
+abstract class SimpleEntityBase implements CombatEntityAPI
 {
     /**
      * NONFUNCTIONAL/PLACEHOLDER

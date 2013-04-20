@@ -1,10 +1,15 @@
 package org.lazywizard.lazylib.combat;
 
 import com.fs.starfarer.api.combat.CombatEntityAPI;
+import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import org.lazywizard.lazylib.CollectionUtils;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -201,6 +206,110 @@ public class WeaponUtils
         }
 
         return time;
+    }
+
+    /**
+     * Finds all enemy missiles within range of a {@link WeaponAPI}.
+     *
+     * @param weapon The weapon to detect enemies in range of.
+     * @param sortByDistance Whether to sort the results by distance from {@code weapon}.
+     * @return A {@link List} containing all enemy missiles within range.
+     * @see WeaponUtils#getEnemyMissilesInRange(com.fs.starfarer.api.combat.WeaponAPI, boolean)
+     * @since 1.4
+     */
+    public static List<MissileAPI> getEnemyMissilesInRange(WeaponAPI weapon,
+            boolean sortByDistance)
+    {
+        List<MissileAPI> missiles = new ArrayList();
+        float range = weapon.getRange();
+        range *= range;
+
+        for (MissileAPI enemy : AIUtils.getEnemyMissilesOnMap(weapon.getShip()))
+        {
+            if (MathUtils.getDistanceSquared(enemy, weapon.getLocation()) <= range)
+            {
+                missiles.add(enemy);
+            }
+        }
+
+        if (sortByDistance)
+        {
+            Collections.sort(missiles,
+                    new CollectionUtils.SortEntitiesByDistance(weapon.getLocation()));
+        }
+
+        return missiles;
+    }
+
+    /**
+     * Finds all enemy missiles within range of a {@link WeaponAPI}.
+     *
+     * @param weapon The weapon to detect enemies in range of.
+     * @return A {@link List} containing all enemy missiles within range.
+     * @see WeaponUtils#getEnemyMissilesInRange(com.fs.starfarer.api.combat.WeaponAPI, boolean)
+     * @since 1.4
+     */
+    public static List<MissileAPI> getEnemyMissilesInRange(WeaponAPI weapon)
+    {
+        return getEnemyMissilesInRange(weapon, false);
+    }
+
+    /**
+     * Manually adjusts a weapon's aim towards a point.
+     *
+     * @param weapon The weapon to aim.
+     * @param point The point this weapon should try to aim at.
+     * @param time How long since the last frame (for turn rate calculations).
+     */
+    public static void aimTowardsPoint(WeaponAPI weapon, Vector2f point, float time)
+    {
+        float currentFacing = weapon.getCurrAngle();
+        float intendedFacing = MathUtils.getFacing(MathUtils.getDirectionalVector(
+                weapon.getLocation(), point));
+        float facingChange = MathUtils.clampAngle(currentFacing - intendedFacing);
+        boolean clockwise = facingChange < 0f;
+        facingChange = Math.abs(facingChange);
+        float maxChange = weapon.getTurnRate() * time;
+
+        if (facingChange <= maxChange)
+        {
+            weapon.setCurrAngle(currentFacing + (facingChange * (clockwise ? 1f : -1f)));
+        }
+        else
+        {
+            weapon.setCurrAngle(currentFacing + (maxChange * (clockwise ? 1f : -1f)));
+        }
+    }
+
+    public static void main(String[] args)
+    {
+        float turnRate = 20f;
+        float currentFacing = 50f;
+        float intendedFacing = MathUtils.getFacing(MathUtils.getDirectionalVector(
+                new Vector2f(50f, 50f), new Vector2f(0f, 0f)));
+
+        System.out.println("Switching facing from " + currentFacing + " to "
+                + intendedFacing + ".");
+
+
+        float time = 1f / 60f;
+        for (int x = 0; x < 600; x++)
+        {
+            System.out.println("Current facing: " + currentFacing);
+            float facingChange = MathUtils.clampAngle(currentFacing - intendedFacing);
+            boolean clockwise = facingChange < 0;
+            facingChange = Math.abs(facingChange);
+            float maxChange = turnRate * time;
+
+            if (facingChange <= maxChange)
+            {
+                currentFacing = currentFacing + (facingChange * (clockwise ? 1f : -1f));
+            }
+            else
+            {
+                currentFacing = currentFacing + (maxChange * (clockwise ? 1f : -1f));
+            }
+        }
     }
 
     private WeaponUtils()
