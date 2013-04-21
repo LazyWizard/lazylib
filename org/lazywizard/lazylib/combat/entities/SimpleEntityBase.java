@@ -1,4 +1,4 @@
-package org.lazywizard.lazylib.combat;
+package org.lazywizard.lazylib.combat.entities;
 
 import com.fs.starfarer.api.combat.BoundsAPI;
 import com.fs.starfarer.api.combat.CollisionClass;

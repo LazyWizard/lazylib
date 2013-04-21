@@ -138,43 +138,6 @@ public class WeaponUtils
         return false;
     }
 
-    /*public static DefenseType getDefenseAimedAt(ShipAPI threatened, WeaponAPI weapon)
-     {
-     // TODO: filter out weapons that can't hit the target (CollisionClass)
-
-     if (!isWithinArc(threatened, weapon))
-     {
-     return DefenseType.MISS;
-     }
-
-     if (threatened.getHullSpec().getDefenseType() == ShieldType.PHASE)
-     {
-     ShipSystemAPI cloak = (ShipSystemAPI) threatened.getPhaseCloak();
-
-     if (cloak != null && cloak.isActive())
-     {
-     return DefenseType.PHASE;
-     }
-     }
-
-     Vector2f hit = getCollisionPoint(threatened, getFiringLine(weapon));
-     if (hit == null)
-     {
-     return DefenseType.MISS;
-     }
-
-     // TODO: check for glancing blows against shield
-     ShieldAPI shield = threatened.getShield();
-     if (shield != null && shield.isOn() && shield.isWithinArc(hit))
-     {
-     return DefenseType.SHIELD;
-     }
-
-     // TODO: Armor checks
-     return DefenseType.ARMOR;
-
-     //return DefenseType.HULL;
-     }*/
     /**
      * Calculate how long it would take to turn a {@link WeaponAPI} to aim at a location.
      *
@@ -209,26 +172,150 @@ public class WeaponUtils
     }
 
     /**
+     * Find the closest enemy in range of a {@link WeaponAPI}.
+     *
+     * @param weapon The {@link WeaponAPI} to search around.
+     * @return The enemy {@link ShipAPI} closest to {@code weapon}, or {@code null} if none are in range.
+     * @since 1.4
+     */
+    public static ShipAPI getNearestEnemyInArc(WeaponAPI weapon)
+    {
+        ShipAPI closest = null;
+        float maxRange = weapon.getRange() * weapon.getRange();
+        float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
+
+        for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
+        {
+            if (tmp.getOwner() == weapon.getShip().getOwner()
+                    || weapon.distanceFromArc(tmp.getLocation()) > 0f)
+            {
+                continue;
+            }
+
+            distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
+                    weapon.getLocation());
+
+            if (distanceSquared > maxRange)
+            {
+                continue;
+            }
+
+            if (distanceSquared < closestDistanceSquared)
+            {
+                closest = tmp;
+                closestDistanceSquared = distanceSquared;
+            }
+        }
+
+        return closest;
+    }
+
+    /**
+     * Finds all enemy ships within range of a {@link WeaponAPI}.
+     *
+     * @param weapon The weapon to detect enemies in range of.
+     * @param sortByDistance Whether to sort the results by distance from {@code weapon}.
+     * @return A {@link List} containing all enemy ships within range.
+     * @since 1.4
+     */
+    public static List<ShipAPI> getEnemiesInArc(WeaponAPI weapon,
+            boolean sortByDistance)
+    {
+        List<ShipAPI> enemies = new ArrayList();
+        float range = weapon.getRange();
+        range *= range;
+
+        for (ShipAPI ship : AIUtils.getEnemiesOnMap(weapon.getShip()))
+        {
+            if (MathUtils.getDistanceSquared(ship, weapon.getLocation())
+                    <= range && weapon.distanceFromArc(ship.getLocation()) == 0f)
+            {
+                enemies.add(ship);
+            }
+        }
+
+        if (sortByDistance)
+        {
+            Collections.sort(enemies,
+                    new CollectionUtils.SortEntitiesByDistance(weapon.getLocation()));
+        }
+
+        return enemies;
+    }
+
+    /**
+     * Finds all enemy ships within range of a {@link WeaponAPI}.
+     *
+     * @param weapon The weapon to detect enemies in range of.
+     * @return A {@link List} containing all enemy ships within range.
+     * @see WeaponUtils#getEnemiesInArc(com.fs.starfarer.api.combat.WeaponAPI, boolean)
+     * @since 1.4
+     */
+    public static List<ShipAPI> getEnemiesInArc(WeaponAPI weapon)
+    {
+        return getEnemiesInArc(weapon, false);
+    }
+
+    /**
+     * Find the closest enemy missile in range of a {@link WeaponAPI}.
+     *
+     * @param weapon The {@link WeaponAPI} to search around.
+     * @return The enemy {@link MissileAPI} closest to {@code weapon}, or {@code null} if none are in range.
+     * @since 1.4
+     */
+    public static MissileAPI getNearestEnemyMissileInArc(WeaponAPI weapon)
+    {
+        MissileAPI closest = null;
+        float maxRange = weapon.getRange() * weapon.getRange();
+        float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
+
+        for (MissileAPI tmp : CombatUtils.getCombatEngine().getMissiles())
+        {
+            if (tmp.getOwner() == weapon.getShip().getOwner()
+                    || weapon.distanceFromArc(tmp.getLocation()) > 0f)
+            {
+                continue;
+            }
+
+            distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
+                    weapon.getLocation());
+
+            if (distanceSquared > maxRange)
+            {
+                continue;
+            }
+
+            if (distanceSquared < closestDistanceSquared)
+            {
+                closest = tmp;
+                closestDistanceSquared = distanceSquared;
+            }
+        }
+
+        return closest;
+    }
+
+    /**
      * Finds all enemy missiles within range of a {@link WeaponAPI}.
      *
      * @param weapon The weapon to detect enemies in range of.
      * @param sortByDistance Whether to sort the results by distance from {@code weapon}.
      * @return A {@link List} containing all enemy missiles within range.
-     * @see WeaponUtils#getEnemyMissilesInRange(com.fs.starfarer.api.combat.WeaponAPI, boolean)
      * @since 1.4
      */
-    public static List<MissileAPI> getEnemyMissilesInRange(WeaponAPI weapon,
+    public static List<MissileAPI> getEnemyMissilesInArc(WeaponAPI weapon,
             boolean sortByDistance)
     {
         List<MissileAPI> missiles = new ArrayList();
         float range = weapon.getRange();
         range *= range;
 
-        for (MissileAPI enemy : AIUtils.getEnemyMissilesOnMap(weapon.getShip()))
+        for (MissileAPI missile : AIUtils.getEnemyMissilesOnMap(weapon.getShip()))
         {
-            if (MathUtils.getDistanceSquared(enemy, weapon.getLocation()) <= range)
+            if (MathUtils.getDistanceSquared(missile, weapon.getLocation())
+                    <= range && weapon.distanceFromArc(missile.getLocation()) == 0f)
             {
-                missiles.add(enemy);
+                missiles.add(missile);
             }
         }
 
@@ -249,9 +336,9 @@ public class WeaponUtils
      * @see WeaponUtils#getEnemyMissilesInRange(com.fs.starfarer.api.combat.WeaponAPI, boolean)
      * @since 1.4
      */
-    public static List<MissileAPI> getEnemyMissilesInRange(WeaponAPI weapon)
+    public static List<MissileAPI> getEnemyMissilesInArc(WeaponAPI weapon)
     {
-        return getEnemyMissilesInRange(weapon, false);
+        return getEnemyMissilesInArc(weapon, false);
     }
 
     /**
@@ -260,13 +347,13 @@ public class WeaponUtils
      * @param weapon The weapon to aim.
      * @param point The point this weapon should try to aim at.
      * @param time How long since the last frame (for turn rate calculations).
+     * @since 1.4
      */
     public static void aimTowardsPoint(WeaponAPI weapon, Vector2f point, float time)
     {
         float currentFacing = weapon.getCurrAngle();
-        float intendedFacing = MathUtils.getFacing(MathUtils.getDirectionalVector(
-                weapon.getLocation(), point));
-        float facingChange = MathUtils.clampAngle(currentFacing - intendedFacing);
+        float intendedFacing = MathUtils.getAngle(weapon.getLocation(), point);
+        float facingChange = currentFacing - intendedFacing;
         boolean clockwise = facingChange < 0f;
         facingChange = Math.abs(facingChange);
         float maxChange = weapon.getTurnRate() * time;
@@ -283,20 +370,24 @@ public class WeaponUtils
 
     public static void main(String[] args)
     {
-        float turnRate = 20f;
-        float currentFacing = 50f;
-        float intendedFacing = MathUtils.getFacing(MathUtils.getDirectionalVector(
-                new Vector2f(50f, 50f), new Vector2f(0f, 0f)));
+        float turnRate = 50f;
+        float currentFacing = MathUtils.getRandomNumberInRange(0f, 360f);
+        float intendedFacing = MathUtils.clampAngle(
+                MathUtils.getFacing(MathUtils.getDirectionalVector(
+                new Vector2f(MathUtils.getRandomNumberInRange(0f, 360f),
+                MathUtils.getRandomNumberInRange(0f, 360f)),
+                new Vector2f(MathUtils.getRandomNumberInRange(0f, 360f),
+                MathUtils.getRandomNumberInRange(0f, 360f)))));
 
         System.out.println("Switching facing from " + currentFacing + " to "
                 + intendedFacing + ".");
 
-
         float time = 1f / 60f;
-        for (int x = 0; x < 600; x++)
+        float facingChange = 0.01f;
+        while (facingChange != 0f)
         {
             System.out.println("Current facing: " + currentFacing);
-            float facingChange = MathUtils.clampAngle(currentFacing - intendedFacing);
+            facingChange = currentFacing - intendedFacing;
             boolean clockwise = facingChange < 0;
             facingChange = Math.abs(facingChange);
             float maxChange = turnRate * time;

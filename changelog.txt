@@ -3,26 +3,28 @@
 Added @since annotations (useful for finding the lowest library version needed)
 XMinor math optimizations to deal with the changes made in the 1.3 update
 Changes to MathUtils:
- - Circle-based methods can now pass in a null center for a 0, 0 origin
+ - Circle-based methods can now have null centers passed in for a 0, 0 origin
  - Added getRandomNumberInRange(float min, float max)
 Changes to AIUtils:
- - Added getNearestMissile(CombatEntityAPI entity)
- - Added getNearestEnemyMissile(CombatEntityAPI entity)
  - Added getEnemyMissilesOnMap(CombatEntityAPI entity, [boolean sortByDistance])
  - Added getNearbyEnemyMissiles(CombatEntityAPI entity, float range,
       [boolean sortByDistance])
+ - Added getNearestMissile(CombatEntityAPI entity)
+ - Added getNearestEnemyMissile(CombatEntityAPI entity)
 Changes to WeaponUtils:
- - Added getEnemyMissilesInRange(WeaponAPI weapon, [boolean sortByDistance])
+ - Added getEnemiesInArc(WeaponAPI weapon, [boolean sortByDistance])
+ - Added getNearestEnemyInArc(WeaponAPI weapon)
+ - Added getEnemyMissilesInArc(WeaponAPI weapon, [boolean sortByDistance])
+ - Added getNearestEnemyMissileInArc(WeaponAPI weapon)
  - Added aimTowardsPoint(WeaponAPI weapon, Vector2f point, float time)
 XAdded KeyHandler class (abstract, must be subclassed):
 X - Can see what keys were pressed or released this frame
 X - Can get a list of all keys that are currently pressed
 X - Can check how long a key has been pressed for
 Added AnimatedWeapon class (abstract, must be subclassed):
- - Used for weapons that only animate when firing
+ - Used for weapons that need complex animations
  - Can set a custom framerate and tell it to pause on certain frames
-X - Can change what frames will be played
-X - Can set custom frames to be played when disabled, charging, etc
+X - Can set frame ranges to be played when firing, disabled, charging, etc
 Added SimpleEntity class (barebones implementation of CombatEntityAPI):
  - Useful for spawnEmpArc(), which can target a CombatEntityAPI
  - Has a constructor that takes a Vector2f, for a static location

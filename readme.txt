@@ -1,3 +1,5 @@
+Mod thread: http://fractalsoftworks.com/forum/index.php?topic=5444.0
+
  Introduction:
 ---------------
 LazyLib is not a regular mod. It doesn't add any ships, weapons or factions.

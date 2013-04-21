@@ -1,4 +1,4 @@
-package org.lazywizard.lazylib.combat;
+package org.lazywizard.lazylib.combat.entities;
 
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import java.lang.reflect.Method;
