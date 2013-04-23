@@ -25,7 +25,8 @@ import org.lwjgl.util.vector.Vector2f;
 public class CombatUtils implements EveryFrameCombatPlugin
 {
     private static WeakReference<CombatEngineAPI> engine;
-    private static float combatTime = 0f, combatTimeIncludingPaused = 0f;
+    private static float lastFrame = 0f, combatTime = 0f,
+            combatTimeIncludingPaused = 0f;
 
     /**
      * Returns the currently used {@link CombatEngineAPI}.
@@ -62,6 +63,17 @@ public class CombatUtils implements EveryFrameCombatPlugin
     }
 
     /**
+     * Returns the time since the last frame.
+     *
+     * @return The time since the last frame, in seconds.
+     * @since 1.4
+     */
+    public static float getTimeSinceLastFrame()
+    {
+        return lastFrame;
+    }
+
+    /**
      * Returns all projectiles in range of a given location.
      *
      * @param location The location to search around.
@@ -78,7 +90,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
         for (DamagingProjectileAPI tmp : getCombatEngine().getProjectiles())
         {
-            if (MathUtils.getDistanceSquared(tmp, location) <= range)
+            if (MathUtils.getDistanceSquared(tmp.getLocation(), location) <= range)
             {
                 projectiles.add(tmp);
             }
@@ -123,7 +135,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
 
         for (MissileAPI tmp : getCombatEngine().getMissiles())
         {
-            if (MathUtils.getDistanceSquared(tmp, location) <= range)
+            if (MathUtils.getDistanceSquared(tmp.getLocation(), location) <= range)
             {
                 missiles.add(tmp);
             }
@@ -164,7 +176,6 @@ public class CombatUtils implements EveryFrameCombatPlugin
             float range, boolean sortByDistance)
     {
         List<ShipAPI> ships = new ArrayList();
-        range *= range;
 
         for (ShipAPI tmp : getCombatEngine().getShips())
         {
@@ -173,7 +184,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
                 continue;
             }
 
-            if (MathUtils.getDistanceSquared(tmp, location) <= range)
+            if (MathUtils.getDistance(tmp, location) <= range)
             {
                 ships.add(tmp);
             }
@@ -214,11 +225,10 @@ public class CombatUtils implements EveryFrameCombatPlugin
             float range, boolean sortByDistance)
     {
         List<CombatEntityAPI> asteroids = new ArrayList();
-        range *= range;
 
         for (CombatEntityAPI tmp : getCombatEngine().getAsteroids())
         {
-            if (MathUtils.getDistanceSquared(tmp, location) <= range)
+            if (MathUtils.getDistance(tmp, location) <= range)
             {
                 asteroids.add(tmp);
             }
@@ -404,6 +414,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     @Override
     public void advance(float amount, List<InputEventAPI> events)
     {
+        lastFrame = amount;
         combatTimeIncludingPaused += amount;
 
         if (!getCombatEngine().isPaused())
@@ -419,6 +430,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     public void init(CombatEngineAPI engine)
     {
         CombatUtils.engine = new WeakReference(engine);
+        CombatUtils.lastFrame = 0f;
         CombatUtils.combatTime = 0f;
         CombatUtils.combatTimeIncludingPaused = 0f;
     }

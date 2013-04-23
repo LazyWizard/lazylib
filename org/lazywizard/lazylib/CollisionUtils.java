@@ -140,18 +140,18 @@ public class CollisionUtils
      */
     public static boolean isPointWithinBounds(Vector2f point, CombatEntityAPI entity)
     {
+        // If the entity lacks bounds, use the collision circle instead
         if (entity.getExactBounds() == null)
         {
             return MathUtils.isPointWithinCircle(point, entity.getLocation(),
                     entity.getCollisionRadius());
         }
 
+        // Grab the ship bounds and update them to reflect the ship's position
         BoundsAPI bounds = entity.getExactBounds();
         bounds.update(entity.getLocation(), entity.getFacing());
-        //Polygon poly = Convert.boundsToPolygon(bounds);
-        //return poly.contains(point.x, point.y);
 
-        // TODO: Test this thoroughly!
+        // Transform the bounds into a series of points
         List<SegmentAPI> segments = bounds.getSegments();
         List<Vector2f> points = new ArrayList(segments.size() + 1);
         for (int x = 0; x < segments.size(); x++)
@@ -164,6 +164,8 @@ public class CollisionUtils
             }
         }
 
+        // This code uses the PNPOLY solution taken from:
+        // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
         int i, j;
         boolean result = false;
         for (i = 0, j = points.size() - 1; i < points.size(); j = i++)

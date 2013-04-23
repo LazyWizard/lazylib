@@ -104,8 +104,8 @@ public class WeaponUtils
     public static boolean isWithinArc(CombatEntityAPI entity, WeaponAPI weapon)
     {
         // Check if weapon is in range
-        if (MathUtils.getDistanceSquared(entity, weapon.getLocation())
-                > Math.pow(weapon.getRange() + entity.getCollisionRadius(), 2))
+        if (MathUtils.getDistance(entity, weapon.getLocation())
+                > (weapon.getRange() + entity.getCollisionRadius()))
         {
             return false;
         }
@@ -149,11 +149,9 @@ public class WeaponUtils
     public static float getTimeToAim(WeaponAPI weapon, Vector2f aimAt)
     {
         ShipAPI ship = weapon.getShip();
-        float turnSpeed = (ship == null ? 0
-                : ship.getMutableStats().getMaxTurnRate().getModifiedValue());
-        // TODO: add current turn velocity and acceleration to equation
-        float time = weapon.distanceFromArc(aimAt)
-                / turnSpeed;
+        float turnSpeed = weapon.getTurnRate();
+        turnSpeed += ship == null ? 0f : Math.abs(ship.getAngularVelocity());
+        float time = Math.abs(weapon.distanceFromArc(aimAt)) / turnSpeed;
 
         // Divide by zero - no ship or can't turn, only a threat if already aimed
         if (Float.isNaN(time))
@@ -223,12 +221,11 @@ public class WeaponUtils
     {
         List<ShipAPI> enemies = new ArrayList();
         float range = weapon.getRange();
-        range *= range;
 
         for (ShipAPI ship : AIUtils.getEnemiesOnMap(weapon.getShip()))
         {
-            if (MathUtils.getDistanceSquared(ship, weapon.getLocation())
-                    <= range && weapon.distanceFromArc(ship.getLocation()) == 0f)
+            if (MathUtils.getDistance(ship, weapon.getLocation()) <= range
+                    && weapon.distanceFromArc(ship.getLocation()) == 0f)
             {
                 enemies.add(ship);
             }
@@ -312,7 +309,7 @@ public class WeaponUtils
 
         for (MissileAPI missile : AIUtils.getEnemyMissilesOnMap(weapon.getShip()))
         {
-            if (MathUtils.getDistanceSquared(missile, weapon.getLocation())
+            if (MathUtils.getDistanceSquared(missile.getLocation(), weapon.getLocation())
                     <= range && weapon.distanceFromArc(missile.getLocation()) == 0f)
             {
                 missiles.add(missile);
@@ -354,52 +351,17 @@ public class WeaponUtils
         float currentFacing = weapon.getCurrAngle();
         float intendedFacing = MathUtils.getAngle(weapon.getLocation(), point);
         float facingChange = currentFacing - intendedFacing;
-        boolean clockwise = facingChange < 0f;
+        boolean direction = facingChange < 0f;
         facingChange = Math.abs(facingChange);
         float maxChange = weapon.getTurnRate() * time;
 
         if (facingChange <= maxChange)
         {
-            weapon.setCurrAngle(currentFacing + (facingChange * (clockwise ? 1f : -1f)));
+            weapon.setCurrAngle(currentFacing + (facingChange * (direction ? 1f : -1f)));
         }
         else
         {
-            weapon.setCurrAngle(currentFacing + (maxChange * (clockwise ? 1f : -1f)));
-        }
-    }
-
-    public static void main(String[] args)
-    {
-        float turnRate = 50f;
-        float currentFacing = MathUtils.getRandomNumberInRange(0f, 360f);
-        float intendedFacing = MathUtils.clampAngle(
-                MathUtils.getFacing(MathUtils.getDirectionalVector(
-                new Vector2f(MathUtils.getRandomNumberInRange(0f, 360f),
-                MathUtils.getRandomNumberInRange(0f, 360f)),
-                new Vector2f(MathUtils.getRandomNumberInRange(0f, 360f),
-                MathUtils.getRandomNumberInRange(0f, 360f)))));
-
-        System.out.println("Switching facing from " + currentFacing + " to "
-                + intendedFacing + ".");
-
-        float time = 1f / 60f;
-        float facingChange = 0.01f;
-        while (facingChange != 0f)
-        {
-            System.out.println("Current facing: " + currentFacing);
-            facingChange = currentFacing - intendedFacing;
-            boolean clockwise = facingChange < 0;
-            facingChange = Math.abs(facingChange);
-            float maxChange = turnRate * time;
-
-            if (facingChange <= maxChange)
-            {
-                currentFacing = currentFacing + (facingChange * (clockwise ? 1f : -1f));
-            }
-            else
-            {
-                currentFacing = currentFacing + (maxChange * (clockwise ? 1f : -1f));
-            }
+            weapon.setCurrAngle(currentFacing + (maxChange * (direction ? 1f : -1f)));
         }
     }
 
