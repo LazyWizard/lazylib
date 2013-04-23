@@ -233,11 +233,10 @@ public class AIUtils
             float range, boolean sortByDistance)
     {
         List<ShipAPI> enemies = new ArrayList();
-        range *= range;
 
         for (ShipAPI enemy : getEnemiesOnMap(entity))
         {
-            if (MathUtils.getDistanceSquared(entity, enemy) <= range)
+            if (MathUtils.getDistance(entity, enemy) <= range)
             {
                 enemies.add(enemy);
             }
@@ -323,11 +322,9 @@ public class AIUtils
             float range, boolean sortByDistance)
     {
         List<ShipAPI> allies = new ArrayList();
-        range *= range;
-
         for (ShipAPI ally : getAlliesOnMap(entity))
         {
-            if (MathUtils.getDistanceSquared(entity, ally) <= range)
+            if (MathUtils.getDistance(entity, ally) <= range)
             {
                 allies.add(ally);
             }
@@ -444,11 +441,10 @@ public class AIUtils
             float range, boolean sortByDistance)
     {
         List<MissileAPI> enemies = new ArrayList();
-        range *= range;
 
         for (MissileAPI enemy : getEnemyMissilesOnMap(entity))
         {
-            if (MathUtils.getDistanceSquared(entity, enemy) <= range)
+            if (MathUtils.getDistance(entity, enemy) <= range)
             {
                 enemies.add(enemy);
             }

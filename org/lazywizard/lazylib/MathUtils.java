@@ -347,6 +347,13 @@ public class MathUtils
      */
     public static float getRandomNumberInRange(float min, float max)
     {
+        if (min > max)
+        {
+            float tmp = min;
+            min = max;
+            max = tmp;
+        }
+
         return rng.nextFloat() * (max - min) + min;
     }
 
