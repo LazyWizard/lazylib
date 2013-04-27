@@ -53,7 +53,8 @@ public class LazyLib
      */
     public static String getInfo()
     {
-        return "LazyLib v" + LIBRARY_VERSION + " for Starsector " + GAME_VERSION;
+        return "LazyLib v" + LIBRARY_VERSION + (IS_DEV_BUILD ? "_dev" : "")
+                + " for Starsector " + GAME_VERSION;
     }
 
     private LazyLib()
