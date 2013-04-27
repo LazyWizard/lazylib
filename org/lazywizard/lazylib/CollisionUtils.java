@@ -131,6 +131,21 @@ public class CollisionUtils
     }
 
     /**
+     * Checks if a point is inside the collision circle of a {@link CombatEntityAPI}.
+     *
+     * @param point The {@link Vector2f} to check.
+     * @param entity The {@link CombatEntityAPI} whose {@link BoundsAPI} we are checking against.
+     * @return {@code true} if {@link point} is within the collision circle of {@code entity}, {@code false} otherwise.
+     * @since 1.4
+     */
+    public static boolean isPointWithinCollisionCircle(Vector2f point,
+            CombatEntityAPI entity)
+    {
+        return MathUtils.isPointWithinCircle(point, entity.getLocation(),
+                entity.getCollisionRadius());
+    }
+
+    /**
      * Checks if a point is inside of the bounds of a {@link CombatEntityAPI}.
      *
      * @param point The {@link Vector2f} to check.
@@ -143,8 +158,13 @@ public class CollisionUtils
         // If the entity lacks bounds, use the collision circle instead
         if (entity.getExactBounds() == null)
         {
-            return MathUtils.isPointWithinCircle(point, entity.getLocation(),
-                    entity.getCollisionRadius());
+            return isPointWithinCollisionCircle(point, entity);
+        }
+
+        // Check if it's even possible there's a collision
+        if (!isPointWithinCollisionCircle(point, entity))
+        {
+            return false;
         }
 
         // Grab the ship bounds and update them to reflect the ship's position

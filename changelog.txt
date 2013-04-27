@@ -9,6 +9,9 @@ Changes to MathUtils:
  - Added getRandomNumberInRange(float min, float max)
  - Added getEquidistantPointsInsideCircle(Vector2f center, float radius,
    float spaceBetweenPoints)
+Changes to CollisionUtils:
+ - Made isPointWithinBounds() more efficient
+ - Added isPointWithinCollisionCircle(Vector2f point, CombatEntityAPI entity)
 Changes to AIUtils:
  - Added getEnemyMissilesOnMap(CombatEntityAPI entity, [boolean sortByDistance])
  - Added getNearbyEnemyMissiles(CombatEntityAPI entity, float range,
@@ -16,7 +19,7 @@ Changes to AIUtils:
  - Added getNearestMissile(CombatEntityAPI entity)
  - Added getNearestEnemyMissile(CombatEntityAPI entity)
 Changes to WeaponUtils:
- - Increased accuracy of getTimeToAim()
+X - Increased accuracy of getTimeToAim()
  - Added getEnemiesInArc(WeaponAPI weapon, [boolean sortByDistance])
  - Added getNearestEnemyInArc(WeaponAPI weapon)
  - Added getEnemyMissilesInArc(WeaponAPI weapon, [boolean sortByDistance])
@@ -35,6 +38,8 @@ Added SimpleEntity class (barebones implementation of CombatEntityAPI):
  - Has a constructor that takes a Vector2f, for a static location
  - Can also take an Object that has a getLocation() method, for mobile targets
    (useful for targeting a specific WeaponAPI). This uses reflection!
+(method parameters in [brackets] signify optional parameters)
+
 
  1.3 (April 10, 2013)
 ======================

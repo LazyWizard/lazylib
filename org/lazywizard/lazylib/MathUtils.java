@@ -340,6 +340,9 @@ public class MathUtils
     /**
      * Returns a {@link List} of evenly spaced {@link Vector2f}s inside a circle.
      *
+     * WARNING: be VERY conservative using this method - a radius of 250 and a spacing
+     * of 5 will result in 10,000 circle checks and 7,825 {@link Vector2f}s created!
+     *
      * @param center The center point of the circle (can be null for a 0, 0 origin).
      * @param radius The radius of the circle.
      * @param spaceBetweenPoints How much space should be between each point.
@@ -358,7 +361,7 @@ public class MathUtils
                 / spaceBetweenPoints) + .5f));
         float centerX = (center == null ? 0f : center.x);
         float centerY = (center == null ? 0f : center.y);
-        float a,b;
+        float a, b;
 
         for (float x = centerX - radius; x < centerY + radius; x += spaceBetweenPoints)
         {
@@ -380,8 +383,9 @@ public class MathUtils
 
     public static void main(String[] args)
     {
+        long time = System.nanoTime();
         int x = 0;
-        for (Vector2f point : getEquidistantPointsInsideCircle(new Vector2f(50, 50), 5, 1))
+        for (Vector2f point : getEquidistantPointsInsideCircle(new Vector2f(0, 0), 250, 5))
         {
             if (x % 5 == 0)
             {
@@ -391,6 +395,9 @@ public class MathUtils
             System.out.print(point.toString() + " ");
             x++;
         }
+
+        System.out.println("Results: " + x + " | Time taken: " +
+                (double) (System.nanoTime() - time) / 1000000000d + " seconds.");
     }
 
     /**
