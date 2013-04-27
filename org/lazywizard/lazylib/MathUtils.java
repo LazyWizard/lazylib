@@ -338,6 +338,62 @@ public class MathUtils
     }
 
     /**
+     * Returns a {@link List} of evenly spaced {@link Vector2f}s inside a circle.
+     *
+     * @param center The center point of the circle (can be null for a 0, 0 origin).
+     * @param radius The radius of the circle.
+     * @param spaceBetweenPoints How much space should be between each point.
+     * @return A {@link List} of evenly spaced {@link Vector2f}s inside a circle.
+     * @since 1.4
+     */
+    public static List<Vector2f> getEquidistantPointsInsideCircle(Vector2f center,
+            float radius, float spaceBetweenPoints)
+    {
+        if (spaceBetweenPoints <= 0f)
+        {
+            throw new RuntimeException("Space between points must be a positive number!");
+        }
+
+        List<Vector2f> points = new ArrayList((int) (((radius * radius * 3.14f)
+                / spaceBetweenPoints) + .5f));
+        float centerX = (center == null ? 0f : center.x);
+        float centerY = (center == null ? 0f : center.y);
+        float a,b;
+
+        for (float x = centerX - radius; x < centerY + radius; x += spaceBetweenPoints)
+        {
+            for (float y = centerX - radius; y < centerY + radius; y += spaceBetweenPoints)
+            {
+                a = x - centerX;
+                b = y - centerY;
+
+                // Point is in circle
+                if ((a * a) + (b * b) < (radius * radius))
+                {
+                    points.add(new Vector2f(x, y));
+                }
+            }
+        }
+
+        return points;
+    }
+
+    public static void main(String[] args)
+    {
+        int x = 0;
+        for (Vector2f point : getEquidistantPointsInsideCircle(new Vector2f(50, 50), 5, 1))
+        {
+            if (x % 5 == 0)
+            {
+                System.out.println();
+            }
+
+            System.out.print(point.toString() + " ");
+            x++;
+        }
+    }
+
+    /**
      * Returns a random number within a given range.
      *
      * @param min The minimum value to select.

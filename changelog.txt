@@ -7,6 +7,8 @@ Changes to CombatUtils:
 Changes to MathUtils:
  - Circle-based methods support a null center point (acts as a 0, 0 origin)
  - Added getRandomNumberInRange(float min, float max)
+ - Added getEquidistantPointsInsideCircle(Vector2f center, float radius,
+   float spaceBetweenPoints)
 Changes to AIUtils:
  - Added getEnemyMissilesOnMap(CombatEntityAPI entity, [boolean sortByDistance])
  - Added getNearbyEnemyMissiles(CombatEntityAPI entity, float range,

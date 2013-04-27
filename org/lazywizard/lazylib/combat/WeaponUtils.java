@@ -150,6 +150,7 @@ public class WeaponUtils
     {
         ShipAPI ship = weapon.getShip();
         float turnSpeed = weapon.getTurnRate();
+        // TODO: fix bug (ship turning away counts as turning towards!)
         turnSpeed += ship == null ? 0f : Math.abs(ship.getAngularVelocity());
         float time = Math.abs(weapon.distanceFromArc(aimAt)) / turnSpeed;
 
