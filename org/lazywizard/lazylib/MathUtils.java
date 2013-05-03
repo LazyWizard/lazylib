@@ -352,17 +352,23 @@ public class MathUtils
     public static List<Vector2f> getEquidistantPointsInsideCircle(Vector2f center,
             float radius, float spaceBetweenPoints)
     {
+        // Avoid infinite loops
         if (spaceBetweenPoints <= 0f)
         {
             throw new RuntimeException("Space between points must be a positive number!");
         }
 
-        List<Vector2f> points = new ArrayList((int) (((radius * radius * 3.14f)
-                / spaceBetweenPoints) + .5f));
+        // Calculate the rough number of results we will have and allocate memory for them
+        float size = radius / spaceBetweenPoints;
+        int toAllocate = (int) ((size * size * Math.PI) + 0.5f);
+        List<Vector2f> points = new ArrayList(toAllocate);
+
+        // Support for null vectors
         float centerX = (center == null ? 0f : center.x);
         float centerY = (center == null ? 0f : center.y);
         float a, b;
 
+        // For every point, check if it is inside the given circle
         for (float x = centerX - radius; x < centerY + radius; x += spaceBetweenPoints)
         {
             for (float y = centerX - radius; y < centerY + radius; y += spaceBetweenPoints)
@@ -379,25 +385,6 @@ public class MathUtils
         }
 
         return points;
-    }
-
-    public static void main(String[] args)
-    {
-        long time = System.nanoTime();
-        int x = 0;
-        for (Vector2f point : getEquidistantPointsInsideCircle(new Vector2f(0, 0), 250, 5))
-        {
-            if (x % 5 == 0)
-            {
-                System.out.println();
-            }
-
-            System.out.print(point.toString() + " ");
-            x++;
-        }
-
-        System.out.println("Results: " + x + " | Time taken: " +
-                (double) (System.nanoTime() - time) / 1000000000d + " seconds.");
     }
 
     /**
