@@ -178,13 +178,14 @@ public class CollisionUtils
         {
             points.add(segments.get(x).getP1());
 
+            // Make sure to add the final point
             if (x == (segments.size() - 1))
             {
                 points.add(segments.get(x).getP2());
             }
         }
 
-        // This code uses the PNPOLY solution taken from:
+        // This code uses the extremely efficient PNPOLY solution taken from:
         // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
         int i, j;
         boolean result = false;
