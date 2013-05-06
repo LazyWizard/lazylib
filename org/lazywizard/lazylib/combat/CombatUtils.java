@@ -367,6 +367,8 @@ public class CombatUtils implements EveryFrameCombatPlugin
     /**
      * Apply force to an object. Remember Newton's Second Law.
      *
+     * Force is multiplied by 100 to avoid requiring ridiculous force amounts.
+     *
      * @param entity The {@link CombatEntityAPI} to apply the force to.
      * @param direction The directional vector of the force (this will automatically be normalized).
      * @param force How much force to apply.

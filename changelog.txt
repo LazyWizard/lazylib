@@ -1,5 +1,5 @@
- 1.4 (April xx, 2013)
-======================
+ 1.4 (May 06, 2013)
+====================
 Added @since annotations (useful for finding the lowest library version needed)
 Minor math optimizations related to the changes made in the 1.3 update
 Changes to CombatUtils:
@@ -19,20 +19,11 @@ Changes to AIUtils:
  - Added getNearestMissile(CombatEntityAPI entity)
  - Added getNearestEnemyMissile(CombatEntityAPI entity)
 Changes to WeaponUtils:
-X - Increased accuracy of getTimeToAim()
  - Added getEnemiesInArc(WeaponAPI weapon, [boolean sortByDistance])
  - Added getNearestEnemyInArc(WeaponAPI weapon)
  - Added getEnemyMissilesInArc(WeaponAPI weapon, [boolean sortByDistance])
  - Added getNearestEnemyMissileInArc(WeaponAPI weapon)
  - Added aimTowardsPoint(WeaponAPI weapon, Vector2f point, float time)
-XAdded KeyHandler class (abstract, must be subclassed):
-X - Can see what keys were pressed or released this frame
-X - Can get a list of all keys that are currently pressed
-X - Can check how long a key has been pressed for
-Added AnimatedWeapon class (abstract, must be subclassed):
- - Used for weapons that need complex animations
- - Can set a custom framerate and tell it to pause on certain frames
-X - Can set frame ranges to be played when firing, disabled, charging, etc
 Added SimpleEntity class (barebones implementation of CombatEntityAPI):
  - Useful for spawnEmpArc(), which can target a CombatEntityAPI
  - Has a constructor that takes a Vector2f, for a static location
