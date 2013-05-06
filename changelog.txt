@@ -1,6 +1,7 @@
  1.4 (May 06, 2013)
 ====================
 Added @since annotations (useful for finding the lowest library version needed)
+Miscellaneous other JavaDoc improvements
 Minor math optimizations related to the changes made in the 1.3 update
 Changes to CombatUtils:
  - Added getTimeSinceLastFrame()
