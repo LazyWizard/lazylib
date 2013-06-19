@@ -8,8 +8,8 @@ package org.lazywizard.lazylib;
  */
 public class LazyLib
 {
-    private static final boolean IS_DEV_BUILD = false;
-    private static final float LIBRARY_VERSION = 1.4f;
+    private static final boolean IS_DEV_BUILD = true;
+    private static final float LIBRARY_VERSION = 1.5f;
     private static final String GAME_VERSION = "0.54.1a";
 
     /**
