@@ -14,7 +14,7 @@ import org.lwjgl.util.vector.Vector2f;
  */
 public class ArmorUtils
 {
-    public static final float NOT_IN_GRID = -123.45f;
+    public static final float NOT_IN_GRID = -12345.6789f;
 
     public static int[] getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
     {
@@ -32,7 +32,7 @@ public class ArmorUtils
         float xOffset = grid.getCellSize() * (gridData.length / 2f),
                 yOffset = grid.getCellSize() * (gridData[0].length / 2f);
 
-        // Treat the ship as being at location 0,0 and pointing upwards
+        // Translate the ship's location to 0,0 and facing to -90 (upwards)
         Vector2f subLoc = new Vector2f();
         Vector2f.sub(loc, ship.getLocation(), subLoc);
         subLoc = MathUtils.getPointOnCircumference(null, subLoc.length(),

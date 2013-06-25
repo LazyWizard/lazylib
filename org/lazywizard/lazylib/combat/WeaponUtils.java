@@ -26,7 +26,7 @@ public class WeaponUtils
      *
      * @param baseDamage The base damage of this weapon.
      * @param weapon The {@link WeaponAPI} to check for bonuses on.
-     * @return The actual damage done by {@code weapon} after bonuses are applied.
+     * @return The damage done by {@code weapon} after bonuses are applied.
      * @since 1.0
      */
     public static float calculateActualDamage(float baseDamage, WeaponAPI weapon)
@@ -58,6 +58,46 @@ public class WeaponUtils
     }
 
     /**
+     * Calculates the damage done by a weapon to a ship after all
+     * MutableShipStats on both sides are applied.
+     *
+     * @param baseDamage The base damage of this weapon.
+     * @param weapon The {@link WeaponAPI} to check for bonuses on.
+     * @param target The ship {@code weapon} is aiming at.
+     * @param defense The defense of {@code target} aimed at (used for calculating
+     * penalties).
+     * @return The damage dealt by {@code weapon} after all bonuses and penalties
+     * are applied.
+     * @since 1.5
+     */
+    public static float calculateActualDamage(float baseDamage, WeaponAPI weapon,
+            ShipAPI target, DefenseType defense)
+    {
+        switch (defense)
+        {
+            case SHIELD:
+                return calculateActualDamage(baseDamage, weapon)
+                        * weapon.getDamageType().getShieldMult()
+                        * target.getMutableStats().getShieldDamageTakenMult()
+                        .getModifiedValue();
+            case ARMOR:
+                return calculateActualDamage(baseDamage, weapon)
+                        * weapon.getDamageType().getArmorMult()
+                        * target.getMutableStats().getArmorDamageTakenMult()
+                        .getModifiedValue();
+            case HULL:
+                return calculateActualDamage(baseDamage, weapon)
+                        * weapon.getDamageType().getHullMult()
+                        * target.getMutableStats().getHullDamageTakenMult()
+                        .getModifiedValue();
+            case PHASE:
+                return 0f;
+            default:
+                return calculateActualDamage(baseDamage, weapon);
+        }
+    }
+
+    /**
      * Calculates the damage done per shot by a weapon after MutableShipStats are applied.
      *
      * @param weapon The weapon to check.
@@ -67,6 +107,25 @@ public class WeaponUtils
     public static float calculateDamagePerShot(WeaponAPI weapon)
     {
         return calculateActualDamage(weapon.getDerivedStats().getDamagePerShot(), weapon);
+    }
+
+    /**
+     * Calculates the damage done per shot by a weapon to a ship after all
+     * MutableShipStats on both sides are applied.
+     *
+     * @param weapon The weapon to check.
+     * @param target The ship {@code weapon} is aiming at.
+     * @param defense The defense of {@code target} aimed at (used for calculating
+     * penalties).
+     * @return The damage dealt by {@code weapon} per shot after all bonuses
+     * and penalties are applied.
+     * @since 1.5
+     */
+    public static float calculateDamagePerShot(WeaponAPI weapon, ShipAPI target,
+            DefenseType defense)
+    {
+        return calculateActualDamage(calculateDamagePerShot(weapon), weapon,
+                target, defense);
     }
 
     /**
@@ -82,6 +141,25 @@ public class WeaponUtils
     }
 
     /**
+     * Calculates the damage done per second by a weapon to a ship after all
+     * MutableShipStats on both sides are applied.
+     *
+     * @param weapon The weapon to check.
+     * @param target The ship {@code weapon} is aiming at.
+     * @param defense The defense of {@code target} aimed at (used for calculating
+     * penalties).
+     * @return The damage dealt by {@code weapon} per second after all bonuses
+     * and penalties are applied.
+     * @since 1.5
+     */
+    public static float calculateDamagePerSecond(WeaponAPI weapon, ShipAPI target,
+            DefenseType defense)
+    {
+        return calculateActualDamage(calculateDamagePerSecond(weapon), weapon,
+                target, defense);
+    }
+
+    /**
      * Calculates the damage done per burst by a weapon after MutableShipStats are applied.
      *
      * @param weapon The weapon to check.
@@ -91,6 +169,25 @@ public class WeaponUtils
     public static float calculateDamagePerBurst(WeaponAPI weapon)
     {
         return calculateActualDamage(weapon.getDerivedStats().getBurstDamage(), weapon);
+    }
+
+    /**
+     * Calculates the damage done per burst by a weapon to a ship after all
+     * MutableShipStats on both sides are applied.
+     *
+     * @param weapon The weapon to check.
+     * @param target The ship {@code weapon} is aiming at.
+     * @param defense The defense of {@code target} aimed at (used for calculating
+     * penalties).
+     * @return The damage dealt by {@code weapon} per burst after all bonuses
+     * and penalties are applied.
+     * @since 1.5
+     */
+    public static float calculateDamagePerBurst(WeaponAPI weapon, ShipAPI target,
+            DefenseType defense)
+    {
+        return calculateActualDamage(calculateDamagePerBurst(weapon), weapon,
+                target, defense);
     }
 
     /**
