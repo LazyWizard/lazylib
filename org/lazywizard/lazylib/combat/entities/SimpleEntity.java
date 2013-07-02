@@ -41,8 +41,9 @@ public class SimpleEntity extends SimpleEntityBase
      */
     public SimpleEntity(Vector2f location, CombatEntityAPI anchor)
     {
-        relativeDistance = MathUtils.getDistance(anchor, location);
-        relativeAngle = MathUtils.getAngle(anchor.getLocation(), location);
+        relativeDistance = MathUtils.getDistance(anchor.getLocation(), location);
+        relativeAngle = MathUtils.clampAngle(MathUtils.getAngle(
+                anchor.getLocation(), location) - anchor.getFacing());
         this.anchor = anchor;
     }
 
@@ -126,7 +127,7 @@ public class SimpleEntity extends SimpleEntityBase
         if (anchor != null)
         {
             return MathUtils.getPointOnCircumference(anchor.getLocation(),
-                    relativeDistance, relativeAngle);
+                    relativeDistance, relativeAngle + anchor.getFacing());
         }
 
         // Vector2f-based constructor
