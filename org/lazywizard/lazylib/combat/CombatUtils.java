@@ -388,7 +388,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
         // Avoid divide-by-zero errors...
         float mass = Math.max(1f, entity.getMass());
         // Calculate the velocity change and its resulting vector
-        float velChange = force / mass;
+        float velChange = Math.min(1250f, force / mass);
         Vector2f dir = new Vector2f();
         direction.normalise(dir);
         dir.scale(velChange);
