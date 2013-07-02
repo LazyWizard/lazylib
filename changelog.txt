@@ -5,6 +5,7 @@ Added DefenseType enumeration (HULL, ARMOR, SHIELD, PHASE)
 Changes to SimpleEntity:
  - New constructor SimpleEntity(Vector2f location, CombatEntityAPI anchor)
    getLocation() will return a location relative to and rotated with the anchor
+ - Added getAnchor() (returns null if another constructor was used)
 Changes to WeaponUtils:
  - New methods to check how much damage you would deal to a specific target:
  - Added calculateActualDamage(float baseDamage, WeaponAPI weapon,
