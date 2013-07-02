@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import org.lazywizard.lazylib.LazyLib;
+import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -15,13 +16,34 @@ import org.lwjgl.util.vector.Vector2f;
  */
 public class SimpleEntity extends SimpleEntityBase
 {
+    // Cache for all reflection-based variants (reduces overhead on creation)
     private static final Map<Class, Method> methodCache = new HashMap();
+    // Variables for anchor-based variant
+    private CombatEntityAPI anchor;
+    private float relativeDistance, relativeAngle;
+    // Variables for reflection-based variant
     private Object toFollow;
     private Method getLocation;
+    // Variables for Vector2f-based variant
     private Vector2f location = null;
 
     private SimpleEntity()
     {
+    }
+
+    /**
+     * Creates a {@code CombatEntityAPI} that follows and rotates another
+     * anchoring {@code CombatEntityAPI}.
+     *
+     * @param location The location relative to {@code anchor} to track.
+     * @param anchor The {@link CombatEntityAPI} to follow and rotate with.
+     * @since 1.5
+     */
+    public SimpleEntity(Vector2f location, CombatEntityAPI anchor)
+    {
+        relativeDistance = MathUtils.getDistance(anchor, location);
+        relativeAngle = MathUtils.getAngle(anchor.getLocation(), location);
+        this.anchor = anchor;
     }
 
     /**
@@ -87,13 +109,20 @@ public class SimpleEntity extends SimpleEntityBase
     /**
      * Returns the location this {@link SimpleEntity} is mimicking.
      *
-     * @return The {@link Vector2f} passed in at creation, or the result of
-     * getLocation() on the followed {@link Object}, depending on which constructor was used.
+     * @return The {@link Vector2f} passed in at creation, a location near this
+     * entity's anchor, or the result of getLocation() on the followed
+     * {@link Object}, depending on which constructor was used.
      * @since 1.4
      */
     @Override
     public Vector2f getLocation()
     {
+        if (anchor != null)
+        {
+            return MathUtils.getPointOnCircumference(anchor.getLocation(),
+                    relativeDistance, relativeAngle);
+        }
+
         if (location != null)
         {
             return location;
