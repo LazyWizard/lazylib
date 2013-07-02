@@ -146,4 +146,17 @@ public class SimpleEntity extends SimpleEntityBase
             throw new RuntimeException(ex);
         }
     }
+
+    /**
+     * Returns the {@link CombatEntityAPI} this entity is anchored to, if that
+     * constructor was used.
+     *
+     * @return The {@link CombatEntityAPI} this entity is anchored to, or
+     * {@code null} if another constructor was used.
+     * @since 1.5
+     */
+    public CombatEntityAPI getAnchor()
+    {
+        return anchor;
+    }
 }
