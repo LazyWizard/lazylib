@@ -59,17 +59,21 @@ public class SimpleEntity extends SimpleEntityBase
         this.toFollow = toFollow;
         Class tmp = toFollow.getClass();
 
+        // Check if the method has already been found for this object type
         if (methodCache.containsKey(tmp))
         {
             getLocation = methodCache.get(tmp);
         }
+        // If not, we've got some reflection-heavy work ahead of us!
         else
         {
+            // Check if this object has a getLocation() method
             try
             {
                 getLocation = toFollow.getClass().getMethod("getLocation",
                         (Class<?>[]) null);
 
+                // Check if getLocation() returns a Vector2f
                 if (getLocation.getReturnType() != Vector2f.class)
                 {
                     throw new RuntimeException("Class "
@@ -84,6 +88,7 @@ public class SimpleEntity extends SimpleEntityBase
                         + " does not implement getLocation()!");
             }
 
+            // Cache this method so we only have to do the lookup once a session
             methodCache.put(tmp, getLocation);
 
             if (LazyLib.isDevBuild())
@@ -117,17 +122,20 @@ public class SimpleEntity extends SimpleEntityBase
     @Override
     public Vector2f getLocation()
     {
+        // Anchor-based constructor
         if (anchor != null)
         {
             return MathUtils.getPointOnCircumference(anchor.getLocation(),
                     relativeDistance, relativeAngle);
         }
 
+        // Vector2f-based constructor
         if (location != null)
         {
             return location;
         }
 
+        // Reflection-based constructor
         try
         {
             return (Vector2f) getLocation.invoke(toFollow);
