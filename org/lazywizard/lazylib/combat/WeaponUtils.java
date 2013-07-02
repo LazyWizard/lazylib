@@ -19,6 +19,7 @@ import org.lwjgl.util.vector.Vector2f;
  * @author LazyWizard
  * @since 1.0
  */
+// FIXME: the calculateXDamage() methods appear to be slightly off for some reason
 public class WeaponUtils
 {
     /**
@@ -73,23 +74,24 @@ public class WeaponUtils
     public static float calculateActualDamage(float baseDamage, WeaponAPI weapon,
             ShipAPI target, DefenseType defense)
     {
+        MutableShipStatsAPI stats = target.getMutableStats();
         switch (defense)
         {
             case SHIELD:
                 return calculateActualDamage(baseDamage, weapon)
                         * weapon.getDamageType().getShieldMult()
-                        * target.getMutableStats().getShieldDamageTakenMult()
-                        .getModifiedValue();
+                        * (weapon.getShip() == null ? 1f
+                        : weapon.getShip().getMutableStats()
+                        .getDamageToTargetShieldsMult().getModifiedValue())
+                        * stats.getShieldDamageTakenMult().getModifiedValue();
             case ARMOR:
                 return calculateActualDamage(baseDamage, weapon)
                         * weapon.getDamageType().getArmorMult()
-                        * target.getMutableStats().getArmorDamageTakenMult()
-                        .getModifiedValue();
+                        * stats.getArmorDamageTakenMult().getModifiedValue();
             case HULL:
                 return calculateActualDamage(baseDamage, weapon)
                         * weapon.getDamageType().getHullMult()
-                        * target.getMutableStats().getHullDamageTakenMult()
-                        .getModifiedValue();
+                        * stats.getHullDamageTakenMult().getModifiedValue();
             case PHASE:
                 return 0f;
             default:
