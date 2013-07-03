@@ -166,6 +166,7 @@ public class MathUtils
     {
         Vector2f dir = Vector2f.sub(destination, source, null);
 
+        // Avoid crash with identical vectors
         if (dir.x == 0 && dir.y == 0)
         {
             return dir;
@@ -405,6 +406,24 @@ public class MathUtils
         }
 
         return rng.nextFloat() * (max - min) + min;
+    }
+
+    /**
+     * Tests for near-equality of floating point numbers.
+     *
+     * @param a The first float to compare.
+     * @param b The second float to compare.
+     * @return {@code true} if {@code a} and {@code b} are within 99.99999%
+     * of eachother, {@code false} otherwise.
+     */
+    public static boolean equals(float a, float b)
+    {
+        if (a == b)
+        {
+            return true;
+        }
+
+        return (a >= b * (.9999999f) && a <= b * (1.0000001f));
     }
 
     /**

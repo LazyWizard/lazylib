@@ -84,7 +84,7 @@ public class CollisionUtils
                 - ((end1.y - start1.y) * (end2.x - start2.x));
 
         //  AB & CD are parallel
-        if (denom == 0)
+        if (MathUtils.equals(0f, denom))
         {
             return null;
         }
@@ -186,7 +186,7 @@ public class CollisionUtils
 
             // Use this opportunity to test if the point is exactly on the bounds
             // Margin of error to compensate for floating point inaccuracies
-            if (tmpLine.ptSegDistSq(tmpPoint) <= 0.00001f)
+            if (tmpLine.ptSegDistSq(tmpPoint) <= 0.00001)
             {
                 return true;
             }

@@ -4,6 +4,8 @@ Added ArmorUtils (converts between world and armor grid coordinates)
 Re-added DefenseType enumeration (HULL, ARMOR, SHIELD, PHASE)
 Changes to CollisionUtils:
  - Fixed bug with isPointInBounds() and points exactly on the boundary edges
+Changes to MathUtils:
+ - Added equals(float a, float b), tests for float equality (99.99999% equality)
 Changes to SimpleEntity:
  - New constructor SimpleEntity(Vector2f location, CombatEntityAPI anchor)
    getLocation() will return a location relative to and rotated with the anchor
