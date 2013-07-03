@@ -4,6 +4,7 @@ import com.fs.starfarer.api.combat.BoundsAPI;
 import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import org.lwjgl.util.vector.Vector2f;
@@ -174,17 +175,31 @@ public class CollisionUtils
         // Transform the bounds into a series of points
         List<SegmentAPI> segments = bounds.getSegments();
         List<Vector2f> points = new ArrayList(segments.size() + 1);
+        Line2D.Float tmpLine = new Line2D.Float();
+        Point2D.Float tmpPoint = new Point2D.Float(point.x, point.y);
+        SegmentAPI seg;
         for (int x = 0; x < segments.size(); x++)
         {
-            points.add(segments.get(x).getP1());
+            seg = segments.get(x);
+            tmpLine.setLine(seg.getP1().x, seg.getP1().y,
+                    seg.getP2().x, seg.getP2().y);
 
+            // Use this opportunity to test if the point is exactly on the bounds
+            // Margin of error to compensate for floating point inaccuracies
+            if (tmpLine.ptSegDistSq(tmpPoint) <= 0.00001f)
+            {
+                return true;
+            }
+
+            points.add(seg.getP1());
             // Make sure to add the final point
             if (x == (segments.size() - 1))
             {
-                points.add(segments.get(x).getP2());
+                points.add(seg.getP2());
             }
         }
 
+        // Check if the point is inside the bounds polygon
         // This code uses the extremely efficient PNPOLY solution taken from:
         // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
         int i, j;
@@ -199,6 +214,7 @@ public class CollisionUtils
                 result = !result;
             }
         }
+
         return result;
     }
 

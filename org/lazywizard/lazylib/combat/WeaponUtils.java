@@ -20,6 +20,7 @@ import org.lwjgl.util.vector.Vector2f;
  * @since 1.0
  */
 // FIXME: the calculateXDamage() methods appear to be slightly off for some reason
+// TODO: Split calculateActualDamage() into calculateDamageAgainst()
 public class WeaponUtils
 {
     /**
@@ -249,7 +250,7 @@ public class WeaponUtils
     {
         ShipAPI ship = weapon.getShip();
         float turnSpeed = weapon.getTurnRate();
-        // TODO: fix bug (ship turning away counts as turning towards!)
+        // FIXME: ship turning away counts as turning towards!
         turnSpeed += ship == null ? 0f : Math.abs(ship.getAngularVelocity());
         float time = Math.abs(weapon.distanceFromArc(aimAt)) / turnSpeed;
 
