@@ -13,6 +13,7 @@ import org.lwjgl.util.vector.Vector2f;
  * @author LazyWizard
  * @since 1.4
  */
+// TODO: Get these methods to stop appearing in the JavaDoc
 abstract class SimpleEntityBase implements CombatEntityAPI
 {
     /**
