@@ -2,6 +2,9 @@
 =====================
 Added ArmorUtils (converts between world and armor grid coordinates)
 Re-added DefenseType enumeration (HULL, ARMOR, SHIELD, PHASE)
+Changes to AIUtils:
+ - Fixed bug with canUseSystemThisFrame() always returning false for
+   active toggleable systems that have a cooldown
 Changes to CollisionUtils:
  - Fixed bug with isPointInBounds() and points exactly on the boundary edges
 Changes to MathUtils:
