@@ -484,14 +484,10 @@ public class AIUtils
     public static boolean canUseSystemThisFrame(ShipAPI ship)
     {
         FluxTrackerAPI flux = ship.getFluxTracker();
-        if (flux.isOverloadedOrVenting())
-        {
-            return false;
-        }
-
         ShipSystemAPI system = ship.getSystem();
-        if (system == null || system.isOutOfAmmo()
-                || system.getCooldownRemaining() > 0f
+
+        if (system == null || flux.isOverloadedOrVenting() || system.isOutOfAmmo()
+                || (!system.isActive() && system.getCooldownRemaining() > 0f)
                 || system.getFluxPerUse() > (flux.getMaxFlux() - flux.getCurrFlux()))
         {
             return false;

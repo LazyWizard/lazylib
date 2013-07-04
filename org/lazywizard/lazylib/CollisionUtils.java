@@ -147,11 +147,12 @@ public class CollisionUtils
     }
 
     /**
-     * Checks if a point is inside of the bounds of a {@link CombatEntityAPI}.
+     * Checks if a point is inside or on the bounds of a {@link CombatEntityAPI}.
      *
      * @param point The {@link Vector2f} to check.
      * @param entity The {@link CombatEntityAPI} whose {@link BoundsAPI} we are checking against.
-     * @return {@code true} if {@link point} is within the bounds of {@code entity}, {@code false} otherwise.
+     * @return {@code true} if {@link point} is within or on the bounds of
+     * {@code entity}, {@code false} otherwise.
      * @since 1.0
      */
     public static boolean isPointWithinBounds(Vector2f point, CombatEntityAPI entity)
