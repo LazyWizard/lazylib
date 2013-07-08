@@ -1,18 +1,19 @@
 package org.lazywizard.lazylib.combat;
 
 import com.fs.starfarer.api.combat.ArmorGridAPI;
+import com.fs.starfarer.api.combat.ShieldAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import org.lazywizard.lazylib.CollisionUtils;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
- * Contains methods to make working with a ship's armor grid less of a headache.
+ * Contains methods to make working with a ship's armor grid and defenses easier.
  *
  * @author LazyWizard
  * @since 1.5
  */
-public class ArmorUtils
+public class DefenseUtils
 {
     public static final float NOT_IN_GRID = -12345.6789f;
 
@@ -85,7 +86,29 @@ public class ArmorUtils
         return (ship.getArmorGrid().getArmorFraction(cell[0], cell[1]));
     }
 
-    private ArmorUtils()
+    public static DefenseType getDefenseAtPoint(ShipAPI ship, Vector2f loc)
+    {
+        if (!CollisionUtils.isPointWithinBounds(loc, ship)
+                || (ship.getPhaseCloak() != null && ship.getPhaseCloak().isActive()))
+        {
+            return DefenseType.PHASE_OR_MISS;
+        }
+
+        ShieldAPI shield = ship.getShield();
+        if (shield != null && shield.isOn() && shield.isWithinArc(loc))
+        {
+            return DefenseType.SHIELD;
+        }
+
+        if (getArmorValue(ship, loc) > 0f)
+        {
+            return DefenseType.ARMOR;
+        }
+
+        return DefenseType.HULL;
+    }
+
+    private DefenseUtils()
     {
     }
 }

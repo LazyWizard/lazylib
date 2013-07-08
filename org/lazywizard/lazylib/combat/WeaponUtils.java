@@ -94,7 +94,7 @@ public class WeaponUtils
                 return calculateActualDamage(baseDamage, weapon)
                         * weapon.getDamageType().getHullMult()
                         * stats.getHullDamageTakenMult().getModifiedValue();
-            case PHASE:
+            case PHASE_OR_MISS:
                 return 0f;
             default:
                 return calculateActualDamage(baseDamage, weapon);

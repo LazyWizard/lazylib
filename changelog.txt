@@ -1,14 +1,16 @@
- 1.5 (June XX, 2013)
+ 1.5 (July XX, 2013)
 =====================
-Added ArmorUtils (converts between world and armor grid coordinates)
-Re-added DefenseType enumeration (HULL, ARMOR, SHIELD, PHASE)
+Re-added DefenseType enumeration (contains HULL, ARMOR, SHIELD, PHASE_OR_MISS)
+Added DefenseUtils:
+ - Contains methods to convert between world and armor grid coordinates
+ - Can check what DefenseType is present at a specific point on a ship
 Changes to AIUtils:
  - Fixed bug with canUseSystemThisFrame() always returning false for
    active toggleable systems that have a cooldown
 Changes to CollisionUtils:
  - Fixed bug with isPointInBounds() and points exactly on the boundary edges
 Changes to MathUtils:
- - Added equals(float a, float b), tests for float equality (99.99999% equality)
+ - Added equals(float a, float b), tests for 99.99999+% equality of floats
 Changes to SimpleEntity:
  - New constructor SimpleEntity(Vector2f location, CombatEntityAPI anchor)
    getLocation() will return a location relative to and rotated with the anchor
@@ -29,6 +31,11 @@ Changes to WeaponUtils:
 Added @since annotations (useful for finding the lowest library version needed)
 Miscellaneous other JavaDoc improvements
 Minor math optimizations related to the changes made in the 1.3 update
+Added SimpleEntity class (barebones implementation of CombatEntityAPI):
+ - Useful for spawnEmpArc(), which can target a CombatEntityAPI
+ - Has a constructor that takes a Vector2f, for a static location
+ - Can also take an Object that has a getLocation() method, for mobile targets
+   (useful for targeting a specific WeaponAPI). This uses reflection!
 Changes to CombatUtils:
  - Added getTimeSinceLastFrame()
 Changes to MathUtils:
@@ -51,11 +58,6 @@ Changes to WeaponUtils:
  - Added getEnemyMissilesInArc(WeaponAPI weapon, [boolean sortByDistance])
  - Added getNearestEnemyMissileInArc(WeaponAPI weapon)
  - Added aimTowardsPoint(WeaponAPI weapon, Vector2f point, float time)
-Added SimpleEntity class (barebones implementation of CombatEntityAPI):
- - Useful for spawnEmpArc(), which can target a CombatEntityAPI
- - Has a constructor that takes a Vector2f, for a static location
- - Can also take an Object that has a getLocation() method, for mobile targets
-   (useful for targeting a specific WeaponAPI). This uses reflection!
 (method parameters in [brackets] signify optional parameters)
 
 
