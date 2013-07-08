@@ -19,8 +19,7 @@ public class ArmorUtils
     // FIXME: there's an off-by-one error somewhere in here
     public static int[] getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
     {
-        // I'm aware that armor cells go beyond ship bounds, but
-        // this check solves far more problems than it creates
+        // TODO: replace with check if point is within gridData
         if (!CollisionUtils.isPointWithinBounds(loc, ship))
         {
             return null;
