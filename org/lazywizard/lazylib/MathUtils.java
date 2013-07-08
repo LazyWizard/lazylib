@@ -453,16 +453,11 @@ public class MathUtils
      * @param a The first float to compare.
      * @param b The second float to compare.
      * @return {@code true} if {@code a} and {@code b} are within 99.99999%
-     * of eachother, {@code false} otherwise.
+     * of each other, {@code false} otherwise.
      */
     public static boolean equals(float a, float b)
     {
-        if (a == b)
-        {
-            return true;
-        }
-
-        return (a >= b * (.9999999f) && a <= b * (1.0000001f));
+        return ((a == b) || (a >= b * (.9999999f) && a <= b * (1.0000001f)));
     }
 
     /**

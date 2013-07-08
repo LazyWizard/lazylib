@@ -5,5 +5,5 @@ public enum DefenseType
     HULL,
     ARMOR,
     SHIELD,
-    PHASE
+    PHASE_OR_MISS
 }
