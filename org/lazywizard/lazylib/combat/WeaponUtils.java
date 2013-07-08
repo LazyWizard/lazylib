@@ -84,7 +84,8 @@ public class WeaponUtils
                         * (weapon.getShip() == null ? 1f
                         : weapon.getShip().getMutableStats()
                         .getDamageToTargetShieldsMult().getModifiedValue())
-                        * stats.getShieldDamageTakenMult().getModifiedValue();
+                        * stats.getShieldDamageTakenMult().getModifiedValue()
+                        * stats.getShieldAbsorptionMult().getModifiedValue();
             case ARMOR:
                 return calculateActualDamage(baseDamage, weapon)
                         * weapon.getDamageType().getArmorMult()

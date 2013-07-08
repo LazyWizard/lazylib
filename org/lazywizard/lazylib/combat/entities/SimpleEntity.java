@@ -18,17 +18,28 @@ public class SimpleEntity extends SimpleEntityBase
 {
     // Cache for all reflection-based variants (reduces overhead on creation)
     private static final Map<Class, Method> methodCache = new HashMap();
+    // Variables for Vector2f-based variant
+    private Vector2f location = null;
     // Variables for anchor-based variant
     private CombatEntityAPI anchor;
     private float relativeDistance, relativeAngle;
     // Variables for reflection-based variant
     private Object toFollow;
     private Method getLocation;
-    // Variables for Vector2f-based variant
-    private Vector2f location = null;
 
     private SimpleEntity()
     {
+    }
+
+    /**
+     * Creates a {@link CombatEntityAPI} that stays in a single, predefined location.
+     *
+     * @param location
+     * @since 1.4
+     */
+    public SimpleEntity(Vector2f location)
+    {
+        this.location = location;
     }
 
     /**
@@ -99,17 +110,6 @@ public class SimpleEntity extends SimpleEntityBase
                         + getLocation.toGenericString() + ".");
             }
         }
-    }
-
-    /**
-     * Creates a {@link CombatEntityAPI} that stays in a single, predefined location.
-     *
-     * @param location
-     * @since 1.4
-     */
-    public SimpleEntity(Vector2f location)
-    {
-        this.location = location;
     }
 
     /**

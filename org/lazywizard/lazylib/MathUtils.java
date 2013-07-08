@@ -271,8 +271,27 @@ public class MathUtils
      */
     public static Vector2f getPointOnCircumference(Vector2f center, float radius, float angle)
     {
-        double rad = Math.toRadians(clampAngle(angle));
+        angle = clampAngle(angle);
 
+        // Bypass relatively expensive trig operations whenever possible
+        if (angle == 0f)
+        {
+            return new Vector2f(center.x + radius, center.y);
+        }
+        if (angle == 90f)
+        {
+            return new Vector2f(center.x, center.y - radius);
+        }
+        if (angle == 180f)
+        {
+            return new Vector2f(center.x - radius, center.y);
+        }
+        if (angle == 270f)
+        {
+            return new Vector2f(center.x, center.y + radius);
+        }
+
+        double rad = Math.toRadians(angle);
         return new Vector2f((float) FastTrig.cos(rad) * radius
                 + (center == null ? 0f : center.x),
                 (float) FastTrig.sin(rad) * radius
@@ -291,7 +310,7 @@ public class MathUtils
      */
     public static Vector2f getRandomPointOnCircumference(Vector2f center, float radius)
     {
-        return getPointOnCircumference(center, radius, (float) Math.random() * 360);
+        return getPointOnCircumference(center, radius, (float) Math.random() * 360f);
     }
 
     /**

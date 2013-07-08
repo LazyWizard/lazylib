@@ -4,7 +4,6 @@ import com.fs.starfarer.api.combat.BoundsAPI;
 import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import org.lwjgl.util.vector.Vector2f;
@@ -23,10 +22,12 @@ public class CollisionUtils
      * @param target The CombatEntityAPI to check collision with.
      * @param lineStart The start of the line to test collision with.
      * @param lineEnd The end of the line to test collision with.
-     * @return The {@link Vector2f} of the point the line would hit at, or null if it doesn't hit.
+     * @return The {@link Vector2f} of the point the line would hit at,
+     * or null if it doesn't hit.
      * @since 1.0
      */
-    public static Vector2f getCollisionPoint(Vector2f lineStart, Vector2f lineEnd, CombatEntityAPI target)
+    public static Vector2f getCollisionPoint(Vector2f lineStart,
+            Vector2f lineEnd, CombatEntityAPI target)
     {
         BoundsAPI bounds = target.getExactBounds();
 
@@ -75,10 +76,12 @@ public class CollisionUtils
      * @param end1 The end of the first line to test collision with.
      * @param start2 The start of the second line to test collision with.
      * @param end2 The end of the second line to test collision with.
-     * @return The {@link Vector2f} that the two lines intersect at, null if they don't collide.
+     * @return The {@link Vector2f} that the two lines intersect at,
+     * null if they don't collide.
      * @since 1.0
      */
-    public static Vector2f getCollisionPoint(Vector2f start1, Vector2f end1, Vector2f start2, Vector2f end2)
+    public static Vector2f getCollisionPoint(Vector2f start1, Vector2f end1,
+            Vector2f start2, Vector2f end2)
     {
         float denom = ((end1.x - start1.x) * (end2.y - start2.y))
                 - ((end1.y - start1.y) * (end2.x - start2.x));
@@ -116,7 +119,8 @@ public class CollisionUtils
      * @param lineEnd The end point of the line to test.
      * @param center The center point of the circle.
      * @param radius The radius of the circle.
-     * @return {@code true} if the line collides with the circle, {@code false} otherwise.
+     * @return {@code true} if the line collides with the circle,
+     * {@code false} otherwise.
      * @since 1.0
      */
     public static boolean getCollides(Vector2f lineStart, Vector2f lineEnd,
@@ -135,8 +139,10 @@ public class CollisionUtils
      * Checks if a point is inside the collision circle of a {@link CombatEntityAPI}.
      *
      * @param point The {@link Vector2f} to check.
-     * @param entity The {@link CombatEntityAPI} whose {@link BoundsAPI} we are checking against.
-     * @return {@code true} if {@link point} is within the collision circle of {@code entity}, {@code false} otherwise.
+     * @param entity The {@link CombatEntityAPI} whose {@link BoundsAPI} we
+     * are checking against.
+     * @return {@code true} if {@link point} is within the collision circle
+     * of {@code entity}, {@code false} otherwise.
      * @since 1.4
      */
     public static boolean isPointWithinCollisionCircle(Vector2f point,
@@ -150,7 +156,8 @@ public class CollisionUtils
      * Checks if a point is inside or on the bounds of a {@link CombatEntityAPI}.
      *
      * @param point The {@link Vector2f} to check.
-     * @param entity The {@link CombatEntityAPI} whose {@link BoundsAPI} we are checking against.
+     * @param entity The {@link CombatEntityAPI} whose {@link BoundsAPI} we
+     * are checking against.
      * @return {@code true} if {@link point} is within or on the bounds of
      * {@code entity}, {@code false} otherwise.
      * @since 1.0
@@ -176,18 +183,15 @@ public class CollisionUtils
         // Transform the bounds into a series of points
         List<SegmentAPI> segments = bounds.getSegments();
         List<Vector2f> points = new ArrayList(segments.size() + 1);
-        Line2D.Float tmpLine = new Line2D.Float();
-        Point2D.Float tmpPoint = new Point2D.Float(point.x, point.y);
         SegmentAPI seg;
         for (int x = 0; x < segments.size(); x++)
         {
             seg = segments.get(x);
-            tmpLine.setLine(seg.getP1().x, seg.getP1().y,
-                    seg.getP2().x, seg.getP2().y);
 
             // Use this opportunity to test if the point is exactly on the bounds
             // Margin of error to compensate for floating point inaccuracies
-            if (tmpLine.ptSegDistSq(tmpPoint) <= 0.00001)
+            if (Line2D.Float.ptSegDistSq(seg.getP1().x, seg.getP1().y,
+                    seg.getP2().x, seg.getP2().y, point.x, point.y) <= 0.00001)
             {
                 return true;
             }
