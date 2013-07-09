@@ -276,19 +276,23 @@ public class MathUtils
         // Bypass relatively expensive trig operations whenever possible
         if (angle == 0f)
         {
-            return new Vector2f(center.x + radius, center.y);
+            return new Vector2f((center == null ? 0f : center.x) + radius,
+                    (center == null ? 0f : center.y));
         }
         if (angle == 90f)
         {
-            return new Vector2f(center.x, center.y - radius);
+            return new Vector2f((center == null ? 0f : center.x),
+                    (center == null ? 0 : center.y) - radius);
         }
         if (angle == 180f)
         {
-            return new Vector2f(center.x - radius, center.y);
+            return new Vector2f((center == null ? 0f : center.x) - radius,
+                    (center == null ? 0 : center.y));
         }
         if (angle == 270f)
         {
-            return new Vector2f(center.x, center.y + radius);
+            return new Vector2f((center == null ? 0f : center.x),
+                    (center == null ? 0 : center.y) + radius);
         }
 
         double rad = Math.toRadians(angle);
