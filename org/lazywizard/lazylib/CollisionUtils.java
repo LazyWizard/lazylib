@@ -141,7 +141,7 @@ public class CollisionUtils
      * @param point The {@link Vector2f} to check.
      * @param entity The {@link CombatEntityAPI} whose {@link BoundsAPI} we
      * are checking against.
-     * @return {@code true} if {@link point} is within the collision circle
+     * @return {@code true} if {@code point} is within the collision circle
      * of {@code entity}, {@code false} otherwise.
      * @since 1.4
      */
@@ -158,7 +158,7 @@ public class CollisionUtils
      * @param point The {@link Vector2f} to check.
      * @param entity The {@link CombatEntityAPI} whose {@link BoundsAPI} we
      * are checking against.
-     * @return {@code true} if {@link point} is within or on the bounds of
+     * @return {@code true} if {@code point} is within or on the bounds of
      * {@code entity}, {@code false} otherwise.
      * @since 1.0
      */

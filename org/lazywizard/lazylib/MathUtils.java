@@ -29,7 +29,7 @@ public class MathUtils
     }
 
     /**
-     * Returns the distance between a {@link SectorEntityToken} and a {@link Vector2f).
+     * Returns the distance between a {@link SectorEntityToken} and a {@link Vector2f}.
      *
      * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
      * @since 1.1
@@ -94,7 +94,7 @@ public class MathUtils
 
     /**
      * Returns the distance squared between a {@link SectorEntityToken} and
-     * a {@link Vector2f).
+     * a {@link Vector2f}.
      *
      * @see MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f,
      * org.lwjgl.util.vector.Vector2f)
@@ -366,7 +366,7 @@ public class MathUtils
      * @param point The {@link Vector2f} to check.
      * @param center The center point of the circle (can be null for a 0, 0 origin).
      * @param radius The radius of the circle.
-     * @return {@code true} if {@link point} is within the circle,
+     * @return {@code true} if {@code point} is within the circle,
      * {@code false} otherwise.
      * @since 1.0
      */
