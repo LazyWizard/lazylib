@@ -2,7 +2,6 @@
 =====================
 Re-added DefenseType enumeration (contains HULL, ARMOR, SHIELD, PHASE_OR_MISS)
 Added DefenseUtils:
- - Contains methods to convert between world and armor grid coordinates
  - Can check what DefenseType is present at a specific point on a ship
 Changes to AIUtils:
  - Fixed bug with canUseSystemThisFrame() always returning false for
