@@ -13,11 +13,13 @@ import org.lwjgl.util.vector.Vector2f;
  * @author LazyWizard
  * @since 1.5
  */
+// TODO: Add JavaDoc to this class
 public class DefenseUtils
 {
-    public static final float NOT_IN_GRID = -12345.6789f;
+    public static final float NOT_IN_GRID = -12345.9876f;
 
     // FIXME: there's an off-by-one error somewhere in here
+    // TODO: probably need to rewrite most of this
     public static int[] getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
     {
         // TODO: replace with check if point is within gridData

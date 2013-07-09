@@ -247,6 +247,7 @@ public class WeaponUtils
      * @return The time in seconds it would take to aim {@code weapon}.
      * @since 1.0
      */
+    // TODO: Factor acceleration into equation
     public static float getTimeToAim(WeaponAPI weapon, Vector2f aimAt)
     {
         ShipAPI ship = weapon.getShip();
@@ -432,7 +433,7 @@ public class WeaponUtils
      *
      * @param weapon The weapon to detect enemies in range of.
      * @return A {@link List} containing all enemy missiles within range.
-     * @see WeaponUtils#getEnemyMissilesInRange(com.fs.starfarer.api.combat.WeaponAPI, boolean)
+     * @see WeaponUtils#getEnemyMissilesInArc(com.fs.starfarer.api.combat.WeaponAPI, boolean)
      * @since 1.4
      */
     public static List<MissileAPI> getEnemyMissilesInArc(WeaponAPI weapon)
