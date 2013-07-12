@@ -11,6 +11,7 @@ import com.fs.starfarer.api.combat.ShipHullSpecAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.ShipVariantAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import java.awt.Color;
 import java.util.List;
 import org.lazywizard.lazylib.CollisionUtils;
 import org.lazywizard.lazylib.MathUtils;
@@ -50,37 +51,39 @@ public class DefenseUtils
     public static Vector2f getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
     {
         // Analyze armor grid
-        Vector2f cell = new Vector2f(loc);
         ArmorGridAPI grid = ship.getArmorGrid();
         float sizeX = grid.getGrid().length * grid.getCellSize(),
                 sizeY = grid.getGrid()[0].length * grid.getCellSize();
-
         System.out.println("Grid is " + grid.getGrid().length + "x"
                 + grid.getGrid()[0].length + " (" + sizeX + "x" + sizeY
                 + " su), " + grid.getCellSize() + " su per cell");
-        System.out.println("Location (unrotated): " + loc);
+        System.out.println("Location (raw): " + loc);
 
         // Rotate location to adjust for ship facing
         // FIXME: Rotation is incorrect
-        float angle = MathUtils.getFacing(cell) - (ship.getFacing() + 90f);
+        Vector2f cell = new Vector2f(loc);
+        float angle = MathUtils.getAngle(ship.getLocation(), cell)
+                - (ship.getFacing() - 90f);
+        System.out.println("Rotating from "
+                + MathUtils.getAngle(ship.getLocation(), cell) + " to " + angle);
         cell = MathUtils.getPointOnCircumference(ship.getLocation(),
-                cell.length(), angle);
+                MathUtils.getDistance(cell, ship.getLocation()), angle);
+        CombatUtils.getCombatEngine().addHitParticle(cell, ship.getVelocity(),
+                5f, .1f, 1f, Color.RED);
         System.out.println("Location (rotated): " + cell);
 
         // Translate coordinate to be relative to the armor grid
-        Vector2f.sub(loc, ship.getLocation(), cell);
+        cell.x -= ship.getLocation().x;
+        cell.y -= ship.getLocation().y;
         cell.x += (sizeX / 2f);
         cell.y += (sizeY / 2f);
-        System.out.println("Location in grid (unscaled): " + cell);
-
-        // Scale to the size of the armor grid
         cell.scale(1f / grid.getCellSize());
         System.out.println("Location in grid (scaled): " + cell);
 
         // Check that point is inside armor grid
         if (cell.x < 0f || cell.y < 0f || cell.x > sizeX || cell.y > sizeY)
         {
-            System.out.println("Not within armor grid!");
+            System.out.println("Not within armor grid: " + cell);
             return null;
         }
 
