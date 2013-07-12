@@ -274,25 +274,25 @@ public class MathUtils
         angle = clampAngle(angle);
 
         // Bypass relatively expensive trig operations whenever possible
-        if (angle == 0f)
+        if (equals(angle, 0f))
         {
             return new Vector2f((center == null ? 0f : center.x) + radius,
                     (center == null ? 0f : center.y));
         }
-        if (angle == 90f)
+        if (equals(angle, 90f))
         {
             return new Vector2f((center == null ? 0f : center.x),
-                    (center == null ? 0f : center.y) - radius);
+                    (center == null ? 0f : center.y) + radius);
         }
-        if (angle == 180f)
+        if (equals(angle, 180f))
         {
             return new Vector2f((center == null ? 0f : center.x) - radius,
                     (center == null ? 0f : center.y));
         }
-        if (angle == 270f)
+        if (equals(angle, 270f))
         {
             return new Vector2f((center == null ? 0f : center.x),
-                    (center == null ? 0f : center.y) + radius);
+                    (center == null ? 0f : center.y) - radius);
         }
 
         double rad = Math.toRadians(angle);
