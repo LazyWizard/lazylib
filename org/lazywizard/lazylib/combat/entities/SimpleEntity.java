@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import org.lazywizard.lazylib.LazyLib;
-import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -14,15 +13,12 @@ import org.lwjgl.util.vector.Vector2f;
  * @author LazyWizard
  * @since 1.4
  */
-public class SimpleEntity extends SimpleEntityBase
+public class SimpleEntity extends EntityBase
 {
     // Cache for all reflection-based variants (reduces overhead on creation)
     private static final Map<Class, Method> methodCache = new HashMap();
     // Variables for Vector2f-based variant
     private Vector2f location = null;
-    // Variables for anchor-based variant
-    private CombatEntityAPI anchor;
-    private float relativeDistance, relativeAngle;
     // Variables for reflection-based variant
     private Object toFollow;
     private Method getLocation;
@@ -40,22 +36,6 @@ public class SimpleEntity extends SimpleEntityBase
     public SimpleEntity(Vector2f location)
     {
         this.location = location;
-    }
-
-    /**
-     * Creates a {@code CombatEntityAPI} that follows and rotates another
-     * anchoring {@code CombatEntityAPI}.
-     *
-     * @param location The location relative to {@code anchor} to track.
-     * @param anchor The {@link CombatEntityAPI} to follow and rotate with.
-     * @since 1.5
-     */
-    public SimpleEntity(Vector2f location, CombatEntityAPI anchor)
-    {
-        relativeDistance = MathUtils.getDistance(anchor.getLocation(), location);
-        relativeAngle = MathUtils.clampAngle(MathUtils.getAngle(
-                anchor.getLocation(), location) - anchor.getFacing());
-        this.anchor = anchor;
     }
 
     /**
@@ -123,13 +103,6 @@ public class SimpleEntity extends SimpleEntityBase
     @Override
     public Vector2f getLocation()
     {
-        // Anchor-based constructor
-        if (anchor != null)
-        {
-            return MathUtils.getPointOnCircumference(anchor.getLocation(),
-                    relativeDistance, relativeAngle + anchor.getFacing());
-        }
-
         // Vector2f-based constructor
         if (location != null)
         {
@@ -145,18 +118,5 @@ public class SimpleEntity extends SimpleEntityBase
         {
             throw new RuntimeException(ex);
         }
-    }
-
-    /**
-     * Returns the {@link CombatEntityAPI} this entity is anchored to, if that
-     * constructor was used.
-     *
-     * @return The {@link CombatEntityAPI} this entity is anchored to, or
-     * {@code null} if another constructor was used.
-     * @since 1.5
-     */
-    public CombatEntityAPI getAnchor()
-    {
-        return anchor;
     }
 }
