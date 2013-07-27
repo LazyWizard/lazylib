@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -20,8 +19,6 @@ import org.lwjgl.util.vector.Vector2f;
  */
 public class CollectionUtils
 {
-    private static final Random rng = new Random();
-
     /**
      * Returns a {@link List} of items chosen via a weighted random from a {@link Map}.
      *
@@ -49,7 +46,7 @@ public class CollectionUtils
 
         for (int x = 0; x < numToPick; x++)
         {
-            random = rng.nextFloat() * totalWeight;
+            random = MathUtils.getRandom().nextFloat() * totalWeight;
             for (Map.Entry<T, Float> tmp : pickFrom.entrySet())
             {
                 random -= tmp.getValue();
@@ -86,7 +83,7 @@ public class CollectionUtils
             totalWeight += tmp;
         }
 
-        float random = (float) Math.random() * totalWeight;
+        float random = MathUtils.getRandom().nextFloat() * totalWeight;
         for (Map.Entry<T, Float> tmp : pickFrom.entrySet())
         {
             random -= tmp.getValue();

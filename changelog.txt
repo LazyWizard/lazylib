@@ -1,7 +1,11 @@
  1.5 (July XX, 2013)
 =====================
 Re-added DefenseType enumeration (contains HULL, ARMOR, SHIELD, PHASE_OR_MISS)
+Added AnchoredEntity:
+ - Alternative implementation of CombatEntityAPI that follows and rotates
+   alongside another CombatEntityAPI (the anchor)
 Added DefenseUtils:
+ - Contains methods to convert between world and armor grid coordinates
  - Can check what DefenseType is present at a specific point on a ship
 Changes to AIUtils:
  - Fixed bug with canUseSystemThisFrame() always returning false for
@@ -10,10 +14,7 @@ Changes to CollisionUtils:
  - Fixed bug with isPointInBounds() and points exactly on the boundary edges
 Changes to MathUtils:
  - Added equals(float a, float b), tests for 99.99999+% equality of floats
-Changes to SimpleEntity:
- - New constructor SimpleEntity(Vector2f location, CombatEntityAPI anchor)
-   getLocation() will return a location relative to and rotated with the anchor
- - Added getAnchor() (returns null if another constructor was used)
+ - Added getRandom(), returns the random generator used by LazyLib
 Changes to WeaponUtils:
  - New methods to check how much damage you would deal to a specific target:
  - Added calculateActualDamage(float baseDamage, WeaponAPI weapon,
