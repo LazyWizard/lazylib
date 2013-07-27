@@ -25,7 +25,7 @@ import org.lwjgl.util.vector.Vector2f;
 public class CombatUtils implements EveryFrameCombatPlugin
 {
     private static WeakReference<CombatEngineAPI> engine;
-    private static float lastFrame = 0f, combatTime = 0f,
+    private static float timeSinceLastFrame = 0f, combatTime = 0f,
             combatTimeIncludingPaused = 0f;
 
     /**
@@ -70,7 +70,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
      */
     public static float getTimeSinceLastFrame()
     {
-        return lastFrame;
+        return timeSinceLastFrame;
     }
 
     /**
@@ -416,7 +416,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     @Override
     public void advance(float amount, List<InputEventAPI> events)
     {
-        lastFrame = amount;
+        timeSinceLastFrame = amount;
         combatTimeIncludingPaused += amount;
 
         if (!getCombatEngine().isPaused())
@@ -432,7 +432,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     public void init(CombatEngineAPI engine)
     {
         CombatUtils.engine = new WeakReference(engine);
-        CombatUtils.lastFrame = 0f;
+        CombatUtils.timeSinceLastFrame = 0f;
         CombatUtils.combatTime = 0f;
         CombatUtils.combatTimeIncludingPaused = 0f;
     }

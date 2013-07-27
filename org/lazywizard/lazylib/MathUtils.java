@@ -314,7 +314,7 @@ public class MathUtils
      */
     public static Vector2f getRandomPointOnCircumference(Vector2f center, float radius)
     {
-        return getPointOnCircumference(center, radius, (float) Math.random() * 360f);
+        return getPointOnCircumference(center, radius, rng.nextFloat() * 360f);
     }
 
     /**
@@ -327,14 +327,14 @@ public class MathUtils
      */
     public static Vector2f getRandomPointInCircle(Vector2f center, float radius)
     {
-        double t = 2 * Math.PI * Math.random(),
-                u = Math.random() + Math.random(),
+        double t = 2 * Math.PI * rng.nextDouble(),
+                u = rng.nextDouble() + rng.nextDouble(),
                 r = (u > 1 ? 2 - u : u);
         return new Vector2f((float) (r * FastTrig.cos(t)) * radius
                 + (center == null ? 0f : center.x),
                 (float) (r * FastTrig.sin(t)) * radius
                 + (center == null ? 0f : center.y));
-        //return getRandomPointOnCircumference(center, (float) (radius * Math.random()));
+        //return getRandomPointOnCircumference(center, radius * rng.nextFloat());
     }
 
     /**
@@ -441,13 +441,6 @@ public class MathUtils
      */
     public static float getRandomNumberInRange(float min, float max)
     {
-        if (min > max)
-        {
-            float tmp = min;
-            min = max;
-            max = tmp;
-        }
-
         return rng.nextFloat() * (max - min) + min;
     }
 
@@ -462,6 +455,11 @@ public class MathUtils
     public static boolean equals(float a, float b)
     {
         return ((a == b) || (a >= b * (.9999999f) && a <= b * (1.0000001f)));
+    }
+
+    public static Random getRandom()
+    {
+        return rng;
     }
 
     /**
