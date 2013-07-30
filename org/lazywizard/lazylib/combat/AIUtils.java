@@ -486,6 +486,7 @@ public class AIUtils
         FluxTrackerAPI flux = ship.getFluxTracker();
         ShipSystemAPI system = ship.getSystem();
 
+        // Todo: switch isActive() to isOn() once .6a is released
         if (system == null || flux.isOverloadedOrVenting() || system.isOutOfAmmo()
                 || (!system.isActive() && system.getCooldownRemaining() > 0f)
                 || system.getFluxPerUse() > (flux.getMaxFlux() - flux.getCurrFlux()))

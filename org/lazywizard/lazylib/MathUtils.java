@@ -457,6 +457,13 @@ public class MathUtils
         return ((a == b) || (a >= b * (.9999999f) && a <= b * (1.0000001f)));
     }
 
+    /**
+     * Returns the random number generator used by LazyLib's methods. Useful
+     * for seed manipulation or to avoid instantiating your own.
+     *
+     * @return The {@link Random} instance used by LazyLib.
+     * @since 1.5
+     */
     public static Random getRandom()
     {
         return rng;
@@ -471,9 +478,9 @@ public class MathUtils
     @Deprecated
     public static boolean isPointWithinBounds(Vector2f point, CombatEntityAPI entity)
     {
-        /*System.out.println("LazyLib - using deprecated method "
-         + MathUtils.class.getCanonicalName()
-         + ":isPointWithinBounds(Vector2f point, CombatEntityAPI entity)");*/
+        System.out.println("LazyLib - using deprecated method "
+                + MathUtils.class.getCanonicalName()
+                + ":isPointWithinBounds(Vector2f point, CombatEntityAPI entity)");
         return CollisionUtils.isPointWithinBounds(point, entity);
     }
 
