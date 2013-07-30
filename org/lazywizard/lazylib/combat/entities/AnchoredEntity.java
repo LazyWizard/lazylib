@@ -21,7 +21,6 @@ public class AnchoredEntity extends EntityBase
      * @param location The location relative to {@code anchor} to track.
      * @since 1.5
      */
-    
     public AnchoredEntity(CombatEntityAPI anchor, Vector2f location)
     {
         relativeDistance = MathUtils.getDistance(anchor.getLocation(), location);
@@ -30,6 +29,13 @@ public class AnchoredEntity extends EntityBase
         this.anchor = anchor;
     }
 
+    /**
+     * Returns the location of this entity, calculated to be relative to
+     * its anchor.
+     *
+     * @return The location of this entity.
+     * @since 1.5
+     */
     @Override
     public Vector2f getLocation()
     {
@@ -37,6 +43,12 @@ public class AnchoredEntity extends EntityBase
                 relativeDistance, relativeAngle + anchor.getFacing());
     }
 
+    /**
+     * Returns this entity's velocity.
+     *
+     * @return The velocity of this entity (will be the same as its anchor).
+     * @since 1.5
+     */
     @Override
     public Vector2f getVelocity()
     {

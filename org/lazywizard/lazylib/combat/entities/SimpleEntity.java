@@ -95,9 +95,9 @@ public class SimpleEntity extends EntityBase
     /**
      * Returns the location this {@link SimpleEntity} is mimicking.
      *
-     * @return The {@link Vector2f} passed in at creation, a location near this
-     * entity's anchor, or the result of getLocation() on the followed
-     * {@link Object}, depending on which constructor was used.
+     * @return The {@link Vector2f} passed in at creation or the result of
+     * getLocation() on the followed {@link Object}, depending on which
+     * constructor was used.
      * @since 1.4
      */
     @Override
