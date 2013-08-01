@@ -35,22 +35,15 @@ public class DefenseUtils
         ArmorGridAPI grid = ship.getArmorGrid();
         float sizeX = grid.getGrid().length * grid.getCellSize(),
                 sizeY = grid.getGrid()[0].length * grid.getCellSize();
-        System.out.println("Grid is " + grid.getGrid().length + "x"
-                + grid.getGrid()[0].length + " (" + sizeX + "x" + sizeY
-                + " su), " + grid.getCellSize() + " su per cell");
-        System.out.println("Location (raw): " + loc);
 
         // Rotate location to adjust for ship facing
         Vector2f cell = new Vector2f(loc);
         float angle = MathUtils.getAngle(ship.getLocation(), cell)
                 - (ship.getFacing() - 90f);
-        System.out.println("Rotating from "
-                + MathUtils.getAngle(ship.getLocation(), cell) + " to " + angle);
         cell = MathUtils.getPointOnCircumference(ship.getLocation(),
                 MathUtils.getDistance(cell, ship.getLocation()), angle);
         CombatUtils.getCombatEngine().addHitParticle(cell, ship.getVelocity(),
                 5f, .1f, 1f, Color.RED);
-        System.out.println("Location (rotated): " + cell);
 
         // Translate coordinate to be relative to the armor grid
         cell.x -= ship.getLocation().x;
@@ -58,18 +51,15 @@ public class DefenseUtils
         cell.x += (sizeX / 2f);
         cell.y += (sizeY / 2f);
         cell.scale(1f / grid.getCellSize());
-        System.out.println("Location in grid (scaled): " + cell);
 
         // Check that point is inside armor grid
         if (cell.x < 0f || cell.y < 0f || cell.x > sizeX || cell.y > sizeY)
         {
-            System.out.println("Not within armor grid: " + cell);
             return null;
         }
 
         // Return integer result
         cell.set((int) cell.x, (int) cell.y);
-        System.out.println("In grid: " + cell);
         return cell;
     }
 

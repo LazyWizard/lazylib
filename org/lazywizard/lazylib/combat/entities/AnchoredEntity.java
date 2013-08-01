@@ -4,6 +4,13 @@ import com.fs.starfarer.api.combat.CombatEntityAPI;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
+/**
+ * An implementation of {@code CombatEntityAPI} that follows and rotates
+ * with another anchoring {@code CombatEntityAPI}.
+ *
+ * @author LazyWizard
+ * @since 1.5
+ */
 public class AnchoredEntity extends EntityBase
 {
     private CombatEntityAPI anchor;
