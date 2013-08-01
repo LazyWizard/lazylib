@@ -1,5 +1,5 @@
- 1.5 (July XX, 2013)
-=====================
+ 1.5 (August 01, 2013)
+=======================
 Re-added DefenseType enumeration (contains HULL, ARMOR, SHIELD, PHASE_OR_MISS)
 Added AnchoredEntity:
  - Alternative implementation of CombatEntityAPI that follows and rotates
@@ -13,6 +13,9 @@ Changes to AIUtils:
    active toggleable systems that have a cooldown
 Changes to CollisionUtils:
  - Fixed bug with isPointInBounds() and points exactly on the boundary edges
+Changes to CombatUtils:
+ - Added getFleetMember(ShipAPI ship), returns the FleetMemberAPI whose
+   id matches this ship (or null if no match was found)
 Changes to MathUtils:
  - Added equals(float a, float b), tests for 99.99999+% equality of floats
  - Added getRandom(), returns an instance of java.util.Random

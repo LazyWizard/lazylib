@@ -474,7 +474,7 @@ public class AIUtils
     }
 
     /**
-     * Check if a ship's system can be used this frame.
+     * Check if a ship's system can be toggled this frame.
      * This still returns true if the shipsystem is already on!
      *
      * @param ship The ship to check the system of.
@@ -487,6 +487,7 @@ public class AIUtils
         ShipSystemAPI system = ship.getSystem();
 
         // Todo: switch isActive() to isOn() once .6a is released
+        // (system.isActive() && !System.isOn())
         if (system == null || flux.isOverloadedOrVenting() || system.isOutOfAmmo()
                 || (!system.isActive() && system.getCooldownRemaining() > 0f)
                 || system.getFluxPerUse() > (flux.getMaxFlux() - flux.getCurrFlux()))
