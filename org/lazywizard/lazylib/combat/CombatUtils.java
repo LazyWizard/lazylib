@@ -1,5 +1,8 @@
 package org.lazywizard.lazylib.combat;
 
+import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.campaign.CampaignFleetAPI;
+import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
@@ -7,6 +10,7 @@ import com.fs.starfarer.api.combat.DamagingProjectileAPI;
 import com.fs.starfarer.api.combat.EveryFrameCombatPlugin;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
+import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.input.InputEventAPI;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -71,6 +75,44 @@ public class CombatUtils implements EveryFrameCombatPlugin
     public static float getTimeSinceLastFrame()
     {
         return timeSinceLastFrame;
+    }
+
+    /**
+     * Find a {@link ShipAPI}'s corresponding {@link FleetMemberAPI} in the
+     * campaign.
+     *
+     * @param ship The {@link ShipAPI} whose corresponding {@link FleetMemberAPI}
+     * we are trying to find.
+     * @return The {@link FleetMemberAPI} that represents this {@link ShipAPI}
+     * in the campaign, or {@code null} if no match is found.
+     * @since 1.5
+     */
+    public static FleetMemberAPI getFleetMember(ShipAPI ship)
+    {
+        // Check if this ship even has a fleet member
+        String id = ship.getFleetMemberId();
+        if (id == null)
+        {
+            return null;
+        }
+
+        // Check every member of every fleet of every system for a match :(
+        for (StarSystemAPI system : Global.getSector().getStarSystems())
+        {
+            for (CampaignFleetAPI fleet : system.getFleets())
+            {
+                for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy())
+                {
+                    if (ship.getFleetMemberId().equals(member.getId()))
+                    {
+                        return member;
+                    }
+                }
+            }
+        }
+
+        // No match was found! This should never happen!
+        return null;
     }
 
     /**
