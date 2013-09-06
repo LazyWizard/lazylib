@@ -7,7 +7,6 @@ import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.DamagingProjectileAPI;
-import com.fs.starfarer.api.combat.EveryFrameCombatPlugin;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
@@ -26,57 +25,8 @@ import org.lwjgl.util.vector.Vector2f;
  * @author LazyWizard
  * @since 1.0
  */
-public class CombatUtils implements EveryFrameCombatPlugin
+public class CombatUtils
 {
-    private static WeakReference<CombatEngineAPI> engine;
-    private static float timeSinceLastFrame = 0f, combatTime = 0f,
-            combatTimeIncludingPaused = 0f;
-
-    /**
-     * Returns the currently used {@link CombatEngineAPI}.
-     *
-     * @return The {@link CombatEngineAPI} used by the current battle.
-     * @since 1.0
-     */
-    public static CombatEngineAPI getCombatEngine()
-    {
-        return engine.get();
-    }
-
-    /**
-     * Returns the length of the current battle, including time spent paused.
-     *
-     * @return The total elapsed time (including time spent paused) for this
-     * combat encounter, in seconds.
-     * @since 1.2
-     */
-    public static float getElapsedCombatTimeIncludingPaused()
-    {
-        return combatTimeIncludingPaused;
-    }
-
-    /**
-     * Returns the length of the current battle.
-     *
-     * @return The total elapsed time for this combat encounter, in seconds.
-     * @since 1.0
-     */
-    public static float getElapsedCombatTime()
-    {
-        return combatTime;
-    }
-
-    /**
-     * Returns the time since the last frame.
-     *
-     * @return The time since the last frame, in seconds.
-     * @since 1.4
-     */
-    public static float getTimeSinceLastFrame()
-    {
-        return timeSinceLastFrame;
-    }
-
     /**
      * Find a {@link ShipAPI}'s corresponding {@link FleetMemberAPI} in the
      * campaign.
@@ -130,7 +80,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
         List<DamagingProjectileAPI> projectiles = new ArrayList();
         range *= range;
 
-        for (DamagingProjectileAPI tmp : getCombatEngine().getProjectiles())
+        for (DamagingProjectileAPI tmp : Global.getCombatEngine().getProjectiles())
         {
             if (MathUtils.getDistanceSquared(tmp.getLocation(), location) <= range)
             {
@@ -175,7 +125,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
         List<MissileAPI> missiles = new ArrayList();
         range *= range;
 
-        for (MissileAPI tmp : getCombatEngine().getMissiles())
+        for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
         {
             if (MathUtils.getDistanceSquared(tmp.getLocation(), location) <= range)
             {
@@ -219,7 +169,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     {
         List<ShipAPI> ships = new ArrayList();
 
-        for (ShipAPI tmp : getCombatEngine().getShips())
+        for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
             if (tmp.isShuttlePod())
             {
@@ -268,7 +218,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     {
         List<CombatEntityAPI> asteroids = new ArrayList();
 
-        for (CombatEntityAPI tmp : getCombatEngine().getAsteroids())
+        for (CombatEntityAPI tmp : Global.getCombatEngine().getAsteroids())
         {
             if (MathUtils.getDistance(tmp, location) <= range)
             {
@@ -313,7 +263,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
         List<BattleObjectiveAPI> objectives = new ArrayList();
         range *= range;
 
-        for (BattleObjectiveAPI tmp : getCombatEngine().getObjectives())
+        for (BattleObjectiveAPI tmp : Global.getCombatEngine().getObjectives())
         {
             if (MathUtils.getDistanceSquared(tmp.getLocation(), location) <= range)
             {
@@ -360,7 +310,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
         List<CombatEntityAPI> entities = new ArrayList();
         range *= range;
 
-        for (CombatEntityAPI tmp : getCombatEngine().getShips())
+        for (CombatEntityAPI tmp : Global.getCombatEngine().getShips())
         {
             if (MathUtils.getDistanceSquared(tmp, location) <= range)
             {
@@ -368,7 +318,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
             }
         }
 
-        for (CombatEntityAPI tmp : getCombatEngine().getProjectiles())
+        for (CombatEntityAPI tmp : Global.getCombatEngine().getProjectiles())
         {
             if (MathUtils.getDistanceSquared(tmp, location) <= range)
             {
@@ -376,7 +326,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
             }
         }
 
-        for (CombatEntityAPI tmp : getCombatEngine().getAsteroids())
+        for (CombatEntityAPI tmp : Global.getCombatEngine().getAsteroids())
         {
             if (MathUtils.getDistanceSquared(tmp, location) <= range)
             {
@@ -453,33 +403,42 @@ public class CombatUtils implements EveryFrameCombatPlugin
     }
 
     /**
-     * Automatically called by the game. Don't call this manually.
+     * @deprecated Use {@link Global#getCombatEngine()} instead.
+     * @since 1.0
      */
-    @Override
-    public void advance(float amount, List<InputEventAPI> events)
+    public static CombatEngineAPI getCombatEngine()
     {
-        timeSinceLastFrame = amount;
-        combatTimeIncludingPaused += amount;
-
-        if (!getCombatEngine().isPaused())
-        {
-            combatTime += amount;
-        }
+        return Global.getCombatEngine();
     }
 
     /**
-     * Automatically called by the game. Don't call this manually.
+     * @deprecated Use {@link CombatEngineAPI#getTotalElapsedTime(boolean)} instead.
+     * @since 1.2
      */
-    @Override
-    public void init(CombatEngineAPI engine)
+    public static float getElapsedCombatTimeIncludingPaused()
     {
-        CombatUtils.engine = new WeakReference(engine);
-        CombatUtils.timeSinceLastFrame = 0f;
-        CombatUtils.combatTime = 0f;
-        CombatUtils.combatTimeIncludingPaused = 0f;
+        return Global.getCombatEngine().getTotalElapsedTime(true);
     }
 
-    protected CombatUtils()
+    /**
+     * @deprecated Use {@link CombatEngineAPI#getTotalElapsedTime(boolean)} instead.
+     * @since 1.0
+     */
+    public static float getElapsedCombatTime()
+    {
+        return Global.getCombatEngine().getTotalElapsedTime(false);
+    }
+
+    /**
+     * @deprecated Use {@link CombatEngineAPI#getElapsedInLastFrame()} instead.
+     * @since 1.4
+     */
+    public static float getTimeSinceLastFrame()
+    {
+        return Global.getCombatEngine().getTotalElapsedTime(false);
+    }
+
+    private CombatUtils()
     {
     }
 }

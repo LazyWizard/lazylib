@@ -8,9 +8,9 @@ package org.lazywizard.lazylib;
  */
 public class LazyLib
 {
-    private static final boolean IS_DEV_BUILD = false;
-    private static final float LIBRARY_VERSION = 1.5f;
-    private static final String GAME_VERSION = "0.54.1a";
+    private static final boolean IS_DEV_BUILD = true;
+    private static final float LIBRARY_VERSION = 2.0f;
+    private static final String GAME_VERSION = "0.6a";
 
     /**
      * Get the version number of this LazyLib instance.

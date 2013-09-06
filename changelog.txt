@@ -1,3 +1,15 @@
+ 2.0 (soon)
+============
+Updated codebase to use new .6a methods, deprecated things now included in API
+Changes to CombatUtils:
+ - No longer implements EveryFrameCombatPlugin
+ - Deprecated getCombatEngine()
+ - Deprecated getElapsedCombatTime()
+ - Deprecated getElapsedCombatTimeIncludingPaused()
+ - Deprecated getTimeSinceLastFrame()
+Changes to DefenseUtils:
+ - Deprecated getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
+
  1.5 (August 01, 2013)
 =======================
 Re-added DefenseType enumeration (contains HULL, ARMOR, SHIELD, PHASE_OR_MISS)
