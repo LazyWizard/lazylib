@@ -3,9 +3,7 @@ package org.lazywizard.lazylib.combat;
 import com.fs.starfarer.api.combat.ArmorGridAPI;
 import com.fs.starfarer.api.combat.ShieldAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
-import java.awt.Color;
 import org.lazywizard.lazylib.CollisionUtils;
-import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -18,50 +16,6 @@ public class DefenseUtils
 {
     /** A constant that represents a point not in a ship's armor grid. */
     public static final float NOT_IN_GRID = -12345.9876f;
-
-    /**
-     * Get the {@link ArmorGridAPI} coordinate of a worldspace {@link Vector2f}.
-     *
-     * @param ship The {@link ShipAPI} whose {@link ArmorGridAPI} we will use.
-     * @param loc The world coordinates to be translated to armor grid coordinates.
-     * @return A {@link Vector2f} containing the {@link ArmorGridAPI} coordinates
-     * equivalent to {@code loc}, or {@code null} if {@code loc} isn't in the
-     * grid's bounds.
-     * @since 1.5
-     */
-    public static Vector2f getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
-    {
-        // Analyze armor grid
-        ArmorGridAPI grid = ship.getArmorGrid();
-        float sizeX = grid.getGrid().length * grid.getCellSize(),
-                sizeY = grid.getGrid()[0].length * grid.getCellSize();
-
-        // Rotate location to adjust for ship facing
-        Vector2f cell = new Vector2f(loc);
-        float angle = MathUtils.getAngle(ship.getLocation(), cell)
-                - (ship.getFacing() - 90f);
-        cell = MathUtils.getPointOnCircumference(ship.getLocation(),
-                MathUtils.getDistance(cell, ship.getLocation()), angle);
-        CombatUtils.getCombatEngine().addHitParticle(cell, ship.getVelocity(),
-                5f, .1f, 1f, Color.RED);
-
-        // Translate coordinate to be relative to the armor grid
-        cell.x -= ship.getLocation().x;
-        cell.y -= ship.getLocation().y;
-        cell.x += (sizeX / 2f);
-        cell.y += (sizeY / 2f);
-        cell.scale(1f / grid.getCellSize());
-
-        // Check that point is inside armor grid
-        if (cell.x < 0f || cell.y < 0f || cell.x > sizeX || cell.y > sizeY)
-        {
-            return null;
-        }
-
-        // Return integer result
-        cell.set((int) cell.x, (int) cell.y);
-        return cell;
-    }
 
     /**
      * Get the armor value of a {@link ShipAPI} at a location. Equivalent
@@ -165,6 +119,23 @@ public class DefenseUtils
 
         // No defenses present, just bare hull
         return DefenseType.HULL;
+    }
+
+    /**
+     * @deprecated Use {@link ArmorGridAPI#getCellAtLocation(
+     * org.lwjgl.util.vector.Vector2f)} instead.
+     * @since 1.5
+     */
+    public static Vector2f getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
+    {
+        int[] cell = ship.getArmorGrid().getCellAtLocation(loc);
+
+        if (cell == null)
+        {
+            return null;
+        }
+
+        return new Vector2f(cell[0], cell[1]);
     }
 
     private DefenseUtils()

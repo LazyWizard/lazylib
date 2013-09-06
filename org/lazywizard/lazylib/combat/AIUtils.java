@@ -1,5 +1,6 @@
 package org.lazywizard.lazylib.combat;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.FluxTrackerAPI;
@@ -32,7 +33,7 @@ public class AIUtils
         BattleObjectiveAPI closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (BattleObjectiveAPI tmp : CombatUtils.getCombatEngine().getObjectives())
+        for (BattleObjectiveAPI tmp : Global.getCombatEngine().getObjectives())
         {
             distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
                     entity.getLocation());
@@ -59,7 +60,7 @@ public class AIUtils
         ShipAPI closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
+        for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
             if (tmp.getOwner() == entity.getOwner()
                     || tmp.isHulk() || tmp.isShuttlePod())
@@ -92,7 +93,7 @@ public class AIUtils
         ShipAPI closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
+        for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
             if (tmp == entity || tmp.getOwner() != entity.getOwner()
                     || tmp.isHulk() || tmp.isShuttlePod())
@@ -125,7 +126,7 @@ public class AIUtils
         ShipAPI closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
+        for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
             if (tmp == entity || tmp.isHulk() || tmp.isShuttlePod())
             {
@@ -157,7 +158,7 @@ public class AIUtils
         MissileAPI closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (MissileAPI tmp : CombatUtils.getCombatEngine().getMissiles())
+        for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
         {
             if (tmp == entity)
             {
@@ -190,7 +191,7 @@ public class AIUtils
     {
         List<ShipAPI> enemies = new ArrayList();
 
-        for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
+        for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
             if (tmp.getOwner() != entity.getOwner() && !tmp.isHulk() && !tmp.isShuttlePod())
             {
@@ -278,7 +279,7 @@ public class AIUtils
     {
         List<ShipAPI> allies = new ArrayList();
 
-        for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
+        for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
             if (tmp != entity && tmp.getOwner() == entity.getOwner()
                     && !tmp.isHulk() && !tmp.isShuttlePod())
@@ -365,7 +366,7 @@ public class AIUtils
         MissileAPI closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (MissileAPI tmp : CombatUtils.getCombatEngine().getMissiles())
+        for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
         {
             if (tmp.getOwner() == entity.getOwner())
             {
@@ -398,7 +399,7 @@ public class AIUtils
     {
         List<MissileAPI> enemies = new ArrayList();
 
-        for (MissileAPI tmp : CombatUtils.getCombatEngine().getMissiles())
+        for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
         {
             if (tmp.getOwner() != entity.getOwner())
             {

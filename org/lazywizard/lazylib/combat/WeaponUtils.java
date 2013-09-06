@@ -1,5 +1,6 @@
 package org.lazywizard.lazylib.combat;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
@@ -285,7 +286,7 @@ public class WeaponUtils
         float maxRange = weapon.getRange() * weapon.getRange();
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
+        for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
             if (tmp.getOwner() == weapon.getShip().getOwner()
                     || weapon.distanceFromArc(tmp.getLocation()) > 0f)
@@ -369,7 +370,7 @@ public class WeaponUtils
         float maxRange = weapon.getRange() * weapon.getRange();
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (MissileAPI tmp : CombatUtils.getCombatEngine().getMissiles())
+        for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
         {
             if (tmp.getOwner() == weapon.getShip().getOwner()
                     || weapon.distanceFromArc(tmp.getLocation()) > 0f)
