@@ -20,31 +20,38 @@ public class MathUtils
     private static final Random rng = new Random();
 
     /**
-     * Returns the distance between two {@link SectorEntityToken}s.
+     * Returns the distance between two {@link SectorEntityToken}s,
+     * including interaction radius.
      *
-     * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f,
+     * org.lwjgl.util.vector.Vector2f)
      * @since 1.0
      */
     public static float getDistance(SectorEntityToken token1, SectorEntityToken token2)
     {
-        return getDistance(token1.getLocation(), token2.getLocation());
+        return Math.max(0f, getDistance(token1.getLocation(), token2.getLocation())
+                - (token1.getRadius() + token2.getRadius()));
     }
 
     /**
-     * Returns the distance between a {@link SectorEntityToken} and a {@link Vector2f}.
+     * Returns the distance between a {@link SectorEntityToken} and a
+     * {@link Vector2f}  (includes interaction radius).
      *
-     * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f,
+     * org.lwjgl.util.vector.Vector2f)
      * @since 1.1
      */
     public static float getDistance(SectorEntityToken token, Vector2f vector)
     {
-        return getDistance(token.getLocation(), vector);
+        return Math.max(0f, getDistance(token.getLocation(), vector) - token.getRadius());
     }
 
     /**
-     * Returns the distance between two {@link CombatEntityAPI}s, including collision radius.
+     * Returns the distance between two {@link CombatEntityAPI}s, including
+     * collision radius.
      *
-     * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f,
+     * org.lwjgl.util.vector.Vector2f)
      * @since 1.0
      */
     public static float getDistance(CombatEntityAPI obj1, CombatEntityAPI obj2)
@@ -54,9 +61,11 @@ public class MathUtils
     }
 
     /**
-     * Returns the distance between a {@link CombatEntityAPI} and a {@link Vector2f} (includes collision radius).
+     * Returns the distance between a {@link CombatEntityAPI} and a
+     * {@link Vector2f} (includes collision radius).
      *
-     * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f, org.lwjgl.util.vector.Vector2f)
+     * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f,
+     * org.lwjgl.util.vector.Vector2f)
      * @since 1.0
      */
     public static float getDistance(CombatEntityAPI entity, Vector2f vector)
@@ -91,7 +100,10 @@ public class MathUtils
      */
     public static float getDistanceSquared(SectorEntityToken token1, SectorEntityToken token2)
     {
-        return getDistanceSquared(token1.getLocation(), token2.getLocation());
+        // There's no way to do this while avoiding a sqrt, so might as well...
+        float distance = getDistance(token1, token2);
+        return distance * distance;
+        //return getDistanceSquared(token1.getLocation(), token2.getLocation());
     }
 
     /**
@@ -104,23 +116,23 @@ public class MathUtils
      */
     public static float getDistanceSquared(SectorEntityToken token, Vector2f vector)
     {
-        return getDistanceSquared(token.getLocation(), vector);
+        // There's no way to do this while avoiding a sqrt, so might as well...
+        float distance = getDistance(token, vector);
+        return distance * distance;
+        //return getDistanceSquared(token.getLocation(), vector);
     }
 
     /**
      * Returns the distance squared between two {@link CombatEntityAPI}s
-     * (includes collision radii).
+     * (includes collision radii). With the addition of collision radius
+     * checking, there's no way to avoid calculating the square root.
+     * {@link MathUtils#getDistance(com.fs.starfarer.api.combat.CombatEntityAPI,
+     * com.fs.starfarer.api.combat.CombatEntityAPI)} will be just as efficient.
      *
      * @see MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f,
      * org.lwjgl.util.vector.Vector2f)
-     * @deprecated Use {@link
-     * MathUtils#getDistance(com.fs.starfarer.api.combat.CombatEntityAPI,
-     * com.fs.starfarer.api.combat.CombatEntityAPI)} instead. With the addition
-     * of collision radius checking, there's no way to avoid calculating the
-     * square root.
      * @since 1.0
      */
-    @Deprecated
     public static float getDistanceSquared(CombatEntityAPI obj1, CombatEntityAPI obj2)
     {
         // There's no way to do this while avoiding a sqrt, so might as well...
@@ -131,17 +143,15 @@ public class MathUtils
 
     /**
      * Returns the distance squared between a {@link CombatEntityAPI} and a
-     * {@link Vector2f} (includes collision radius).
+     * {@link Vector2f} (includes collision radius). With the addition of
+     * collision radius checking, there's no way to avoid calculating the square root.
+     * {@link MathUtils#getDistance(com.fs.starfarer.api.combat.CombatEntityAPI,
+     * org.lwjgl.util.vector.Vector2f)} will be just as efficient.
      *
      * @see MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f,
      * org.lwjgl.util.vector.Vector2f)
-     * @deprecated Use {@link
-     * MathUtils#getDistance(com.fs.starfarer.api.combat.CombatEntityAPI,
-     * org.lwjgl.util.vector.Vector2f)} instead. With the addition of collision
-     * radius checking, there's no way to avoid calculating the square root.
      * @since 1.0
      */
-    @Deprecated
     public static float getDistanceSquared(CombatEntityAPI entity, Vector2f vector)
     {
         // There's no way to do this while avoiding a sqrt, so might as well...

@@ -10,8 +10,6 @@ import com.fs.starfarer.api.combat.DamagingProjectileAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
-import com.fs.starfarer.api.input.InputEventAPI;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -406,6 +404,7 @@ public class CombatUtils
      * @deprecated Use {@link Global#getCombatEngine()} instead.
      * @since 1.0
      */
+    @Deprecated
     public static CombatEngineAPI getCombatEngine()
     {
         return Global.getCombatEngine();
@@ -415,6 +414,7 @@ public class CombatUtils
      * @deprecated Use {@link CombatEngineAPI#getTotalElapsedTime(boolean)} instead.
      * @since 1.2
      */
+    @Deprecated
     public static float getElapsedCombatTimeIncludingPaused()
     {
         return Global.getCombatEngine().getTotalElapsedTime(true);
@@ -424,6 +424,7 @@ public class CombatUtils
      * @deprecated Use {@link CombatEngineAPI#getTotalElapsedTime(boolean)} instead.
      * @since 1.0
      */
+    @Deprecated
     public static float getElapsedCombatTime()
     {
         return Global.getCombatEngine().getTotalElapsedTime(false);
@@ -433,6 +434,7 @@ public class CombatUtils
      * @deprecated Use {@link CombatEngineAPI#getElapsedInLastFrame()} instead.
      * @since 1.4
      */
+    @Deprecated
     public static float getTimeSinceLastFrame()
     {
         return Global.getCombatEngine().getTotalElapsedTime(false);
