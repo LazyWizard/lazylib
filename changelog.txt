@@ -9,6 +9,12 @@ Changes to CombatUtils:
  - Deprecated getTimeSinceLastFrame()
 Changes to DefenseUtils:
  - Deprecated getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
+Changes to MathUtils:
+ - The various getDistance() methods involving SectorEntityTokens now
+   take interaction radius into account
+ - getDistanceSquared() methods incorporating a radius are no longer deprecated,
+   instead the documentation includes a warning telling that getDistance() is
+   just as efficient
 
  1.5 (August 01, 2013)
 =======================

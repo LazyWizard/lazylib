@@ -126,6 +126,7 @@ public class DefenseUtils
      * org.lwjgl.util.vector.Vector2f)} instead.
      * @since 1.5
      */
+    @Deprecated
     public static Vector2f getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
     {
         int[] cell = ship.getArmorGrid().getCellAtLocation(loc);
