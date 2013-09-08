@@ -1,20 +1,29 @@
  2.0 (soon)
 ============
-Updated codebase to use new .6a methods, deprecated things now included in API
+Updated the codebase to use the new .6a methods
+Deprecated several methods whose functionality is now included within the API
+Changes to CollectionUtils:
+ - Deprecated CollectionUtils.SortObjectivesByDistance as BattleObjectiveAPI
+   now extends CombatEntityAPI (use SortEntitiesByDistance instead)
 Changes to CombatUtils:
  - No longer implements EveryFrameCombatPlugin
- - Deprecated getCombatEngine()
- - Deprecated getElapsedCombatTime()
- - Deprecated getElapsedCombatTimeIncludingPaused()
- - Deprecated getTimeSinceLastFrame()
+ - Deprecated getCombatEngine() in favor of Global.getCombatEngine()
+ - Deprecated getElapsedCombatTime() in favor of
+   CombatEngineAPI,getTotalElapsedTime()
+ - Deprecated getElapsedCombatTimeIncludingPaused() in favor of
+   CombatEngineAPI,getTotalElapsedTime()
+ - Deprecated getTimeSinceLastFrame() in favor of
+   CombatEngineAPI.getElapsedInLastFrame()
 Changes to DefenseUtils:
  - Deprecated getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
+   in favor of ArmorGridAPI.getCellAtLocation(Vector2f loc)
 Changes to MathUtils:
  - The various getDistance() methods involving SectorEntityTokens now
-   take interaction radius into account
- - getDistanceSquared() methods incorporating a radius are no longer deprecated,
-   instead the documentation includes a warning telling that getDistance() is
-   just as efficient
+   take interaction radius into account. Note: this change may alter the
+   behavior of existing scripts!
+ - getDistanceSquared() methods incorporating a radius are no longer marked
+   as deprecated, instead the documentation includes a warning that using
+   getDistance() may be just as efficient
 
  1.5 (August 01, 2013)
 =======================

@@ -1,3 +1,8 @@
+All modders have my permission to copy and use any code in this mod, no
+attribution required (save code taken from the Slick2D library, see below).
+
+================================================================================
+
 The FastTrig class used in this mod is taken from the Slick2D library.
 
 Copyright (c) 2007, Slick 2D

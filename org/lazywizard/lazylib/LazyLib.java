@@ -6,6 +6,7 @@ package org.lazywizard.lazylib;
  * @author LazyWizard
  * @since 1.1
  */
+// TODO: Implement transient CampaignPlugin, add ModMenu plugin system
 public class LazyLib
 {
     private static final boolean IS_DEV_BUILD = true;

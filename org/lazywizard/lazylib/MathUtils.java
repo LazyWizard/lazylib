@@ -189,7 +189,7 @@ public class MathUtils
         Vector2f dir = Vector2f.sub(destination, source, null);
 
         // Avoid crash with identical vectors
-        if (dir.x == 0 && dir.y == 0)
+        if (dir.x == 0f && dir.y == 0f)
         {
             return dir;
         }

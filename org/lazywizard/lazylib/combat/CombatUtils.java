@@ -437,7 +437,7 @@ public class CombatUtils
     @Deprecated
     public static float getTimeSinceLastFrame()
     {
-        return Global.getCombatEngine().getTotalElapsedTime(false);
+        return Global.getCombatEngine().getElapsedInLastFrame();
     }
 
     private CombatUtils()
