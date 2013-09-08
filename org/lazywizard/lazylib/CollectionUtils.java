@@ -221,9 +221,10 @@ public class CollectionUtils
     }
 
     /**
-     * A {@link Comparator} that sorts {@link BattleObjectiveAPI}s by distance from a {@link Vector2f}.
+     * @deprecated Use {@link SortEntitiesByDistance} instead.
      * @since 1.1
      */
+    @Deprecated
     public static class SortObjectivesByDistance implements Comparator<BattleObjectiveAPI>
     {
         private Vector2f location;
