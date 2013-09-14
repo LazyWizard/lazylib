@@ -1,5 +1,4 @@
-All modders have my permission to copy and use any code in this mod, no
-attribution required (save code taken from the Slick2D library, see below).
+All modders have my permission to copy and use any code I've written.
 
 ================================================================================
 
