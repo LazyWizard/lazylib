@@ -1,5 +1,5 @@
- 2.0 (soon)
-============
+ 1.6 (September 13, 2013)
+==========================
 Updated the codebase to use the new .6a methods
 Deprecated several methods whose functionality is now included within the API
 Changes to CollectionUtils:

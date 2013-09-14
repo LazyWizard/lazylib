@@ -73,14 +73,18 @@ public class WeaponUtils
      * are applied.
      * @since 1.5
      */
+    // TODO: Factor in all the new stats vs specific damame types and defenses
     public static float calculateActualDamage(float baseDamage, WeaponAPI weapon,
             ShipAPI target, DefenseType defense)
     {
         MutableShipStatsAPI stats = target.getMutableStats();
+        float damageMod = 1.0f;
+
+
         switch (defense)
         {
             case SHIELD:
-                return calculateActualDamage(baseDamage, weapon)
+                return calculateActualDamage(baseDamage, weapon) * damageMod
                         * weapon.getDamageType().getShieldMult()
                         * (weapon.getShip() == null ? 1f
                         : weapon.getShip().getMutableStats()
@@ -88,17 +92,17 @@ public class WeaponUtils
                         * stats.getShieldDamageTakenMult().getModifiedValue()
                         * stats.getShieldAbsorptionMult().getModifiedValue();
             case ARMOR:
-                return calculateActualDamage(baseDamage, weapon)
+                return calculateActualDamage(baseDamage, weapon) * damageMod
                         * weapon.getDamageType().getArmorMult()
                         * stats.getArmorDamageTakenMult().getModifiedValue();
             case HULL:
-                return calculateActualDamage(baseDamage, weapon)
+                return calculateActualDamage(baseDamage, weapon) * damageMod
                         * weapon.getDamageType().getHullMult()
                         * stats.getHullDamageTakenMult().getModifiedValue();
             case PHASE_OR_MISS:
                 return 0f;
             default:
-                return calculateActualDamage(baseDamage, weapon);
+                return calculateActualDamage(baseDamage, weapon) * damageMod;
         }
     }
 

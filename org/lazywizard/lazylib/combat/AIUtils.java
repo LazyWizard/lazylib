@@ -68,6 +68,12 @@ public class AIUtils
                 continue;
             }
 
+            /*if (!Global.getCombatEngine().getFogOfWar(entity.getOwner())
+                    .isVisible(tmp.getLocation()))
+            {
+                continue;
+            }*/
+
             distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
                     entity.getLocation());
 
