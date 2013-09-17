@@ -9,8 +9,8 @@ package org.lazywizard.lazylib;
 // TODO: Implement transient CampaignPlugin, add ModMenu plugin system
 public class LazyLib
 {
-    private static final boolean IS_DEV_BUILD = false;
-    private static final float LIBRARY_VERSION = 1.6f;
+    private static final boolean IS_DEV_BUILD = true;
+    private static final float LIBRARY_VERSION = 2.0f;
     private static final String GAME_VERSION = "0.6a";
 
     /**
