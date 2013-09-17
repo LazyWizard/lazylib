@@ -1,0 +1,10 @@
+{
+    "id":"lw_lazylib",
+    "name":"LazyLib",
+    "author":"LazyWizard",
+    "utility":"true",
+    "version":"2.0",
+    "description":"A collection of libraries to aid with modding. Not a mod in itself, but required by certain other mods.\n\nThis release is targeted towards Starsector version 0.6a.",
+    "gameVersion":"0.6a",
+    "jars":["jars/LazyLib.jar",],
+}

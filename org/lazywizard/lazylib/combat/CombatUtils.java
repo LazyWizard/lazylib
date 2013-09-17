@@ -417,6 +417,11 @@ public class CombatUtils
     @Deprecated
     public static float getElapsedCombatTimeIncludingPaused()
     {
+        if (Global.getCombatEngine() == null)
+        {
+            return 0f;
+        }
+        
         return Global.getCombatEngine().getTotalElapsedTime(true);
     }
 
@@ -427,6 +432,11 @@ public class CombatUtils
     @Deprecated
     public static float getElapsedCombatTime()
     {
+        if (Global.getCombatEngine() == null)
+        {
+            return 0f;
+        }
+
         return Global.getCombatEngine().getTotalElapsedTime(false);
     }
 
@@ -437,6 +447,11 @@ public class CombatUtils
     @Deprecated
     public static float getTimeSinceLastFrame()
     {
+        if (Global.getCombatEngine() == null)
+        {
+            return 0f;
+        }
+
         return Global.getCombatEngine().getElapsedInLastFrame();
     }
 
