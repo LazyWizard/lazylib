@@ -252,7 +252,7 @@ public class WeaponUtils
      * @return The time in seconds it would take to aim {@code weapon}.
      * @since 1.0
      */
-    // TODO: Factor acceleration into equation
+    // TODO: Fix this, as it's horribroken. Factor in current turn speeds only!
     public static float getTimeToAim(WeaponAPI weapon, Vector2f aimAt)
     {
         ShipAPI ship = weapon.getShip();

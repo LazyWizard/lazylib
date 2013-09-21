@@ -190,8 +190,7 @@ public class CollisionUtils
 
             // Use this opportunity to test if the point is exactly on the bounds
             // Margin of error to compensate for floating point inaccuracies
-            if (Line2D.Float.ptSegDistSq(seg.getP1().x, seg.getP1().y,
-                    seg.getP2().x, seg.getP2().y, point.x, point.y) <= 0.00001)
+            if (MathUtils.isPointOnLine(point, seg.getP1(), seg.getP2()))
             {
                 return true;
             }

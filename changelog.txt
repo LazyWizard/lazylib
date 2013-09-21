@@ -1,11 +1,16 @@
- 1.6 (September 13, 2013)
-==========================
+ 2.0 (soon)
+============
 Updated the codebase to use the new .6a methods
 Deprecated several methods whose functionality is now included within the API
+Changes to AIUtils:
+ - All methods now only return ships who are visible on the battle map. Note:
+   this change may alter the behavior of existing scripts!
+   (use CombatUtils if you wish to find ships regardless of fog of war coverage)
 Changes to CollectionUtils:
  - Deprecated CollectionUtils.SortObjectivesByDistance as BattleObjectiveAPI
    now extends CombatEntityAPI (use SortEntitiesByDistance instead)
  - SortXByDistance constructors now have an optional includeRadius parameter
+   that sets if collision/interaction radius is considered (defaults to true)
  - implode() works with any Collection, not just one containing Strings
 Changes to CombatUtils:
  - No longer implements EveryFrameCombatPlugin
@@ -20,6 +25,8 @@ Changes to DefenseUtils:
  - Deprecated getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
    in favor of ArmorGridAPI.getCellAtLocation(Vector2f loc)
 Changes to MathUtils:
+ - Added getRandomPointOnLine(Vector2f lineStart, Vector2f lineEnd)
+ - Added isPointOnLine(Vector2f point, Vector2f lineStart, Vector2f lineEnd)
  - The various getDistance() methods involving SectorEntityTokens now
    take interaction radius into account. Note: this change may alter the
    behavior of existing scripts!

@@ -2,6 +2,7 @@ package org.lazywizard.lazylib;
 
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,7 +14,6 @@ import org.lwjgl.util.vector.Vector2f;
  * @author LazyWizard
  * @since 1.0
  */
-// TODO: add getRandomPointOnLine()
 // TODO: add getRandomPointInCone()
 public class MathUtils
 {
@@ -350,6 +350,31 @@ public class MathUtils
     }
 
     /**
+     * Returns a random point along the line between two {@link Vector2f}s.
+     *
+     * @param lineStart The starting point of the line.
+     * @param lineEnd The end point of the line.
+     * @return A random {@link Vector2f} along the line between {@code lineStart}
+     * and {@code lineEnd}.
+     */
+    public static Vector2f getRandomPointOnLine(Vector2f lineStart, Vector2f lineEnd)
+    {
+        float t = rng.nextFloat();
+        return new Vector2f(lineStart.x + t * (lineEnd.x - lineStart.x),
+                lineStart.y + t * (lineEnd.y - lineStart.y));
+    }
+
+    public static void main(String[] args)
+    {
+        Vector2f lineStart = new Vector2f(rng.nextFloat() - .5f, rng.nextFloat() - .5f),
+                lineEnd = new Vector2f(rng.nextFloat() - .5f, rng.nextFloat() - .5f),
+                rand = getRandomPointOnLine(lineStart, lineEnd);
+        boolean onLine = isPointOnLine(rand, lineStart, lineEnd);
+        System.out.println("Random point on line from " + lineStart + " to "
+                + lineEnd + ": " + rand + " (on line: " + onLine + ")");
+    }
+
+    /**
      * Returns an evenly distributed {@link List} of points along a circle's circumference.
      *
      * @param center The center point of the circle (can be null for a 0, 0 origin).
@@ -391,6 +416,20 @@ public class MathUtils
         float a = point.x - (center == null ? 0f : center.x),
                 b = point.y - (center == null ? 0f : center.y);
         return (a * a) + (b * b) < (radius * radius);
+    }
+
+    /**
+     * Check if a point is along the line between two {@link Vector2f}s.
+     *
+     * @param point The point to check.
+     * @param lineStart The starting point of the line.
+     * @param lineEnd The end point of the line.
+     * @return {@code true} if the point is along the line, {@code false} otherwise.
+     */
+    public static boolean isPointOnLine(Vector2f point, Vector2f lineStart, Vector2f lineEnd)
+    {
+        return (Line2D.Float.ptSegDistSq(lineStart.x, lineStart.y,
+                lineEnd.x, lineEnd.y, point.x, point.y) <= 0.00001);
     }
 
     /**
