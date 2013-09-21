@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.lwjgl.util.vector.Vector2f;
@@ -101,13 +102,14 @@ public class CollectionUtils
     /**
      * Combines and separates a {@link Collection} of {@link String}s. Useful for comma-separated lists.
      *
-     * @param toImplode A {@link Collection} of {@link String}s to be combined.
+     * @param toImplode A {@link Collection} whose contents should be combined
+     * into one {@link String}.
      * @param separator The separator character to split {@code toImplode} with.
      * @return A single {@link String} consisting of {@code toImplode}'s values
      * separated with {@code separator}.
      * @since 1.0
      */
-    public static String implode(Collection<String> toImplode, String separator)
+    public static String implode(Collection toImplode, String separator)
     {
         if (toImplode.isEmpty())
         {
@@ -115,25 +117,23 @@ public class CollectionUtils
         }
 
         StringBuilder ret = new StringBuilder(toImplode.size() * 16);
-        String[] tmp = toImplode.toArray(new String[toImplode.size()]);
-
-        for (int x = 0; x < tmp.length; x++)
+        for (Iterator iter = toImplode.iterator(); iter.hasNext();)
         {
-            if (x != 0 && separator != null)
+            ret.append(iter.next().toString());
+            if (iter.hasNext())
             {
                 ret.append(separator);
             }
-
-            ret.append(tmp[x]);
         }
 
         return ret.toString();
     }
 
     /**
-     * Creates a comma-separated {@link String} from a {@link Collection} of {@link String}s.
+     * Creates a comma-separated {@link String} from a {@link Collection}'s entries.
      *
-     * @param toImplode A {@link Collection} of {@link String}s to be combined.
+     * @param toImplode A {@link Collection} to be combined (using each
+     * entry's {@code toString} method).
      * @return A single {@link String} consisting of {@code toImplode}'s values
      * separated with commas.
      * @see CollectionUtils#implode(java.util.Collection, java.lang.String)
@@ -151,9 +151,21 @@ public class CollectionUtils
     public static class SortEntitiesByDistance implements Comparator<CombatEntityAPI>
     {
         private Vector2f location;
+        private boolean includeRadius = true;
 
         private SortEntitiesByDistance()
         {
+        }
+
+        /**
+         * @param location The central location to judge distance from.
+         * @param includeRadius Whether to include collision radius in the check.
+         * @since 1.1
+         */
+        public SortEntitiesByDistance(Vector2f location, boolean includeRadius)
+        {
+            this.location = location;
+            this.includeRadius = includeRadius;
         }
 
         /**
@@ -177,8 +189,14 @@ public class CollectionUtils
         @Override
         public int compare(CombatEntityAPI o1, CombatEntityAPI o2)
         {
-            return Float.compare(MathUtils.getDistance(o1, location),
-                    MathUtils.getDistance(o2, location));
+            if (includeRadius)
+            {
+                return Float.compare(MathUtils.getDistance(o1, location),
+                        MathUtils.getDistance(o2, location));
+            }
+
+            return Float.compare(MathUtils.getDistanceSquared(o1.getLocation(),
+                    location), MathUtils.getDistanceSquared(o2.getLocation(), location));
         }
     }
 
@@ -189,9 +207,21 @@ public class CollectionUtils
     public static class SortTokensByDistance implements Comparator<SectorEntityToken>
     {
         private Vector2f location;
+        private boolean includeRadius = true;
 
         private SortTokensByDistance()
         {
+        }
+
+        /**
+         * @param location The central location to judge distance from.
+         * @param includeRadius Whether to include collision radius in the check.
+         * @since 1.1
+         */
+        public SortTokensByDistance(Vector2f location, boolean includeRadius)
+        {
+            this.location = location;
+            this.includeRadius = includeRadius;
         }
 
         /**
@@ -215,8 +245,14 @@ public class CollectionUtils
         @Override
         public int compare(SectorEntityToken o1, SectorEntityToken o2)
         {
-            return Float.compare(MathUtils.getDistanceSquared(o1, location),
-                    MathUtils.getDistanceSquared(o2, location));
+            if (includeRadius)
+            {
+                return Float.compare(MathUtils.getDistanceSquared(o1, location),
+                        MathUtils.getDistanceSquared(o2, location));
+            }
+
+            return Float.compare(MathUtils.getDistanceSquared(o1.getLocation(),
+                    location), MathUtils.getDistanceSquared(o2.getLocation(), location));
         }
     }
 
