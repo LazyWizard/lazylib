@@ -5,6 +5,8 @@ Deprecated several methods whose functionality is now included within the API
 Changes to CollectionUtils:
  - Deprecated CollectionUtils.SortObjectivesByDistance as BattleObjectiveAPI
    now extends CombatEntityAPI (use SortEntitiesByDistance instead)
+ - SortXByDistance constructors now have an optional includeRadius parameter
+ - implode() works with any Collection, not just one containing Strings
 Changes to CombatUtils:
  - No longer implements EveryFrameCombatPlugin
  - Deprecated getCombatEngine() in favor of Global.getCombatEngine()
