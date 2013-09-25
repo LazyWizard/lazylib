@@ -366,16 +366,6 @@ public class MathUtils
                 lineStart.y + t * (lineEnd.y - lineStart.y));
     }
 
-    public static void main(String[] args)
-    {
-        Vector2f lineStart = new Vector2f(rng.nextFloat() - .5f, rng.nextFloat() - .5f),
-                lineEnd = new Vector2f(rng.nextFloat() - .5f, rng.nextFloat() - .5f),
-                rand = getRandomPointOnLine(lineStart, lineEnd);
-        boolean onLine = isPointOnLine(rand, lineStart, lineEnd);
-        System.out.println("Random point on line from " + lineStart + " to "
-                + lineEnd + ": " + rand + " (on line: " + onLine + ")");
-    }
-
     /**
      * Returns an evenly distributed {@link List} of points along a circle's circumference.
      *
