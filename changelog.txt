@@ -7,6 +7,10 @@ Changes to AIUtils:
  - All methods now only return entities that are visible on the battle map.
    Note: this change may alter the behavior of existing scripts!
    (use CombatUtils if you wish to find ships regardless of fog of war coverage)
+ - Changed canUseSystemThisFrame() so it only returns true when the system can
+   be toggled (essentially checks if the 'use system' key would do anything).
+   This was the intended behavior of this method, but some old scripts might
+   rely on the old, broken behavior and need to be changed.
 Changes to CollectionUtils:
  - SortXByDistance constructors now have an optional includeRadius parameter
    that sets if collision/interaction radius is considered (defaults to true)

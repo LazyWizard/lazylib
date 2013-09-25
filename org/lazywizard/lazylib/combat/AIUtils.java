@@ -522,10 +522,13 @@ public class AIUtils
         FluxTrackerAPI flux = ship.getFluxTracker();
         ShipSystemAPI system = ship.getSystem();
 
-        // TODO: switch isActive() to isOn() once .6a is released
-        // (system.isActive() && !System.isOn())
+        // No system, overloading/venting, out of ammo
         if (system == null || flux.isOverloadedOrVenting() || system.isOutOfAmmo()
-                || (!system.isActive() && system.getCooldownRemaining() > 0f)
+                // In use
+                || (system.isOn() && system.getCooldownRemaining() > 0f)
+                // In chargedown, in cooldown
+                || (system.isActive() && !system.isOn())|| system.getCooldownRemaining() > 0f
+                // Not enough flux
                 || system.getFluxPerUse() > (flux.getMaxFlux() - flux.getCurrFlux()))
         {
             return false;
