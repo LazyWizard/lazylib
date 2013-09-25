@@ -21,85 +21,6 @@ import org.lwjgl.util.vector.Vector2f;
 public class CollectionUtils
 {
     /**
-     * Returns a {@link List} of items chosen via a weighted random from a {@link Map}.
-     *
-     * @param pickFrom A {@link Map} of items to choose from.
-     * The value is the weight, in float form, of that item being chosen.
-     * @param numToPick How many items to choose from {@code pickFrom}'s keys.
-     * @return A {@link List} containing the subset of {@code pickFrom} chosen.
-     * @since 1.0
-     */
-    public static <T> List<T> weightedRandom(Map<T, Float> pickFrom, int numToPick)
-    {
-        if (pickFrom.isEmpty() || numToPick <= 0)
-        {
-            return Collections.EMPTY_LIST;
-        }
-
-        float totalWeight = 0.0f;
-        for (Float tmp : pickFrom.values())
-        {
-            totalWeight += tmp;
-        }
-
-        List<T> ret = new ArrayList(numToPick);
-        float random;
-
-        for (int x = 0; x < numToPick; x++)
-        {
-            random = MathUtils.getRandom().nextFloat() * totalWeight;
-            for (Map.Entry<T, Float> tmp : pickFrom.entrySet())
-            {
-                random -= tmp.getValue();
-
-                if (random <= 0.0f)
-                {
-                    ret.add(tmp.getKey());
-                    break;
-                }
-            }
-        }
-
-        return ret;
-    }
-
-    /**
-     * Returns a single item chosen via a weighted random from a {@link Map}.
-     *
-     * @param pickFrom A {@link Map} of items to choose from.
-     * The value is the weight, in float form, of that item being chosen.
-     * @return A single item chosen from {@code pickFrom}'s keys.
-     * @since 1.0
-     */
-    public static <T> T weightedRandom(Map<T, Float> pickFrom)
-    {
-        if (pickFrom.isEmpty())
-        {
-            return null;
-        }
-
-        float totalWeight = 0.0f;
-        for (Float tmp : pickFrom.values())
-        {
-            totalWeight += tmp;
-        }
-
-        float random = MathUtils.getRandom().nextFloat() * totalWeight;
-        for (Map.Entry<T, Float> tmp : pickFrom.entrySet())
-        {
-            random -= tmp.getValue();
-
-            if (random <= 0.0f)
-            {
-                return tmp.getKey();
-            }
-        }
-
-        throw new RuntimeException("weightedRandom() failed to return a value!");
-        //return (pickFrom.isEmpty() ? null : weightedRandom(pickFrom, 1).get(0));
-    }
-
-    /**
      * Combines and separates a {@link Collection} of {@link String}s. Useful for comma-separated lists.
      *
      * @param toImplode A {@link Collection} whose contents should be combined
@@ -254,6 +175,80 @@ public class CollectionUtils
             return Float.compare(MathUtils.getDistanceSquared(o1.getLocation(),
                     location), MathUtils.getDistanceSquared(o2.getLocation(), location));
         }
+    }
+
+    /**
+     * @deprecated Use {@link com.fs.starfarer.api.util.WeightedRandomPicker}
+     * instead (call pick() multiple times).
+     * @since 1.0
+     */
+    @Deprecated
+    public static <T> List<T> weightedRandom(Map<T, Float> pickFrom, int numToPick)
+    {
+        if (pickFrom.isEmpty() || numToPick <= 0)
+        {
+            return Collections.EMPTY_LIST;
+        }
+
+        float totalWeight = 0.0f;
+        for (Float tmp : pickFrom.values())
+        {
+            totalWeight += tmp;
+        }
+
+        List<T> ret = new ArrayList(numToPick);
+        float random;
+
+        for (int x = 0; x < numToPick; x++)
+        {
+            random = MathUtils.getRandom().nextFloat() * totalWeight;
+            for (Map.Entry<T, Float> tmp : pickFrom.entrySet())
+            {
+                random -= tmp.getValue();
+
+                if (random <= 0.0f)
+                {
+                    ret.add(tmp.getKey());
+                    break;
+                }
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * @deprecated Use {@link com.fs.starfarer.api.util.WeightedRandomPicker}
+     * instead.
+     * @since 1.0
+     */
+    @Deprecated
+    public static <T> T weightedRandom(Map<T, Float> pickFrom)
+    {
+        if (pickFrom.isEmpty())
+        {
+            return null;
+        }
+
+        float totalWeight = 0.0f;
+        for (Float tmp : pickFrom.values())
+        {
+            totalWeight += tmp;
+        }
+
+        float random = MathUtils.getRandom().nextFloat() * totalWeight;
+        for (Map.Entry<T, Float> tmp : pickFrom.entrySet())
+        {
+            random -= tmp.getValue();
+
+            if (random <= 0.0f)
+            {
+                return tmp.getKey();
+            }
+        }
+
+        throw new RuntimeException("weightedRandom() failed to return a value!");
+        //return (pickFrom.isEmpty() ? null : weightedRandom(pickFrom, 1).get(0));
     }
 
     /**

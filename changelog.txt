@@ -1,17 +1,21 @@
- 2.0 (soon)
+ 1.6 (soon)
 ============
 Updated the codebase to use the new .6a methods
 Deprecated several methods whose functionality is now included within the API
 Changes to AIUtils:
- - All methods now only return ships who are visible on the battle map. Note:
-   this change may alter the behavior of existing scripts!
+ - All methods now only return entities that are visible on the battle map.
+   Note: this change may alter the behavior of existing scripts!
    (use CombatUtils if you wish to find ships regardless of fog of war coverage)
 Changes to CollectionUtils:
- - Deprecated CollectionUtils.SortObjectivesByDistance as BattleObjectiveAPI
-   now extends CombatEntityAPI (use SortEntitiesByDistance instead)
  - SortXByDistance constructors now have an optional includeRadius parameter
    that sets if collision/interaction radius is considered (defaults to true)
  - implode() works with any Collection, not just one containing Strings
+ - Deprecated CollectionUtils.SortObjectivesByDistance as BattleObjectiveAPI
+   now extends CombatEntityAPI (use SortEntitiesByDistance instead)
+ - Deprecated weightedRandom(Map pickFrom) in favor of
+   com.fs.starfarer.api.util.WeightedRandomPicker
+ - Deprecated weightedRandom(Map pickFrom, int numToPick) in favor of
+   com.fs.starfarer.api.util.WeightedRandomPicker (call pick() multiple times)
 Changes to CombatUtils:
  - No longer implements EveryFrameCombatPlugin
  - Deprecated getCombatEngine() in favor of Global.getCombatEngine()
@@ -33,6 +37,10 @@ Changes to MathUtils:
  - getDistanceSquared() methods incorporating a radius are no longer marked
    as deprecated, instead the documentation includes a warning that using
    getDistance() may be just as efficient
+Changes to WeaponUtils:
+ - All calculateDamage() methods are now marked as deprecated. There are just
+   too many factors going into damage for this to be testable (26 MutableStats
+   that affect damage dealt/taken as of .6a, let alone armor damage reduction).
 
  1.5 (August 01, 2013)
 =======================
