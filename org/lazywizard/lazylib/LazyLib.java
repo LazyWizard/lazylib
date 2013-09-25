@@ -20,24 +20,10 @@ import org.lazywizard.lazylib.combat.WeaponUtils;
 // TODO: Implement transient CampaignPlugin, add ModMenu plugin system
 public class LazyLib extends BaseModPlugin
 {
-    private static final boolean IS_DEV_BUILD = false;
+    private static final boolean IS_DEV_BUILD = true;
     private static final float LIBRARY_VERSION = 1.6f;
     private static final String GAME_VERSION = "0.6a";
     private static final Level LOG_LEVEL = (IS_DEV_BUILD ? Level.DEBUG : Level.ERROR);
-
-    static
-    {
-        Global.getLogger(CollectionUtils.class).setLevel(LOG_LEVEL);
-        Global.getLogger(CollisionUtils.class).setLevel(LOG_LEVEL);
-        Global.getLogger(MathUtils.class).setLevel(LOG_LEVEL);
-        Global.getLogger(CargoUtils.class).setLevel(LOG_LEVEL);
-        Global.getLogger(FleetUtils.class).setLevel(LOG_LEVEL);
-        Global.getLogger(MessageUtils.class).setLevel(LOG_LEVEL);
-        Global.getLogger(AIUtils.class).setLevel(LOG_LEVEL);
-        Global.getLogger(CombatUtils.class).setLevel(LOG_LEVEL);
-        Global.getLogger(DefenseUtils.class).setLevel(LOG_LEVEL);
-        Global.getLogger(WeaponUtils.class).setLevel(LOG_LEVEL);
-    }
 
     /**
      * Get the version number of this LazyLib instance.
@@ -84,9 +70,27 @@ public class LazyLib extends BaseModPlugin
                 + " for Starsector " + GAME_VERSION;
     }
 
+    public static void setLogLevel(Level level)
+    {
+        // org.lazywizard.lazylib
+        Global.getLogger(CollectionUtils.class).setLevel(level);
+        Global.getLogger(CollisionUtils.class).setLevel(level);
+        Global.getLogger(MathUtils.class).setLevel(level);
+        // org.lazywizard.lazylib.campaign
+        Global.getLogger(CargoUtils.class).setLevel(level);
+        Global.getLogger(FleetUtils.class).setLevel(level);
+        Global.getLogger(MessageUtils.class).setLevel(level);
+        // org.lazywizard.lazylib.combat
+        Global.getLogger(AIUtils.class).setLevel(level);
+        Global.getLogger(CombatUtils.class).setLevel(level);
+        Global.getLogger(DefenseUtils.class).setLevel(level);
+        Global.getLogger(WeaponUtils.class).setLevel(level);
+    }
+
     @Override
     public void onApplicationLoad() throws Exception
     {
         Global.getLogger(LazyLib.class).log(Level.INFO, "Running " + getInfo());
+        setLogLevel(LOG_LEVEL);
     }
 }
