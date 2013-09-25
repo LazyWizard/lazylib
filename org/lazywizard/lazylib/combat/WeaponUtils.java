@@ -22,8 +22,6 @@ import org.lwjgl.util.vector.Vector2f;
  * @author LazyWizard
  * @since 1.0
  */
-// FIXME: the calculateXDamage() methods appear to be slightly off for some reason
-// TODO: Split calculateActualDamage() into calculateDamageAgainst()
 public class WeaponUtils
 {
     /**
@@ -72,23 +70,20 @@ public class WeaponUtils
     }
 
     /**
-     * Calculate how long it would take to turn a {@link WeaponAPI} to aim at a location.
+     * Calculate how long it would take to turn a {@link WeaponAPI} to aim at
+     * a location. Does NOT factor in current ship turn speed.
      *
      * @param weapon The {@link WeaponAPI} to turn.
      * @param aimAt The {@link Vector2f} to aim at.
      * @return The time in seconds it would take to aim {@code weapon}.
      * @since 1.0
      */
-    // TODO: Fix this, as it's horribroken. Factor in current turn speeds only!
     public static float getTimeToAim(WeaponAPI weapon, Vector2f aimAt)
     {
-        ShipAPI ship = weapon.getShip();
         float turnSpeed = weapon.getTurnRate();
-        // FIXME: ship turning away counts as turning towards!
-        turnSpeed += ship == null ? 0f : Math.abs(ship.getAngularVelocity());
         float time = Math.abs(weapon.distanceFromArc(aimAt)) / turnSpeed;
 
-        // Divide by zero - no ship or can't turn, only a threat if already aimed
+        // Divide by zero - can't turn, only a threat if already aimed
         if (Float.isNaN(time))
         {
             if (weapon.distanceFromArc(aimAt) == 0)

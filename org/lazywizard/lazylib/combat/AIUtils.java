@@ -510,7 +510,7 @@ public class AIUtils
     }
 
     /**
-     * Check if a ship's system can be toggled this frame.
+     * Check if a ship's system can be used/toggled this frame.
      * This still returns true if the shipsystem is already on!
      *
      * @param ship The ship to check the system of.
@@ -524,10 +524,10 @@ public class AIUtils
 
         // No system, overloading/venting, out of ammo
         if (system == null || flux.isOverloadedOrVenting() || system.isOutOfAmmo()
-                // In use
+                // In use but can't be toggled off right away
                 || (system.isOn() && system.getCooldownRemaining() > 0f)
                 // In chargedown, in cooldown
-                || (system.isActive() && !system.isOn())|| system.getCooldownRemaining() > 0f
+                || (system.isActive() && !system.isOn()) || system.getCooldownRemaining() > 0f
                 // Not enough flux
                 || system.getFluxPerUse() > (flux.getMaxFlux() - flux.getCurrFlux()))
         {
