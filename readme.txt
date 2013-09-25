@@ -28,7 +28,8 @@ at all times even if your currently active mods don't require it.
 ------------------------
 If you want to compile LazyLib yourself, the source can be found inside
 jars/LazyLib.jar (most modern archive programs can open jars).
-LazyLib will require starfarer.api.jar and lwjgl_util.jar in the classpath.
+LazyLib will require starfarer.api.jar, lwjgl_util.jar, and log4j-1.2.9.jar
+in the classpath to compile.
 
 
  Contributing to this mod:
