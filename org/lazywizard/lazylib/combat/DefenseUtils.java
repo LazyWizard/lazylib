@@ -1,8 +1,11 @@
 package org.lazywizard.lazylib.combat;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.ArmorGridAPI;
 import com.fs.starfarer.api.combat.ShieldAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
+import org.apache.log4j.Level;
+import org.lazywizard.lazylib.CollectionUtils;
 import org.lazywizard.lazylib.CollisionUtils;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -129,6 +132,10 @@ public class DefenseUtils
     @Deprecated
     public static Vector2f getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
     {
+        Global.getLogger(DefenseUtils.class).log(Level.WARN,
+                "Using deprecated method getArmorCellAtWorldCoord(ShipAPI ship,"
+                + " Vector2f loc)");
+
         int[] cell = ship.getArmorGrid().getCellAtLocation(loc);
 
         if (cell == null)
