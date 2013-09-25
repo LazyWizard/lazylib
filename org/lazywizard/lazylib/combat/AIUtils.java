@@ -21,6 +21,17 @@ import org.lazywizard.lazylib.MathUtils;
  */
 public class AIUtils
 {
+    // Not public as it's so simple it's mostly a convenience tweak
+    private static boolean isVisibleToSide(CombatEntityAPI entity, int side)
+    {
+        if (entity.getOwner() == side)
+        {
+            return true;
+        }
+
+        return Global.getCombatEngine().getFogOfWar(side).isVisible(entity.getLocation());
+    }
+
     /**
      * Find the closest {@link BattleObjectiveAPI} to an entity.
      *
@@ -68,11 +79,10 @@ public class AIUtils
                 continue;
             }
 
-            /*if (!Global.getCombatEngine().getFogOfWar(entity.getOwner())
-                    .isVisible(tmp.getLocation()))
+            if (!isVisibleToSide(tmp, entity.getOwner()))
             {
                 continue;
-            }*/
+            }
 
             distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
                     entity.getLocation());
@@ -139,6 +149,11 @@ public class AIUtils
                 continue;
             }
 
+            if (!isVisibleToSide(tmp, entity.getOwner()))
+            {
+                continue;
+            }
+
             distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
                     entity.getLocation());
 
@@ -171,6 +186,11 @@ public class AIUtils
                 continue;
             }
 
+            if (!isVisibleToSide(tmp, entity.getOwner()))
+            {
+                continue;
+            }
+
             distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
                     entity.getLocation());
 
@@ -199,7 +219,8 @@ public class AIUtils
 
         for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
-            if (tmp.getOwner() != entity.getOwner() && !tmp.isHulk() && !tmp.isShuttlePod())
+            if (tmp.getOwner() != entity.getOwner() && !tmp.isHulk()
+                    && !tmp.isShuttlePod() && isVisibleToSide(tmp, entity.getOwner()))
             {
                 enemies.add(tmp);
             }
@@ -243,7 +264,8 @@ public class AIUtils
 
         for (ShipAPI enemy : getEnemiesOnMap(entity))
         {
-            if (MathUtils.getDistance(entity, enemy) <= range)
+            if (isVisibleToSide(enemy, entity.getOwner())
+                    && MathUtils.getDistance(entity, enemy) <= range)
             {
                 enemies.add(enemy);
             }
@@ -379,6 +401,11 @@ public class AIUtils
                 continue;
             }
 
+            if (!isVisibleToSide(tmp, entity.getOwner()))
+            {
+                continue;
+            }
+
             distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
                     entity.getLocation());
 
@@ -407,7 +434,8 @@ public class AIUtils
 
         for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
         {
-            if (tmp.getOwner() != entity.getOwner())
+            if (tmp.getOwner() != entity.getOwner()
+                    && isVisibleToSide(tmp, entity.getOwner()))
             {
                 enemies.add(tmp);
             }
@@ -451,7 +479,8 @@ public class AIUtils
 
         for (MissileAPI enemy : getEnemyMissilesOnMap(entity))
         {
-            if (MathUtils.getDistance(entity, enemy) <= range)
+            if (isVisibleToSide(enemy, entity.getOwner())
+                    && MathUtils.getDistance(entity, enemy) <= range)
             {
                 enemies.add(enemy);
             }
