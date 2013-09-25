@@ -1,11 +1,13 @@
 package org.lazywizard.lazylib;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import org.apache.log4j.Level;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -529,9 +531,9 @@ public class MathUtils
     @Deprecated
     public static boolean isPointWithinBounds(Vector2f point, CombatEntityAPI entity)
     {
-        System.out.println("LazyLib - using deprecated method "
-                + MathUtils.class.getCanonicalName()
-                + ":isPointWithinBounds(Vector2f point, CombatEntityAPI entity)");
+        Global.getLogger(MathUtils.class).log(Level.WARN,
+                "Using deprecated method isPointWithinBounds(Vector2f point,"
+                + " CombatEntityAPI entity)");
         return CollisionUtils.isPointWithinBounds(point, entity);
     }
 
