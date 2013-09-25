@@ -20,7 +20,7 @@ All classes that end in "Utils" are utility classes and cannot be instantiated.
 ---------------
 This is installed the same way as a normal mod. Simply extract the zip into
 your mods folder and tag it in the launcher. As this mod does nothing until
-its classes are called, there is no harm in leaving it tagged in the launcher
+its methods are called, there is no harm in leaving it tagged in the launcher
 at all times even if your currently active mods don't require it.
 
 
@@ -28,7 +28,23 @@ at all times even if your currently active mods don't require it.
 ------------------------
 If you want to compile LazyLib yourself, the source can be found inside
 jars/LazyLib.jar (most modern archive programs can open jars).
-LazyLib only requires starfarer.api.jar and lwjgl_util.jar in the classpath.
+LazyLib will require starfarer.api.jar and lwjgl_util.jar in the classpath.
 
 
-(readme last updated 2013-04-19)
+ Contributing to this mod:
+---------------------------
+If you wish to contribute to LazyLib, the project repository can be found at
+https://bitbucket.org/LazyWizard/lazylib (I use Mercurial for revision control).
+
+There are a few goals you should keep in mind when contributing:
+ * Use human-readable method names. If there's a proper name that describes a
+   method's functionality but nobody outside of that field will know it, use a
+   more generic, descriptive name.
+ * Build upon the API, don't replace it - most of what this library does uses
+   the existing API methods, not custom framework.
+ * LazyLib is intended to sit in the background and do nothing until a mod
+   needs it. There should be no EveryFrameScripts, SpawnPointPlugins, or
+   EveryFrameCombatPlugins in this mod. The only overhead should be the classes
+   stored in memory, if possible.
+
+(readme last updated 2013-09-25)
