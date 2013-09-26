@@ -358,6 +358,7 @@ public class MathUtils
      * @param lineEnd The end point of the line.
      * @return A random {@link Vector2f} along the line between {@code lineStart}
      * and {@code lineEnd}.
+     * @since 1.6
      */
     public static Vector2f getRandomPointOnLine(Vector2f lineStart, Vector2f lineEnd)
     {
@@ -417,6 +418,7 @@ public class MathUtils
      * @param lineStart The starting point of the line.
      * @param lineEnd The end point of the line.
      * @return {@code true} if the point is along the line, {@code false} otherwise.
+     * @since 1.6
      */
     public static boolean isPointOnLine(Vector2f point, Vector2f lineStart, Vector2f lineEnd)
     {

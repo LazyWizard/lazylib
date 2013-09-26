@@ -84,7 +84,7 @@ public class CollectionUtils
         /**
          * @param location The central location to judge distance from.
          * @param includeRadius Whether to include collision radius in the check.
-         * @since 1.1
+         * @since 1.6
          */
         public SortEntitiesByDistance(Vector2f location, boolean includeRadius)
         {
@@ -140,7 +140,7 @@ public class CollectionUtils
         /**
          * @param location The central location to judge distance from.
          * @param includeRadius Whether to include collision radius in the check.
-         * @since 1.1
+         * @since 1.6
          */
         public SortTokensByDistance(Vector2f location, boolean includeRadius)
         {
