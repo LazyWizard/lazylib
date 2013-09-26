@@ -70,6 +70,12 @@ public class LazyLib extends BaseModPlugin
                 + " for Starsector " + GAME_VERSION;
     }
 
+    /**
+     * Sets the log level for all LazyLib classes.
+     *
+     * @param level The minimum level of entries that will be logged.
+     * @since 1.6
+     */
     public static void setLogLevel(Level level)
     {
         // org.lazywizard.lazylib

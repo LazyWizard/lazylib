@@ -22,9 +22,12 @@ import org.lazywizard.lazylib.MathUtils;
 public class AIUtils
 {
     // Not public as it's so simple it's mostly a convenience tweak
+    /**
+     * @since 1.6
+     */
     private static boolean isVisibleToSide(CombatEntityAPI entity, int side)
     {
-        if (entity.getOwner() == side)
+        if (side == 100 || entity.getOwner() == 100 || entity.getOwner() == side)
         {
             return true;
         }
