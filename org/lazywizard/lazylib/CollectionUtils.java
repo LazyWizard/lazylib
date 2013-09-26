@@ -20,6 +20,7 @@ import org.lwjgl.util.vector.Vector2f;
  * @author LazyWizard
  * @since 1.0
  */
+// TODO: add support for Maps in implode()
 public class CollectionUtils
 {
     /**
@@ -62,7 +63,7 @@ public class CollectionUtils
      * @see CollectionUtils#implode(java.util.Collection, java.lang.String)
      * @since 1.0
      */
-    public static String implode(Collection<String> toImplode)
+    public static String implode(Collection toImplode)
     {
         return implode(toImplode, ", ");
     }
