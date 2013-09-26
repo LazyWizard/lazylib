@@ -22,6 +22,7 @@ import org.lwjgl.util.vector.Vector2f;
  * @author LazyWizard
  * @since 1.0
  */
+// TODO: add getTimeUntilInArc(WeaponAPI weapon, Vector2f point)
 public class WeaponUtils
 {
     /**

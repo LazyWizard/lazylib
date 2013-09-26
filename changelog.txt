@@ -33,6 +33,10 @@ Changes to CombatUtils:
 Changes to DefenseUtils:
  - Deprecated getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
    in favor of ArmorGridAPI.getCellAtLocation(Vector2f loc)
+Changes to LazyLib:
+ - Now logs the current LazyLib version on game load
+ - Added setLogLevel(Level level), sets the log level for all utility classes
+   (defaults to Level.DEBUG for dev builds, Level.ERROR for main releases)
 Changes to MathUtils:
  - Added getRandomPointOnLine(Vector2f lineStart, Vector2f lineEnd)
  - Added isPointOnLine(Vector2f point, Vector2f lineStart, Vector2f lineEnd)
@@ -43,6 +47,8 @@ Changes to MathUtils:
    as deprecated, instead the documentation includes a warning that using
    getDistance() may be just as efficient
 Changes to WeaponUtils:
+ - Fixed inaccuracies with getTimeToAim(), but method doesn't take ship
+   turn speed into account anymore
  - All calculateDamage() methods are now marked as deprecated. There are just
    too many factors going into damage for this to be testable (26 MutableStats
    that affect damage dealt/taken as of .6a, let alone armor damage reduction).
