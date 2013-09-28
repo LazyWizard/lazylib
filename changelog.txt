@@ -1,8 +1,8 @@
- 1.6 (soon)
-============
+ 1.6 (September 27, 2013)
+==========================
 Updated the codebase to use the new .6a methods
 Deprecated several methods whose functionality is now included within the API
-Usage of deprecated methods is now reported in starsector.log
+Usage of deprecated methods is now reported in starsector.log if devMode=true
 Changes to AIUtils:
  - All methods now only return entities that are visible on the battle map.
    Note: this change may alter the behavior of existing scripts!
