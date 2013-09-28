@@ -73,13 +73,26 @@ public class LazyLib extends BaseModPlugin
     }
 
     /**
-     * Sets the log level for all LazyLib classes.
+     * Gets the log level used for all LazyLib classes.
+     *
+     * @return The current log level for all LazyLib classes.
+     * @since 1.7
+     */
+    public static Level getLogLevel()
+    {
+        return LOG_LEVEL;
+    }
+
+    /**
+     * Sets the log level used for all LazyLib classes.
      *
      * @param level The minimum level of entries that will be logged.
      * @since 1.6
      */
     public static void setLogLevel(Level level)
     {
+        LOG_LEVEL = level;
+
         // org.lazywizard.lazylib
         Global.getLogger(CollectionUtils.class).setLevel(level);
         Global.getLogger(CollisionUtils.class).setLevel(level);
@@ -101,9 +114,8 @@ public class LazyLib extends BaseModPlugin
     @Override
     public void onApplicationLoad() throws Exception
     {
-        LOG_LEVEL = ((IS_DEV_BUILD || Global.getSettings().isDevMode())
-                ? Level.DEBUG : Level.ERROR);
         Global.getLogger(LazyLib.class).log(Level.INFO, "Running " + getInfo());
-        setLogLevel(LOG_LEVEL);
+        setLogLevel(((IS_DEV_BUILD || Global.getSettings().isDevMode())
+                ? Level.DEBUG : Level.ERROR));
     }
 }
