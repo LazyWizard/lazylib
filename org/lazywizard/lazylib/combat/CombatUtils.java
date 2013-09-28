@@ -7,9 +7,12 @@ import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.DamagingProjectileAPI;
+import com.fs.starfarer.api.combat.EveryFrameCombatPlugin;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
+import com.fs.starfarer.api.input.InputEventAPI;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,8 +27,10 @@ import org.lwjgl.util.vector.Vector2f;
  * @author LazyWizard
  * @since 1.0
  */
-public class CombatUtils
+public class CombatUtils implements EveryFrameCombatPlugin
 {
+    private static WeakReference<CombatEngineAPI> engine = null;
+
     /**
      * Find a {@link ShipAPI}'s corresponding {@link FleetMemberAPI} in the
      * campaign.
@@ -410,7 +415,7 @@ public class CombatUtils
     {
         Global.getLogger(CombatUtils.class).log(Level.WARN,
                 "Using deprecated method getCombatEngie()");
-        return Global.getCombatEngine();
+        return engine.get();
     }
 
     /**
@@ -464,7 +469,24 @@ public class CombatUtils
         return Global.getCombatEngine().getElapsedInLastFrame();
     }
 
-    private CombatUtils()
+    /**
+     * Automatically called by the game. Don't call this manually.
+     */
+    @Override
+    public void advance(float amount, List events)
+    {
+    }
+
+    /**
+     * Automatically called by the game. Don't call this manually.
+     */
+    @Override
+    public void init(CombatEngineAPI engine)
+    {
+        CombatUtils.engine = new WeakReference(engine);
+    }
+
+    protected CombatUtils()
     {
     }
 }
