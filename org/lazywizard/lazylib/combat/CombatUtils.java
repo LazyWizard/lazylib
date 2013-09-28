@@ -83,7 +83,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
         List<DamagingProjectileAPI> projectiles = new ArrayList();
         range *= range;
 
-        for (DamagingProjectileAPI tmp : Global.getCombatEngine().getProjectiles())
+        for (DamagingProjectileAPI tmp : getCombatEngine().getProjectiles())
         {
             if (MathUtils.getDistanceSquared(tmp.getLocation(), location) <= range)
             {
@@ -128,7 +128,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
         List<MissileAPI> missiles = new ArrayList();
         range *= range;
 
-        for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
+        for (MissileAPI tmp : getCombatEngine().getMissiles())
         {
             if (MathUtils.getDistanceSquared(tmp.getLocation(), location) <= range)
             {
@@ -172,7 +172,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     {
         List<ShipAPI> ships = new ArrayList();
 
-        for (ShipAPI tmp : Global.getCombatEngine().getShips())
+        for (ShipAPI tmp : getCombatEngine().getShips())
         {
             if (tmp.isShuttlePod())
             {
@@ -221,7 +221,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     {
         List<CombatEntityAPI> asteroids = new ArrayList();
 
-        for (CombatEntityAPI tmp : Global.getCombatEngine().getAsteroids())
+        for (CombatEntityAPI tmp : getCombatEngine().getAsteroids())
         {
             if (MathUtils.getDistance(tmp, location) <= range)
             {
@@ -266,7 +266,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
         List<BattleObjectiveAPI> objectives = new ArrayList();
         range *= range;
 
-        for (BattleObjectiveAPI tmp : Global.getCombatEngine().getObjectives())
+        for (BattleObjectiveAPI tmp : getCombatEngine().getObjectives())
         {
             if (MathUtils.getDistanceSquared(tmp.getLocation(), location) <= range)
             {
@@ -313,7 +313,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
         List<CombatEntityAPI> entities = new ArrayList();
         range *= range;
 
-        for (CombatEntityAPI tmp : Global.getCombatEngine().getShips())
+        for (CombatEntityAPI tmp : getCombatEngine().getShips())
         {
             if (MathUtils.getDistanceSquared(tmp, location) <= range)
             {
@@ -321,7 +321,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
             }
         }
 
-        for (CombatEntityAPI tmp : Global.getCombatEngine().getProjectiles())
+        for (CombatEntityAPI tmp : getCombatEngine().getProjectiles())
         {
             if (MathUtils.getDistanceSquared(tmp, location) <= range)
             {
@@ -329,7 +329,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
             }
         }
 
-        for (CombatEntityAPI tmp : Global.getCombatEngine().getAsteroids())
+        for (CombatEntityAPI tmp : getCombatEngine().getAsteroids())
         {
             if (MathUtils.getDistanceSquared(tmp, location) <= range)
             {
@@ -426,12 +426,12 @@ public class CombatUtils implements EveryFrameCombatPlugin
     {
         Global.getLogger(CombatUtils.class).log(Level.WARN,
                 "Using deprecated method getElapsedCombatTimeIncludingPaused()");
-        if (Global.getCombatEngine() == null)
+        if (getCombatEngine() == null)
         {
             return 0f;
         }
 
-        return Global.getCombatEngine().getTotalElapsedTime(true);
+        return getCombatEngine().getTotalElapsedTime(true);
     }
 
     /**
@@ -443,12 +443,12 @@ public class CombatUtils implements EveryFrameCombatPlugin
     {
         Global.getLogger(CombatUtils.class).log(Level.WARN,
                 "Using deprecated method getElapsedCombatTime()");
-        if (Global.getCombatEngine() == null)
+        if (getCombatEngine() == null)
         {
             return 0f;
         }
 
-        return Global.getCombatEngine().getTotalElapsedTime(false);
+        return getCombatEngine().getTotalElapsedTime(false);
     }
 
     /**
@@ -460,12 +460,12 @@ public class CombatUtils implements EveryFrameCombatPlugin
     {
         Global.getLogger(CombatUtils.class).log(Level.WARN,
                 "Using deprecated method getTimeSinceLastFrame()");
-        if (Global.getCombatEngine() == null)
+        if (getCombatEngine() == null)
         {
             return 0f;
         }
 
-        return Global.getCombatEngine().getElapsedInLastFrame();
+        return getCombatEngine().getElapsedInLastFrame();
     }
 
     /**

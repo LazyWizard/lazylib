@@ -1,3 +1,12 @@
+ 1.6b (September 28, 2013)
+===========================
+Temporary fix for null pointer exceptions on title screen (fixed in .6.1a)
+Changes to CollisionUtils:
+ - Added isPointOnSegment(Vector2f point, SegmentAPI segment)
+Changes to LazyLib:
+ - Added getLogLevel(), returns logger level used by all LazyLib classes
+ - setLogLevel() now includes AnchoredEntity and SimpleEntity as well
+
  1.6 (September 27, 2013)
 ==========================
 Updated the codebase to use the new .6a methods
