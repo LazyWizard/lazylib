@@ -5,7 +5,6 @@ import com.fs.starfarer.api.combat.ArmorGridAPI;
 import com.fs.starfarer.api.combat.ShieldAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import org.apache.log4j.Level;
-import org.lazywizard.lazylib.CollectionUtils;
 import org.lazywizard.lazylib.CollisionUtils;
 import org.lwjgl.util.vector.Vector2f;
 
