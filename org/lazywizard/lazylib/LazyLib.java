@@ -10,6 +10,8 @@ import org.lazywizard.lazylib.combat.AIUtils;
 import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lazywizard.lazylib.combat.DefenseUtils;
 import org.lazywizard.lazylib.combat.WeaponUtils;
+import org.lazywizard.lazylib.combat.entities.AnchoredEntity;
+import org.lazywizard.lazylib.combat.entities.SimpleEntity;
 
 /**
  * Contains information on the current version of LazyLib.
@@ -20,8 +22,8 @@ import org.lazywizard.lazylib.combat.WeaponUtils;
 // TODO: Implement transient CampaignPlugin, add ModMenu plugin system
 public class LazyLib extends BaseModPlugin
 {
-    private static final boolean IS_DEV_BUILD = false;
-    private static final float LIBRARY_VERSION = 1.6f;
+    private static final boolean IS_DEV_BUILD = true;
+    private static final float LIBRARY_VERSION = 1.7f;
     private static final String GAME_VERSION = "0.6a";
     private static Level LOG_LEVEL;
 
@@ -91,6 +93,9 @@ public class LazyLib extends BaseModPlugin
         Global.getLogger(CombatUtils.class).setLevel(level);
         Global.getLogger(DefenseUtils.class).setLevel(level);
         Global.getLogger(WeaponUtils.class).setLevel(level);
+        // org.lazywizard.lazylib.combat.entities
+        Global.getLogger(AnchoredEntity.class).setLevel(level);
+        Global.getLogger(SimpleEntity.class).setLevel(level);
     }
 
     @Override

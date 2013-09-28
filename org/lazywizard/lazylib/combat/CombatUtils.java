@@ -11,7 +11,6 @@ import com.fs.starfarer.api.combat.EveryFrameCombatPlugin;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
-import com.fs.starfarer.api.input.InputEventAPI;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;

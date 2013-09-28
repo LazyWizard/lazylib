@@ -1,10 +1,11 @@
 package org.lazywizard.lazylib.combat.entities;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import org.lazywizard.lazylib.LazyLib;
+import org.apache.log4j.Level;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -82,13 +83,10 @@ public class SimpleEntity extends EntityBase
 
             // Cache this method so we only have to do the lookup once a session
             methodCache.put(tmp, getLocation);
-
-            if (LazyLib.isDevBuild())
-            {
-                System.out.println("SimpleEntity cached: "
-                        + tmp.getCanonicalName() + " | "
-                        + getLocation.toGenericString() + ".");
-            }
+            Global.getLogger(SimpleEntity.class).log(Level.DEBUG,
+                    "SimpleEntity cached: "
+                    + tmp.getCanonicalName() + " | "
+                    + getLocation.toGenericString() + ".");
         }
     }
 
