@@ -153,6 +153,19 @@ public class CollisionUtils
     }
 
     /**
+     * Check if a point is along a {@link SegmentAPI}.
+     *
+     * @param point The point to check.
+     * @param segment The {@link SegmentAPI} to check for collision with.
+     * @return {@code true} if the point is along the line, {@code false} otherwise.
+     * @since 1.6b
+     */
+    public static boolean isPointOnSegment(Vector2f point, SegmentAPI segment)
+    {
+        return MathUtils.isPointOnLine(point, segment.getP1(), segment.getP2());
+    }
+
+    /**
      * Checks if a point is inside or on the bounds of a {@link CombatEntityAPI}.
      *
      * @param point The {@link Vector2f} to check.

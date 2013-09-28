@@ -113,7 +113,7 @@ public class WeaponUtils
         float maxRange = weapon.getRange() * weapon.getRange();
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (ShipAPI tmp : Global.getCombatEngine().getShips())
+        for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
         {
             if (tmp.getOwner() == weapon.getShip().getOwner()
                     || weapon.distanceFromArc(tmp.getLocation()) > 0f)
@@ -197,7 +197,7 @@ public class WeaponUtils
         float maxRange = weapon.getRange() * weapon.getRange();
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
+        for (MissileAPI tmp : CombatUtils.getCombatEngine().getMissiles())
         {
             if (tmp.getOwner() == weapon.getShip().getOwner()
                     || weapon.distanceFromArc(tmp.getLocation()) > 0f)

@@ -23,7 +23,7 @@ import org.lazywizard.lazylib.combat.entities.SimpleEntity;
 public class LazyLib extends BaseModPlugin
 {
     private static final boolean IS_DEV_BUILD = true;
-    private static final float LIBRARY_VERSION = 1.7f;
+    private static final float LIBRARY_VERSION = 1.61f;
     private static final String GAME_VERSION = "0.6a";
     private static Level LOG_LEVEL;
 
@@ -76,7 +76,7 @@ public class LazyLib extends BaseModPlugin
      * Gets the log level used for all LazyLib classes.
      *
      * @return The current log level for all LazyLib classes.
-     * @since 1.7
+     * @since 1.6b
      */
     public static Level getLogLevel()
     {
