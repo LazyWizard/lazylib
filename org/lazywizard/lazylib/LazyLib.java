@@ -20,10 +20,10 @@ import org.lazywizard.lazylib.combat.WeaponUtils;
 // TODO: Implement transient CampaignPlugin, add ModMenu plugin system
 public class LazyLib extends BaseModPlugin
 {
-    private static final boolean IS_DEV_BUILD = true;
+    private static final boolean IS_DEV_BUILD = false;
     private static final float LIBRARY_VERSION = 1.6f;
     private static final String GAME_VERSION = "0.6a";
-    private static final Level LOG_LEVEL = (IS_DEV_BUILD ? Level.DEBUG : Level.ERROR);
+    private static Level LOG_LEVEL;
 
     /**
      * Get the version number of this LazyLib instance.
@@ -96,6 +96,8 @@ public class LazyLib extends BaseModPlugin
     @Override
     public void onApplicationLoad() throws Exception
     {
+        LOG_LEVEL = ((IS_DEV_BUILD || Global.getSettings().isDevMode())
+                ? Level.DEBUG : Level.ERROR);
         Global.getLogger(LazyLib.class).log(Level.INFO, "Running " + getInfo());
         setLogLevel(LOG_LEVEL);
     }
