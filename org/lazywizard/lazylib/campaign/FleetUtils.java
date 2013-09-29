@@ -215,7 +215,7 @@ public class FleetUtils
             boolean sortByDistance)
     {
         StarSystemAPI system = (StarSystemAPI) fleet.getContainingLocation();
-        List<CampaignFleetAPI> enemies = new ArrayList();
+        List<CampaignFleetAPI> enemies = new ArrayList<CampaignFleetAPI>();
 
         for (CampaignFleetAPI tmp : system.getFleets())
         {
@@ -259,7 +259,7 @@ public class FleetUtils
     public static List<CampaignFleetAPI> getNearbyEnemyFleets(CampaignFleetAPI fleet,
             float range, boolean sortByDistance)
     {
-        List<CampaignFleetAPI> enemies = new ArrayList();
+        List<CampaignFleetAPI> enemies = new ArrayList<CampaignFleetAPI>();
         range *= range;
 
         for (CampaignFleetAPI enemy : getEnemyFleetsInSystem(fleet))
@@ -305,7 +305,7 @@ public class FleetUtils
             boolean sortByDistance)
     {
         StarSystemAPI system = (StarSystemAPI) fleet.getContainingLocation();
-        List<CampaignFleetAPI> allies = new ArrayList();
+        List<CampaignFleetAPI> allies = new ArrayList<CampaignFleetAPI>();
 
         for (CampaignFleetAPI tmp : system.getFleets())
         {
@@ -349,7 +349,7 @@ public class FleetUtils
     public static List<CampaignFleetAPI> getNearbyAlliedFleets(CampaignFleetAPI fleet,
             float range, boolean sortByDistance)
     {
-        List<CampaignFleetAPI> allies = new ArrayList();
+        List<CampaignFleetAPI> allies = new ArrayList<CampaignFleetAPI>();
         range *= range;
 
         for (CampaignFleetAPI ally : getAlliedFleetsInSystem(fleet))

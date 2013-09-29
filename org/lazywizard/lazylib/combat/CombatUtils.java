@@ -80,7 +80,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
-        List<DamagingProjectileAPI> projectiles = new ArrayList();
+        List<DamagingProjectileAPI> projectiles = new ArrayList<DamagingProjectileAPI>();
         range *= range;
 
         for (DamagingProjectileAPI tmp : getCombatEngine().getProjectiles())
@@ -125,7 +125,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     public static List<MissileAPI> getMissilesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
-        List<MissileAPI> missiles = new ArrayList();
+        List<MissileAPI> missiles = new ArrayList<MissileAPI>();
         range *= range;
 
         for (MissileAPI tmp : getCombatEngine().getMissiles())
@@ -170,7 +170,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     public static List<ShipAPI> getShipsWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
-        List<ShipAPI> ships = new ArrayList();
+        List<ShipAPI> ships = new ArrayList<ShipAPI>();
 
         for (ShipAPI tmp : getCombatEngine().getShips())
         {
@@ -219,7 +219,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     public static List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
-        List<CombatEntityAPI> asteroids = new ArrayList();
+        List<CombatEntityAPI> asteroids = new ArrayList<CombatEntityAPI>();
 
         for (CombatEntityAPI tmp : getCombatEngine().getAsteroids())
         {
@@ -263,7 +263,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     public static List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
-        List<BattleObjectiveAPI> objectives = new ArrayList();
+        List<BattleObjectiveAPI> objectives = new ArrayList<BattleObjectiveAPI>();
         range *= range;
 
         for (BattleObjectiveAPI tmp : getCombatEngine().getObjectives())
@@ -310,7 +310,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     public static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
-        List<CombatEntityAPI> entities = new ArrayList();
+        List<CombatEntityAPI> entities = new ArrayList<CombatEntityAPI>();
         range *= range;
 
         for (CombatEntityAPI tmp : getCombatEngine().getShips())
@@ -483,7 +483,7 @@ public class CombatUtils implements EveryFrameCombatPlugin
     @Override
     public void init(CombatEngineAPI engine)
     {
-        CombatUtils.engine = new WeakReference(engine);
+        CombatUtils.engine = new WeakReference<CombatEngineAPI>(engine);
     }
 
     protected CombatUtils()

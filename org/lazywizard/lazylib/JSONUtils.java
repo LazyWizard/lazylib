@@ -23,12 +23,12 @@ public class JSONUtils
             boolean convertJSONArraysToList) throws JSONException
     {
         Map<String, Object> asMap = new HashMap<String, Object>(object.length());
-        Iterator<String> keys = object.keys();
+        Iterator keys = object.keys();
         String key;
         Object tmp;
         while (keys.hasNext())
         {
-            key = keys.next();
+            key = (String) keys.next();
             tmp = object.get(key);
 
             if (tmp instanceof JSONObject)
@@ -75,7 +75,7 @@ public class JSONUtils
             }
             else
             {
-                asList.add(array.get(x));
+                asList.add(tmp);
             }
         }
 
