@@ -16,17 +16,33 @@ import org.json.JSONObject;
  * @since 1.7
  */
 // TODO: JavaDoc this!
+// TODO: Clean this up, some methods may need to be redesigned to be more intuitive
 public class JSONUtils
 {
-    public static Map<String, Object> toMap(JSONObject object) throws JSONException
+    public static Map<String, Object> toMap(JSONObject object,
+            boolean convertJSONArraysToList) throws JSONException
     {
         Map<String, Object> asMap = new HashMap<String, Object>(object.length());
         Iterator<String> keys = object.keys();
         String key;
+        Object tmp;
         while (keys.hasNext())
         {
             key = keys.next();
-            asMap.put(key, object.get(key));
+            tmp = object.get(key);
+
+            if (tmp instanceof JSONObject)
+            {
+                asMap.put(key, toMap((JSONObject) tmp, convertJSONArraysToList));
+            }
+            else if (convertJSONArraysToList && tmp instanceof JSONArray)
+            {
+                asMap.put(key, toList((JSONArray) tmp, true));
+            }
+            else
+            {
+                asMap.put(key, tmp);
+            }
         }
 
         return asMap;
@@ -43,12 +59,24 @@ public class JSONUtils
         return asArray;
     }
 
-    public static List toList(JSONArray array) throws JSONException
+    // TODO: convert JSONArrays inside JSONObjects if convertSubArraysToList == true
+    public static List toList(JSONArray array,
+            boolean convertSubArraysToList) throws JSONException
     {
         List asList = new ArrayList(array.length());
+        Object tmp;
         for (int x = 0; x < array.length(); x++)
         {
-            asList.add(array.get(x));
+            tmp = array.get(x);
+
+            if (convertSubArraysToList && tmp instanceof JSONArray)
+            {
+                asList.add(toList((JSONArray) tmp, true));
+            }
+            else
+            {
+                asList.add(array.get(x));
+            }
         }
 
         return asList;
