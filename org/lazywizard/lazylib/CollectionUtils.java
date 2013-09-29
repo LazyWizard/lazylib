@@ -194,7 +194,7 @@ public class CollectionUtils
 
         if (pickFrom.isEmpty() || numToPick <= 0)
         {
-            return Collections.EMPTY_LIST;
+            return Collections.<T>emptyList();
         }
 
         float totalWeight = 0.0f;
@@ -203,7 +203,7 @@ public class CollectionUtils
             totalWeight += tmp;
         }
 
-        List<T> ret = new ArrayList(numToPick);
+        List<T> ret = new ArrayList<T>(numToPick);
         float random;
 
         for (int x = 0; x < numToPick; x++)

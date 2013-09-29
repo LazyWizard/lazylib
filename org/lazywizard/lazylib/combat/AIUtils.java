@@ -217,7 +217,7 @@ public class AIUtils
     public static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity,
             boolean sortByDistance)
     {
-        List<ShipAPI> enemies = new ArrayList();
+        List<ShipAPI> enemies = new ArrayList<ShipAPI>();
 
         for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
         {
@@ -262,7 +262,7 @@ public class AIUtils
     public static List<ShipAPI> getNearbyEnemies(CombatEntityAPI entity,
             float range, boolean sortByDistance)
     {
-        List<ShipAPI> enemies = new ArrayList();
+        List<ShipAPI> enemies = new ArrayList<ShipAPI>();
 
         for (ShipAPI enemy : getEnemiesOnMap(entity))
         {
@@ -307,7 +307,7 @@ public class AIUtils
     public static List<ShipAPI> getAlliesOnMap(CombatEntityAPI entity,
             boolean sortByDistance)
     {
-        List<ShipAPI> allies = new ArrayList();
+        List<ShipAPI> allies = new ArrayList<ShipAPI>();
 
         for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
         {
@@ -352,7 +352,7 @@ public class AIUtils
     public static List<ShipAPI> getNearbyAllies(CombatEntityAPI entity,
             float range, boolean sortByDistance)
     {
-        List<ShipAPI> allies = new ArrayList();
+        List<ShipAPI> allies = new ArrayList<ShipAPI>();
         for (ShipAPI ally : getAlliesOnMap(entity))
         {
             if (MathUtils.getDistance(entity, ally) <= range)
@@ -432,7 +432,7 @@ public class AIUtils
     public static List<MissileAPI> getEnemyMissilesOnMap(CombatEntityAPI entity,
             boolean sortByDistance)
     {
-        List<MissileAPI> enemies = new ArrayList();
+        List<MissileAPI> enemies = new ArrayList<MissileAPI>();
 
         for (MissileAPI tmp : CombatUtils.getCombatEngine().getMissiles())
         {
@@ -477,7 +477,7 @@ public class AIUtils
     public static List<MissileAPI> getNearbyEnemyMissiles(CombatEntityAPI entity,
             float range, boolean sortByDistance)
     {
-        List<MissileAPI> enemies = new ArrayList();
+        List<MissileAPI> enemies = new ArrayList<MissileAPI>();
 
         for (MissileAPI enemy : getEnemyMissilesOnMap(entity))
         {

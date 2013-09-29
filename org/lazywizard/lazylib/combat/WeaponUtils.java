@@ -150,7 +150,7 @@ public class WeaponUtils
     public static List<ShipAPI> getEnemiesInArc(WeaponAPI weapon,
             boolean sortByDistance)
     {
-        List<ShipAPI> enemies = new ArrayList();
+        List<ShipAPI> enemies = new ArrayList<ShipAPI>();
         float range = weapon.getRange();
 
         for (ShipAPI ship : AIUtils.getEnemiesOnMap(weapon.getShip()))
@@ -234,7 +234,7 @@ public class WeaponUtils
     public static List<MissileAPI> getEnemyMissilesInArc(WeaponAPI weapon,
             boolean sortByDistance)
     {
-        List<MissileAPI> missiles = new ArrayList();
+        List<MissileAPI> missiles = new ArrayList<MissileAPI>();
         float range = weapon.getRange();
         range *= range;
 

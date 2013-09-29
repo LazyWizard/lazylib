@@ -17,7 +17,7 @@ import org.lwjgl.util.vector.Vector2f;
 public class SimpleEntity extends EntityBase
 {
     // Cache for all reflection-based variants (reduces overhead on creation)
-    private static final Map<Class, Method> methodCache = new HashMap();
+    private static final Map<Class, Method> methodCache = new HashMap<Class, Method>();
     // Variables for Vector2f-based variant
     private Vector2f location = null;
     // Variables for reflection-based variant
