@@ -412,8 +412,9 @@ public class CombatUtils implements EveryFrameCombatPlugin
     @Deprecated
     public static CombatEngineAPI getCombatEngine()
     {
-        Global.getLogger(CombatUtils.class).log(Level.WARN,
-                "Using deprecated method getCombatEngie()");
+        // This method is still used internally until .6.1a
+        /*Global.getLogger(CombatUtils.class).log(Level.WARN,
+                "Using deprecated method getCombatEngie()");*/
         return engine.get();
     }
 
