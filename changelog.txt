@@ -1,3 +1,8 @@
+ 1.7 (soon)
+============
+Added JSONUtils:
+ - Contains methods to convert JSONObject/JSONArray to base Java data types
+
  1.6b (September 28, 2013)
 ===========================
 Temporary fix for null pointer exceptions on title screen (fixed in .6.1a)

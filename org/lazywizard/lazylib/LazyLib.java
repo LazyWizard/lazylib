@@ -96,6 +96,7 @@ public class LazyLib extends BaseModPlugin
         // org.lazywizard.lazylib
         Global.getLogger(CollectionUtils.class).setLevel(level);
         Global.getLogger(CollisionUtils.class).setLevel(level);
+        Global.getLogger(JSONUtils.class).setLevel(level);
         Global.getLogger(MathUtils.class).setLevel(level);
         // org.lazywizard.lazylib.campaign
         Global.getLogger(CargoUtils.class).setLevel(level);
