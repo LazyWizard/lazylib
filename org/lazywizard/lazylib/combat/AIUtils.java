@@ -1,5 +1,6 @@
 package org.lazywizard.lazylib.combat;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.FluxTrackerAPI;
@@ -31,7 +32,7 @@ public class AIUtils
             return true;
         }
 
-        return CombatUtils.getCombatEngine().getFogOfWar(side).isVisible(entity.getLocation());
+        return Global.getCombatEngine().getFogOfWar(side).isVisible(entity.getLocation());
     }
 
     /**
@@ -46,7 +47,7 @@ public class AIUtils
         BattleObjectiveAPI closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (BattleObjectiveAPI tmp : CombatUtils.getCombatEngine().getObjectives())
+        for (BattleObjectiveAPI tmp : Global.getCombatEngine().getObjectives())
         {
             distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
                     entity.getLocation());
@@ -73,7 +74,7 @@ public class AIUtils
         ShipAPI closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
+        for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
             if (tmp.getOwner() == entity.getOwner()
                     || tmp.isHulk() || tmp.isShuttlePod())
@@ -111,7 +112,7 @@ public class AIUtils
         ShipAPI closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
+        for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
             if (tmp == entity || tmp.getOwner() != entity.getOwner()
                     || tmp.isHulk() || tmp.isShuttlePod())
@@ -144,7 +145,7 @@ public class AIUtils
         ShipAPI closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
+        for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
             if (tmp == entity || tmp.isHulk() || tmp.isShuttlePod())
             {
@@ -181,7 +182,7 @@ public class AIUtils
         MissileAPI closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (MissileAPI tmp : CombatUtils.getCombatEngine().getMissiles())
+        for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
         {
             if (tmp == entity)
             {
@@ -219,7 +220,7 @@ public class AIUtils
     {
         List<ShipAPI> enemies = new ArrayList<ShipAPI>();
 
-        for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
+        for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
             if (tmp.getOwner() != entity.getOwner() && !tmp.isHulk()
                     && !tmp.isShuttlePod() && isVisibleToSide(tmp, entity.getOwner()))
@@ -309,7 +310,7 @@ public class AIUtils
     {
         List<ShipAPI> allies = new ArrayList<ShipAPI>();
 
-        for (ShipAPI tmp : CombatUtils.getCombatEngine().getShips())
+        for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
             if (tmp != entity && tmp.getOwner() == entity.getOwner()
                     && !tmp.isHulk() && !tmp.isShuttlePod())
@@ -396,7 +397,7 @@ public class AIUtils
         MissileAPI closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (MissileAPI tmp : CombatUtils.getCombatEngine().getMissiles())
+        for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
         {
             if (tmp.getOwner() == entity.getOwner())
             {
@@ -434,7 +435,7 @@ public class AIUtils
     {
         List<MissileAPI> enemies = new ArrayList<MissileAPI>();
 
-        for (MissileAPI tmp : CombatUtils.getCombatEngine().getMissiles())
+        for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
         {
             if (tmp.getOwner() != entity.getOwner()
                     && isVisibleToSide(tmp, entity.getOwner()))

@@ -49,7 +49,7 @@ public class CollisionUtils
         for (SegmentAPI tmp : bounds.getSegments())
         {
             Vector2f intersection =
-                    getCollisionPoint(tmp.getP1(), tmp.getP2(), lineStart, lineEnd);
+                    getCollisionPoint(lineStart, lineEnd, tmp.getP1(), tmp.getP2());
             // Collision = true
             if (intersection != null)
             {
@@ -83,6 +83,15 @@ public class CollisionUtils
     public static Vector2f getCollisionPoint(Vector2f start1, Vector2f end1,
             Vector2f start2, Vector2f end2)
     {
+        if (MathUtils.isPointOnLine(end1, start2, end2))
+        {
+            return end1;
+        }
+        else if (MathUtils.isPointOnLine(start1, start2, end2))
+        {
+            return end2;
+        }
+
         float denom = ((end1.x - start1.x) * (end2.y - start2.y))
                 - ((end1.y - start1.y) * (end2.x - start2.x));
 
