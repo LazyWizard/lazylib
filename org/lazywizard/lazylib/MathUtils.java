@@ -273,6 +273,15 @@ public class MathUtils
         return getFacing(getDirectionalVector(from, to));
     }
 
+    // TODO: JavaDoc this! Also, pick a more intuitive name
+    public static float getAngleDifference(float angle1, float angle2)
+    {
+        float distance = (angle2 - angle1) + 180f;
+        distance = (distance / 360.0f);
+        distance = ((distance - (float) Math.floor(distance)) * 360f) - 180f;
+        return distance;
+    }
+
     /**
      * Returns a point along the circumference of a circle at the given angle.
      *

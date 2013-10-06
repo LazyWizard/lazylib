@@ -1,7 +1,19 @@
  1.7 (soon)
 ============
+Swapped all usages of CombatUtils.getCombatEngine() to Global.getCombatEngine()
 Added JSONUtils:
  - Contains methods to convert JSONObject/JSONArray to base Java data types
+Changes to CollisionUtils:
+ - Fixed getCollisionPoint() returning null when collision point lies directly
+   on the end of a line (this means getCollisionPoint(beam.getFrom(),
+   beam.getTo(), beam.getDamageTarget()) actually works again)
+Changes to CombatUtils:
+ - No longer implements EveryFrameCombatPlugin (also removed LazyLibCombatHook)
+Changes to MathUtils:
+ - Added getAngleDifference(float angle1, float angle2), returns the smallest
+   difference between two angles. This can also be used to find the shortest
+   turn direction (negative result = turn counter-clockwise)
+
 
  1.6b (September 28, 2013)
 ===========================
