@@ -136,7 +136,7 @@ public class CollisionUtils
             Vector2f center, float radius)
     {
         if ((new Line2D.Float(lineStart.x, lineStart.y, lineEnd.x,
-                lineEnd.y)).ptSegDist(center.x, center.y) <= radius)
+                lineEnd.y)).ptSegDistSq(center.x, center.y) <= radius * radius)
         {
             return true;
         }
