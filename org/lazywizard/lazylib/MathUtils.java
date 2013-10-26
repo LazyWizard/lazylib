@@ -273,10 +273,17 @@ public class MathUtils
         return getFacing(getDirectionalVector(from, to));
     }
 
-    // TODO: JavaDoc this! Also, pick a more intuitive name
-    public static float getAngleDifference(float angle1, float angle2)
+    /**
+     * Returns the direction and length of the quickest rotation between two angles.
+     *
+     * @param currAngle The current facing.
+     * @param destAngle The facing to rotate towards.
+     * @return The shortest distance between the two angles, in degrees.
+     * @since 1.7
+     */
+    public static float getShortestRotation(float currAngle, float destAngle)
     {
-        float distance = (angle2 - angle1) + 180f;
+        float distance = (destAngle - currAngle) + 180f;
         distance = (distance / 360.0f);
         distance = ((distance - (float) Math.floor(distance)) * 360f) - 180f;
         return distance;

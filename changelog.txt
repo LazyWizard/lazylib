@@ -10,9 +10,9 @@ Changes to CollisionUtils:
 Changes to CombatUtils:
  - No longer implements EveryFrameCombatPlugin (also removed LazyLibCombatHook)
 Changes to MathUtils:
- - Added getAngleDifference(float angle1, float angle2), returns the smallest
-   difference between two angles. This can also be used to find the shortest
-   turn direction (negative result = turn counter-clockwise)
+ - Added getShortestRotation(float currAngle, float destAngle), returns the
+   smallest difference between two angles. This can also be used to find the
+   best turn direction (negative result = turn counter-clockwise)
 
 
  1.6b (September 28, 2013)
