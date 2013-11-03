@@ -135,13 +135,9 @@ public class CollisionUtils
     public static boolean getCollides(Vector2f lineStart, Vector2f lineEnd,
             Vector2f center, float radius)
     {
-        if ((new Line2D.Float(lineStart.x, lineStart.y, lineEnd.x,
-                lineEnd.y)).ptSegDistSq(center.x, center.y) <= radius * radius)
-        {
-            return true;
-        }
-
-        return false;
+        // Check if distance between line and center is within radius
+        return Line2D.ptSegDistSq(lineStart.x, lineStart.y, lineEnd.x,
+                lineEnd.y, center.x, center.y) <= (radius * radius);
     }
 
     /**
