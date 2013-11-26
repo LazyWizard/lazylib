@@ -23,8 +23,8 @@ import org.lazywizard.lazylib.combat.entities.SimpleEntity;
 public class LazyLib extends BaseModPlugin
 {
     private static final boolean IS_DEV_BUILD = false;
-    private static final float LIBRARY_VERSION = 1.61f;
-    private static final String GAME_VERSION = "0.6a";
+    private static final float LIBRARY_VERSION = 1.7f;
+    private static final String GAME_VERSION = "0.6.1a";
     private static Level LOG_LEVEL;
 
     /**
@@ -96,7 +96,6 @@ public class LazyLib extends BaseModPlugin
         // org.lazywizard.lazylib
         Global.getLogger(CollectionUtils.class).setLevel(level);
         Global.getLogger(CollisionUtils.class).setLevel(level);
-        Global.getLogger(JSONUtils.class).setLevel(level);
         Global.getLogger(MathUtils.class).setLevel(level);
         // org.lazywizard.lazylib.campaign
         Global.getLogger(CargoUtils.class).setLevel(level);
@@ -116,6 +115,7 @@ public class LazyLib extends BaseModPlugin
     public void onApplicationLoad() throws Exception
     {
         Global.getLogger(LazyLib.class).log(Level.INFO, "Running " + getInfo());
-        setLogLevel(Global.getSettings().isDevMode() ? Level.DEBUG : Level.ERROR);
+        //setLogLevel(Global.getSettings().isDevMode() ? Level.DEBUG : Level.ERROR);
+        setLogLevel(Level.DEBUG);
     }
 }
