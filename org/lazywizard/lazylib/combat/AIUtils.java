@@ -4,12 +4,14 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.FluxTrackerAPI;
+import com.fs.starfarer.api.combat.FogOfWarAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.apache.log4j.Level;
 import org.lazywizard.lazylib.CollectionUtils;
 import org.lazywizard.lazylib.MathUtils;
 
@@ -27,12 +29,31 @@ public class AIUtils
      */
     private static boolean isVisibleToSide(CombatEntityAPI entity, int side)
     {
-        if (side == 100 || entity.getOwner() == 100 || entity.getOwner() == side)
+        // Always visible: neutrals (side 100) and same side (0+0 and 1+1)
+        // Warning: If SS ever adds support for more than 2 sides,
+        // this optimization will cause bugs!
+        if (side + entity.getOwner() != 1)
         {
+            Global.getLogger(AIUtils.class).log(Level.DEBUG,
+                    "Always visible: " + entity.toString());
             return true;
         }
 
-        return Global.getCombatEngine().getFogOfWar(side).isVisible(entity.getLocation());
+        // There have been reports of NPE in this method
+        // If this ever throws its exception, it's a vanilla bug
+        FogOfWarAPI fog = Global.getCombatEngine().getFogOfWar(side);
+        if (fog == null)
+        {
+            /*Global.getLogger(AIUtils.class).log(Level.ERROR,
+             "Fog of war not found for side " + side);
+             Global.getSoundPlayer().playUISound(ERROR_SOUND, 1f, 2f);
+             return true;*/
+
+            throw new RuntimeException("Fog of war not found for side " + side);
+
+        }
+
+        return fog.isVisible(entity.getLocation());
     }
 
     /**
