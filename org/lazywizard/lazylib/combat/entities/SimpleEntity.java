@@ -36,8 +36,8 @@ public class SimpleEntity extends EntityBase
      * Creates a {@link CombatEntityAPI} that stays in a single, predefined
      * location.
      *
-     * @param location
-     *                 <p>
+     * @param location The {@link Vector2f} that getLocation() should return.
+     * <p>
      * @since 1.4
      */
     public SimpleEntity(Vector2f location)
@@ -45,17 +45,27 @@ public class SimpleEntity extends EntityBase
         this.location = location;
     }
 
+    /**
+     * Creates a {@code CombatEntityAPI} that mimics the location of a
+     * {@link com.fs.starfarer.api.combat.WeaponAPI}.
+     * <p>
+     * @param weapon The {@link WeaponAPI} whose location getLocation() should
+     *               return.
+     * <p>
+     * @since 1.7
+     */
     public SimpleEntity(WeaponAPI weapon)
     {
         this.weapon = weapon;
     }
 
     /**
-     * Creates a {@code CombatEntityAPI} that mimics the location of an object
-     * such as a {@link com.fs.starfarer.api.combat.WeaponAPI}.
+     * Creates a {@code CombatEntityAPI} that mimics the location of another
+     * object that contains a getLocation() method.
      *
      * @param toFollow The {@link Object} to mimic the location of. This object
-     *                 MUST have the method getLocation(), which MUST return a {@link Vector2f}!
+     *                 MUST have the method getLocation(), which MUST return a
+     *                 {@link Vector2f}!
      * <p>
      * @since 1.4
      */
@@ -107,7 +117,8 @@ public class SimpleEntity extends EntityBase
      *
      * @return The {@link Vector2f} passed in at creation or the result of
      *         getLocation() on the followed {@link Object}, depending on which
-     *         constructor was used.
+     *         constructor was used. Can return {@code null} if the object it
+     *         is following is no longer on the battle map.
      * <p>
      * @since 1.4
      */
@@ -120,6 +131,7 @@ public class SimpleEntity extends EntityBase
             return location;
         }
 
+        // WeaponAPI-based constructor
         else if (weapon != null && weapon.getShip() != null
                 && Global.getCombatEngine().isEntityInPlay(weapon.getShip()))
         {
@@ -127,14 +139,19 @@ public class SimpleEntity extends EntityBase
         }
 
         // Reflection-based constructor
-        try
+        else if (toFollow != null)
         {
-            return (Vector2f) getLocation.invoke(toFollow);
+            try
+            {
+                return (Vector2f) getLocation.invoke(toFollow);
+            }
+            catch (Exception ex)
+            {
+                throw new RuntimeException(ex);
+            }
         }
-        catch (Exception ex)
-        {
-            throw new RuntimeException(ex);
-        }
+
+        return null;
     }
 
     public WeaponAPI getWeapon()
