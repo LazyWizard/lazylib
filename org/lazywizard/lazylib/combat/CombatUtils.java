@@ -338,7 +338,7 @@ public class CombatUtils
         if (sortByDistance)
         {
             Collections.sort(objectives,
-                    new CollectionUtils.SortObjectivesByDistance(location));
+                    new CollectionUtils.SortEntitiesByDistance(location, false));
         }
 
         return objectives;
