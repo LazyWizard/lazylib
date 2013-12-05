@@ -1,6 +1,7 @@
  1.7 (soon)
 ============
 Swapped all usages of CombatUtils.getCombatEngine() to Global.getCombatEngine()
+Added lazylib_settings.json (only controls log level at the moment)
 Changes to CollisionUtils:
  - Fixed getCollisionPoint() returning null when collision point lies directly
    on the end of a line (this means getCollisionPoint(beam.getFrom(),
@@ -8,13 +9,14 @@ Changes to CollisionUtils:
 Changes to CombatUtils:
  - No longer implements EveryFrameCombatPlugin (also removed LazyLibCombatHook)
  - Updated getFleetMember() to use DeployedFleetMemberAPI introduced in .6.1a
+   (this means it also works in missions, not just in campaign battles)
  - Added isVisibleToSide(CombatEntityAPI entity, int side)
 Changes to MathUtils:
  - Added getShortestRotation(float currAngle, float destAngle), returns the
    smallest difference between two angles. This can also be used to find the
    best turn direction (negative result = turn counter-clockwise)
 Changes to SimpleEntity:
- - Added a constructor for mimicking the location of a WeaponAPI
+ - Added a constructor for mimicking the location of a WeaponAPI w/o reflection
  - Added getWeapon() method, returns null if another constructor was used
 
  1.6b (September 28, 2013)

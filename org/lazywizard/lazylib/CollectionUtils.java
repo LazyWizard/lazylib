@@ -20,7 +20,6 @@ import org.lwjgl.util.vector.Vector2f;
  * @author LazyWizard
  * @since 1.0
  */
-// TODO: add support for Maps in implode()
 public class CollectionUtils
 {
     /**

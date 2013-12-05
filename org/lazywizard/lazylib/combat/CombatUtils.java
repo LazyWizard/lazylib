@@ -1,12 +1,9 @@
 package org.lazywizard.lazylib.combat;
 
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.campaign.CampaignFleetAPI;
-import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
-import com.fs.starfarer.api.combat.CombatFleetManagerAPI;
 import com.fs.starfarer.api.combat.DamagingProjectileAPI;
 import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
 import com.fs.starfarer.api.combat.FogOfWarAPI;
@@ -57,7 +54,9 @@ public class CombatUtils
 
     /**
      * Checks if a {@link CombatEntityAPI} is visible to a side of battle.
-     * Note: allied and neutral entities are always visible.
+     * Note1: Allied and neutral entities are always visible.
+     * Note2: All {@link AIUtils} methods already filter by visibility, so use
+     * of this method is not necessary on their results.
      *
      * @param entity The {@link CombatEntityAPI} to check visibility of.
      * @param side   The side whose fog of war will be tested.
