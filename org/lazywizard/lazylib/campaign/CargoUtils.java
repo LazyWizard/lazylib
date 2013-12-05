@@ -13,10 +13,12 @@ import com.fs.starfarer.api.campaign.SectorEntityToken;
 public class CargoUtils
 {
     /**
-     * Moves an entire {@link CargoStackAPI} from its current location to another {@link CargoAPI}.
+     * Moves an entire {@link CargoStackAPI} from its current location to
+     * another {@link CargoAPI}.
      *
      * @param stack The {@link CargoStackAPI} to be moved.
-     * @param to The destination {@link CargoAPI}.
+     * @param to    The destination {@link CargoAPI}.
+     * <p>
      * @since 1.0
      */
     public static void moveStack(CargoStackAPI stack, CargoAPI to)
@@ -30,10 +32,12 @@ public class CargoUtils
     }
 
     /**
-     * Moves an entire {@link CargoStackAPI} from its current location to the {@link CargoAPI} of another {@link SectorEntityToken}.
+     * Moves an entire {@link CargoStackAPI} from its current location to the
+     * {@link CargoAPI} of another {@link SectorEntityToken}.
      *
      * @param stack The {@link CargoStackAPI} to be moved.
-     * @param to The destination {@link SectorEntityToken}.
+     * @param to    The destination {@link SectorEntityToken}.
+     * <p>
      * @since 1.2
      */
     public static void moveStack(CargoStackAPI stack, SectorEntityToken to)
@@ -48,8 +52,10 @@ public class CargoUtils
      * Moves all {@link CargoStackAPI}s from one {@link CargoAPI} to another.
      *
      * @param from The {@link CargoAPI} to be emptied.
-     * @param to The destination {@link CargoAPI}.
-     * @see CargoUtils#moveStack(com.fs.starfarer.api.campaign.CargoStackAPI, com.fs.starfarer.api.campaign.CargoAPI)
+     * @param to   The destination {@link CargoAPI}.
+     * <p>
+     * @see CargoUtils#moveStack(com.fs.starfarer.api.campaign.CargoStackAPI,
+     * com.fs.starfarer.api.campaign.CargoAPI)
      * @since 1.0
      */
     public static void moveCargo(CargoAPI from, CargoAPI to)
@@ -64,7 +70,9 @@ public class CargoUtils
      * Returns the amount of space taken by weapons in a {@link CargoAPI}.
      *
      * @param cargo The {@link CargoAPI} to analyze.
+     * <p>
      * @return The amount of space taken by weapons in {@code cargo}.
+     * <p>
      * @since 1.0
      */
     public static float getSpaceTakenByWeapons(CargoAPI cargo)
@@ -86,7 +94,9 @@ public class CargoUtils
      * Returns the amount of space taken by crew in a {@link CargoAPI}.
      *
      * @param cargo The {@link CargoAPI} to analyze.
+     * <p>
      * @return The amount of space taken by crew in {@code cargo}.
+     * <p>
      * @since 1.0
      */
     public static float getSpaceTakenByCrew(CargoAPI cargo)
@@ -108,7 +118,9 @@ public class CargoUtils
      * Returns the amount of space taken by supplies in a {@link CargoAPI}.
      *
      * @param cargo The {@link CargoAPI} to analyze.
+     * <p>
      * @return The amount of space taken by supplies in {@code cargo}.
+     * <p>
      * @since 1.0
      */
     public static float getSpaceTakenBySupplies(CargoAPI cargo)
@@ -130,7 +142,9 @@ public class CargoUtils
      * Returns the amount of space taken by fuel in a {@link CargoAPI}.
      *
      * @param cargo The {@link CargoAPI} to analyze.
+     * <p>
      * @return The amount of space taken by fuel in {@code cargo}.
+     * <p>
      * @since 1.0
      */
     public static float getSpaceTakenByFuel(CargoAPI cargo)
@@ -152,7 +166,9 @@ public class CargoUtils
      * Returns the amount of space taken by all resources in a {@link CargoAPI}.
      *
      * @param cargo The {@link CargoAPI} to analyze.
+     * <p>
      * @return The amount of space taken by resource stacks in {@code cargo}.
+     * <p>
      * @since 1.0
      */
     public static float getSpaceTakenByResources(CargoAPI cargo)
@@ -171,10 +187,13 @@ public class CargoUtils
     }
 
     /**
-     * Returns the amount of space taken by all cargo types in a {@link CargoAPI}.
+     * Returns the amount of space taken by all cargo types in a
+     * {@link CargoAPI}.
      *
      * @param cargo The {@link CargoAPI} to analyze.
+     * <p>
      * @return The amount of space used in {@code cargo}.
+     * <p>
      * @since 1.2
      */
     public static float getSpaceTakenByCargo(CargoAPI cargo)

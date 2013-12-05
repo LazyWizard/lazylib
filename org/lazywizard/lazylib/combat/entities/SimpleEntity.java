@@ -9,7 +9,8 @@ import org.apache.log4j.Level;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
- * A bare-bones implementation of {@link CombatEntityAPI}, mostly useful for EMP arcs.
+ * A bare-bones implementation of {@link CombatEntityAPI}, mostly useful for EMP
+ * arcs.
  *
  * @author LazyWizard
  * @since 1.4
@@ -29,9 +30,11 @@ public class SimpleEntity extends EntityBase
     }
 
     /**
-     * Creates a {@link CombatEntityAPI} that stays in a single, predefined location.
+     * Creates a {@link CombatEntityAPI} that stays in a single, predefined
+     * location.
      *
      * @param location
+     *                 <p>
      * @since 1.4
      */
     public SimpleEntity(Vector2f location)
@@ -44,7 +47,8 @@ public class SimpleEntity extends EntityBase
      * such as a {@link com.fs.starfarer.api.combat.WeaponAPI}.
      *
      * @param toFollow The {@link Object} to mimic the location of. This object
-     * MUST have the method getLocation(), which MUST return a {@link Vector2f}!
+     *                 MUST have the method getLocation(), which MUST return a {@link Vector2f}!
+     * <p>
      * @since 1.4
      */
     public SimpleEntity(Object toFollow)
@@ -94,8 +98,9 @@ public class SimpleEntity extends EntityBase
      * Returns the location this {@link SimpleEntity} is mimicking.
      *
      * @return The {@link Vector2f} passed in at creation or the result of
-     * getLocation() on the followed {@link Object}, depending on which
-     * constructor was used.
+     *         getLocation() on the followed {@link Object}, depending on which
+     *         constructor was used.
+     * <p>
      * @since 1.4
      */
     @Override

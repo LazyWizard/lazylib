@@ -26,11 +26,15 @@ import org.lwjgl.util.vector.Vector2f;
 public class WeaponUtils
 {
     /**
-     * Checks if a {@link CombatEntityAPI} is within the arc and range of a {@link WeaponAPI}.
+     * Checks if a {@link CombatEntityAPI} is within the arc and range of a
+     * {@link WeaponAPI}.
      *
-     * @param entity The {@link CombatEntityAPI} to check if {@code weapon} is aimed at.
+     * @param entity The {@link CombatEntityAPI} to check if {@code weapon} is
+     *               aimed at.
      * @param weapon The {@link WeaponAPI} to test against.
+     * <p>
      * @return {@code true} if in arc and in range, {@code false} otherwise.
+     * <p>
      * @since 1.0
      */
     public static boolean isWithinArc(CombatEntityAPI entity, WeaponAPI weapon)
@@ -75,8 +79,10 @@ public class WeaponUtils
      * a location. Does NOT factor in current ship turn speed.
      *
      * @param weapon The {@link WeaponAPI} to turn.
-     * @param aimAt The {@link Vector2f} to aim at.
+     * @param aimAt  The {@link Vector2f} to aim at.
+     * <p>
      * @return The time in seconds it would take to aim {@code weapon}.
+     * <p>
      * @since 1.0
      */
     public static float getTimeToAim(WeaponAPI weapon, Vector2f aimAt)
@@ -104,7 +110,10 @@ public class WeaponUtils
      * Find the closest enemy in range of a {@link WeaponAPI}.
      *
      * @param weapon The {@link WeaponAPI} to search around.
-     * @return The enemy {@link ShipAPI} closest to {@code weapon}, or {@code null} if none are in range.
+     * <p>
+     * @return The enemy {@link ShipAPI} closest to {@code weapon}, or
+     *         {@code null} if none are in range.
+     * <p>
      * @since 1.4
      */
     public static ShipAPI getNearestEnemyInArc(WeaponAPI weapon)
@@ -142,9 +151,12 @@ public class WeaponUtils
     /**
      * Finds all enemy ships within range of a {@link WeaponAPI}.
      *
-     * @param weapon The weapon to detect enemies in range of.
-     * @param sortByDistance Whether to sort the results by distance from {@code weapon}.
+     * @param weapon         The weapon to detect enemies in range of.
+     * @param sortByDistance Whether to sort the results by distance from
+     *                       {@code weapon}.
+     * <p>
      * @return A {@link List} containing all enemy ships within range.
+     * <p>
      * @since 1.4
      */
     public static List<ShipAPI> getEnemiesInArc(WeaponAPI weapon,
@@ -175,8 +187,11 @@ public class WeaponUtils
      * Finds all enemy ships within range of a {@link WeaponAPI}.
      *
      * @param weapon The weapon to detect enemies in range of.
+     * <p>
      * @return A {@link List} containing all enemy ships within range.
-     * @see WeaponUtils#getEnemiesInArc(com.fs.starfarer.api.combat.WeaponAPI, boolean)
+     * <p>
+     * @see WeaponUtils#getEnemiesInArc(com.fs.starfarer.api.combat.WeaponAPI,
+     * boolean)
      * @since 1.4
      */
     public static List<ShipAPI> getEnemiesInArc(WeaponAPI weapon)
@@ -188,7 +203,10 @@ public class WeaponUtils
      * Find the closest enemy missile in range of a {@link WeaponAPI}.
      *
      * @param weapon The {@link WeaponAPI} to search around.
-     * @return The enemy {@link MissileAPI} closest to {@code weapon}, or {@code null} if none are in range.
+     * <p>
+     * @return The enemy {@link MissileAPI} closest to {@code weapon}, or
+     *         {@code null} if none are in range.
+     * <p>
      * @since 1.4
      */
     public static MissileAPI getNearestEnemyMissileInArc(WeaponAPI weapon)
@@ -226,9 +244,12 @@ public class WeaponUtils
     /**
      * Finds all enemy missiles within range of a {@link WeaponAPI}.
      *
-     * @param weapon The weapon to detect enemies in range of.
-     * @param sortByDistance Whether to sort the results by distance from {@code weapon}.
+     * @param weapon         The weapon to detect enemies in range of.
+     * @param sortByDistance Whether to sort the results by distance from
+     *                       {@code weapon}.
+     * <p>
      * @return A {@link List} containing all enemy missiles within range.
+     * <p>
      * @since 1.4
      */
     public static List<MissileAPI> getEnemyMissilesInArc(WeaponAPI weapon,
@@ -260,8 +281,12 @@ public class WeaponUtils
      * Finds all enemy missiles within range of a {@link WeaponAPI}.
      *
      * @param weapon The weapon to detect enemies in range of.
+     * <p>
      * @return A {@link List} containing all enemy missiles within range.
-     * @see WeaponUtils#getEnemyMissilesInArc(com.fs.starfarer.api.combat.WeaponAPI, boolean)
+     * <p>
+     * @see
+     * WeaponUtils#getEnemyMissilesInArc(com.fs.starfarer.api.combat.WeaponAPI,
+     * boolean)
      * @since 1.4
      */
     public static List<MissileAPI> getEnemyMissilesInArc(WeaponAPI weapon)
@@ -273,8 +298,9 @@ public class WeaponUtils
      * Manually adjusts a weapon's aim towards a point.
      *
      * @param weapon The weapon to aim.
-     * @param point The point this weapon should try to aim at.
-     * @param time How long since the last frame (for turn rate calculations).
+     * @param point  The point this weapon should try to aim at.
+     * @param time   How long since the last frame (for turn rate calculations).
+     * <p>
      * @since 1.4
      */
     public static void aimTowardsPoint(WeaponAPI weapon, Vector2f point, float time)
@@ -297,11 +323,14 @@ public class WeaponUtils
     }
 
     /**
-     * Calculates the damage done by a weapon after MutableShipStats are applied.
+     * Calculates the damage done by a weapon after MutableShipStats are
+     * applied.
      *
      * @param baseDamage The base damage of this weapon.
-     * @param weapon The {@link WeaponAPI} to check for bonuses on.
+     * @param weapon     The {@link WeaponAPI} to check for bonuses on.
+     * <p>
      * @return The damage done by {@code weapon} after bonuses are applied.
+     * <p>
      * @since 1.0
      * @deprecated Too complicated to test/maintain. These methods will be
      * removed after the next Starsector release.
@@ -344,12 +373,16 @@ public class WeaponUtils
      * MutableShipStats on both sides are applied.
      *
      * @param baseDamage The base damage of this weapon.
-     * @param weapon The {@link WeaponAPI} to check for bonuses on.
-     * @param target The ship {@code weapon} is aiming at.
-     * @param defense The defense of {@code target} aimed at (used for calculating
-     * penalties).
-     * @return The damage dealt by {@code weapon} after all bonuses and penalties
-     * are applied.
+     * @param weapon     The {@link WeaponAPI} to check for bonuses on.
+     * @param target     The ship {@code weapon} is aiming at.
+     * @param defense    The defense of {@code target} aimed at (used for
+     *                   calculating
+     *                   penalties).
+     * <p>
+     * @return The damage dealt by {@code weapon} after all bonuses and
+     *         penalties
+     *         are applied.
+     * <p>
      * @since 1.5
      * @deprecated Too complicated to test/maintain. These methods will be
      * removed after the next Starsector release.
@@ -426,10 +459,13 @@ public class WeaponUtils
     }
 
     /**
-     * Calculates the damage done per shot by a weapon after MutableShipStats are applied.
+     * Calculates the damage done per shot by a weapon after MutableShipStats
+     * are applied.
      *
      * @param weapon The weapon to check.
+     * <p>
      * @return The actual damage done by {@code weapon} per shot, after bonuses.
+     * <p>
      * @since 1.0
      * @deprecated Too complicated to test/maintain. These methods will be
      * removed after the next Starsector release.
@@ -444,12 +480,15 @@ public class WeaponUtils
      * Calculates the damage done per shot by a weapon to a ship after all
      * MutableShipStats on both sides are applied.
      *
-     * @param weapon The weapon to check.
-     * @param target The ship {@code weapon} is aiming at.
-     * @param defense The defense of {@code target} aimed at (used for calculating
-     * penalties).
+     * @param weapon  The weapon to check.
+     * @param target  The ship {@code weapon} is aiming at.
+     * @param defense The defense of {@code target} aimed at (used for
+     *                calculating
+     *                penalties).
+     * <p>
      * @return The damage dealt by {@code weapon} per shot after all bonuses
-     * and penalties are applied.
+     *         and penalties are applied.
+     * <p>
      * @since 1.5
      * @deprecated Too complicated to test/maintain. These methods will be
      * removed after the next Starsector release.
@@ -463,10 +502,14 @@ public class WeaponUtils
     }
 
     /**
-     * Calculates the damage done per second by a weapon after MutableShipStats are applied.
+     * Calculates the damage done per second by a weapon after MutableShipStats
+     * are applied.
      *
      * @param weapon The weapon to check.
-     * @return The actual damage done by {@code weapon} per second, after bonuses.
+     * <p>
+     * @return The actual damage done by {@code weapon} per second, after
+     *         bonuses.
+     * <p>
      * @since 1.0
      * @deprecated Too complicated to test/maintain. These methods will be
      * removed after the next Starsector release.
@@ -481,12 +524,15 @@ public class WeaponUtils
      * Calculates the damage done per second by a weapon to a ship after all
      * MutableShipStats on both sides are applied.
      *
-     * @param weapon The weapon to check.
-     * @param target The ship {@code weapon} is aiming at.
-     * @param defense The defense of {@code target} aimed at (used for calculating
-     * penalties).
+     * @param weapon  The weapon to check.
+     * @param target  The ship {@code weapon} is aiming at.
+     * @param defense The defense of {@code target} aimed at (used for
+     *                calculating
+     *                penalties).
+     * <p>
      * @return The damage dealt by {@code weapon} per second after all bonuses
-     * and penalties are applied.
+     *         and penalties are applied.
+     * <p>
      * @since 1.5
      * @deprecated Too complicated to test/maintain. These methods will be
      * removed after the next Starsector release.
@@ -500,10 +546,14 @@ public class WeaponUtils
     }
 
     /**
-     * Calculates the damage done per burst by a weapon after MutableShipStats are applied.
+     * Calculates the damage done per burst by a weapon after MutableShipStats
+     * are applied.
      *
      * @param weapon The weapon to check.
-     * @return The actual damage done by {@code weapon} per burst, after bonuses.
+     * <p>
+     * @return The actual damage done by {@code weapon} per burst, after
+     *         bonuses.
+     * <p>
      * @since 1.0
      * @deprecated Too complicated to test/maintain. These methods will be
      * removed after the next Starsector release.
@@ -518,12 +568,15 @@ public class WeaponUtils
      * Calculates the damage done per burst by a weapon to a ship after all
      * MutableShipStats on both sides are applied.
      *
-     * @param weapon The weapon to check.
-     * @param target The ship {@code weapon} is aiming at.
-     * @param defense The defense of {@code target} aimed at (used for calculating
-     * penalties).
+     * @param weapon  The weapon to check.
+     * @param target  The ship {@code weapon} is aiming at.
+     * @param defense The defense of {@code target} aimed at (used for
+     *                calculating
+     *                penalties).
+     * <p>
      * @return The damage dealt by {@code weapon} per burst after all bonuses
-     * and penalties are applied.
+     *         and penalties are applied.
+     * <p>
      * @since 1.5
      * @deprecated Too complicated to test/maintain. These methods will be
      * removed after the next Starsector release.

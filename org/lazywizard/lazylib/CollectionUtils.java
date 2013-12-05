@@ -24,13 +24,16 @@ import org.lwjgl.util.vector.Vector2f;
 public class CollectionUtils
 {
     /**
-     * Combines and separates a {@link Collection} of {@link String}s. Useful for comma-separated lists.
+     * Combines and separates a {@link Collection} of {@link String}s. Useful
+     * for comma-separated lists.
      *
      * @param toImplode A {@link Collection} whose contents should be combined
-     * into one {@link String}.
+     *                  into one {@link String}.
      * @param separator The separator character to split {@code toImplode} with.
+     * <p>
      * @return A single {@link String} consisting of {@code toImplode}'s values
-     * separated with {@code separator}.
+     *         separated with {@code separator}.
+     * <p>
      * @since 1.0
      */
     public static String implode(Collection toImplode, String separator)
@@ -54,12 +57,15 @@ public class CollectionUtils
     }
 
     /**
-     * Creates a comma-separated {@link String} from a {@link Collection}'s entries.
+     * Creates a comma-separated {@link String} from a {@link Collection}'s
+     * entries.
      *
      * @param toImplode A {@link Collection} to be combined (using each
-     * entry's {@code toString} method).
+     *                  entry's {@code toString} method).
+     * <p>
      * @return A single {@link String} consisting of {@code toImplode}'s values
-     * separated with commas.
+     *         separated with commas.
+     * <p>
      * @see CollectionUtils#implode(java.util.Collection, java.lang.String)
      * @since 1.0
      */
@@ -69,7 +75,9 @@ public class CollectionUtils
     }
 
     /**
-     * A {@link Comparator} that sorts {@link CombatEntityAPI}s by distance from a {@link Vector2f}.
+     * A {@link Comparator} that sorts {@link CombatEntityAPI}s by distance from
+     * a {@link Vector2f}.
+     * <p>
      * @since 1.1
      */
     public static class SortEntitiesByDistance implements Comparator<CombatEntityAPI>
@@ -82,8 +90,10 @@ public class CollectionUtils
         }
 
         /**
-         * @param location The central location to judge distance from.
-         * @param includeRadius Whether to include collision radius in the check.
+         * @param location      The central location to judge distance from.
+         * @param includeRadius Whether to include collision radius in the
+         *                      check.
+         * <p>
          * @since 1.6
          */
         public SortEntitiesByDistance(Vector2f location, boolean includeRadius)
@@ -94,6 +104,7 @@ public class CollectionUtils
 
         /**
          * @param location The central location to judge distance from.
+         * <p>
          * @since 1.1
          */
         public SortEntitiesByDistance(Vector2f location)
@@ -102,12 +113,15 @@ public class CollectionUtils
         }
 
         /**
-         * Compares the distances of two {@link CombatEntityAPI}s from a central location.
+         * Compares the distances of two {@link CombatEntityAPI}s from a central
+         * location.
          *
          * @param o1 The first {@link CombatEntityAPI}.
          * @param o2 The second {@link CombatEntityAPI}.
+         * <p>
          * @return A comparison of the distances of {@code o1} and {@code o2}
-         * from {@code location}.
+         *         from {@code location}.
+         * <p>
          * @since 1.1
          */
         @Override
@@ -125,7 +139,9 @@ public class CollectionUtils
     }
 
     /**
-     * A {@link Comparator} that sorts {@link SectorEntityToken}s by distance from a {@link Vector2f}.
+     * A {@link Comparator} that sorts {@link SectorEntityToken}s by distance
+     * from a {@link Vector2f}.
+     * <p>
      * @since 1.1
      */
     public static class SortTokensByDistance implements Comparator<SectorEntityToken>
@@ -138,8 +154,10 @@ public class CollectionUtils
         }
 
         /**
-         * @param location The central location to judge distance from.
-         * @param includeRadius Whether to include collision radius in the check.
+         * @param location      The central location to judge distance from.
+         * @param includeRadius Whether to include collision radius in the
+         *                      check.
+         * <p>
          * @since 1.6
          */
         public SortTokensByDistance(Vector2f location, boolean includeRadius)
@@ -150,6 +168,7 @@ public class CollectionUtils
 
         /**
          * @param location The central location to judge distance from.
+         * <p>
          * @since 1.1
          */
         public SortTokensByDistance(Vector2f location)
@@ -158,12 +177,15 @@ public class CollectionUtils
         }
 
         /**
-         * Compares the distances of two {@link SectorEntityToken}s from a central location.
+         * Compares the distances of two {@link SectorEntityToken}s from a
+         * central location.
          *
          * @param o1 The first {@link SectorEntityToken}.
          * @param o2 The second {@link SectorEntityToken}.
+         * <p>
          * @return A comparison of the distances of {@code o1} and {@code o2}
-         * from {@code location}.
+         *         from {@code location}.
+         * <p>
          * @since 1.1
          */
         @Override
@@ -278,6 +300,7 @@ public class CollectionUtils
 
         /**
          * @param location The central location to judge distance from.
+         * <p>
          * @since 1.1
          */
         public SortObjectivesByDistance(Vector2f location)
@@ -286,12 +309,15 @@ public class CollectionUtils
         }
 
         /**
-         * Compares the distances of two {@link BattleObjectiveAPI}s from a central location.
+         * Compares the distances of two {@link BattleObjectiveAPI}s from a
+         * central location.
          *
          * @param o1 The first {@link BattleObjectiveAPI}.
          * @param o2 The second {@link BattleObjectiveAPI}.
+         * <p>
          * @return A comparison of the distances of {@code o1} and {@code o2}
-         * from {@code location}.
+         *         from {@code location}.
+         * <p>
          * @since 1.1
          */
         @Override
@@ -299,7 +325,7 @@ public class CollectionUtils
         {
             return Float.compare(MathUtils.getDistanceSquared(o1.getLocation(),
                     location), MathUtils.getDistanceSquared(o2.getLocation(),
-                    location));
+                            location));
         }
     }
 

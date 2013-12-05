@@ -19,11 +19,13 @@ public class CollisionUtils
     /**
      * Finds the part of the ship that would be intersected by a given path.
      *
-     * @param target The CombatEntityAPI to check collision with.
+     * @param target    The CombatEntityAPI to check collision with.
      * @param lineStart The start of the line to test collision with.
-     * @param lineEnd The end of the line to test collision with.
+     * @param lineEnd   The end of the line to test collision with.
+     * <p>
      * @return The {@link Vector2f} of the point the line would hit at,
-     * or null if it doesn't hit.
+     *         or null if it doesn't hit.
+     * <p>
      * @since 1.0
      */
     public static Vector2f getCollisionPoint(Vector2f lineStart,
@@ -48,8 +50,8 @@ public class CollisionUtils
         // Convert all segments to lines, do collision checks to find closest hit
         for (SegmentAPI tmp : bounds.getSegments())
         {
-            Vector2f intersection =
-                    getCollisionPoint(lineStart, lineEnd, tmp.getP1(), tmp.getP2());
+            Vector2f intersection
+                    = getCollisionPoint(lineStart, lineEnd, tmp.getP1(), tmp.getP2());
             // Collision = true
             if (intersection != null)
             {
@@ -73,11 +75,13 @@ public class CollisionUtils
      * Finds the point of intersection between two lines.
      *
      * @param start1 The start of the first line to test collision with.
-     * @param end1 The end of the first line to test collision with.
+     * @param end1   The end of the first line to test collision with.
      * @param start2 The start of the second line to test collision with.
-     * @param end2 The end of the second line to test collision with.
+     * @param end2   The end of the second line to test collision with.
+     * <p>
      * @return The {@link Vector2f} that the two lines intersect at,
-     * null if they don't collide.
+     *         null if they don't collide.
+     * <p>
      * @since 1.0
      */
     public static Vector2f getCollisionPoint(Vector2f start1, Vector2f end1,
@@ -125,11 +129,13 @@ public class CollisionUtils
      * Check if a line connects with a circle.
      *
      * @param lineStart The start point of the line to test.
-     * @param lineEnd The end point of the line to test.
-     * @param center The center point of the circle.
-     * @param radius The radius of the circle.
+     * @param lineEnd   The end point of the line to test.
+     * @param center    The center point of the circle.
+     * @param radius    The radius of the circle.
+     * <p>
      * @return {@code true} if the line collides with the circle,
-     * {@code false} otherwise.
+     *         {@code false} otherwise.
+     * <p>
      * @since 1.0
      */
     public static boolean getCollides(Vector2f lineStart, Vector2f lineEnd,
@@ -141,13 +147,16 @@ public class CollisionUtils
     }
 
     /**
-     * Checks if a point is inside the collision circle of a {@link CombatEntityAPI}.
+     * Checks if a point is inside the collision circle of a
+     * {@link CombatEntityAPI}.
      *
-     * @param point The {@link Vector2f} to check.
+     * @param point  The {@link Vector2f} to check.
      * @param entity The {@link CombatEntityAPI} whose {@link BoundsAPI} we
-     * are checking against.
+     *               are checking against.
+     * <p>
      * @return {@code true} if {@code point} is within the collision circle
-     * of {@code entity}, {@code false} otherwise.
+     *         of {@code entity}, {@code false} otherwise.
+     * <p>
      * @since 1.4
      */
     public static boolean isPointWithinCollisionCircle(Vector2f point,
@@ -160,9 +169,12 @@ public class CollisionUtils
     /**
      * Check if a point is along a {@link SegmentAPI}.
      *
-     * @param point The point to check.
+     * @param point   The point to check.
      * @param segment The {@link SegmentAPI} to check for collision with.
-     * @return {@code true} if the point is along the line, {@code false} otherwise.
+     * <p>
+     * @return {@code true} if the point is along the line, {@code false}
+     *         otherwise.
+     * <p>
      * @since 1.6b
      */
     public static boolean isPointOnSegment(Vector2f point, SegmentAPI segment)
@@ -171,13 +183,16 @@ public class CollisionUtils
     }
 
     /**
-     * Checks if a point is inside or on the bounds of a {@link CombatEntityAPI}.
+     * Checks if a point is inside or on the bounds of a
+     * {@link CombatEntityAPI}.
      *
-     * @param point The {@link Vector2f} to check.
+     * @param point  The {@link Vector2f} to check.
      * @param entity The {@link CombatEntityAPI} whose {@link BoundsAPI} we
-     * are checking against.
+     *               are checking against.
+     * <p>
      * @return {@code true} if {@code point} is within or on the bounds of
-     * {@code entity}, {@code false} otherwise.
+     *         {@code entity}, {@code false} otherwise.
+     * <p>
      * @since 1.0
      */
     public static boolean isPointWithinBounds(Vector2f point, CombatEntityAPI entity)

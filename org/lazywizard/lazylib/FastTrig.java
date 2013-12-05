@@ -9,11 +9,14 @@ public class FastTrig
 {
     /**
      * Fast Trig functions for x86.
-     * This forces the trig function to stay within the safe area on the x86 processor (-45 degrees to +45 degrees)
-     * The results may be very slightly off from what the Math and StrictMath trig functions give due to
+     * This forces the trig function to stay within the safe area on the x86
+     * processor (-45 degrees to +45 degrees)
+     * The results may be very slightly off from what the Math and StrictMath
+     * trig functions give due to
      * rounding in the angle reduction but it will be very very close.
      *
      * @param radians The original angle
+     * <p>
      * @return The reduced Sin angle
      */
     private static double reduceSinAngle(double radians)
@@ -35,6 +38,7 @@ public class FastTrig
      * Get the sine of an angle
      *
      * @param radians The angle
+     * <p>
      * @return The sine of the angle
      */
     public static double sin(double radians)
@@ -54,6 +58,7 @@ public class FastTrig
      * Get the cosine of an angle
      *
      * @param radians The angle
+     * <p>
      * @return The cosine of the angle
      */
     public static double cos(double radians)

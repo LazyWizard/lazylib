@@ -16,7 +16,8 @@ import org.lazywizard.lazylib.CollectionUtils;
 import org.lazywizard.lazylib.MathUtils;
 
 /**
- * Contains methods that deal with a single combat entity.
+ * Contains methods that deal with a single combat entity and how it views the
+ * battle map.
  *
  * @author LazyWizard
  * @since 1.0
@@ -29,9 +30,11 @@ public class AIUtils
      */
     private static boolean isVisibleToSide(CombatEntityAPI entity, int side)
     {
-        // Always visible: neutrals (side 100) and same side (0+0 and 1+1)
-        // Warning: If SS ever adds support for more than 2 sides,
-        // this optimization will cause bugs!
+        // This is a VERY fast check for neutral/allied status
+        // Player+enemy (0+1) is the only combination that will return 1
+        // Always visible: neutrals (side 100) and allies (0+0 or 1+1)
+        // Warning: this optimization will cause bugs if SS ever
+        // adds support for more than two sides in a battle!
         if (side + entity.getOwner() != 1)
         {
             Global.getLogger(AIUtils.class).log(Level.DEBUG,
@@ -39,18 +42,15 @@ public class AIUtils
             return true;
         }
 
-        // There have been reports of NPE in this method
-        // If this ever throws its exception, it's a vanilla bug
+        // There have been reports of null pointer exceptions in this method
+        // If this block is ever tripped, it's a vanilla bug
         FogOfWarAPI fog = Global.getCombatEngine().getFogOfWar(side);
         if (fog == null)
         {
-            /*Global.getLogger(AIUtils.class).log(Level.ERROR,
-             "Fog of war not found for side " + side);
-             Global.getSoundPlayer().playUISound(ERROR_SOUND, 1f, 2f);
-             return true;*/
-
-            throw new RuntimeException("Fog of war not found for side " + side);
-
+            Global.getLogger(AIUtils.class).log(Level.WARN,
+                    "Fog of war not found for side " + side
+                    + ", defaulting to visible!");
+            return true;
         }
 
         return fog.isVisible(entity.getLocation());
@@ -60,7 +60,9 @@ public class AIUtils
      * Find the closest {@link BattleObjectiveAPI} to an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
+     * <p>
      * @return The {@link BattleObjectiveAPI} closest to {@code entity}.
+     * <p>
      * @since 1.0
      */
     public static BattleObjectiveAPI getNearestObjective(CombatEntityAPI entity)
@@ -87,7 +89,9 @@ public class AIUtils
      * Find the closest enemy of an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
+     * <p>
      * @return The enemy closest to {@code entity}.
+     * <p>
      * @since 1.0
      */
     public static ShipAPI getNearestEnemy(CombatEntityAPI entity)
@@ -125,7 +129,9 @@ public class AIUtils
      * Find the closest ally of an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
+     * <p>
      * @return The ally closest to {@code entity}.
+     * <p>
      * @since 1.0
      */
     public static ShipAPI getNearestAlly(CombatEntityAPI entity)
@@ -158,7 +164,9 @@ public class AIUtils
      * Find the closest ship near entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
+     * <p>
      * @return The ship closest to {@code entity}.
+     * <p>
      * @since 1.0
      */
     public static ShipAPI getNearestShip(CombatEntityAPI entity)
@@ -195,7 +203,9 @@ public class AIUtils
      * Find the closest missile near entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
+     * <p>
      * @return The {@link MissileAPI} closest to {@code entity}.
+     * <p>
      * @since 1.4
      */
     public static MissileAPI getNearestMissile(CombatEntityAPI entity)
@@ -231,9 +241,12 @@ public class AIUtils
     /**
      * Find all present enemies of an entity.
      *
-     * @param entity The {@link CombatEntityAPI} to search around.
-     * @param sortByDistance Whether to sort the results by distance from {@code entity}.
+     * @param entity         The {@link CombatEntityAPI} to search around.
+     * @param sortByDistance Whether to sort the results by distance from
+     *                       {@code entity}.
+     * <p>
      * @return All enemies of {@code entity} on the battle map.
+     * <p>
      * @since 1.1
      */
     public static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity,
@@ -263,8 +276,11 @@ public class AIUtils
      * Find all present enemies of an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
+     * <p>
      * @return All enemies of {@code entity} on the battle map.
-     * @see AIUtils#getEnemiesOnMap(com.fs.starfarer.api.combat.CombatEntityAPI, boolean)
+     * <p>
+     * @see AIUtils#getEnemiesOnMap(com.fs.starfarer.api.combat.CombatEntityAPI,
+     * boolean)
      * @since 1.0
      */
     public static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity)
@@ -275,10 +291,13 @@ public class AIUtils
     /**
      * Finds all enemies within a certain range around an entity.
      *
-     * @param entity The entity to search around.
-     * @param range How far around {@code entity} to search.
-     * @param sortByDistance Whether to sort the results by distance from {@code entity}.
+     * @param entity         The entity to search around.
+     * @param range          How far around {@code entity} to search.
+     * @param sortByDistance Whether to sort the results by distance from
+     *                       {@code entity}.
+     * <p>
      * @return A {@link List} containing all enemy ships within range.
+     * <p>
      * @since 1.1
      */
     public static List<ShipAPI> getNearbyEnemies(CombatEntityAPI entity,
@@ -308,9 +327,13 @@ public class AIUtils
      * Finds all enemies within a certain range around an entity.
      *
      * @param entity The entity to search around.
-     * @param range How far around {@code entity} to search.
+     * @param range  How far around {@code entity} to search.
+     * <p>
      * @return A {@link List} containing all enemy ships within range.
-     * @see AIUtils#getNearbyEnemies(com.fs.starfarer.api.combat.CombatEntityAPI, float, boolean)
+     * <p>
+     * @see
+     * AIUtils#getNearbyEnemies(com.fs.starfarer.api.combat.CombatEntityAPI,
+     * float, boolean)
      * @since 1.0
      */
     public static List<ShipAPI> getNearbyEnemies(CombatEntityAPI entity, float range)
@@ -321,9 +344,12 @@ public class AIUtils
     /**
      * Find all present allies of an entity.
      *
-     * @param entity The {@link CombatEntityAPI} to search around.
-     * @param sortByDistance Whether to sort the results by distance from {@code entity}.
+     * @param entity         The {@link CombatEntityAPI} to search around.
+     * @param sortByDistance Whether to sort the results by distance from
+     *                       {@code entity}.
+     * <p>
      * @return All allies of {@code entity} on the battle map.
+     * <p>
      * @since 1.1
      */
     public static List<ShipAPI> getAlliesOnMap(CombatEntityAPI entity,
@@ -353,8 +379,11 @@ public class AIUtils
      * Find all present allies of an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
+     * <p>
      * @return All allies of {@code entity} on the battle map.
-     * @see AIUtils#getAlliesOnMap(com.fs.starfarer.api.combat.CombatEntityAPI, boolean)
+     * <p>
+     * @see AIUtils#getAlliesOnMap(com.fs.starfarer.api.combat.CombatEntityAPI,
+     * boolean)
      * @since 1.0
      */
     public static List<ShipAPI> getAlliesOnMap(CombatEntityAPI entity)
@@ -365,10 +394,13 @@ public class AIUtils
     /**
      * Finds all allies within a certain range around an entity.
      *
-     * @param entity The entity to search around.
-     * @param range How far around {@code entity} to search.
-     * @param sortByDistance Whether to sort the results by distance from {@code entity}.
+     * @param entity         The entity to search around.
+     * @param range          How far around {@code entity} to search.
+     * @param sortByDistance Whether to sort the results by distance from
+     *                       {@code entity}.
+     * <p>
      * @return A {@link List} containing all allied ships within range.
+     * <p>
      * @since 1.1
      */
     public static List<ShipAPI> getNearbyAllies(CombatEntityAPI entity,
@@ -396,9 +428,12 @@ public class AIUtils
      * Finds all allies within a certain range around an entity.
      *
      * @param entity The entity to search around.
-     * @param range How far around {@code entity} to search.
+     * @param range  How far around {@code entity} to search.
+     * <p>
      * @return A {@link List} containing all allied ships within range.
-     * @see AIUtils#getNearbyAllies(com.fs.starfarer.api.combat.CombatEntityAPI, float, boolean)
+     * <p>
+     * @see AIUtils#getNearbyAllies(com.fs.starfarer.api.combat.CombatEntityAPI,
+     * float, boolean)
      * @since 1.0
      */
     public static List<ShipAPI> getNearbyAllies(CombatEntityAPI entity, float range)
@@ -410,7 +445,9 @@ public class AIUtils
      * Find the closest enemy missile near an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
+     * <p>
      * @return The enemy {@link MissileAPI} closest to {@code entity}.
+     * <p>
      * @since 1.4
      */
     public static MissileAPI getNearestEnemyMissile(CombatEntityAPI entity)
@@ -446,9 +483,12 @@ public class AIUtils
     /**
      * Find all present enemies of an entity.
      *
-     * @param entity The {@link CombatEntityAPI} to search around.
-     * @param sortByDistance Whether to sort the results by distance from {@code entity}.
+     * @param entity         The {@link CombatEntityAPI} to search around.
+     * @param sortByDistance Whether to sort the results by distance from
+     *                       {@code entity}.
+     * <p>
      * @return All enemies of {@code entity} on the battle map.
+     * <p>
      * @since 1.4
      */
     public static List<MissileAPI> getEnemyMissilesOnMap(CombatEntityAPI entity,
@@ -478,8 +518,13 @@ public class AIUtils
      * Find all present enemy missiles of an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
-     * @return All enemy {@link MissileAPI}s of {@code entity} on the battle map.
-     * @see AIUtils#getEnemyMissilesOnMap(com.fs.starfarer.api.combat.CombatEntityAPI, boolean)
+     * <p>
+     * @return All enemy {@link MissileAPI}s of {@code entity} on the battle
+     *         map.
+     * <p>
+     * @see
+     * AIUtils#getEnemyMissilesOnMap(com.fs.starfarer.api.combat.CombatEntityAPI,
+     * boolean)
      * @since 1.4
      */
     public static List<MissileAPI> getEnemyMissilesOnMap(CombatEntityAPI entity)
@@ -490,10 +535,13 @@ public class AIUtils
     /**
      * Finds all enemy missiles within a certain range around an entity.
      *
-     * @param entity The entity to search around.
-     * @param range How far around {@code entity} to search.
-     * @param sortByDistance Whether to sort the results by distance from {@code entity}.
+     * @param entity         The entity to search around.
+     * @param range          How far around {@code entity} to search.
+     * @param sortByDistance Whether to sort the results by distance from
+     *                       {@code entity}.
+     * <p>
      * @return A {@link List} containing all enemy missiles within range.
+     * <p>
      * @since 1.4
      */
     public static List<MissileAPI> getNearbyEnemyMissiles(CombatEntityAPI entity,
@@ -523,9 +571,13 @@ public class AIUtils
      * Finds all enemy missiles within a certain range around an entity.
      *
      * @param entity The entity to search around.
-     * @param range How far around {@code entity} to search.
+     * @param range  How far around {@code entity} to search.
+     * <p>
      * @return A {@link List} containing all enemy missiles within range.
-     * @see AIUtils#getNearbyEnemyMissiles(com.fs.starfarer.api.combat.CombatEntityAPI, float, boolean)
+     * <p>
+     * @see
+     * AIUtils#getNearbyEnemyMissiles(com.fs.starfarer.api.combat.CombatEntityAPI,
+     * float, boolean)
      * @since 1.4
      */
     public static List<MissileAPI> getNearbyEnemyMissiles(CombatEntityAPI entity, float range)
@@ -538,7 +590,10 @@ public class AIUtils
      * This still returns true if the shipsystem is already on!
      *
      * @param ship The ship to check the system of.
-     * @return {@code true} if {@code ship} can use its system, {@code false} otherwise.
+     * <p>
+     * @return {@code true} if {@code ship} can use its system, {@code false}
+     *         otherwise.
+     * <p>
      * @since 1.0
      */
     public static boolean canUseSystemThisFrame(ShipAPI ship)
