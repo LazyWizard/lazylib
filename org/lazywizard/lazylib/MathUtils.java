@@ -37,7 +37,7 @@ public class MathUtils
 
     /**
      * Returns the distance between a {@link SectorEntityToken} and a
-     * {@link Vector2f}  (includes interaction radius).
+     * {@link Vector2f} (includes interaction radius).
      *
      * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f,
      * org.lwjgl.util.vector.Vector2f)
@@ -84,6 +84,7 @@ public class MathUtils
      * org.lwjgl.util.vector.Vector2f)}.
      *
      * @return The distance between the two vectors.
+     * <p>
      * @since 1.0
      */
     public static float getDistance(Vector2f vector1, Vector2f vector2)
@@ -146,7 +147,8 @@ public class MathUtils
     /**
      * Returns the distance squared between a {@link CombatEntityAPI} and a
      * {@link Vector2f} (includes collision radius). With the addition of
-     * collision radius checking, there's no way to avoid calculating the square root.
+     * collision radius checking, there's no way to avoid calculating the square
+     * root.
      * {@link MathUtils#getDistance(com.fs.starfarer.api.combat.CombatEntityAPI,
      * org.lwjgl.util.vector.Vector2f)} will be just as efficient.
      *
@@ -163,13 +165,15 @@ public class MathUtils
     }
 
     /**
-     * Returns the distance squared between two {@link Vector2f}s (avoids a costly sqrt()).
+     * Returns the distance squared between two {@link Vector2f}s (avoids a
+     * costly sqrt()).
      *
      * When comparing distances, use this function instead of
      * {@link MathUtils#getDistance(org.lwjgl.util.vector.Vector2f,
      * org.lwjgl.util.vector.Vector2f)}.
      *
      * @return The distance squared between the two vectors.
+     * <p>
      * @since 1.0
      */
     public static float getDistanceSquared(Vector2f vector1, Vector2f vector2)
@@ -179,11 +183,14 @@ public class MathUtils
     }
 
     /**
-     * Returns a normalized {@link Vector2f} pointing from {@code source} to {@code destination}.
+     * Returns a normalized {@link Vector2f} pointing from {@code source} to
+     * {@code destination}.
      *
-     * @param source The origin of the vector.
+     * @param source      The origin of the vector.
      * @param destination The location to point at.
+     * <p>
      * @return A normalized {@link Vector2f} pointing at {@code destination}.
+     * <p>
      * @since 1.0
      */
     public static Vector2f getDirectionalVector(Vector2f source, Vector2f destination)
@@ -230,7 +237,9 @@ public class MathUtils
      * Clamps an angle within 360 degrees (ex: 400 degrees becomes 40 degrees).
      *
      * @param angle The angle to be clamped.
+     * <p>
      * @return A value between 0 and 360 degrees.
+     * <p>
      * @since 1.2
      */
     public static float clampAngle(float angle)
@@ -252,7 +261,9 @@ public class MathUtils
      * Returns the facing of a {@link Vector2f}.
      *
      * @param vector The vector to get the facing of.
+     * <p>
      * @return The facing (angle) of {@code vector}.
+     * <p>
      * @since 1.0
      */
     public static float getFacing(Vector2f vector)
@@ -264,8 +275,10 @@ public class MathUtils
      * Returns the angle between two {@link Vector2f}s.
      *
      * @param from The source {@link Vector2f}.
-     * @param to The {@link Vector2f} to get the angle to.
+     * @param to   The {@link Vector2f} to get the angle to.
+     * <p>
      * @return The angle from {@code from} to {@code to}.
+     * <p>
      * @since 1.0
      */
     public static float getAngle(Vector2f from, Vector2f to)
@@ -274,11 +287,14 @@ public class MathUtils
     }
 
     /**
-     * Returns the direction and length of the quickest rotation between two angles.
+     * Returns the direction and length of the quickest rotation between two
+     * angles.
      *
      * @param currAngle The current facing.
      * @param destAngle The facing to rotate towards.
+     * <p>
      * @return The shortest distance between the two angles, in degrees.
+     * <p>
      * @since 1.7
      */
     public static float getShortestRotation(float currAngle, float destAngle)
@@ -292,11 +308,14 @@ public class MathUtils
     /**
      * Returns a point along the circumference of a circle at the given angle.
      *
-     * @param center The center point of the circle (can be null for a 0, 0 origin).
+     * @param center The center point of the circle (can be null for a 0, 0
+     *               origin).
      * @param radius The radius of the circle.
-     * @param angle The angle, in degrees, to get the point at.
+     * @param angle  The angle, in degrees, to get the point at.
+     * <p>
      * @return A {@link Vector2f} at [@code angle} degrees along the
-     * circumference of the given circle.
+     *         circumference of the given circle.
+     * <p>
      * @since 1.0
      */
     public static Vector2f getPointOnCircumference(Vector2f center, float radius, float angle)
@@ -335,9 +354,12 @@ public class MathUtils
     /**
      * Returns a random point along the circumference of a circle.
      *
-     * @param center The center point of the circle (can be null for a 0, 0 origin).
+     * @param center The center point of the circle (can be null for a 0, 0
+     *               origin).
      * @param radius The radius of the circle.
+     * <p>
      * @return A random point along the circumference of the given circle.
+     * <p>
      * @see MathUtils#getPointOnCircumference(org.lwjgl.util.vector.Vector2f,
      * float, float)
      * @since 1.0
@@ -350,9 +372,12 @@ public class MathUtils
     /**
      * Returns a random point inside of a circle with uniform distribution.
      *
-     * @param center The center point of the circle (can be null for a 0, 0 origin).
+     * @param center The center point of the circle (can be null for a 0, 0
+     *               origin).
      * @param radius The radius of the circle.
+     * <p>
      * @return A random point inside of the given circle.
+     * <p>
      * @since 1.0
      */
     public static Vector2f getRandomPointInCircle(Vector2f center, float radius)
@@ -371,9 +396,12 @@ public class MathUtils
      * Returns a random point along the line between two {@link Vector2f}s.
      *
      * @param lineStart The starting point of the line.
-     * @param lineEnd The end point of the line.
-     * @return A random {@link Vector2f} along the line between {@code lineStart}
-     * and {@code lineEnd}.
+     * @param lineEnd   The end point of the line.
+     * <p>
+     * @return A random {@link Vector2f} along the line between
+     *         {@code lineStart}
+     *         and {@code lineEnd}.
+     * <p>
      * @since 1.6
      */
     public static Vector2f getRandomPointOnLine(Vector2f lineStart, Vector2f lineEnd)
@@ -384,14 +412,18 @@ public class MathUtils
     }
 
     /**
-     * Returns an evenly distributed {@link List} of points along a circle's circumference.
+     * Returns an evenly distributed {@link List} of points along a circle's
+     * circumference.
      *
-     * @param center The center point of the circle (can be null for a 0, 0 origin).
-     * @param radius The radius of the circle.
-     * @param numPoints How many points to generate.
+     * @param center      The center point of the circle (can be null for a 0, 0
+     *                    origin).
+     * @param radius      The radius of the circle.
+     * @param numPoints   How many points to generate.
      * @param angleOffset The offset angle of the initial point.
+     * <p>
      * @return A {@link List} of {@link Vector2f}s that are evenly distributed
-     * along the circle's circumference.
+     *         along the circle's circumference.
+     * <p>
      * @since 1.0
      */
     public static List<Vector2f> getPointsAlongCircumference(Vector2f center,
@@ -413,11 +445,14 @@ public class MathUtils
     /**
      * Returns whether a point is within the bounds of a circle or not.
      *
-     * @param point The {@link Vector2f} to check.
-     * @param center The center point of the circle (can be null for a 0, 0 origin).
+     * @param point  The {@link Vector2f} to check.
+     * @param center The center point of the circle (can be null for a 0, 0
+     *               origin).
      * @param radius The radius of the circle.
+     * <p>
      * @return {@code true} if {@code point} is within the circle,
-     * {@code false} otherwise.
+     *         {@code false} otherwise.
+     * <p>
      * @since 1.0
      */
     public static boolean isPointWithinCircle(Vector2f point, Vector2f center, float radius)
@@ -430,10 +465,13 @@ public class MathUtils
     /**
      * Check if a point is along the line between two {@link Vector2f}s.
      *
-     * @param point The point to check.
+     * @param point     The point to check.
      * @param lineStart The starting point of the line.
-     * @param lineEnd The end point of the line.
-     * @return {@code true} if the point is along the line, {@code false} otherwise.
+     * @param lineEnd   The end point of the line.
+     * <p>
+     * @return {@code true} if the point is along the line, {@code false}
+     *         otherwise.
+     * <p>
      * @since 1.6
      */
     public static boolean isPointOnLine(Vector2f point, Vector2f lineStart, Vector2f lineEnd)
@@ -443,15 +481,22 @@ public class MathUtils
     }
 
     /**
-     * Returns a {@link List} of evenly spaced {@link Vector2f}s inside a circle.
+     * Returns a {@link List} of evenly spaced {@link Vector2f}s inside a
+     * circle.
      *
-     * WARNING: be VERY conservative using this method - a radius of 250 and a spacing
-     * of 5 will result in 10,000 circle checks and 7,825 {@link Vector2f}s created!
+     * WARNING: be VERY conservative using this method - a radius of 250 and a
+     * spacing
+     * of 5 will result in 10,000 circle checks and 7,825 {@link Vector2f}s
+     * created!
      *
-     * @param center The center point of the circle (can be null for a 0, 0 origin).
-     * @param radius The radius of the circle.
+     * @param center             The center point of the circle (can be null for
+     *                           a 0, 0 origin).
+     * @param radius             The radius of the circle.
      * @param spaceBetweenPoints How much space should be between each point.
-     * @return A {@link List} of evenly spaced {@link Vector2f}s inside a circle.
+     * <p>
+     * @return A {@link List} of evenly spaced {@link Vector2f}s inside a
+     *         circle.
+     * <p>
      * @since 1.4
      */
     public static List<Vector2f> getEquidistantPointsInsideCircle(Vector2f center,
@@ -497,7 +542,9 @@ public class MathUtils
      *
      * @param min The minimum value to select.
      * @param max The maximum value to select.
+     * <p>
      * @return A random {@link Float} between {@code min} and {@code max}.
+     * <p>
      * @since 1.4
      */
     public static float getRandomNumberInRange(float min, float max)
@@ -510,8 +557,9 @@ public class MathUtils
      *
      * @param a The first float to compare.
      * @param b The second float to compare.
+     * <p>
      * @return {@code true} if {@code a} and {@code b} are within 99.99999%
-     * of each other, {@code false} otherwise.
+     *         of each other, {@code false} otherwise.
      */
     public static boolean equals(float a, float b)
     {
@@ -523,6 +571,7 @@ public class MathUtils
      * for seed manipulation or to avoid instantiating your own.
      *
      * @return The {@link Random} instance used by LazyLib.
+     * <p>
      * @since 1.5
      */
     public static Random getRandom()

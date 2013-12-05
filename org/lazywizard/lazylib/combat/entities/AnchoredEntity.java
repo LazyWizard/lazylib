@@ -24,8 +24,9 @@ public class AnchoredEntity extends EntityBase
      * Creates a {@code CombatEntityAPI} that follows and rotates with another
      * anchoring {@code CombatEntityAPI}.
      *
-     * @param anchor The {@link CombatEntityAPI} to follow and rotate with.
+     * @param anchor   The {@link CombatEntityAPI} to follow and rotate with.
      * @param location The location relative to {@code anchor} to track.
+     * <p>
      * @since 1.5
      */
     public AnchoredEntity(CombatEntityAPI anchor, Vector2f location)
@@ -41,6 +42,7 @@ public class AnchoredEntity extends EntityBase
      * its anchor.
      *
      * @return The location of this entity.
+     * <p>
      * @since 1.5
      */
     @Override
@@ -54,6 +56,7 @@ public class AnchoredEntity extends EntityBase
      * Returns this entity's velocity.
      *
      * @return The velocity of this entity (will be the same as its anchor).
+     * <p>
      * @since 1.5
      */
     @Override
@@ -66,6 +69,7 @@ public class AnchoredEntity extends EntityBase
      * Returns the {@link CombatEntityAPI} this entity is anchored to.
      *
      * @return The {@link CombatEntityAPI} this entity is anchored to.
+     * <p>
      * @since 1.5
      */
     public CombatEntityAPI getAnchor()

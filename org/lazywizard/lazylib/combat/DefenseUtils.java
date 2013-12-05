@@ -9,14 +9,17 @@ import org.lazywizard.lazylib.CollisionUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
- * Contains methods to make working with a ship's armor grid and defenses easier.
+ * Contains methods to make working with a ship's armor grid and defenses
+ * easier.
  *
  * @author LazyWizard
  * @since 1.5
  */
 public class DefenseUtils
 {
-    /** A constant that represents a point not in a ship's armor grid. */
+    /**
+     * A constant that represents a point not in a ship's armor grid.
+     */
     public static final float NOT_IN_GRID = -12345.9876f;
 
     /**
@@ -25,9 +28,12 @@ public class DefenseUtils
      * world-space coordinates.
      *
      * @param ship The {@link ShipAPI} whose {@link ArmorGridAPI} we will use.
-     * @param loc The world location we will be checking the armor value at.
-     * @return The armor value at {@code loc}, or {@link DefenseUtils#NOT_IN_GRID}
-     * if the point isn't within {@code ship}'s {@link ArmorGridAPI}.
+     * @param loc  The world location we will be checking the armor value at.
+     * <p>
+     * @return The armor value at {@code loc}, or
+     *         {@link DefenseUtils#NOT_IN_GRID}
+     *         if the point isn't within {@code ship}'s {@link ArmorGridAPI}.
+     * <p>
      * @since 1.5
      */
     public static float getArmorValue(ShipAPI ship, Vector2f loc)
@@ -46,10 +52,12 @@ public class DefenseUtils
      * Get the total damage taken by a {@link ShipAPI}'s armor at a location.
      *
      * @param ship The {@link ShipAPI} whose {@link ArmorGridAPI} we will use.
-     * @param loc The world location we will be checking the armor damage at.
+     * @param loc  The world location we will be checking the armor damage at.
+     * <p>
      * @return The armor damage taken at {@code loc}, or
-     * {@link DefenseUtils#NOT_IN_GRID} if the point isn't within
-     * {@code ship}'s {@link ArmorGridAPI}.
+     *         {@link DefenseUtils#NOT_IN_GRID} if the point isn't within
+     *         {@code ship}'s {@link ArmorGridAPI}.
+     * <p>
      * @since 1.5
      */
     public static float getArmorDamage(ShipAPI ship, Vector2f loc)
@@ -71,9 +79,12 @@ public class DefenseUtils
      * world-space coordinates.
      *
      * @param ship The {@link ShipAPI} whose {@link ArmorGridAPI} we will use.
-     * @param loc The world location we will be checking the armor level at.
-     * @return The armor level at {@code loc}, or {@link DefenseUtils#NOT_IN_GRID}
-     * if the point isn't within {@code ship}'s {@link ArmorGridAPI}.
+     * @param loc  The world location we will be checking the armor level at.
+     * <p>
+     * @return The armor level at {@code loc}, or
+     *         {@link DefenseUtils#NOT_IN_GRID}
+     *         if the point isn't within {@code ship}'s {@link ArmorGridAPI}.
+     * <p>
      * @since 1.5
      */
     public static float getArmorLevel(ShipAPI ship, Vector2f loc)
@@ -93,8 +104,10 @@ public class DefenseUtils
      * on a {@link ShipAPI}.
      *
      * @param ship The {@link ShipAPI} to examine.
-     * @param loc The location to check at.
+     * @param loc  The location to check at.
+     * <p>
      * @return The {@link DefenseType} present at {@code loc}.
+     * <p>
      * @since 1.5
      */
     public static DefenseType getDefenseAtPoint(ShipAPI ship, Vector2f loc)

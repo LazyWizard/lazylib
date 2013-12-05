@@ -10,15 +10,19 @@ import com.fs.starfarer.api.Global;
  */
 public class MessageUtils
 {
-    /** How long a line can be before being split by {@link MessageUtils#showMessage(java.lang.String)} */
+    /**
+     * How long a line can be before being split by
+     * {@link MessageUtils#showMessage(java.lang.String)}
+     */
     public static final int LINE_LENGTH = 80;
 
     /**
      * Formats and word-wraps the supplied text, then outputs it to the player.
      *
      * @param preamble The header for this message, won't be indented.
-     * @param message The main body of text.
-     * @param indent Whether to indent each line of the main body.
+     * @param message  The main body of text.
+     * @param indent   Whether to indent each line of the main body.
+     * <p>
      * @since 1.0
      */
     public static void showMessage(String preamble,
@@ -100,6 +104,7 @@ public class MessageUtils
      * Formats and word-wraps the supplied text, then outputs it to the player.
      *
      * @param message The message to output.
+     * <p>
      * @since 1.0
      */
     public static void showMessage(String message)

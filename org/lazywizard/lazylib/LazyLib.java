@@ -31,6 +31,7 @@ public class LazyLib extends BaseModPlugin
      * Get the version number of this LazyLib instance.
      *
      * @return The current version of LazyLib, as a {@link Float}.
+     * <p>
      * @since 1.1
      */
     public static float getVersion()
@@ -41,7 +42,9 @@ public class LazyLib extends BaseModPlugin
     /**
      * Gets the Starsector release this version was coded for.
      *
-     * @return The version of Starsector this library supports, as a {@link String}.
+     * @return The version of Starsector this library supports, as a
+     *         {@link String}.
+     * <p>
      * @since 1.2
      */
     public static String getSupportedGameVersion()
@@ -52,7 +55,9 @@ public class LazyLib extends BaseModPlugin
     /**
      * Check if this is a dev (beta) build of LazyLib.
      *
-     * @return {@code true} if this is a beta build of LazyLib, {@code false} otherwise.
+     * @return {@code true} if this is a beta build of LazyLib, {@code false}
+     *         otherwise.
+     * <p>
      * @since 1.4
      */
     public static boolean isDevBuild()
@@ -64,6 +69,7 @@ public class LazyLib extends BaseModPlugin
      * Get the library information (for startup messages, etc).
      *
      * @return A {@link String} containing information on the library.
+     * <p>
      * @since 1.2
      */
     public static String getInfo()
@@ -76,6 +82,7 @@ public class LazyLib extends BaseModPlugin
      * Gets the log level used for all LazyLib classes.
      *
      * @return The current log level for all LazyLib classes.
+     * <p>
      * @since 1.6b
      */
     public static Level getLogLevel()
@@ -87,6 +94,7 @@ public class LazyLib extends BaseModPlugin
      * Sets the log level used for all LazyLib classes.
      *
      * @param level The minimum level of entries that will be logged.
+     * <p>
      * @since 1.6
      */
     public static void setLogLevel(Level level)
@@ -115,7 +123,6 @@ public class LazyLib extends BaseModPlugin
     public void onApplicationLoad() throws Exception
     {
         Global.getLogger(LazyLib.class).log(Level.INFO, "Running " + getInfo());
-        //setLogLevel(Global.getSettings().isDevMode() ? Level.DEBUG : Level.ERROR);
-        setLogLevel(Level.DEBUG);
+        setLogLevel(Global.getSettings().isDevMode() ? Level.DEBUG : Level.ERROR);
     }
 }
