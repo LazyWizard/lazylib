@@ -116,11 +116,11 @@ public class MessageUtils
     {
         if (indent)
         {
-            Global.getSector().addMessage("   " + message);
+            Global.getSector().getCampaignUI().addMessage("   " + message);
         }
         else
         {
-            Global.getSector().addMessage(message);
+            Global.getSector().getCampaignUI().addMessage(message);
         }
     }
 
