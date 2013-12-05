@@ -63,15 +63,8 @@ public class WeaponUtils
         Line2D.Float line1 = new Line2D.Float(loc1.x, loc1.y, loc3.x, loc3.y);
         Line2D.Float line2 = new Line2D.Float(loc2.x, loc2.y, loc3.x, loc3.y);
         float radSquared = entity.getCollisionRadius() * entity.getCollisionRadius();
-
-        if (line1.ptLineDistSq(loc.x, loc.y) < radSquared
-                || line2.ptLineDistSq(loc.x, loc.y) < radSquared)
-        {
-            return true;
-        }
-
-        // Not aimed at the target
-        return false;
+        return line1.ptLineDistSq(loc.x, loc.y) < radSquared
+                || line2.ptLineDistSq(loc.x, loc.y) < radSquared;
     }
 
     /**

@@ -2,6 +2,7 @@ package org.lazywizard.lazylib.combat.entities;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
+import com.fs.starfarer.api.combat.WeaponAPI;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,8 @@ public class SimpleEntity extends EntityBase
     private static final Map<Class, Method> methodCache = new HashMap<Class, Method>();
     // Variables for Vector2f-based variant
     private Vector2f location = null;
+    // Variables for WeaponAPI-based variant
+    private WeaponAPI weapon = null;
     // Variables for reflection-based variant
     private Object toFollow;
     private Method getLocation;
@@ -40,6 +43,11 @@ public class SimpleEntity extends EntityBase
     public SimpleEntity(Vector2f location)
     {
         this.location = location;
+    }
+
+    public SimpleEntity(WeaponAPI weapon)
+    {
+        this.weapon = weapon;
     }
 
     /**
@@ -112,6 +120,12 @@ public class SimpleEntity extends EntityBase
             return location;
         }
 
+        else if (weapon != null && weapon.getShip() != null
+                && Global.getCombatEngine().isEntityInPlay(weapon.getShip()))
+        {
+            return weapon.getLocation();
+        }
+
         // Reflection-based constructor
         try
         {
@@ -121,5 +135,10 @@ public class SimpleEntity extends EntityBase
         {
             throw new RuntimeException(ex);
         }
+    }
+
+    public WeaponAPI getWeapon()
+    {
+        return weapon;
     }
 }

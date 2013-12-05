@@ -4,14 +4,12 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.FluxTrackerAPI;
-import com.fs.starfarer.api.combat.FogOfWarAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.apache.log4j.Level;
 import org.lazywizard.lazylib.CollectionUtils;
 import org.lazywizard.lazylib.MathUtils;
 
@@ -571,18 +569,13 @@ public class AIUtils
         ShipSystemAPI system = ship.getSystem();
 
         // No system, overloading/venting, out of ammo
-        if (system == null || flux.isOverloadedOrVenting() || system.isOutOfAmmo()
+        return !(system == null || flux.isOverloadedOrVenting() || system.isOutOfAmmo()
                 // In use but can't be toggled off right away
                 || (system.isOn() && system.getCooldownRemaining() > 0f)
                 // In chargedown, in cooldown
                 || (system.isActive() && !system.isOn()) || system.getCooldownRemaining() > 0f
                 // Not enough flux
-                || system.getFluxPerUse() > (flux.getMaxFlux() - flux.getCurrFlux()))
-        {
-            return false;
-        }
-
-        return true;
+                || system.getFluxPerUse() > (flux.getMaxFlux() - flux.getCurrFlux()));
     }
 
     private AIUtils()
