@@ -75,7 +75,7 @@ public class DefenseUtils
 
     /**
      * Get the armor level of a {@link ShipAPI} at a location. Equivalent
-     * to {@link ArmorGridAPI#getArmorLevel(int, int)}, but using
+     * to {@link ArmorGridAPI#getArmorFraction(int, int)}, but using
      * world-space coordinates.
      *
      * @param ship The {@link ShipAPI} whose {@link ArmorGridAPI} we will use.

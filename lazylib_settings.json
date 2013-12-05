@@ -1,3 +1,3 @@
 {
-    "logLevel":"ERROR", # Valid levels: OFF, FATAL, ERROR, WARN, INFO, DEBUG, ALL
+    "logLevel":"ERROR", # Valid levels: ALL, DEBUG, INFO, WARN, ERROR, FATAL, OFF
 }

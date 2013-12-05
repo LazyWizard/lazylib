@@ -24,13 +24,13 @@ import org.lazywizard.lazylib.combat.entities.SimpleEntity;
 public class LazyLib extends BaseModPlugin
 {
     private static final String SETTINGS_FILE = "lazylib_settings.json";
-    private static final boolean IS_DEV_BUILD = false;
+    private static final boolean IS_DEV_BUILD = true;
     private static final float LIBRARY_VERSION = 1.7f;
     private static final String GAME_VERSION = "0.6.1a";
     private static Level LOG_LEVEL;
 
     /**
-     * Get the version number of this LazyLib instance.
+     * Returns the installed version of LazyLib.
      *
      * @return The current version of LazyLib, as a {@link Float}.
      * <p>
@@ -42,7 +42,7 @@ public class LazyLib extends BaseModPlugin
     }
 
     /**
-     * Gets the Starsector release this version was coded for.
+     * Returns the Starsector release this version was coded for.
      *
      * @return The version of Starsector this library supports, as a
      *         {@link String}.
@@ -55,7 +55,7 @@ public class LazyLib extends BaseModPlugin
     }
 
     /**
-     * Check if this is a dev (beta) build of LazyLib.
+     * Checks if this is a development (potentially unstable) build of LazyLib.
      *
      * @return {@code true} if this is a beta build of LazyLib, {@code false}
      *         otherwise.
@@ -68,7 +68,7 @@ public class LazyLib extends BaseModPlugin
     }
 
     /**
-     * Get the library information (for startup messages, etc).
+     * Gets the library information (for startup messages, etc).
      *
      * @return A {@link String} containing information on the library.
      * <p>
@@ -81,7 +81,8 @@ public class LazyLib extends BaseModPlugin
     }
 
     /**
-     * Gets the log level used for all LazyLib classes.
+     * Returns the log level used for all other LazyLib classes. {@link LazyLib}
+     * itself will always use log level {@link Level#ALL}.
      *
      * @return The current log level for all LazyLib classes.
      * <p>
@@ -101,6 +102,7 @@ public class LazyLib extends BaseModPlugin
      */
     public static void setLogLevel(Level level)
     {
+        Global.getLogger(LazyLib.class).setLevel(Level.ALL);
         Global.getLogger(LazyLib.class).log(Level.INFO,
                 "Setting log level to " + level);
 
