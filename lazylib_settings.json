@@ -1,0 +1,3 @@
+{
+    "logLevel":"ERROR", # Valid levels: OFF, FATAL, ERROR, WARN, INFO, DEBUG, ALL
+}
