@@ -6,7 +6,9 @@ import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
+import com.fs.starfarer.api.combat.CombatFleetManagerAPI;
 import com.fs.starfarer.api.combat.DamagingProjectileAPI;
+import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
 import com.fs.starfarer.api.combat.FogOfWarAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
@@ -28,12 +30,10 @@ import org.lwjgl.util.vector.Vector2f;
 public class CombatUtils
 {
     /**
-     * Find a {@link ShipAPI}'s corresponding {@link FleetMemberAPI} in the
-     * campaign.
+     * Find a {@link ShipAPI}'s corresponding {@link FleetMemberAPI}.
      *
      * @param ship The {@link ShipAPI} whose corresponding
-     *             {@link FleetMemberAPI}
-     *             we are trying to find.
+     *             {@link FleetMemberAPI} we are trying to find.
      * <p>
      * @return The {@link FleetMemberAPI} that represents this {@link ShipAPI}
      *         in the campaign, or {@code null} if no match is found.
@@ -42,30 +42,17 @@ public class CombatUtils
      */
     public static FleetMemberAPI getFleetMember(ShipAPI ship)
     {
-        // Check if this ship even has a fleet member
-        String id = ship.getFleetMemberId();
-        if (id == null)
+        DeployedFleetMemberAPI dfm = Global.getCombatEngine()
+                .getFleetManager(ship.getOriginalOwner())
+                .getDeployedFleetMember(ship);
+
+        // Compatibility fix for main menu battles
+        if (dfm == null)
         {
             return null;
         }
 
-        // Check every member of every fleet of every system for a match :(
-        for (StarSystemAPI system : Global.getSector().getStarSystems())
-        {
-            for (CampaignFleetAPI fleet : system.getFleets())
-            {
-                for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy())
-                {
-                    if (ship.getFleetMemberId().equals(member.getId()))
-                    {
-                        return member;
-                    }
-                }
-            }
-        }
-
-        // No match was found! This should never happen!
-        return null;
+        return dfm.getMember();
     }
 
     /**
