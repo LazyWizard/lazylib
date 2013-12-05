@@ -7,6 +7,7 @@ Changes to CollisionUtils:
    beam.getTo(), beam.getDamageTarget()) actually works again)
 Changes to CombatUtils:
  - No longer implements EveryFrameCombatPlugin (also removed LazyLibCombatHook)
+ - Updated getFleetMember() to use DeployedFleetMemberAPI introduced in .6.1a
  - Added isVisibleToSide(CombatEntityAPI entity, int side)
 Changes to MathUtils:
  - Added getShortestRotation(float currAngle, float destAngle), returns the
