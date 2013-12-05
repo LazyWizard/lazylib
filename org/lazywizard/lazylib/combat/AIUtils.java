@@ -24,38 +24,6 @@ import org.lazywizard.lazylib.MathUtils;
  */
 public class AIUtils
 {
-    // Not public as it's so simple it's mostly a convenience tweak
-    /**
-     * @since 1.6
-     */
-    private static boolean isVisibleToSide(CombatEntityAPI entity, int side)
-    {
-        // This is a VERY fast check for neutral/allied status
-        // Player+enemy (0+1) is the only combination that will return 1
-        // Always visible: neutrals (side 100) and allies (0+0 or 1+1)
-        // Warning: this optimization will cause bugs if SS ever
-        // adds support for more than two sides in a battle!
-        if (side + entity.getOwner() != 1)
-        {
-            Global.getLogger(AIUtils.class).log(Level.DEBUG,
-                    "Always visible: " + entity.toString());
-            return true;
-        }
-
-        // There have been reports of null pointer exceptions in this method
-        // If this block is ever tripped, it's a vanilla bug
-        FogOfWarAPI fog = Global.getCombatEngine().getFogOfWar(side);
-        if (fog == null)
-        {
-            Global.getLogger(AIUtils.class).log(Level.WARN,
-                    "Fog of war not found for side " + side
-                    + ", defaulting to visible!");
-            return true;
-        }
-
-        return fog.isVisible(entity.getLocation());
-    }
-
     /**
      * Find the closest {@link BattleObjectiveAPI} to an entity.
      *
@@ -107,7 +75,7 @@ public class AIUtils
                 continue;
             }
 
-            if (!isVisibleToSide(tmp, entity.getOwner()))
+            if (!CombatUtils.isVisibleToSide(tmp, entity.getOwner()))
             {
                 continue;
             }
@@ -181,7 +149,7 @@ public class AIUtils
                 continue;
             }
 
-            if (!isVisibleToSide(tmp, entity.getOwner()))
+            if (!CombatUtils.isVisibleToSide(tmp, entity.getOwner()))
             {
                 continue;
             }
@@ -220,7 +188,7 @@ public class AIUtils
                 continue;
             }
 
-            if (!isVisibleToSide(tmp, entity.getOwner()))
+            if (!CombatUtils.isVisibleToSide(tmp, entity.getOwner()))
             {
                 continue;
             }
@@ -256,8 +224,9 @@ public class AIUtils
 
         for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
-            if (tmp.getOwner() != entity.getOwner() && !tmp.isHulk()
-                    && !tmp.isShuttlePod() && isVisibleToSide(tmp, entity.getOwner()))
+            if (tmp.getOwner() != entity.getOwner()
+                    && !tmp.isHulk() && !tmp.isShuttlePod()
+                    && CombatUtils.isVisibleToSide(tmp, entity.getOwner()))
             {
                 enemies.add(tmp);
             }
@@ -307,7 +276,7 @@ public class AIUtils
 
         for (ShipAPI enemy : getEnemiesOnMap(entity))
         {
-            if (isVisibleToSide(enemy, entity.getOwner())
+            if (CombatUtils.isVisibleToSide(enemy, entity.getOwner())
                     && MathUtils.getDistance(entity, enemy) <= range)
             {
                 enemies.add(enemy);
@@ -462,7 +431,7 @@ public class AIUtils
                 continue;
             }
 
-            if (!isVisibleToSide(tmp, entity.getOwner()))
+            if (!CombatUtils.isVisibleToSide(tmp, entity.getOwner()))
             {
                 continue;
             }
@@ -499,7 +468,7 @@ public class AIUtils
         for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
         {
             if (tmp.getOwner() != entity.getOwner()
-                    && isVisibleToSide(tmp, entity.getOwner()))
+                    && CombatUtils.isVisibleToSide(tmp, entity.getOwner()))
             {
                 enemies.add(tmp);
             }
@@ -551,7 +520,7 @@ public class AIUtils
 
         for (MissileAPI enemy : getEnemyMissilesOnMap(entity))
         {
-            if (isVisibleToSide(enemy, entity.getOwner())
+            if (CombatUtils.isVisibleToSide(enemy, entity.getOwner())
                     && MathUtils.getDistance(entity, enemy) <= range)
             {
                 enemies.add(enemy);
