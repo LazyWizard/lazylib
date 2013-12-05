@@ -3,6 +3,7 @@ package org.lazywizard.lazylib;
 import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
 import org.apache.log4j.Level;
+import org.json.JSONObject;
 import org.lazywizard.lazylib.campaign.CargoUtils;
 import org.lazywizard.lazylib.campaign.FleetUtils;
 import org.lazywizard.lazylib.campaign.MessageUtils;
@@ -22,6 +23,7 @@ import org.lazywizard.lazylib.combat.entities.SimpleEntity;
 // TODO: Implement transient CampaignPlugin, add ModMenu plugin system
 public class LazyLib extends BaseModPlugin
 {
+    private static final String SETTINGS_FILE = "lazylib_settings.json";
     private static final boolean IS_DEV_BUILD = false;
     private static final float LIBRARY_VERSION = 1.7f;
     private static final String GAME_VERSION = "0.6.1a";
@@ -99,7 +101,8 @@ public class LazyLib extends BaseModPlugin
      */
     public static void setLogLevel(Level level)
     {
-        LOG_LEVEL = level;
+        Global.getLogger(LazyLib.class).log(Level.INFO,
+                "Setting log level to " + level);
 
         // org.lazywizard.lazylib
         Global.getLogger(CollectionUtils.class).setLevel(level);
@@ -117,12 +120,17 @@ public class LazyLib extends BaseModPlugin
         // org.lazywizard.lazylib.combat.entities
         Global.getLogger(AnchoredEntity.class).setLevel(level);
         Global.getLogger(SimpleEntity.class).setLevel(level);
+
+        LOG_LEVEL = level;
     }
 
     @Override
     public void onApplicationLoad() throws Exception
     {
         Global.getLogger(LazyLib.class).log(Level.INFO, "Running " + getInfo());
-        setLogLevel(Global.getSettings().isDevMode() ? Level.DEBUG : Level.ERROR);
+
+        // Load LazyLib settings from JSON file
+        JSONObject settings = Global.getSettings().loadJSON(SETTINGS_FILE);
+        setLogLevel(Level.toLevel(settings.getString("logLevel"), Level.ERROR));
     }
 }

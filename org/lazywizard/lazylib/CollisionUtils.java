@@ -126,12 +126,12 @@ public class CollisionUtils
     }
 
     /**
-     * Check if a line connects with a circle.
+     * Checks if a line connects with a circle.
      *
-     * @param lineStart The start point of the line to test.
-     * @param lineEnd   The end point of the line to test.
-     * @param center    The center point of the circle.
-     * @param radius    The radius of the circle.
+     * @param lineStart    The start point of the line to test.
+     * @param lineEnd      The end point of the line to test.
+     * @param circleCenter The center point of the circle.
+     * @param circleRadius The radius of the circle.
      * <p>
      * @return {@code true} if the line collides with the circle,
      *         {@code false} otherwise.
@@ -139,11 +139,12 @@ public class CollisionUtils
      * @since 1.0
      */
     public static boolean getCollides(Vector2f lineStart, Vector2f lineEnd,
-            Vector2f center, float radius)
+            Vector2f circleCenter, float circleRadius)
     {
         // Check if distance between line and center is within radius
         return Line2D.ptSegDistSq(lineStart.x, lineStart.y, lineEnd.x,
-                lineEnd.y, center.x, center.y) <= (radius * radius);
+                lineEnd.y, circleCenter.x, circleCenter.y)
+                <= (circleRadius * circleRadius);
     }
 
     /**
