@@ -10,8 +10,10 @@ import org.apache.log4j.Level;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
- * A bare-bones implementation of {@link CombatEntityAPI}, mostly useful for EMP
- * arcs.
+ * A bare-bones implementation of {@link CombatEntityAPI}, mostly useful for
+ * decorative EMP arc targeting. These entities do not actually exist on the
+ * battle map, so most other methods that take a {@link CombatEntityAPI} will
+ * fail if you use one of these as a parameter.
  *
  * @author LazyWizard
  * @since 1.4
@@ -154,6 +156,12 @@ public class SimpleEntity extends EntityBase
         return null;
     }
 
+    /**
+     * Returns the {@link WeaponAPI} this entity is attached to, if any.
+     *
+     * @return The {@link WeaponAPI} passed into the constructor, or
+     *         {@code null} if another constructor was used.
+     */
     public WeaponAPI getWeapon()
     {
         return weapon;

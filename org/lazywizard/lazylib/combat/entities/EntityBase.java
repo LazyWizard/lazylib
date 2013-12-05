@@ -8,7 +8,7 @@ import org.lwjgl.util.vector.Vector2f;
 
 /**
  * Just a dump for the unimportant {@link CombatEntityAPI} methods to avoid
- * clutter in {@link SimpleEntity}.
+ * clutter in {@link SimpleEntity} and {@link AnchoredEntity}.
  *
  * @author LazyWizard
  * @since 1.4
@@ -17,16 +17,25 @@ import org.lwjgl.util.vector.Vector2f;
 abstract class EntityBase implements CombatEntityAPI
 {
     /**
-     * NONFUNCTIONAL/PLACEHOLDER
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
+     */
+    @Override
+    public Vector2f getLocation()
+    {
+        return new Vector2f(0f, 0f);
+    }
+
+    /**
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
      */
     @Override
     public Vector2f getVelocity()
     {
-        return new Vector2f(0, 0);
+        return new Vector2f(0f, 0f);
     }
 
     /**
-     * NONFUNCTIONAL/PLACEHOLDER
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
      */
     @Override
     public float getFacing()
@@ -35,7 +44,7 @@ abstract class EntityBase implements CombatEntityAPI
     }
 
     /**
-     * NONFUNCTIONAL/PLACEHOLDER
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
      */
     @Override
     public void setFacing(float facing)
@@ -43,7 +52,7 @@ abstract class EntityBase implements CombatEntityAPI
     }
 
     /**
-     * NONFUNCTIONAL/PLACEHOLDER
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
      */
     @Override
     public float getAngularVelocity()
@@ -52,7 +61,7 @@ abstract class EntityBase implements CombatEntityAPI
     }
 
     /**
-     * NONFUNCTIONAL/PLACEHOLDER
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
      */
     @Override
     public void setAngularVelocity(float angVel)
@@ -60,7 +69,7 @@ abstract class EntityBase implements CombatEntityAPI
     }
 
     /**
-     * NONFUNCTIONAL/PLACEHOLDER
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
      */
     @Override
     public int getOwner()
@@ -69,7 +78,7 @@ abstract class EntityBase implements CombatEntityAPI
     }
 
     /**
-     * NONFUNCTIONAL/PLACEHOLDER
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
      */
     @Override
     public void setOwner(int owner)
@@ -77,7 +86,7 @@ abstract class EntityBase implements CombatEntityAPI
     }
 
     /**
-     * NONFUNCTIONAL/PLACEHOLDER
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
      */
     @Override
     public float getCollisionRadius()
@@ -86,7 +95,7 @@ abstract class EntityBase implements CombatEntityAPI
     }
 
     /**
-     * NONFUNCTIONAL/PLACEHOLDER
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
      */
     @Override
     public CollisionClass getCollisionClass()
@@ -95,7 +104,7 @@ abstract class EntityBase implements CombatEntityAPI
     }
 
     /**
-     * NONFUNCTIONAL/PLACEHOLDER
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
      */
     @Override
     public void setCollisionClass(CollisionClass collisionClass)
@@ -103,7 +112,7 @@ abstract class EntityBase implements CombatEntityAPI
     }
 
     /**
-     * NONFUNCTIONAL/PLACEHOLDER
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
      */
     @Override
     public float getMass()
@@ -112,7 +121,7 @@ abstract class EntityBase implements CombatEntityAPI
     }
 
     /**
-     * NONFUNCTIONAL/PLACEHOLDER
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
      */
     @Override
     public void setMass(float mass)
@@ -120,7 +129,7 @@ abstract class EntityBase implements CombatEntityAPI
     }
 
     /**
-     * NONFUNCTIONAL/PLACEHOLDER
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
      */
     @Override
     public BoundsAPI getExactBounds()
@@ -129,7 +138,7 @@ abstract class EntityBase implements CombatEntityAPI
     }
 
     /**
-     * NONFUNCTIONAL/PLACEHOLDER
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
      */
     @Override
     public ShieldAPI getShield()
@@ -138,7 +147,7 @@ abstract class EntityBase implements CombatEntityAPI
     }
 
     /**
-     * NONFUNCTIONAL/PLACEHOLDER
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
      */
     @Override
     public float getHullLevel()
@@ -147,7 +156,7 @@ abstract class EntityBase implements CombatEntityAPI
     }
 
     /**
-     * NONFUNCTIONAL/PLACEHOLDER
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
      */
     @Override
     public float getHitpoints()
@@ -156,14 +165,11 @@ abstract class EntityBase implements CombatEntityAPI
     }
 
     /**
-     * NONFUNCTIONAL/PLACEHOLDER
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
      */
     @Override
     public float getMaxHitpoints()
     {
         return 1f;
     }
-
-    @Override
-    public abstract Vector2f getLocation();
 }
