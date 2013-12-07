@@ -14,7 +14,7 @@ import org.lwjgl.util.vector.Vector2f;
  * @since 1.4
  */
 // TODO: Get these methods to stop appearing in the JavaDoc
-abstract class EntityBase implements CombatEntityAPI
+class EntityBase implements CombatEntityAPI
 {
     /**
      * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>

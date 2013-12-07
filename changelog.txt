@@ -15,10 +15,12 @@ Changes to CombatUtils:
 Changes to MathUtils:
  - Added getShortestRotation(float currAngle, float destAngle), returns the
    smallest difference between two angles. This can also be used to find the
-   best turn direction (negative result = turn counter-clockwise)
+   best turn direction
 Changes to SimpleEntity:
  - Added a constructor for mimicking the location of a WeaponAPI w/o reflection
  - Added getWeapon() method, returns null if another constructor was used
+ - Added getType() method, returns the type of constructor used for this object
+ - Added SimpleEntityType enumeration
 
  1.6b (September 28, 2013)
 ===========================

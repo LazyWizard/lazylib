@@ -22,6 +22,7 @@ public class SimpleEntity extends EntityBase
 {
     // Cache for all reflection-based variants (reduces overhead on creation)
     private static final Map<Class, Method> methodCache = new HashMap<Class, Method>();
+    private final SimpleEntityType type;
     // Variables for Vector2f-based variant
     private Vector2f location = null;
     // Variables for WeaponAPI-based variant
@@ -30,8 +31,16 @@ public class SimpleEntity extends EntityBase
     private Object toFollow;
     private Method getLocation;
 
+    public static enum SimpleEntityType
+    {
+        VECTOR,
+        WEAPON,
+        REFLECTION
+    }
+
     private SimpleEntity()
     {
+        type = null;
     }
 
     /**
@@ -45,6 +54,7 @@ public class SimpleEntity extends EntityBase
     public SimpleEntity(Vector2f location)
     {
         this.location = location;
+        type = SimpleEntityType.VECTOR;
     }
 
     /**
@@ -59,6 +69,7 @@ public class SimpleEntity extends EntityBase
     public SimpleEntity(WeaponAPI weapon)
     {
         this.weapon = weapon;
+        type = SimpleEntityType.WEAPON;
     }
 
     /**
@@ -75,6 +86,7 @@ public class SimpleEntity extends EntityBase
     {
         this.toFollow = toFollow;
         Class tmp = toFollow.getClass();
+        type = SimpleEntityType.REFLECTION;
 
         // Check if the method has already been found for this object type
         if (methodCache.containsKey(tmp))
@@ -127,33 +139,38 @@ public class SimpleEntity extends EntityBase
     @Override
     public Vector2f getLocation()
     {
-        // Vector2f-based constructor
-        if (location != null)
+        switch (type)
         {
-            return location;
-        }
-
-        // WeaponAPI-based constructor
-        else if (weapon != null && weapon.getShip() != null
-                && Global.getCombatEngine().isEntityInPlay(weapon.getShip()))
-        {
-            return weapon.getLocation();
-        }
-
-        // Reflection-based constructor
-        else if (toFollow != null)
-        {
-            try
+            case VECTOR:
             {
-                return (Vector2f) getLocation.invoke(toFollow);
+                return location;
             }
-            catch (Exception ex)
+            case WEAPON:
             {
-                throw new RuntimeException(ex);
+                if (weapon != null && weapon.getShip() != null
+                        && Global.getCombatEngine().isEntityInPlay(weapon.getShip()))
+                {
+                    return weapon.getLocation();
+                }
+                else
+                {
+                    return null;
+                }
             }
+            case REFLECTION:
+            {
+                try
+                {
+                    return (Vector2f) getLocation.invoke(toFollow);
+                }
+                catch (Exception ex)
+                {
+                    throw new RuntimeException(ex);
+                }
+            }
+            default:
+                return null;
         }
-
-        return null;
     }
 
     /**
@@ -165,5 +182,17 @@ public class SimpleEntity extends EntityBase
     public WeaponAPI getWeapon()
     {
         return weapon;
+    }
+
+    /**
+     * Returns the {@link SimpleEntityType} corresponding to the constructor
+     * used to create this object.
+     *
+     * @return The type of constructor used to create this entity.
+     * @since 1.7
+     */
+    public SimpleEntityType getType()
+    {
+        return type;
     }
 }
