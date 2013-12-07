@@ -4,6 +4,7 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
+import com.fs.starfarer.api.util.WeightedRandomPicker;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -202,8 +203,8 @@ public class CollectionUtils
     }
 
     /**
-     * @deprecated Use {@link com.fs.starfarer.api.util.WeightedRandomPicker}
-     * instead (call pick() multiple times).
+     * @deprecated Use {@link WeightedRandomPicker} instead (call pick()
+     * multiple times).
      * @since 1.0
      */
     @Deprecated
@@ -246,8 +247,7 @@ public class CollectionUtils
     }
 
     /**
-     * @deprecated Use {@link com.fs.starfarer.api.util.WeightedRandomPicker}
-     * instead.
+     * @deprecated Use {@link WeightedRandomPicker} instead.
      * @since 1.0
      */
     @Deprecated

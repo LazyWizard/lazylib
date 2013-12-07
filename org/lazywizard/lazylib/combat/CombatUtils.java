@@ -482,7 +482,7 @@ public class CombatUtils
     }
 
     /**
-     * @deprecated Use {@link Global#Global.getCombatEngine()} instead.
+     * @deprecated Use {@link Global#getCombatEngine()} instead.
      * @since 1.0
      */
     @Deprecated
