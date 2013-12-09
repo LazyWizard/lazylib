@@ -443,6 +443,64 @@ public class FleetUtils
         return getNearbyAlliedFleets(fleet, range, false);
     }
 
+    /**
+     * Finds all fleets within a certain range around a
+     * {@link CampaignFleetAPI}.
+     *
+     * @param fleet          The entity to search around.
+     * @param range          How far around {@code fleet} to search.
+     * @param sortByDistance Whether to sort the results by distance from
+     *                       {@code fleet}.
+     * <p>
+     * @return A {@link List} containing all fleets within range.
+     * <p>
+     * @since 1.7
+     */
+    // TODO: Add to changelog
+    public static List<CampaignFleetAPI> getNearbyFleets(CampaignFleetAPI fleet,
+            float range, boolean sortByDistance)
+    {
+        StarSystemAPI system = (StarSystemAPI) fleet.getContainingLocation();
+        List<CampaignFleetAPI> fleets = new ArrayList<CampaignFleetAPI>();
+        range *= range;
+
+        for (CampaignFleetAPI tmp : system.getFleets())
+        {
+            if (MathUtils.getDistanceSquared(fleet, tmp) <= range)
+            {
+                fleets.add(tmp);
+            }
+        }
+
+        if (sortByDistance)
+        {
+            Collections.sort(fleets,
+                    new CollectionUtils.SortTokensByDistance(fleet.getLocation()));
+        }
+
+        return fleets;
+    }
+
+    /**
+     * Finds all fleets within a certain range around a
+     * {@link CampaignFleetAPI}.
+     *
+     * @param fleet The entity to search around.
+     * @param range How far around {@code fleet} to search.
+     * <p>
+     * @return A {@link List} containing all fleets within range.
+     * <p>
+     * @see
+     * FleetUtils#getNearbyFleets(com.fs.starfarer.api.campaign.CampaignFleetAPI,
+     * float, boolean)
+     * @since 1.7
+     */
+    // TODO: Add to changelog
+    public static List<CampaignFleetAPI> getNearbyFleets(CampaignFleetAPI fleet, float range)
+    {
+        return getNearbyFleets(fleet, range, false);
+    }
+
     private FleetUtils()
     {
     }

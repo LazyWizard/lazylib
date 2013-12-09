@@ -13,8 +13,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Level;
-import org.lazywizard.lazylib.CollectionFilters.CollectionFilter;
-import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -109,6 +107,11 @@ public class CollectionUtils
         }
 
         return filtered;
+    }
+
+    public static interface CollectionFilter<T>
+    {
+        public boolean accept(T t);
     }
 
     /**
