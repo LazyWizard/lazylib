@@ -68,6 +68,13 @@ public class FleetUtils
         return fleet1.getFaction().getRelationship(fleet2.getFaction().getId()) < 0;
     }
 
+    // TODO: JavaDoc this!
+    // TODO: Add to changelog
+    public static float getRelation(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
+    {
+        return fleet1.getFaction().getRelationship(fleet2.getFaction().getId());
+    }
+
     /**
      * Checks if two fleets are neutral towards each other.
      * <p>

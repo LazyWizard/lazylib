@@ -13,6 +13,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Level;
+import org.lazywizard.lazylib.CollectionFilters.CollectionFilter;
+import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -74,9 +76,44 @@ public class CollectionUtils
         return implode(toImplode, ", ");
     }
 
+    // TODO: Javadoc this and CollectionFilter
+    // TODO: Add this to changelog!
+    public static <T> List<T> filter(Collection<T> toFilter, List<CollectionFilter<T>> filters)
+    {
+        List<T> filtered = new ArrayList<T>();
+        for (T tmp : toFilter)
+        {
+            for (CollectionFilter<T> filter : filters)
+            {
+                if (!filter.accept(tmp))
+                {
+                    continue;
+                }
+
+                filtered.add(tmp);
+            }
+        }
+
+        return filtered;
+    }
+
+    public static <T> List<T> filter(Collection<T> toFilter, CollectionFilter<T> filter)
+    {
+        List<T> filtered = new ArrayList<T>();
+        for (T tmp : toFilter)
+        {
+            if (filter.accept(tmp))
+            {
+                filtered.add(tmp);
+            }
+        }
+
+        return filtered;
+    }
+
     /**
      * A {@link Comparator} that sorts {@link CombatEntityAPI}s by distance from
-     * a {@link Vector2f}.
+     * the {@link Vector2f} passed into the constructor.
      * <p>
      * @since 1.1
      */
@@ -140,7 +177,7 @@ public class CollectionUtils
 
     /**
      * A {@link Comparator} that sorts {@link SectorEntityToken}s by distance
-     * from a {@link Vector2f}.
+     * the {@link Vector2f} passed into the constructor.
      * <p>
      * @since 1.1
      */
