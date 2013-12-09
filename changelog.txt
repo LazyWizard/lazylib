@@ -22,6 +22,7 @@ Changes to CombatUtils:
    (this means it now works in missions, not just in campaign battles)
  - Added isVisibleToSide(CombatEntityAPI entity, int side)
 Changes to FleetUtils:
+ - Fixed null pointer exception when using these methods in hyperspace
  - Added getRelation(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
  - Added getNearbyFleets(CampaignFleetAPI fleet, float range,
    [boolean sortByDistance])
