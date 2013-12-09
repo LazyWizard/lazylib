@@ -28,9 +28,12 @@ public class SimpleEntity extends EntityBase
     // Variables for WeaponAPI-based variant
     private WeaponAPI weapon = null;
     // Variables for reflection-based variant
-    private Object toFollow;
-    private Method getLocation;
+    private Object toFollow = null;
+    private Method getLocation = null;
 
+    /**
+     * @since 1.7
+     */
     public static enum SimpleEntityType
     {
         VECTOR,
@@ -45,7 +48,8 @@ public class SimpleEntity extends EntityBase
 
     /**
      * Creates a {@link CombatEntityAPI} that stays in a single, predefined
-     * location.
+     * location. This version is a simple wrapper around a {@link Vector2f}
+     * and costs virtually nothing.
      *
      * @param location The {@link Vector2f} that getLocation() should return.
      * <p>
@@ -141,22 +145,17 @@ public class SimpleEntity extends EntityBase
     {
         switch (type)
         {
+            // Vector2f-based constructor
             case VECTOR:
             {
                 return location;
             }
+            // WeaponAPI-based constructor
             case WEAPON:
             {
-                if (weapon != null && weapon.getShip() != null
-                        && Global.getCombatEngine().isEntityInPlay(weapon.getShip()))
-                {
-                    return weapon.getLocation();
-                }
-                else
-                {
-                    return null;
-                }
+                return weapon.getLocation();
             }
+            // Reflection-based constructor (any other Object passed in)
             case REFLECTION:
             {
                 try
@@ -178,6 +177,7 @@ public class SimpleEntity extends EntityBase
      *
      * @return The {@link WeaponAPI} passed into the constructor, or
      *         {@code null} if another constructor was used.
+     * @since 1.7
      */
     public WeaponAPI getWeapon()
     {
@@ -189,6 +189,7 @@ public class SimpleEntity extends EntityBase
      * used to create this object.
      *
      * @return The type of constructor used to create this entity.
+     * <p>
      * @since 1.7
      */
     public SimpleEntityType getType()

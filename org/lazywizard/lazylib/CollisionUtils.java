@@ -9,7 +9,7 @@ import java.util.List;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
- * Contains methods for working with bounds and collision detection.
+ * Contains methods for line intersection, bounds and collision detection tests.
  *
  * @author LazyWizard
  * @since 1.0
@@ -24,7 +24,7 @@ public class CollisionUtils
      * @param lineEnd   The end of the line to test collision with.
      * <p>
      * @return The {@link Vector2f} of the point the line would hit at,
-     *         or null if it doesn't hit.
+     *         or {@code null} if it doesn't hit.
      * <p>
      * @since 1.0
      */
@@ -80,7 +80,7 @@ public class CollisionUtils
      * @param end2   The end of the second line to test collision with.
      * <p>
      * @return The {@link Vector2f} that the two lines intersect at,
-     *         null if they don't collide.
+     *         {@code null} if they don't collide.
      * <p>
      * @since 1.0
      */
