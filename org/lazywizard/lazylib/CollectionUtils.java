@@ -89,20 +89,22 @@ public class CollectionUtils
      * org.lazywizard.lazylib.CollectionUtils.CollectionFilter)
      * @since 1.7
      */
+    // TODO: Fix this (doesn't break properly)
     public static <T> List<T> filter(Collection<T> toFilter, List<CollectionFilter<T>> filters)
     {
         List<T> filtered = new ArrayList<T>(toFilter.size());
         for (T tmp : toFilter)
         {
+            outer:
             for (CollectionFilter<T> filter : filters)
             {
                 if (!filter.accept(tmp))
                 {
-                    continue;
+                    continue outer;
                 }
-
-                filtered.add(tmp);
             }
+
+            filtered.add(tmp);
         }
 
         return filtered;
@@ -142,6 +144,8 @@ public class CollectionUtils
      * unwanted entries in a {@link Collection}.
      * <p>
      * @param <T> The type of object to be filtered.
+     * <p>
+     * @since 1.7
      */
     public static interface CollectionFilter<T>
     {
@@ -152,6 +156,8 @@ public class CollectionUtils
          * <p>
          * @return {@code true} if this object should be kept in the
          *         {@link Collection}.
+         * <p>
+         * @since 1.7
          */
         public boolean accept(T t);
     }

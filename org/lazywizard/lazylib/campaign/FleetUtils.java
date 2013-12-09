@@ -3,7 +3,6 @@ package org.lazywizard.lazylib.campaign;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
-import com.fs.starfarer.api.campaign.StarSystemAPI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -112,11 +111,10 @@ public class FleetUtils
      */
     public static SectorEntityToken getNearestStation(SectorEntityToken token)
     {
-        StarSystemAPI system = (StarSystemAPI) token.getContainingLocation();
         SectorEntityToken closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (SectorEntityToken station : system.getOrbitalStations())
+        for (SectorEntityToken station : token.getContainingLocation().getOrbitalStations())
         {
             if (station == token)
             {
@@ -147,11 +145,10 @@ public class FleetUtils
      */
     public static CampaignFleetAPI getNearestEnemyFleet(CampaignFleetAPI fleet)
     {
-        StarSystemAPI system = (StarSystemAPI) fleet.getContainingLocation();
         CampaignFleetAPI closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (CampaignFleetAPI tmp : system.getFleets())
+        for (CampaignFleetAPI tmp : fleet.getContainingLocation().getFleets())
         {
             if (!tmp.isAlive() || !areEnemies(fleet, tmp))
             {
@@ -182,11 +179,10 @@ public class FleetUtils
      */
     public static CampaignFleetAPI getNearestAlliedFleet(CampaignFleetAPI fleet)
     {
-        StarSystemAPI system = (StarSystemAPI) fleet.getContainingLocation();
         CampaignFleetAPI closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (CampaignFleetAPI tmp : system.getFleets())
+        for (CampaignFleetAPI tmp : fleet.getContainingLocation().getFleets())
         {
             if (tmp == fleet || !tmp.isAlive() || !areAllies(fleet, tmp))
             {
@@ -218,11 +214,10 @@ public class FleetUtils
      */
     public static CampaignFleetAPI getNearestFleet(SectorEntityToken token)
     {
-        StarSystemAPI system = (StarSystemAPI) token.getContainingLocation();
         CampaignFleetAPI closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (CampaignFleetAPI tmp : system.getFleets())
+        for (CampaignFleetAPI tmp : token.getContainingLocation().getFleets())
         {
             if (tmp == token || !tmp.isAlive())
             {
@@ -256,10 +251,9 @@ public class FleetUtils
     public static List<CampaignFleetAPI> getEnemyFleetsInSystem(CampaignFleetAPI fleet,
             boolean sortByDistance)
     {
-        StarSystemAPI system = (StarSystemAPI) fleet.getContainingLocation();
         List<CampaignFleetAPI> enemies = new ArrayList<CampaignFleetAPI>();
 
-        for (CampaignFleetAPI tmp : system.getFleets())
+        for (CampaignFleetAPI tmp : fleet.getContainingLocation().getFleets())
         {
             if (tmp.isAlive() && areEnemies(fleet, tmp))
             {
@@ -362,10 +356,9 @@ public class FleetUtils
     public static List<CampaignFleetAPI> getAlliedFleetsInSystem(CampaignFleetAPI fleet,
             boolean sortByDistance)
     {
-        StarSystemAPI system = (StarSystemAPI) fleet.getContainingLocation();
         List<CampaignFleetAPI> allies = new ArrayList<CampaignFleetAPI>();
 
-        for (CampaignFleetAPI tmp : system.getFleets())
+        for (CampaignFleetAPI tmp : fleet.getContainingLocation().getFleets())
         {
             if (tmp != fleet && tmp.isAlive() && areAllies(fleet, tmp))
             {
@@ -470,11 +463,10 @@ public class FleetUtils
     public static List<CampaignFleetAPI> getNearbyFleets(CampaignFleetAPI fleet,
             float range, boolean sortByDistance)
     {
-        StarSystemAPI system = (StarSystemAPI) fleet.getContainingLocation();
         List<CampaignFleetAPI> fleets = new ArrayList<CampaignFleetAPI>();
         range *= range;
 
-        for (CampaignFleetAPI tmp : system.getFleets())
+        for (CampaignFleetAPI tmp : fleet.getContainingLocation().getFleets())
         {
             if (MathUtils.getDistanceSquared(fleet, tmp) <= range)
             {
