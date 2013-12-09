@@ -3,6 +3,15 @@
 Added lazylib_settings.json (only controls log level at the moment)
 Swapped all usages of CombatUtils.getCombatEngine() to Global.getCombatEngine()
 Minor JavaDoc reformatting and other readability improvements
+Added DrawUtils:
+ - drawCircle(float centerX, float centerY, float radius, int numSegments)
+Changes to CollectionUtils:
+ - Added CollectionFilter interface, contains accept(Object obj) method
+ - Added filter(Collection toFilter, CollectionFilter filter), allows
+   predicate-based Collection filtering
+ - Added filter(Collection toFilter, List<CollectionFilter> filters),
+   more efficient way of using multiple filters at once
+ - These methods support generics
 Changes to CollisionUtils:
  - Fixed getCollisionPoint() returning null when collision point lies directly
    on the end of a line (this means getCollisionPoint(beam.getFrom(),
@@ -12,6 +21,10 @@ Changes to CombatUtils:
  - Updated getFleetMember() to use DeployedFleetMemberAPI introduced in .6.1a
    (this means it now works in missions, not just in campaign battles)
  - Added isVisibleToSide(CombatEntityAPI entity, int side)
+Changes to FleetUtils:
+ - Added getRelation(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
+ - Added getNearbyFleets(CampaignFleetAPI fleet, float range,
+   [boolean sortByDistance])
 Changes to MathUtils:
  - Added getShortestRotation(float currAngle, float destAngle), returns the
    smallest difference between two angles. This can also be used to find the
