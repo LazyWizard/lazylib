@@ -69,15 +69,18 @@ public class FleetUtils
     }
 
     /**
+     * Returns the faction relationship between two fleets. Equivalent to
+     * calling fleet1.getFaction().getRelationship(fleet2.getFaction().getId()),
+     * but much more readable.
      *
-     * @param fleet1
-     * @param fleet2
-     *               <p>
-     * @return
-     *         <p>
+     * @param fleet1 A {@link CampaignFleetAPI} whose faction relationship will
+     *               be tested.
+     * @param fleet2 The {@link CampaignFleetAPI> to test relationship with.
+     * <p>
+     * @return The faction relationship between {@code fleet1} and {@code fleet2}.
+     * <p>
      * @since 1.7
      */
-    // TODO: JavaDoc this!
     public static float getRelation(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
     {
         return fleet1.getFaction().getRelationship(fleet2.getFaction().getId());
