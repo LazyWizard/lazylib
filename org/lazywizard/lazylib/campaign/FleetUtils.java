@@ -68,8 +68,16 @@ public class FleetUtils
         return fleet1.getFaction().getRelationship(fleet2.getFaction().getId()) < 0;
     }
 
+    /**
+     *
+     * @param fleet1
+     * @param fleet2
+     *               <p>
+     * @return
+     *         <p>
+     * @since 1.7
+     */
     // TODO: JavaDoc this!
-    // TODO: Add to changelog
     public static float getRelation(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
     {
         return fleet1.getFaction().getRelationship(fleet2.getFaction().getId());
@@ -456,7 +464,6 @@ public class FleetUtils
      * <p>
      * @since 1.7
      */
-    // TODO: Add to changelog
     public static List<CampaignFleetAPI> getNearbyFleets(CampaignFleetAPI fleet,
             float range, boolean sortByDistance)
     {
@@ -495,7 +502,6 @@ public class FleetUtils
      * float, boolean)
      * @since 1.7
      */
-    // TODO: Add to changelog
     public static List<CampaignFleetAPI> getNearbyFleets(CampaignFleetAPI fleet, float range)
     {
         return getNearbyFleets(fleet, range, false);

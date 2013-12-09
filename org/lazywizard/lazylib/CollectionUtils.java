@@ -75,7 +75,6 @@ public class CollectionUtils
     }
 
     // TODO: Javadoc this and CollectionFilter
-    // TODO: Add this to changelog!
     public static <T> List<T> filter(Collection<T> toFilter, List<CollectionFilter<T>> filters)
     {
         List<T> filtered = new ArrayList<T>();

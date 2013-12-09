@@ -1,7 +1,7 @@
 package org.lazywizard.lazylib.opengl;
 
 import org.lazywizard.lazylib.FastTrig;
-import org.lwjgl.opengl.GL11;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Contains methods to draw primitive 2D shapes using LWJGL/OpenGL.
@@ -9,7 +9,6 @@ import org.lwjgl.opengl.GL11;
  * @author LazyWizard
  * @since 1.7
  */
-// TODO: Add this to changelog
 public class DrawUtils
 {
     /**
@@ -42,18 +41,18 @@ public class DrawUtils
         float x = radius;
         float y = 0;
 
-        GL11.glBegin(GL11.GL_LINE_LOOP);
+        glBegin(GL_LINE_LOOP);
         for (int i = 0; i < numSegments; i++)
         {
             // Output vertex
-            GL11.glVertex2f(x + centerX, y + centerY);
+            glVertex2f(x + centerX, y + centerY);
 
             // Apply the rotation matrix
             t = x;
             x = (cos * x) - (sin * y);
             y = (sin * t) + (cos * y);
         }
-        GL11.glEnd();
+        glEnd();
     }
 
     private DrawUtils()
