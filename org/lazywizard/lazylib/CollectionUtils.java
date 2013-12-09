@@ -74,10 +74,24 @@ public class CollectionUtils
         return implode(toImplode, ", ");
     }
 
-    // TODO: Javadoc this and CollectionFilter
+    /**
+     * Filters a {@link Collection} and returns a {@link List} containing only
+     * the entries that the filters accepted.
+     *
+     * @param toFilter The {@link Collection} to filter.
+     * @param filters  A {@link List} of {@link CollectionFilter}s that will be
+     *                 used to filter {@code toFilter}.
+     * <p>
+     * @return A {@link List} containing only the entries of {@code toFilter}
+     *         that passed {@code filters}' {@code accept()} method.
+     * <p>
+     * @see CollectionUtils#filter(java.util.Collection,
+     * org.lazywizard.lazylib.CollectionUtils.CollectionFilter)
+     * @since 1.7
+     */
     public static <T> List<T> filter(Collection<T> toFilter, List<CollectionFilter<T>> filters)
     {
-        List<T> filtered = new ArrayList<T>();
+        List<T> filtered = new ArrayList<T>(toFilter.size());
         for (T tmp : toFilter)
         {
             for (CollectionFilter<T> filter : filters)
@@ -94,9 +108,22 @@ public class CollectionUtils
         return filtered;
     }
 
+    /**
+     * Filters a {@link Collection} and returns a {@link List} containing only
+     * the entries that the filter accepted.
+     *
+     * @param toFilter The {@link Collection} to filter.
+     * @param filter   A {@link CollectionFilter} that will be used to filter
+     *                 {@code toFilter}.
+     * <p>
+     * @return A {@link List} containing only the entries of {@code toFilter}
+     *         that passed {@code filter}'s {@code accept()} method.
+     * <p>
+     * @since 1.7
+     */
     public static <T> List<T> filter(Collection<T> toFilter, CollectionFilter<T> filter)
     {
-        List<T> filtered = new ArrayList<T>();
+        List<T> filtered = new ArrayList<T>(toFilter.size());
         for (T tmp : toFilter)
         {
             if (filter.accept(tmp))
@@ -108,8 +135,24 @@ public class CollectionUtils
         return filtered;
     }
 
+    /**
+     * Used with
+     * {@link CollectionUtils#filter(java.util.Collection,
+     * org.lazywizard.lazylib.CollectionUtils.CollectionFilter)} to filter out
+     * unwanted entries in a {@link Collection}.
+     * <p>
+     * @param <T> The type of object to be filtered.
+     */
     public static interface CollectionFilter<T>
     {
+        /**
+         * Returns if an object should be allowed past this filter.
+         *
+         * @param t The object to be checked.
+         * <p>
+         * @return {@code true} if this object should be kept in the
+         *         {@link Collection}.
+         */
         public boolean accept(T t);
     }
 
