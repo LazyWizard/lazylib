@@ -28,8 +28,8 @@ at all times even if your currently active mods don't require it.
 ------------------------
 If you want to compile LazyLib yourself, the source can be found inside
 jars/LazyLib.jar (most modern archive programs can open jars).
-LazyLib will require starfarer.api.jar, lwjgl_util.jar, and log4j-1.2.9.jar
-in the classpath to compile.
+LazyLib will require starfarer.api.jar, lwjgl.jar, lwjgl_util.jar, json.jar
+and log4j-1.2.9.jar in the classpath to compile.
 
 
  Contributing to this mod:
@@ -38,6 +38,8 @@ If you wish to contribute to LazyLib, the project repository can be found at
 https://bitbucket.org/LazyWizard/lazylib (I use Mercurial for revision control).
 
 There are a few goals you should keep in mind when contributing:
+ * Any class ending with 'Utils' should only contain static methods and
+   shoudn't be instantiatable.
  * Use human-readable method names. If there's a proper name that describes a
    method's functionality but nobody outside of that field will know it, use a
    more generic, descriptive name.
@@ -48,4 +50,4 @@ There are a few goals you should keep in mind when contributing:
    EveryFrameCombatPlugins in this mod. The only overhead should be the classes
    stored in memory, if possible.
 
-(readme last updated 2013-09-25)
+(readme last updated 2013-12-10)
