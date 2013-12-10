@@ -76,42 +76,6 @@ public class CollectionUtils
 
     /**
      * Filters a {@link Collection} and returns a {@link List} containing only
-     * the entries that the filters accepted.
-     *
-     * @param toFilter The {@link Collection} to filter.
-     * @param filters  A {@link List} of {@link CollectionFilter}s that will be
-     *                 used to filter {@code toFilter}.
-     * <p>
-     * @return A {@link List} containing only the entries of {@code toFilter}
-     *         that passed {@code filters}' {@code accept()} method.
-     * <p>
-     * @see CollectionUtils#filter(java.util.Collection,
-     * org.lazywizard.lazylib.CollectionUtils.CollectionFilter)
-     * @since 1.7
-     */
-    // TODO: Fix this (doesn't break properly)
-    public static <T> List<T> filter(Collection<T> toFilter, List<CollectionFilter<T>> filters)
-    {
-        List<T> filtered = new ArrayList<T>(toFilter.size());
-        for (T tmp : toFilter)
-        {
-            outer:
-            for (CollectionFilter<T> filter : filters)
-            {
-                if (!filter.accept(tmp))
-                {
-                    continue outer;
-                }
-            }
-
-            filtered.add(tmp);
-        }
-
-        return filtered;
-    }
-
-    /**
-     * Filters a {@link Collection} and returns a {@link List} containing only
      * the entries that the filter accepted.
      *
      * @param toFilter The {@link Collection} to filter.
@@ -125,13 +89,48 @@ public class CollectionUtils
      */
     public static <T> List<T> filter(Collection<T> toFilter, CollectionFilter<T> filter)
     {
-        List<T> filtered = new ArrayList<T>(toFilter.size());
+        List<T> filtered = new ArrayList<T>(toFilter.size() / 2 + 1);
         for (T tmp : toFilter)
         {
             if (filter.accept(tmp))
             {
                 filtered.add(tmp);
             }
+        }
+
+        return filtered;
+    }
+
+    /**
+     * Filters a {@link Collection} and returns a {@link List} containing only
+     * the entries that the filters accepted.
+     *
+     * @param toFilter The {@link Collection} to filter.
+     * @param filters  A {@link List} of {@link CollectionFilter}s that will be
+     *                 used to filter {@code toFilter}.
+     * <p>
+     * @return A {@link List} containing only the entries of {@code toFilter}
+     *         that passed {@code filters}' {@code accept()} method.
+     * <p>
+     * @see CollectionUtils#filter(java.util.Collection,
+     * org.lazywizard.lazylib.CollectionUtils.CollectionFilter)
+     * @since 1.7
+     */
+    public static <T> List<T> filter(Collection<T> toFilter, List<CollectionFilter<T>> filters)
+    {
+        List<T> filtered = new ArrayList<T>(toFilter.size() / 2 + 1);
+        outer:
+        for (T tmp : toFilter)
+        {
+            for (CollectionFilter<T> filter : filters)
+            {
+                if (!filter.accept(tmp))
+                {
+                    continue outer;
+                }
+            }
+
+            filtered.add(tmp);
         }
 
         return filtered;
