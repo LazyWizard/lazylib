@@ -23,7 +23,7 @@ public class CargoUtils
      */
     public static void moveStack(CargoStackAPI stack, CargoAPI to)
     {
-        if (!stack.isNull())
+        if (!stack.isNull() && stack.getCargo() != to)
         {
             to.addItems(stack.getType(), stack.getData(), stack.getSize());
             stack.getCargo().removeItems(stack.getType(),
@@ -42,7 +42,7 @@ public class CargoUtils
      */
     public static void moveStack(CargoStackAPI stack, SectorEntityToken to)
     {
-        if (to != null && to.getCargo() != null)
+        if (to.getCargo() != null)
         {
             moveStack(stack, to.getCargo());
         }
@@ -60,6 +60,11 @@ public class CargoUtils
      */
     public static void moveCargo(CargoAPI from, CargoAPI to)
     {
+        if (from == to)
+        {
+            return;
+        }
+
         for (CargoStackAPI stack : from.getStacksCopy())
         {
             moveStack(stack, to);

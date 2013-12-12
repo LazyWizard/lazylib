@@ -3,6 +3,7 @@ package org.lazywizard.lazylib.combat.entities;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -162,7 +163,15 @@ public class SimpleEntity extends EntityBase
                 {
                     return (Vector2f) getLocation.invoke(toFollow);
                 }
-                catch (Exception ex)
+                catch (IllegalAccessException ex)
+                {
+                    throw new RuntimeException(ex);
+                }
+                catch (IllegalArgumentException ex)
+                {
+                    throw new RuntimeException(ex);
+                }
+                catch (InvocationTargetException ex)
                 {
                     throw new RuntimeException(ex);
                 }
@@ -177,6 +186,7 @@ public class SimpleEntity extends EntityBase
      *
      * @return The {@link WeaponAPI} passed into the constructor, or
      *         {@code null} if another constructor was used.
+     * <p>
      * @since 1.7
      */
     public WeaponAPI getWeapon()

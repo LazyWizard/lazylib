@@ -11,8 +11,8 @@ import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.apache.log4j.Level;
 import org.lazywizard.lazylib.CollectionUtils;
+import org.lazywizard.lazylib.LazyLib;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -331,9 +331,8 @@ public class WeaponUtils
     @Deprecated
     public static float calculateActualDamage(float baseDamage, WeaponAPI weapon)
     {
-        Global.getLogger(WeaponUtils.class).log(Level.WARN,
-                "Using deprecated method calculateActualDamage(float baseDamage,"
-                + " WeaponAPI weapon)");
+        LazyLib.logDeprecatedMethodUsage(WeaponUtils.class,
+                "calculateActualDamage(float baseDamage, WeaponAPI weapon)");
 
         if (weapon.getShip() == null)
         {
@@ -384,9 +383,9 @@ public class WeaponUtils
     public static float calculateActualDamage(float baseDamage, WeaponAPI weapon,
             ShipAPI target, DefenseType defense)
     {
-        Global.getLogger(WeaponUtils.class).log(Level.WARN,
-                "Using deprecated method calculateActualDamage(float baseDamage,"
-                + " WeaponAPI weapon, ShipAPI target, DefenseType defense)");
+        LazyLib.logDeprecatedMethodUsage(WeaponUtils.class,
+                "calculateActualDamage(float baseDamage, WeaponAPI weapon,"
+                        + " ShipAPI target, DefenseType defense)");
 
         MutableShipStatsAPI stats = target.getMutableStats();
         MutableShipStatsAPI shooter = (weapon.getShip() == null ? null

@@ -1,6 +1,6 @@
  1.7 (soon)
 ============
-Added lazylib_settings.json (only controls log level at the moment)
+Added lazylib_settings.json (only controls logging at the moment)
 Swapped all usages of CombatUtils.getCombatEngine() to Global.getCombatEngine()
 Minor JavaDoc reformatting and other readability improvements
 Added DrawUtils:
