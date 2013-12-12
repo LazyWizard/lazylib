@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import org.apache.log4j.Level;
 import org.lazywizard.lazylib.CollectionUtils;
+import org.lazywizard.lazylib.LazyLib;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -488,8 +489,9 @@ public class CombatUtils
     @Deprecated
     public static CombatEngineAPI getCombatEngine()
     {
-        /*Global.getLogger(CombatUtils.class).log(Level.WARN,
-         "Using deprecated method getCombatEngine()");*/
+        LazyLib.logDeprecatedMethodUsage(CombatUtils.class,
+                "getCombatEngine()");
+
         return Global.getCombatEngine();
     }
 
@@ -501,8 +503,9 @@ public class CombatUtils
     @Deprecated
     public static float getElapsedCombatTimeIncludingPaused()
     {
-        Global.getLogger(CombatUtils.class).log(Level.WARN,
-                "Using deprecated method getElapsedCombatTimeIncludingPaused()");
+        LazyLib.logDeprecatedMethodUsage(CombatUtils.class,
+                "getElapsedCombatTimeIncludingPaused()");
+
         if (Global.getCombatEngine() == null)
         {
             return 0f;
@@ -519,8 +522,9 @@ public class CombatUtils
     @Deprecated
     public static float getElapsedCombatTime()
     {
-        Global.getLogger(CombatUtils.class).log(Level.WARN,
-                "Using deprecated method getElapsedCombatTime()");
+        LazyLib.logDeprecatedMethodUsage(CombatUtils.class,
+                "getElapsedCombatTime()");
+
         if (Global.getCombatEngine() == null)
         {
             return 0f;
@@ -536,8 +540,9 @@ public class CombatUtils
     @Deprecated
     public static float getTimeSinceLastFrame()
     {
-        Global.getLogger(CombatUtils.class).log(Level.WARN,
-                "Using deprecated method getTimeSinceLastFrame()");
+        LazyLib.logDeprecatedMethodUsage(CombatUtils.class,
+                "getTimeSinceLastFrame()");
+
         if (Global.getCombatEngine() == null)
         {
             return 0f;

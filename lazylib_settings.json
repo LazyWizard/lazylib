@@ -1,3 +1,4 @@
 {
-    "logLevel":"ERROR", # Valid levels: ALL, DEBUG, INFO, WARN, ERROR, FATAL, OFF
+    "logLevel":"ERROR", # Valid levels: OFF, FATAL, ERROR, WARN, INFO, DEBUG, ALL
+    "logDeprecated":false, # Log usage of deprecated methods (requires logLevel:WARN or higher)
 }
