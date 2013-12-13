@@ -1,4 +1,13 @@
 {
+    # Used to control internal LazyLib debugging, end-users can ignore this
+    # logDeprecated (below) is not affected by this setting
     "logLevel":"ERROR", # Valid levels: OFF, FATAL, ERROR, WARN, INFO, DEBUG, ALL
-    "logDeprecated":false, # Log usage of deprecated methods (requires logLevel:WARN or higher)
+    
+    # Whether to log usage of deprecated LazyLib methods (for modders)
+    # Deprecated methods will be removed eventually, so this is very useful!
+    "logDeprecated":false,
+    
+    # Whether to crash the game when a deprecated LazyLib method is used
+    # This is here so modders can follow the stacktrace to the source using it
+    "crashOnDeprecated":false,
 }

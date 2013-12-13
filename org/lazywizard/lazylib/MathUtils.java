@@ -586,7 +586,7 @@ public class MathUtils
     @Deprecated
     public static boolean isPointWithinBounds(Vector2f point, CombatEntityAPI entity)
     {
-        LazyLib.logDeprecatedMethodUsage(MathUtils.class,
+        LazyLib.onDeprecatedMethodUsage(MathUtils.class,
                 "isPointWithinBounds(Vector2f point, CombatEntityAPI entity)");
 
         return CollisionUtils.isPointWithinBounds(point, entity);

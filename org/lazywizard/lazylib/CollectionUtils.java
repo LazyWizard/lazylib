@@ -297,7 +297,7 @@ public class CollectionUtils
     @Deprecated
     public static <T> List<T> weightedRandom(Map<T, Float> pickFrom, int numToPick)
     {
-        LazyLib.logDeprecatedMethodUsage(CollectionUtils.class,
+        LazyLib.onDeprecatedMethodUsage(CollectionUtils.class,
                 "weightedRandom(Map<T, Float> pickFrom, int numToPick)");
 
         if (pickFrom.isEmpty() || numToPick <= 0)
@@ -339,7 +339,7 @@ public class CollectionUtils
     @Deprecated
     public static <T> T weightedRandom(Map<T, Float> pickFrom)
     {
-        LazyLib.logDeprecatedMethodUsage(CollectionUtils.class,
+        LazyLib.onDeprecatedMethodUsage(CollectionUtils.class,
                 "weightedRandom(Map<T, Float> pickFrom)");
 
         if (pickFrom.isEmpty())

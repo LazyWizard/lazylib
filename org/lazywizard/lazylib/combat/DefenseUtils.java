@@ -143,7 +143,7 @@ public class DefenseUtils
     @Deprecated
     public static Vector2f getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
     {
-        LazyLib.logDeprecatedMethodUsage(DefenseUtils.class,
+        LazyLib.onDeprecatedMethodUsage(DefenseUtils.class,
                 "getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)");
 
         int[] cell = ship.getArmorGrid().getCellAtLocation(loc);
