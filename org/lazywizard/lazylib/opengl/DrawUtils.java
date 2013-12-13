@@ -26,11 +26,12 @@ public class DrawUtils
      * @param numSegments How many line segments the circle should be made up
      *                    of (higher number = smoother circle, but higher GPU
      *                    cost).
+     * @param filled      Whether the circle should be hollow or filled.
      * <p>
      * @since 1.7
      */
     public static void drawCircle(float centerX, float centerY,
-            float radius, int numSegments)
+            float radius, int numSegments, boolean filled)
     {
         // Precalculate the sine and cosine
         // Instead of recalculating sin/cos for each line segment,
@@ -44,7 +45,7 @@ public class DrawUtils
         float x = radius;
         float y = 0;
 
-        glBegin(GL_LINE_LOOP);
+        glBegin(filled ? GL_TRIANGLE_FAN : GL_LINE_LOOP);
         for (int i = 0; i < numSegments; i++)
         {
             // Output vertex
