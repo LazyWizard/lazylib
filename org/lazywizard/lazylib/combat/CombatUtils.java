@@ -1,6 +1,7 @@
 package org.lazywizard.lazylib.combat;
 
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.campaign.FleetDataAPI;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
@@ -489,7 +490,7 @@ public class CombatUtils
     @Deprecated
     public static CombatEngineAPI getCombatEngine()
     {
-        LazyLib.logDeprecatedMethodUsage(CombatUtils.class,
+        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
                 "getCombatEngine()");
 
         return Global.getCombatEngine();
@@ -503,7 +504,7 @@ public class CombatUtils
     @Deprecated
     public static float getElapsedCombatTimeIncludingPaused()
     {
-        LazyLib.logDeprecatedMethodUsage(CombatUtils.class,
+        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
                 "getElapsedCombatTimeIncludingPaused()");
 
         if (Global.getCombatEngine() == null)
@@ -522,7 +523,7 @@ public class CombatUtils
     @Deprecated
     public static float getElapsedCombatTime()
     {
-        LazyLib.logDeprecatedMethodUsage(CombatUtils.class,
+        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
                 "getElapsedCombatTime()");
 
         if (Global.getCombatEngine() == null)
@@ -540,7 +541,7 @@ public class CombatUtils
     @Deprecated
     public static float getTimeSinceLastFrame()
     {
-        LazyLib.logDeprecatedMethodUsage(CombatUtils.class,
+        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
                 "getTimeSinceLastFrame()");
 
         if (Global.getCombatEngine() == null)

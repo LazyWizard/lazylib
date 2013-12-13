@@ -27,7 +27,7 @@ public class LazyLib extends BaseModPlugin
     private static final boolean IS_DEV_BUILD = true;
     private static final float LIBRARY_VERSION = 1.7f;
     private static final String GAME_VERSION = "0.6.1a";
-    private static boolean LOG_DEPRECATED = false;
+    private static boolean LOG_DEPRECATED = false, CRASH_DEPRECATED = false;
     private static Level LOG_LEVEL;
 
     /**
@@ -56,22 +56,19 @@ public class LazyLib extends BaseModPlugin
     }
 
     // TODO: add to changelog and javadoc this
-    public static boolean getLogDeprecatedMethodUsage()
-    {
-        return LOG_DEPRECATED;
-    }
-
-    public static void setLogDeprecatedMethodUsage(boolean logDeprecated)
-    {
-        LOG_DEPRECATED = logDeprecated;
-    }
-
-    public static void logDeprecatedMethodUsage(Class source, String methodSig)
+    public static void onDeprecatedMethodUsage(Class source, String methodSig)
     {
         if (LOG_DEPRECATED)
         {
-            Global.getLogger(source).log(Level.WARN,
-                    "Using deprecated method " + methodSig);
+            Global.getLogger(LazyLib.class).log(Level.WARN,
+                    "Using deprecated method " + source.getSimpleName()
+                            + "." + methodSig);
+        }
+
+        if (CRASH_DEPRECATED)
+        {
+            throw new RuntimeException("Deprecated method " + methodSig
+                    + " used while \"crashOnDeprecated\" = true");
         }
     }
 
@@ -156,5 +153,6 @@ public class LazyLib extends BaseModPlugin
         JSONObject settings = Global.getSettings().loadJSON(SETTINGS_FILE);
         setLogLevel(Level.toLevel(settings.getString("logLevel"), Level.ERROR));
         LOG_DEPRECATED = settings.getBoolean("logDeprecated");
+        CRASH_DEPRECATED = settings.getBoolean("crashOnDeprecated");
     }
 }

@@ -1,16 +1,24 @@
  1.7 (soon)
 ============
-Added lazylib_settings.json (only controls logging at the moment)
 Swapped all usages of CombatUtils.getCombatEngine() to Global.getCombatEngine()
 Minor JavaDoc reformatting and other readability improvements
-Added DrawUtils:
+Added lazylib_settings.json (only controls logging at the moment):
+ - "logDeprecated" sets whether to log usage of deprecated LazyLib methods,
+   useful for modders since these will eventually be removed from LazyLib
+ - "crashOnDeprecated", if true will throw a RuntimeException when a deprecated
+   LazyLib method is used (for modders to track down usage via the stacktrace)
+Added DrawUtils (in new org.lazywizard.lazylib.opengl package):
  - drawCircle(float centerX, float centerY, float radius, int numSegments)
+ - drawEllipse(float centerX, float centerY, float radiusX, float radiusY,
+   float angleOffset, int numSegments)
+ - drawArc(float centerX, float centerY, float radius, float startAngle,
+   float arcAngle, int numSegments)
 Changes to CollectionUtils:
  - Added CollectionFilter interface, contains accept(Object obj) method
  - Added filter(Collection toFilter, CollectionFilter filter), allows
    predicate-based Collection filtering
- - Added filter(Collection toFilter, List<CollectionFilter> filters),
-   more efficient way of using multiple filters at once
+ - Added filter(Collection toFilter, List filters), a more efficient way of
+   using multiple filters on a Collection at once
  - These methods support generics
 Changes to CollisionUtils:
  - Fixed getCollisionPoint() returning null when collision point lies directly

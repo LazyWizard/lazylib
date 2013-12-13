@@ -331,7 +331,7 @@ public class WeaponUtils
     @Deprecated
     public static float calculateActualDamage(float baseDamage, WeaponAPI weapon)
     {
-        LazyLib.logDeprecatedMethodUsage(WeaponUtils.class,
+        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
                 "calculateActualDamage(float baseDamage, WeaponAPI weapon)");
 
         if (weapon.getShip() == null)
@@ -383,7 +383,7 @@ public class WeaponUtils
     public static float calculateActualDamage(float baseDamage, WeaponAPI weapon,
             ShipAPI target, DefenseType defense)
     {
-        LazyLib.logDeprecatedMethodUsage(WeaponUtils.class,
+        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
                 "calculateActualDamage(float baseDamage, WeaponAPI weapon,"
                         + " ShipAPI target, DefenseType defense)");
 
