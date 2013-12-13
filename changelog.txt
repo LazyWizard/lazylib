@@ -9,8 +9,6 @@ Added lazylib_settings.json (only controls logging at the moment):
    LazyLib method is used (for modders to track down usage via the stacktrace)
 Added DrawUtils (in new org.lazywizard.lazylib.opengl package):
  - drawCircle(float centerX, float centerY, float radius, int numSegments)
- - drawEllipse(float centerX, float centerY, float radiusX, float radiusY,
-   float angleOffset, int numSegments)
  - drawArc(float centerX, float centerY, float radius, float startAngle,
    float arcAngle, int numSegments)
 Changes to CollectionUtils:

@@ -58,14 +58,29 @@ public class DrawUtils
         glEnd();
     }
 
-    // TODO: Javadoc this
-    public static void drawEllipse(float centerX, float centerY, float radiusX,
-            float radiusY, float angleOffset, int numSegments)
+    static void drawEllipse(float centerX, float centerY, float radius,
+            float xScaling, float yScaling, float angleOffset, int numSegments)
     {
         // TODO
     }
 
-    // TODO: Javadoc this
+    /**
+     * Draws an arc made up of line segments. This method only contains
+     * the actual drawing code, and assumes all OpenGL flags, color, line width
+     * etc have been set by the user beforehand. Optimized arc-drawing
+     * algorithm taken from: http://slabode.exofire.net/circle_draw.shtml
+     *
+     * @param centerX     The x value of the center point of the arc.
+     * @param centerY     The y value of the center point of the arc.
+     * @param radius      The radius (in pixels) of the arc to be drawn.
+     * @param startAngle  The angle the arc should start at, in degrees.
+     * @param arcAngle    The size of the arc, in degrees.
+     * @param numSegments How many line segments the arc should be made up
+     *                    of (higher number = smoother arc, but higher GPU
+     *                    cost).
+     * <p>
+     * @since 1.7
+     */
     public static void drawArc(float centerX, float centerY, float radius,
             float startAngle, float arcAngle, int numSegments)
     {
@@ -76,7 +91,7 @@ public class DrawUtils
         // Precalculate the sine and cosine
         // Instead of recalculating sin/cos for each line segment,
         // this algorithm rotates the line around the center point
-        float theta = arcAngle / (float) (numSegments - 1);
+        float theta = arcAngle / (float) (numSegments);
         float cos = (float) FastTrig.cos(theta);
         float sin = (float) FastTrig.sin(theta);
         float t;
@@ -96,6 +111,7 @@ public class DrawUtils
             x = (cos * x) - (sin * y);
             y = (sin * t) + (cos * y);
         }
+        glVertex2f(x + centerX, y + centerY);
         glEnd();
     }
 

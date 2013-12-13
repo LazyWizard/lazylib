@@ -13,6 +13,7 @@ import org.lazywizard.lazylib.combat.DefenseUtils;
 import org.lazywizard.lazylib.combat.WeaponUtils;
 import org.lazywizard.lazylib.combat.entities.AnchoredEntity;
 import org.lazywizard.lazylib.combat.entities.SimpleEntity;
+import org.lazywizard.lazylib.opengl.DrawUtils;
 
 /**
  * Contains information on the current version of LazyLib.
@@ -53,23 +54,6 @@ public class LazyLib extends BaseModPlugin
     public static String getSupportedGameVersion()
     {
         return GAME_VERSION;
-    }
-
-    // TODO: add to changelog and javadoc this
-    public static void onDeprecatedMethodUsage(Class source, String methodSig)
-    {
-        if (LOG_DEPRECATED)
-        {
-            Global.getLogger(LazyLib.class).log(Level.WARN,
-                    "Using deprecated method " + source.getSimpleName()
-                            + "." + methodSig);
-        }
-
-        if (CRASH_DEPRECATED)
-        {
-            throw new RuntimeException("Deprecated method " + methodSig
-                    + " used while \"crashOnDeprecated\" = true");
-        }
     }
 
     /**
@@ -140,8 +124,35 @@ public class LazyLib extends BaseModPlugin
         // org.lazywizard.lazylib.combat.entities
         Global.getLogger(AnchoredEntity.class).setLevel(level);
         Global.getLogger(SimpleEntity.class).setLevel(level);
+        // org.lazywizard.lazylib.opengl
+        Global.getLogger(DrawUtils.class).setLevel(level);
 
         LOG_LEVEL = level;
+    }
+
+    /**
+     * Called internally by LazyLib when a deprecated method is used. You can
+     * ignore this.
+     * <p>
+     * @param source    The class that contains the deprecated method.
+     * @param methodSig The signature of the method that is deprecated.
+     * <p>
+     * @since 1.7
+     */
+    public static void onDeprecatedMethodUsage(Class source, String methodSig)
+    {
+        if (LOG_DEPRECATED)
+        {
+            Global.getLogger(LazyLib.class).log(Level.WARN,
+                    "Using deprecated method " + source.getSimpleName()
+                    + "." + methodSig);
+        }
+
+        if (CRASH_DEPRECATED)
+        {
+            throw new RuntimeException("Deprecated method " + methodSig
+                    + " used while \"crashOnDeprecated\" = true");
+        }
     }
 
     @Override
