@@ -385,7 +385,7 @@ public class WeaponUtils
     {
         LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
                 "calculateActualDamage(float baseDamage, WeaponAPI weapon,"
-                        + " ShipAPI target, DefenseType defense)");
+                + " ShipAPI target, DefenseType defense)");
 
         MutableShipStatsAPI stats = target.getMutableStats();
         MutableShipStatsAPI shooter = (weapon.getShip() == null ? null
@@ -465,6 +465,9 @@ public class WeaponUtils
     @Deprecated
     public static float calculateDamagePerShot(WeaponAPI weapon)
     {
+        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
+                "calculateDamagePerShot(WeaponAPI weapon)");
+
         return calculateActualDamage(weapon.getDerivedStats().getDamagePerShot(), weapon);
     }
 
@@ -489,6 +492,10 @@ public class WeaponUtils
     public static float calculateDamagePerShot(WeaponAPI weapon, ShipAPI target,
             DefenseType defense)
     {
+        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
+                "calculateDamagePerShot(WeaponAPI weapon, ShipAPI target,"
+                + " DefenseType defense)");
+
         return calculateActualDamage(calculateDamagePerShot(weapon), weapon,
                 target, defense);
     }
@@ -509,6 +516,9 @@ public class WeaponUtils
     @Deprecated
     public static float calculateDamagePerSecond(WeaponAPI weapon)
     {
+        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
+                "calculateDamagePerSecond(WeaponAPI weapon)");
+
         return calculateActualDamage(weapon.getDerivedStats().getDps(), weapon);
     }
 
@@ -533,6 +543,10 @@ public class WeaponUtils
     public static float calculateDamagePerSecond(WeaponAPI weapon, ShipAPI target,
             DefenseType defense)
     {
+        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
+                "calculateDamagePerSecond(WeaponAPI weapon, ShipAPI target,"
+                + " DefenseType defense)");
+
         return calculateActualDamage(calculateDamagePerSecond(weapon), weapon,
                 target, defense);
     }
@@ -553,6 +567,9 @@ public class WeaponUtils
     @Deprecated
     public static float calculateDamagePerBurst(WeaponAPI weapon)
     {
+        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
+                "calculateDamagePerBurst(WeaponAPI weapon");
+
         return calculateActualDamage(weapon.getDerivedStats().getBurstDamage(), weapon);
     }
 
@@ -577,6 +594,10 @@ public class WeaponUtils
     public static float calculateDamagePerBurst(WeaponAPI weapon, ShipAPI target,
             DefenseType defense)
     {
+        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
+                "calculateDamagePerBurst(WeaponAPI weapon, ShipAPI target,"
+                + " DefenseType defense)");
+
         return calculateActualDamage(calculateDamagePerBurst(weapon), weapon,
                 target, defense);
     }
