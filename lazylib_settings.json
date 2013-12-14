@@ -1,7 +1,7 @@
 {
-    # Used to control internal LazyLib debugging, end-users can ignore this
-    # Valid levels: OFF, FATAL, ERROR, WARN, INFO, DEBUG, ALL
+    # End-users can ignore this - used to control internal LazyLib debugging
     # logDeprecated (below) is not affected by this setting
+    # Valid levels: OFF, FATAL, ERROR, WARN, INFO, DEBUG, ALL
     "logLevel":"ERROR",
     
     # Whether to log usage of deprecated LazyLib methods (for modders)
