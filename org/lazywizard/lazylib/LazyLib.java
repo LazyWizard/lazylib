@@ -96,7 +96,7 @@ public class LazyLib extends BaseModPlugin
     }
 
     /**
-     * Sets the log level used for all LazyLib classes.
+     * Sets the log level used for all other LazyLib classes.
      *
      * @param level The minimum level of entries that will be logged.
      * <p>
