@@ -251,18 +251,12 @@ public class FleetUtils
      * <p>
      * @since 1.2
      */
+    @Deprecated
+    // TODO: Deprecate this and add notice to changelog
     public static List<CampaignFleetAPI> getEnemyFleetsInSystem(CampaignFleetAPI fleet,
             boolean sortByDistance)
     {
-        List<CampaignFleetAPI> enemies = new ArrayList<CampaignFleetAPI>();
-
-        for (CampaignFleetAPI tmp : fleet.getContainingLocation().getFleets())
-        {
-            if (tmp.isAlive() && areEnemies(fleet, tmp))
-            {
-                enemies.add(tmp);
-            }
-        }
+        List<CampaignFleetAPI> enemies = getEnemyFleetsInSystem(fleet);
 
         if (sortByDistance)
         {
@@ -280,14 +274,21 @@ public class FleetUtils
      * <p>
      * @return All enemies of {@code fleet} in the system.
      * <p>
-     * @see
-     * FleetUtils#getEnemyFleetsInSystem(com.fs.starfarer.api.campaign.CampaignFleetAPI,
-     * boolean)
      * @since 1.2
      */
     public static List<CampaignFleetAPI> getEnemyFleetsInSystem(CampaignFleetAPI fleet)
     {
-        return getEnemyFleetsInSystem(fleet, false);
+        List<CampaignFleetAPI> enemies = new ArrayList<CampaignFleetAPI>();
+
+        for (CampaignFleetAPI tmp : fleet.getContainingLocation().getFleets())
+        {
+            if (tmp.isAlive() && areEnemies(fleet, tmp))
+            {
+                enemies.add(tmp);
+            }
+        }
+
+        return enemies;
     }
 
     /**
@@ -303,19 +304,12 @@ public class FleetUtils
      * <p>
      * @since 1.2
      */
+    @Deprecated
+    // TODO: Deprecate this and add notice to changelog
     public static List<CampaignFleetAPI> getNearbyEnemyFleets(CampaignFleetAPI fleet,
             float range, boolean sortByDistance)
     {
-        List<CampaignFleetAPI> enemies = new ArrayList<CampaignFleetAPI>();
-        range *= range;
-
-        for (CampaignFleetAPI enemy : getEnemyFleetsInSystem(fleet))
-        {
-            if (MathUtils.getDistanceSquared(fleet, enemy) <= range)
-            {
-                enemies.add(enemy);
-            }
-        }
+        List<CampaignFleetAPI> enemies = getNearbyEnemyFleets(fleet, range);
 
         if (sortByDistance)
         {
@@ -335,14 +329,22 @@ public class FleetUtils
      * <p>
      * @return A {@link List} containing all enemy fleets within range.
      * <p>
-     * @see
-     * FleetUtils#getNearbyEnemyFleets(com.fs.starfarer.api.campaign.CampaignFleetAPI,
-     * float, boolean)
      * @since 1.2
      */
     public static List<CampaignFleetAPI> getNearbyEnemyFleets(CampaignFleetAPI fleet, float range)
     {
-        return getNearbyEnemyFleets(fleet, range, false);
+        List<CampaignFleetAPI> enemies = new ArrayList<CampaignFleetAPI>();
+        range *= range;
+
+        for (CampaignFleetAPI enemy : getEnemyFleetsInSystem(fleet))
+        {
+            if (MathUtils.getDistanceSquared(fleet, enemy) <= range)
+            {
+                enemies.add(enemy);
+            }
+        }
+
+        return enemies;
     }
 
     /**
@@ -356,18 +358,12 @@ public class FleetUtils
      * <p>
      * @since 1.2
      */
+    @Deprecated
+    // TODO: Deprecate this and add notice to changelog
     public static List<CampaignFleetAPI> getAlliedFleetsInSystem(CampaignFleetAPI fleet,
             boolean sortByDistance)
     {
-        List<CampaignFleetAPI> allies = new ArrayList<CampaignFleetAPI>();
-
-        for (CampaignFleetAPI tmp : fleet.getContainingLocation().getFleets())
-        {
-            if (tmp != fleet && tmp.isAlive() && areAllies(fleet, tmp))
-            {
-                allies.add(tmp);
-            }
-        }
+        List<CampaignFleetAPI> allies = getAlliedFleetsInSystem(fleet);
 
         if (sortByDistance)
         {
@@ -385,14 +381,21 @@ public class FleetUtils
      * <p>
      * @return All allies of {@code fleet} in the system.
      * <p>
-     * @see
-     * FleetUtils#getAlliedFleetsInSystem(com.fs.starfarer.api.campaign.CampaignFleetAPI,
-     * boolean)
      * @since 1.2
      */
     public static List<CampaignFleetAPI> getAlliedFleetsInSystem(CampaignFleetAPI fleet)
     {
-        return getAlliedFleetsInSystem(fleet, false);
+                List<CampaignFleetAPI> allies = new ArrayList<CampaignFleetAPI>();
+
+        for (CampaignFleetAPI tmp : fleet.getContainingLocation().getFleets())
+        {
+            if (tmp != fleet && tmp.isAlive() && areAllies(fleet, tmp))
+            {
+                allies.add(tmp);
+            }
+        }
+
+        return allies;
     }
 
     /**
@@ -408,19 +411,12 @@ public class FleetUtils
      * <p>
      * @since 1.2
      */
+    @Deprecated
+    // TODO: Deprecate this and add notice to changelog
     public static List<CampaignFleetAPI> getNearbyAlliedFleets(CampaignFleetAPI fleet,
             float range, boolean sortByDistance)
     {
-        List<CampaignFleetAPI> allies = new ArrayList<CampaignFleetAPI>();
-        range *= range;
-
-        for (CampaignFleetAPI ally : getAlliedFleetsInSystem(fleet))
-        {
-            if (MathUtils.getDistanceSquared(fleet, ally) <= range)
-            {
-                allies.add(ally);
-            }
-        }
+        List<CampaignFleetAPI> allies = getNearbyAlliedFleets(fleet, range);
 
         if (sortByDistance)
         {
@@ -440,31 +436,36 @@ public class FleetUtils
      * <p>
      * @return A {@link List} containing all allied fleets within range.
      * <p>
-     * @see
-     * FleetUtils#getNearbyAlliedFleets(com.fs.starfarer.api.campaign.CampaignFleetAPI,
-     * float, boolean)
      * @since 1.2
      */
     public static List<CampaignFleetAPI> getNearbyAlliedFleets(CampaignFleetAPI fleet, float range)
     {
-        return getNearbyAlliedFleets(fleet, range, false);
+        List<CampaignFleetAPI> allies = new ArrayList<CampaignFleetAPI>();
+        range *= range;
+
+        for (CampaignFleetAPI ally : getAlliedFleetsInSystem(fleet))
+        {
+            if (MathUtils.getDistanceSquared(fleet, ally) <= range)
+            {
+                allies.add(ally);
+            }
+        }
+
+        return allies;
     }
 
     /**
      * Finds all fleets within a certain range around a
      * {@link CampaignFleetAPI}.
      *
-     * @param fleet          The entity to search around.
-     * @param range          How far around {@code fleet} to search.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code fleet}.
+     * @param fleet The entity to search around.
+     * @param range How far around {@code fleet} to search.
      * <p>
      * @return A {@link List} containing all fleets within range.
      * <p>
      * @since 1.7
      */
-    public static List<CampaignFleetAPI> getNearbyFleets(CampaignFleetAPI fleet,
-            float range, boolean sortByDistance)
+    public static List<CampaignFleetAPI> getNearbyFleets(CampaignFleetAPI fleet, float range)
     {
         List<CampaignFleetAPI> fleets = new ArrayList<CampaignFleetAPI>();
         range *= range;
@@ -477,32 +478,7 @@ public class FleetUtils
             }
         }
 
-        if (sortByDistance)
-        {
-            Collections.sort(fleets,
-                    new CollectionUtils.SortTokensByDistance(fleet.getLocation()));
-        }
-
         return fleets;
-    }
-
-    /**
-     * Finds all fleets within a certain range around a
-     * {@link CampaignFleetAPI}.
-     *
-     * @param fleet The entity to search around.
-     * @param range How far around {@code fleet} to search.
-     * <p>
-     * @return A {@link List} containing all fleets within range.
-     * <p>
-     * @see
-     * FleetUtils#getNearbyFleets(com.fs.starfarer.api.campaign.CampaignFleetAPI,
-     * float, boolean)
-     * @since 1.7
-     */
-    public static List<CampaignFleetAPI> getNearbyFleets(CampaignFleetAPI fleet, float range)
-    {
-        return getNearbyFleets(fleet, range, false);
     }
 
     private FleetUtils()

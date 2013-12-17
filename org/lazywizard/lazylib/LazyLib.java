@@ -111,6 +111,7 @@ public class LazyLib extends BaseModPlugin
         Global.getLogger(CollectionUtils.class).setLevel(level);
         Global.getLogger(CollisionUtils.class).setLevel(level);
         Global.getLogger(MathUtils.class).setLevel(level);
+        Global.getLogger(VectorUtils.class).setLevel(level);
         // org.lazywizard.lazylib.campaign
         Global.getLogger(CargoUtils.class).setLevel(level);
         Global.getLogger(FleetUtils.class).setLevel(level);
@@ -130,8 +131,12 @@ public class LazyLib extends BaseModPlugin
     }
 
     /**
-     * Called internally by LazyLib when a deprecated method is used. You can
-     * ignore this.
+     * Called internally by LazyLib when a deprecated method is used. If
+     * "logDeprecated" is set in lazylib_settings.json it will log usage of
+     * those methods. If "crashOnDeprecated" is true, this method will throw a
+     * {@link RuntimeException} so modders can track down the problematic code
+     * using the stacktrace. You can ignore this method; there's no reason to
+     * ever call it manually.
      * <p>
      * @param source    The class that contains the deprecated method.
      * @param methodSig The signature of the method that is deprecated.
@@ -149,7 +154,8 @@ public class LazyLib extends BaseModPlugin
 
         if (CRASH_DEPRECATED)
         {
-            throw new RuntimeException("Deprecated method " + methodSig
+            throw new RuntimeException("Deprecated method "
+                    + source.getSimpleName() + "." + methodSig
                     + " used while \"crashOnDeprecated\" = true");
         }
     }
