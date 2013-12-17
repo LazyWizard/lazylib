@@ -1,6 +1,6 @@
 {
-    # End-users can ignore this - used to control internal LazyLib debugging
-    # logDeprecated (below) is not affected by this setting
+    # You can ignore this setting, it's only used to control internal LazyLib
+    # debugging. logDeprecated (below) is not affected by this setting
     # Valid levels: OFF, FATAL, ERROR, WARN, INFO, DEBUG, ALL
     "logLevel":"ERROR",
     

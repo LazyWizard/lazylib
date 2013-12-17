@@ -37,8 +37,7 @@ Changes to CombatUtils:
 Changes to FleetUtils:
  - Fixed null pointer exception when using these methods in hyperspace
  - Added getRelation(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
- - Added getNearbyFleets(CampaignFleetAPI fleet, float range,
-   [boolean sortByDistance])
+ - Added getNearbyFleets(CampaignFleetAPI fleet, float range)
 Changes to MathUtils:
  - Added getRandomPointInCone(Vector2f center, float radius, float minAngle,
    float maxAngle), returns a random point in a two-dimensional cone.
