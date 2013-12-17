@@ -271,35 +271,6 @@ public class MathUtils
     }
 
     /**
-     * Returns the facing of a {@link Vector2f}.
-     *
-     * @param vector The vector to get the facing of.
-     * <p>
-     * @return The facing (angle) of {@code vector}.
-     * <p>
-     * @since 1.0
-     */
-    public static float getFacing(Vector2f vector)
-    {
-        return clampAngle((float) Math.toDegrees(Math.atan2(vector.y, vector.x)));
-    }
-
-    /**
-     * Returns the angle between two {@link Vector2f}s.
-     *
-     * @param from The source {@link Vector2f}.
-     * @param to   The {@link Vector2f} to get the angle to.
-     * <p>
-     * @return The angle from {@code from} to {@code to}.
-     * <p>
-     * @since 1.0
-     */
-    public static float getAngle(Vector2f from, Vector2f to)
-    {
-        return getFacing(getDirectionalVector(from, to));
-    }
-
-    /**
      * Returns the direction and length of the quickest rotation between two
      * angles.
      *
@@ -615,6 +586,31 @@ public class MathUtils
     public static Random getRandom()
     {
         return rng;
+    }
+
+    /**
+     * @deprecated Use {@link VectorUtils#getFacing(Vector2f)} instead.
+     * @since 1.0
+     */
+    @Deprecated
+    public static float getFacing(Vector2f vector)
+    {
+        LazyLib.onDeprecatedMethodUsage(MathUtils.class,
+                "getFacing(Vector2f vector)");
+
+        return VectorUtils.getFacing(vector);
+    }
+
+    /**
+     * @deprecated Use {@link VectorUtils#getAngle(Vector2f, Vector2f)} instead.
+     * @since 1.0
+     */
+    public static float getAngle(Vector2f from, Vector2f to)
+    {
+        LazyLib.onDeprecatedMethodUsage(MathUtils.class,
+                "getAngle(Vector2f from, Vector2f to)");
+        
+        return VectorUtils.getAngle(from, to);
     }
 
     /**
