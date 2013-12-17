@@ -21,7 +21,6 @@ import org.lazywizard.lazylib.opengl.DrawUtils;
  * @author LazyWizard
  * @since 1.1
  */
-// TODO: Implement transient CampaignPlugin, add ModMenu plugin system
 public class LazyLib extends BaseModPlugin
 {
     private static final String SETTINGS_FILE = "lazylib_settings.json";

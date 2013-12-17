@@ -1,7 +1,7 @@
  1.7 (soon)
 ============
 Swapped all usages of CombatUtils.getCombatEngine() to Global.getCombatEngine()
-Minor JavaDoc reformatting and other readability improvements
+Significant JavaDoc expansion, reformatting, and other readability improvements
 Added lazylib_settings.json (only controls logging at the moment):
  - "logDeprecated" sets whether to log usage of deprecated LazyLib methods,
    useful for modders since these will eventually be removed from LazyLib
@@ -11,6 +11,13 @@ Added DrawUtils (in new org.lazywizard.lazylib.opengl package):
  - drawCircle(float centerX, float centerY, float radius, int numSegments)
  - drawArc(float centerX, float centerY, float radius, float startAngle,
    float arcAngle, int numSegments)
+Added VectorUtils (because LWJGL's Vectors are pretty terrible):
+ - getAngle(Vector2f from, Vector2f to) (moved from MathUtils)
+ - getFacing(Vector2f vector) (moved from MathUtils)
+ - getCrossProduct(Vector2f vector1, Vector2f vector2)
+ - rotate(Vector2f toRotate, float degrees, Vector2f dest)
+ - rotateAroundPivot(Vector2f toRotate, Vector2f pivotPoint, float angle,
+   Vector2f dest), rotates a Vector2f around another Vector2f
 Changes to CollectionUtils:
  - Added CollectionFilter interface, contains accept(Object obj) method
  - Added filter(Collection toFilter, CollectionFilter filter), allows
@@ -38,6 +45,8 @@ Changes to MathUtils:
  - Added getShortestRotation(float currAngle, float destAngle), returns the
    smallest difference between two angles. This can also be used to find the
    best turn direction
+ - Moved getFacing(Vector2f vector) to VectorUtils
+ - Moved getAngle(Vector2f from, Vector2f to) to VectorUtils
 Changes to SimpleEntity:
  - Added a constructor for mimicking the location of a WeaponAPI w/o reflection
  - Added getWeapon() method, returns null if another constructor was used
