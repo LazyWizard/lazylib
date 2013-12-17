@@ -14,14 +14,13 @@ import org.lwjgl.util.vector.Vector2f;
  * @author LazyWizard
  * @since 1.0
  */
-// TODO: add getRandomPointInCone()
 public class MathUtils
 {
     private static final Random rng = new Random();
 
     /**
      * Returns the distance between two {@link SectorEntityToken}s,
-     * including interaction radius.
+     * including interaction radii.
      *
      * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f,
      * org.lwjgl.util.vector.Vector2f)
@@ -35,7 +34,7 @@ public class MathUtils
 
     /**
      * Returns the distance between a {@link SectorEntityToken} and a
-     * {@link Vector2f} (includes interaction radius).
+     * {@link Vector2f}, including interaction radius.
      *
      * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f,
      * org.lwjgl.util.vector.Vector2f)
@@ -48,7 +47,7 @@ public class MathUtils
 
     /**
      * Returns the distance between two {@link CombatEntityAPI}s, including
-     * collision radius.
+     * collision radii.
      *
      * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f,
      * org.lwjgl.util.vector.Vector2f)
@@ -62,7 +61,7 @@ public class MathUtils
 
     /**
      * Returns the distance between a {@link CombatEntityAPI} and a
-     * {@link Vector2f} (includes collision radius).
+     * {@link Vector2f}, including collision radius.
      *
      * @see MathUtils#getDistance(org.lwjgl.util.vector.Vector2f,
      * org.lwjgl.util.vector.Vector2f)
@@ -93,7 +92,14 @@ public class MathUtils
     }
 
     /**
-     * Returns the distance squared between two {@link SectorEntityToken}s.
+     * Returns the distance squared between two {@link SectorEntityToken}s,
+     * including interaction radii.
+     *
+     * With the addition of collision radius checking, there's no way to avoid
+     * calculating the square root.
+     * {@link MathUtils#getDistance(com.fs.starfarer.api.campaign.SectorEntityToken,
+     * com.fs.starfarer.api.campaign.SectorEntityToken)} will be just as
+     * efficient.
      *
      * @see MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f,
      * org.lwjgl.util.vector.Vector2f)
@@ -109,7 +115,13 @@ public class MathUtils
 
     /**
      * Returns the distance squared between a {@link SectorEntityToken} and
-     * a {@link Vector2f}.
+     * a {@link Vector2f}, including interaction radius.
+     * <p>
+     * With the addition of collision radius checking, there's no way to avoid
+     * calculating the square root.
+     * {@link MathUtils#getDistance(com.fs.starfarer.api.campaign.SectorEntityToken,
+     * org.lwjgl.util.vector.Vector2f)} will be just as
+     * efficient.
      *
      * @see MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f,
      * org.lwjgl.util.vector.Vector2f)
@@ -124,9 +136,11 @@ public class MathUtils
     }
 
     /**
-     * Returns the distance squared between two {@link CombatEntityAPI}s
-     * (includes collision radii). With the addition of collision radius
-     * checking, there's no way to avoid calculating the square root.
+     * Returns the distance squared between two {@link CombatEntityAPI}s,
+     * including collision radii.
+     *
+     * With the addition of collision radius checking, there's no way to avoid
+     * calculating the square root.
      * {@link MathUtils#getDistance(com.fs.starfarer.api.combat.CombatEntityAPI,
      * com.fs.starfarer.api.combat.CombatEntityAPI)} will be just as efficient.
      *
@@ -144,9 +158,10 @@ public class MathUtils
 
     /**
      * Returns the distance squared between a {@link CombatEntityAPI} and a
-     * {@link Vector2f} (includes collision radius). With the addition of
-     * collision radius checking, there's no way to avoid calculating the square
-     * root.
+     * {@link Vector2f} (includes collision radius).
+     * <p>
+     * With the addition of collision radius checking, there's no way to avoid
+     * calculating the square root.
      * {@link MathUtils#getDistance(com.fs.starfarer.api.combat.CombatEntityAPI,
      * org.lwjgl.util.vector.Vector2f)} will be just as efficient.
      *
@@ -391,14 +406,39 @@ public class MathUtils
     }
 
     /**
+     * Returns a random point inside of a circular sector (2d cone) with uniform
+     * distribution.
+     *
+     * @param center   The center point of the cone (can be null for a 0, 0
+     *                 origin).
+     * @param radius   The radius of the cone.
+     * @param minAngle The minimum angular bounds.
+     * @param maxAngle The maximum angular bounds.
+     * <p>
+     * @return A random point inside of the given circular sector.
+     * <p>
+     * @since 1.7
+     */
+    public static Vector2f getRandomPointInCone(Vector2f center, float radius,
+            float minAngle, float maxAngle)
+    {
+        double t = Math.toRadians(MathUtils.getRandomNumberInRange(minAngle, maxAngle)),
+                u = rng.nextDouble() + rng.nextDouble(),
+                r = (u > 1 ? 2 - u : u);
+        return new Vector2f((float) (r * FastTrig.cos(t)) * radius
+                + (center == null ? 0f : center.x),
+                (float) (r * FastTrig.sin(t)) * radius
+                + (center == null ? 0f : center.y));
+    }
+
+    /**
      * Returns a random point along the line between two {@link Vector2f}s.
      *
      * @param lineStart The starting point of the line.
      * @param lineEnd   The end point of the line.
      * <p>
      * @return A random {@link Vector2f} along the line between
-     *         {@code lineStart}
-     *         and {@code lineEnd}.
+     *         {@code lineStart} and {@code lineEnd}.
      * <p>
      * @since 1.6
      */
@@ -481,7 +521,7 @@ public class MathUtils
     /**
      * Returns a {@link List} of evenly spaced {@link Vector2f}s inside a
      * circle.
-     *
+     * <p>
      * WARNING: be VERY conservative using this method - a radius of 250 and a
      * spacing
      * of 5 will result in 10,000 circle checks and 7,825 {@link Vector2f}s
@@ -579,8 +619,7 @@ public class MathUtils
 
     /**
      * @deprecated Use {@link
-     * CollisionUtils#isPointWithinBounds(org.lwjgl.util.vector.Vector2f,
-     * com.fs.starfarer.api.combat.CombatEntityAPI)} instead.
+     * CollisionUtils#isPointWithinBounds(Vector2f, CombatEntityAPI)} instead.
      * @since 1.0
      */
     @Deprecated

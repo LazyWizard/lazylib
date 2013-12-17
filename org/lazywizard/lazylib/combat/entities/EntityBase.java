@@ -7,13 +7,12 @@ import com.fs.starfarer.api.combat.ShieldAPI;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
- * Just a dump for the unimportant {@link CombatEntityAPI} methods to avoid
+ * Contains basic implementations of {@link CombatEntityAPI}'s methods to avoid
  * clutter in {@link SimpleEntity} and {@link AnchoredEntity}.
  *
  * @author LazyWizard
  * @since 1.4
  */
-// TODO: Get these methods to stop appearing in the JavaDoc
 class EntityBase implements CombatEntityAPI
 {
     /**

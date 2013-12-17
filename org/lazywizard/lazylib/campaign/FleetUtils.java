@@ -49,7 +49,8 @@ public class FleetUtils
      */
     public static boolean areAllies(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
     {
-        return fleet1.getFaction().getRelationship(fleet2.getFaction().getId()) > 0;
+        return (fleet1.getFaction().getRelationship(
+                fleet2.getFaction().getId()) > 0);
     }
 
     /**
@@ -64,7 +65,8 @@ public class FleetUtils
      */
     public static boolean areEnemies(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
     {
-        return fleet1.getFaction().getRelationship(fleet2.getFaction().getId()) < 0;
+        return (fleet1.getFaction().getRelationship(
+                fleet2.getFaction().getId()) < 0);
     }
 
     /**
@@ -74,9 +76,10 @@ public class FleetUtils
      *
      * @param fleet1 A {@link CampaignFleetAPI} whose faction relationship will
      *               be tested.
-     * @param fleet2 The {@link CampaignFleetAPI> to test relationship with.
+     * @param fleet2 The {@link CampaignFleetAPI} to test relationship with.
      * <p>
-     * @return The faction relationship between {@code fleet1} and {@code fleet2}.
+     * @return The faction relationship between {@code fleet1} and
+     *         {@code fleet2}.
      * <p>
      * @since 1.7
      */

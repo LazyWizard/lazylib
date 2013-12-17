@@ -136,8 +136,7 @@ public class DefenseUtils
     }
 
     /**
-     * @deprecated Use {@link ArmorGridAPI#getCellAtLocation(
-     * org.lwjgl.util.vector.Vector2f)} instead.
+     * @deprecated Use {@link ArmorGridAPI#getCellAtLocation(Vector2f)} instead.
      * @since 1.5
      */
     @Deprecated

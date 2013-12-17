@@ -112,8 +112,7 @@ public class CollectionUtils
      * @return A {@link List} containing only the entries of {@code toFilter}
      *         that passed {@code filters}' {@code accept()} method.
      * <p>
-     * @see CollectionUtils#filter(java.util.Collection,
-     * org.lazywizard.lazylib.CollectionUtils.CollectionFilter)
+     * @see CollectionUtils#filter(Collection, CollectionUtils.CollectionFilter)
      * @since 1.7
      */
     public static <T> List<T> filter(Collection<T> toFilter, List<CollectionFilter<T>> filters)
@@ -138,9 +137,8 @@ public class CollectionUtils
 
     /**
      * Used with
-     * {@link CollectionUtils#filter(java.util.Collection,
-     * org.lazywizard.lazylib.CollectionUtils.CollectionFilter)} to filter out
-     * unwanted entries in a {@link Collection}.
+     * {@link CollectionUtils#filter(Collection, CollectionUtils.CollectionFilter)}
+     * to filter out unwanted entries in a {@link Collection}.
      * <p>
      * @param <T> The type of object to be filtered.
      * <p>
