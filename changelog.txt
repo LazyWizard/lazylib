@@ -20,6 +20,17 @@ Added VectorUtils (because LWJGL's Vectors are pretty terrible):
  - rotate(Vector2f toRotate, float degrees, Vector2f dest)
  - rotateAroundPivot(Vector2f toRotate, Vector2f pivotPoint, float angle,
    Vector2f dest), rotates a Vector2f around another Vector2f
+Changes to AIUtils:
+ - Deprecated getEnemiesOnMap(CombatEntityAPI entity, boolean sortByDistance)
+ - Deprecated getNearbyEnemies(CombatEntityAPI entity, float range,
+   boolean sortByDistance)
+ - Deprecated getAlliesOnMap(CombatEntityAPI entity, boolean sortByDistance)
+ - Deprecated getNearbyAllies(CombatEntityAPI entity, float range,
+   boolean sortByDistance)
+ - Deprecated getEnemyMissilesOnMap(CombatEntityAPI entity,
+   boolean sortByDistance)
+ - Deprecated getNearbyEnemyMissiles(CombatEntityAPI entity, float range,
+   boolean sortByDistance)
 Changes to CollectionUtils:
  - Added CollectionFilter interface, contains accept(Object obj) method
  - Added filter(Collection toFilter, CollectionFilter filter), allows
