@@ -5,8 +5,10 @@ import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import org.lazywizard.lazylib.CollectionUtils;
+import org.lazywizard.lazylib.CollectionUtils.SortEntitiesByDistance;
 import org.lazywizard.lazylib.MathUtils;
 
 /**
@@ -243,33 +245,6 @@ public class FleetUtils
     /**
      * Find all enemies of a {@link CampaignFleetAPI} present in the system.
      *
-     * @param fleet          The {@link CampaignFleetAPI} to search around.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code fleet}.
-     * <p>
-     * @return All enemies of {@code fleet} in the system.
-     * <p>
-     * @since 1.2
-     */
-    @Deprecated
-    // TODO: Deprecate this and add notice to changelog
-    public static List<CampaignFleetAPI> getEnemyFleetsInSystem(CampaignFleetAPI fleet,
-            boolean sortByDistance)
-    {
-        List<CampaignFleetAPI> enemies = getEnemyFleetsInSystem(fleet);
-
-        if (sortByDistance)
-        {
-            Collections.sort(enemies,
-                    new CollectionUtils.SortTokensByDistance(fleet.getLocation()));
-        }
-
-        return enemies;
-    }
-
-    /**
-     * Find all enemies of a {@link CampaignFleetAPI} present in the system.
-     *
      * @param fleet The {@link CampaignFleetAPI} to search around.
      * <p>
      * @return All enemies of {@code fleet} in the system.
@@ -286,35 +261,6 @@ public class FleetUtils
             {
                 enemies.add(tmp);
             }
-        }
-
-        return enemies;
-    }
-
-    /**
-     * Finds all enemy fleets within a certain range around a
-     * {@link CampaignFleetAPI}.
-     *
-     * @param fleet          The entity to search around.
-     * @param range          How far around {@code fleet} to search.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code fleet}.
-     * <p>
-     * @return A {@link List} containing all enemy fleets within range.
-     * <p>
-     * @since 1.2
-     */
-    @Deprecated
-    // TODO: Deprecate this and add notice to changelog
-    public static List<CampaignFleetAPI> getNearbyEnemyFleets(CampaignFleetAPI fleet,
-            float range, boolean sortByDistance)
-    {
-        List<CampaignFleetAPI> enemies = getNearbyEnemyFleets(fleet, range);
-
-        if (sortByDistance)
-        {
-            Collections.sort(enemies,
-                    new CollectionUtils.SortTokensByDistance(fleet.getLocation()));
         }
 
         return enemies;
@@ -350,33 +296,6 @@ public class FleetUtils
     /**
      * Find all allies of a {@link CampaignFleetAPI} present in the system.
      *
-     * @param fleet          The {@link CampaignFleetAPI} to search around.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code fleet}.
-     * <p>
-     * @return All allies of {@code fleet} in the system.
-     * <p>
-     * @since 1.2
-     */
-    @Deprecated
-    // TODO: Deprecate this and add notice to changelog
-    public static List<CampaignFleetAPI> getAlliedFleetsInSystem(CampaignFleetAPI fleet,
-            boolean sortByDistance)
-    {
-        List<CampaignFleetAPI> allies = getAlliedFleetsInSystem(fleet);
-
-        if (sortByDistance)
-        {
-            Collections.sort(allies,
-                    new CollectionUtils.SortTokensByDistance(fleet.getLocation()));
-        }
-
-        return allies;
-    }
-
-    /**
-     * Find all allies of a {@link CampaignFleetAPI} present in the system.
-     *
      * @param fleet The {@link CampaignFleetAPI} to search around.
      * <p>
      * @return All allies of {@code fleet} in the system.
@@ -385,7 +304,7 @@ public class FleetUtils
      */
     public static List<CampaignFleetAPI> getAlliedFleetsInSystem(CampaignFleetAPI fleet)
     {
-                List<CampaignFleetAPI> allies = new ArrayList<CampaignFleetAPI>();
+        List<CampaignFleetAPI> allies = new ArrayList<CampaignFleetAPI>();
 
         for (CampaignFleetAPI tmp : fleet.getContainingLocation().getFleets())
         {
@@ -393,35 +312,6 @@ public class FleetUtils
             {
                 allies.add(tmp);
             }
-        }
-
-        return allies;
-    }
-
-    /**
-     * Finds all allied fleets within a certain range around a
-     * {@link CampaignFleetAPI}.
-     *
-     * @param fleet          The entity to search around.
-     * @param range          How far around {@code fleet} to search.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code fleet}.
-     * <p>
-     * @return A {@link List} containing all allied fleets within range.
-     * <p>
-     * @since 1.2
-     */
-    @Deprecated
-    // TODO: Deprecate this and add notice to changelog
-    public static List<CampaignFleetAPI> getNearbyAlliedFleets(CampaignFleetAPI fleet,
-            float range, boolean sortByDistance)
-    {
-        List<CampaignFleetAPI> allies = getNearbyAlliedFleets(fleet, range);
-
-        if (sortByDistance)
-        {
-            Collections.sort(allies,
-                    new CollectionUtils.SortTokensByDistance(fleet.getLocation()));
         }
 
         return allies;
@@ -479,6 +369,90 @@ public class FleetUtils
         }
 
         return fleets;
+    }
+
+    /**
+     * @deprecated Use the normal version of this method and call
+     * {@link Collections#sort(List, Comparator)} using a
+     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * @since 1.2
+     */
+    @Deprecated
+    public static List<CampaignFleetAPI> getEnemyFleetsInSystem(CampaignFleetAPI fleet,
+            boolean sortByDistance)
+    {
+        List<CampaignFleetAPI> enemies = getEnemyFleetsInSystem(fleet);
+
+        if (sortByDistance)
+        {
+            Collections.sort(enemies,
+                    new CollectionUtils.SortTokensByDistance(fleet.getLocation()));
+        }
+
+        return enemies;
+    }
+
+    /**
+     * @deprecated Use the normal version of this method and call
+     * {@link Collections#sort(List, Comparator)} using a
+     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * @since 1.2
+     */
+    @Deprecated
+    public static List<CampaignFleetAPI> getNearbyEnemyFleets(CampaignFleetAPI fleet,
+            float range, boolean sortByDistance)
+    {
+        List<CampaignFleetAPI> enemies = getNearbyEnemyFleets(fleet, range);
+
+        if (sortByDistance)
+        {
+            Collections.sort(enemies,
+                    new CollectionUtils.SortTokensByDistance(fleet.getLocation()));
+        }
+
+        return enemies;
+    }
+
+    /**
+     * @deprecated Use the normal version of this method and call
+     * {@link Collections#sort(List, Comparator)} using a
+     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * @since 1.2
+     */
+    @Deprecated
+    public static List<CampaignFleetAPI> getAlliedFleetsInSystem(CampaignFleetAPI fleet,
+            boolean sortByDistance)
+    {
+        List<CampaignFleetAPI> allies = getAlliedFleetsInSystem(fleet);
+
+        if (sortByDistance)
+        {
+            Collections.sort(allies,
+                    new CollectionUtils.SortTokensByDistance(fleet.getLocation()));
+        }
+
+        return allies;
+    }
+
+    /**
+     * @deprecated Use the normal version of this method and call
+     * {@link Collections#sort(List, Comparator)} using a
+     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * @since 1.2
+     */
+    @Deprecated
+    public static List<CampaignFleetAPI> getNearbyAlliedFleets(CampaignFleetAPI fleet,
+            float range, boolean sortByDistance)
+    {
+        List<CampaignFleetAPI> allies = getNearbyAlliedFleets(fleet, range);
+
+        if (sortByDistance)
+        {
+            Collections.sort(allies,
+                    new CollectionUtils.SortTokensByDistance(fleet.getLocation()));
+        }
+
+        return allies;
     }
 
     private FleetUtils()

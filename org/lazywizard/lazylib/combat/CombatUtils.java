@@ -1,7 +1,6 @@
 package org.lazywizard.lazylib.combat;
 
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.campaign.FleetDataAPI;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
@@ -26,6 +25,7 @@ import org.lwjgl.util.vector.Vector2f;
  * @author LazyWizard
  * @since 1.0
  */
+// TODO: Deprecate all methods with a sortByDistance parameter
 public class CombatUtils
 {
     /**

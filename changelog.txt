@@ -2,6 +2,8 @@
 ============
 Swapped all usages of CombatUtils.getCombatEngine() to Global.getCombatEngine()
 Significant JavaDoc expansion, reformatting, and other readability improvements
+Deprecated all methods with a sortByDistance parameter
+ - Call Collections.sort() using one of CollectionUtils' Comparators instead
 Added lazylib_settings.json (only controls logging at the moment):
  - "logDeprecated" sets whether to log usage of deprecated LazyLib methods,
    useful for modders since these will eventually be removed from LazyLib
@@ -38,6 +40,14 @@ Changes to FleetUtils:
  - Fixed null pointer exception when using these methods in hyperspace
  - Added getRelation(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
  - Added getNearbyFleets(CampaignFleetAPI fleet, float range)
+ - Deprecated getEnemyFleetsInSystem(CampaignFleetAPI fleet,
+   boolean sortByDistance)
+ - Deprecated getNearbyEnemyFleets(CampaignFleetAPI fleet, float range,
+   boolean sortByDistance)
+ - Deprecated getAlliedFleetsInSystem(CampaignFleetAPI fleet,
+   boolean sortByDistance)
+ - Deprecated getNearbyAlliedFleets(CampaignFleetAPI fleet, float range,
+   boolean sortByDistance)
 Changes to MathUtils:
  - Added getRandomPointInCone(Vector2f center, float radius, float minAngle,
    float maxAngle), returns a random point in a two-dimensional cone.
