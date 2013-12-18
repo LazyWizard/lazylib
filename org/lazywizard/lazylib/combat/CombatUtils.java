@@ -12,9 +12,11 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import org.apache.log4j.Level;
 import org.lazywizard.lazylib.CollectionUtils;
+import org.lazywizard.lazylib.CollectionUtils.SortEntitiesByDistance;
 import org.lazywizard.lazylib.LazyLib;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
@@ -25,7 +27,7 @@ import org.lwjgl.util.vector.Vector2f;
  * @author LazyWizard
  * @since 1.0
  */
-// TODO: Deprecate all methods with a sortByDistance parameter
+// TODO: Add onDeprecatedMethodUsage() calls to deprecated methods
 public class CombatUtils
 {
     /**
@@ -99,18 +101,15 @@ public class CombatUtils
     /**
      * Returns all projectiles in range of a given location.
      *
-     * @param location       The location to search around.
-     * @param range          How far around {@code location} to search.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code location}.
+     * @param location The location to search around.
+     * @param range    How far around {@code location} to search.
      * <p>
      * @return A {@link List} of {@link DamagingProjectileAPI}s within range of
      *         {@code location}.
      * <p>
-     * @since 1.1
+     * @since 1.0
      */
-    public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location,
-            float range, boolean sortByDistance)
+    public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location, float range)
     {
         List<DamagingProjectileAPI> projectiles = new ArrayList<DamagingProjectileAPI>();
         range *= range;
@@ -123,48 +122,21 @@ public class CombatUtils
             }
         }
 
-        if (sortByDistance)
-        {
-            Collections.sort(projectiles, new CollectionUtils.SortEntitiesByDistance(location));
-        }
-
         return projectiles;
-    }
-
-    /**
-     * Returns all projectiles in range of a given location.
-     *
-     * @param location The location to search around.
-     * @param range    How far around {@code location} to search.
-     * <p>
-     * @return A {@link List} of {@link DamagingProjectileAPI}s within range of
-     *         {@code location}.
-     * <p>
-     * @see
-     * CombatUtils#getProjectilesWithinRange(org.lwjgl.util.vector.Vector2f,
-     * float, boolean)
-     * @since 1.0
-     */
-    public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location, float range)
-    {
-        return getProjectilesWithinRange(location, range, false);
     }
 
     /**
      * Returns all missiles in range of a given location.
      *
-     * @param location       The location to search around.
-     * @param range          How far around {@code location} to search.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code location}.
+     * @param location The location to search around.
+     * @param range    How far around {@code location} to search.
      * <p>
      * @return A {@link List} of {@link MissileAPI}s within range of
      *         {@code location}.
      * <p>
-     * @since 1.1
+     * @since 1.0
      */
-    public static List<MissileAPI> getMissilesWithinRange(Vector2f location,
-            float range, boolean sortByDistance)
+    public static List<MissileAPI> getMissilesWithinRange(Vector2f location, float range)
     {
         List<MissileAPI> missiles = new ArrayList<MissileAPI>();
         range *= range;
@@ -177,47 +149,21 @@ public class CombatUtils
             }
         }
 
-        if (sortByDistance)
-        {
-            Collections.sort(missiles, new CollectionUtils.SortEntitiesByDistance(location));
-        }
-
         return missiles;
-    }
-
-    /**
-     * Returns all missiles in range of a given location.
-     *
-     * @param location The location to search around.
-     * @param range    How far around {@code location} to search.
-     * <p>
-     * @return A {@link List} of {@link MissileAPI}s within range of
-     *         {@code location}.
-     * <p>
-     * @see CombatUtils#getMissilesWithinRange(org.lwjgl.util.vector.Vector2f,
-     * float, boolean)
-     * @since 1.0
-     */
-    public static List<MissileAPI> getMissilesWithinRange(Vector2f location, float range)
-    {
-        return getMissilesWithinRange(location, range, false);
     }
 
     /**
      * Returns all ships in range of a given location.
      *
-     * @param location       The location to search around.
-     * @param range          How far around {@code location} to search.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code location}.
+     * @param location The location to search around.
+     * @param range    How far around {@code location} to search.
      * <p>
      * @return A {@link List} of {@link ShipAPI}s within range of
      *         {@code location}.
      * <p>
-     * @since 1.1
+     * @since 1.0
      */
-    public static List<ShipAPI> getShipsWithinRange(Vector2f location,
-            float range, boolean sortByDistance)
+    public static List<ShipAPI> getShipsWithinRange(Vector2f location, float range)
     {
         List<ShipAPI> ships = new ArrayList<ShipAPI>();
 
@@ -234,46 +180,20 @@ public class CombatUtils
             }
         }
 
-        if (sortByDistance)
-        {
-            Collections.sort(ships, new CollectionUtils.SortEntitiesByDistance(location));
-        }
-
         return ships;
-    }
-
-    /**
-     * Returns all ships in range of a given location.
-     *
-     * @param location The location to search around.
-     * @param range    How far around {@code location} to search.
-     * <p>
-     * @return A {@link List} of {@link ShipAPI}s within range of
-     *         {@code location}.
-     * <p>
-     * @see CombatUtils#getShipsWithinRange(org.lwjgl.util.vector.Vector2f,
-     * float, boolean)
-     * @since 1.0
-     */
-    public static List<ShipAPI> getShipsWithinRange(Vector2f location, float range)
-    {
-        return getShipsWithinRange(location, range, false);
     }
 
     /**
      * Returns all asteroids in range of a given location.
      *
-     * @param location       The location to search around.
-     * @param range          How far around {@code location} to search.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code location}.
+     * @param location The location to search around.
+     * @param range    How far around {@code location} to search.
      * <p>
      * @return A {@link List} of asteroids within range of {@code location}.
      * <p>
-     * @since 1.1
+     * @since 1.0
      */
-    public static List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location,
-            float range, boolean sortByDistance)
+    public static List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location, float range)
     {
         List<CombatEntityAPI> asteroids = new ArrayList<CombatEntityAPI>();
 
@@ -285,46 +205,22 @@ public class CombatUtils
             }
         }
 
-        if (sortByDistance)
-        {
-            Collections.sort(asteroids, new CollectionUtils.SortEntitiesByDistance(location));
-        }
-
         return asteroids;
-    }
-
-    /**
-     * Returns all asteroids in range of a given location.
-     *
-     * @param location The location to search around.
-     * @param range    How far around {@code location} to search.
-     * <p>
-     * @return A {@link List} of asteroids within range of {@code location}.
-     * <p>
-     * @see CombatUtils#getAsteroidsWithinRange(org.lwjgl.util.vector.Vector2f,
-     * float, boolean)
-     * @since 1.0
-     */
-    public static List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location, float range)
-    {
-        return getAsteroidsWithinRange(location, range, false);
     }
 
     /**
      * Returns all objectives in range of a given location.
      *
-     * @param location       The location to search around.
-     * @param range          How far around {@code location} to search.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code location}.
+     * @param location The location to search around.
+     * @param range    How far around {@code location} to search.
      * <p>
      * @return A {@link List} of {@link BattleObjectiveAPI}s within range of
      *         {@code location}.
      * <p>
-     * @since 1.1
+     * @since 1.0
      */
     public static List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location,
-            float range, boolean sortByDistance)
+            float range)
     {
         List<BattleObjectiveAPI> objectives = new ArrayList<BattleObjectiveAPI>();
         range *= range;
@@ -337,49 +233,21 @@ public class CombatUtils
             }
         }
 
-        if (sortByDistance)
-        {
-            Collections.sort(objectives,
-                    new CollectionUtils.SortEntitiesByDistance(location, false));
-        }
-
         return objectives;
-    }
-
-    /**
-     * Returns all objectives in range of a given location.
-     *
-     * @param location The location to search around.
-     * @param range    How far around {@code location} to search.
-     * <p>
-     * @return A {@link List} of {@link BattleObjectiveAPI}s within range of
-     *         {@code location}.
-     * <p>
-     * @see CombatUtils#getObjectivesWithinRange(org.lwjgl.util.vector.Vector2f,
-     * float, boolean)
-     * @since 1.0
-     */
-    public static List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location,
-            float range)
-    {
-        return getObjectivesWithinRange(location, range, false);
     }
 
     /**
      * Returns all entities in range of a given location.
      *
-     * @param location       The location to search around.
-     * @param range          How far around {@code location} to search.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code location}.
+     * @param location The location to search around.
+     * @param range    How far around {@code location} to search.
      * <p>
      * @return A {@link List} of {@link CombatEntityAPI}s within range of
      *         {@code location}.
      * <p>
-     * @since 1.1
+     * @since 1.0
      */
-    public static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location,
-            float range, boolean sortByDistance)
+    public static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location, float range)
     {
         List<CombatEntityAPI> entities = new ArrayList<CombatEntityAPI>();
         range *= range;
@@ -392,6 +260,7 @@ public class CombatUtils
             }
         }
 
+        // This also includes missiles
         for (CombatEntityAPI tmp : Global.getCombatEngine().getProjectiles())
         {
             if (MathUtils.getDistanceSquared(tmp, location) <= range)
@@ -408,30 +277,7 @@ public class CombatUtils
             }
         }
 
-        if (sortByDistance)
-        {
-            Collections.sort(entities, new CollectionUtils.SortEntitiesByDistance(location));
-        }
-
         return entities;
-    }
-
-    /**
-     * Returns all entities in range of a given location.
-     *
-     * @param location The location to search around.
-     * @param range    How far around {@code location} to search.
-     * <p>
-     * @return A {@link List} of {@link CombatEntityAPI}s within range of
-     *         {@code location}.
-     * <p>
-     * @see CombatUtils#getEntitiesWithinRange(org.lwjgl.util.vector.Vector2f,
-     * float, boolean)
-     * @since 1.0
-     */
-    public static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location, float range)
-    {
-        return getEntitiesWithinRange(location, range, false);
     }
 
     /**
@@ -481,6 +327,127 @@ public class CombatUtils
     {
         applyForce(entity, MathUtils.getPointOnCircumference(new Vector2f(0, 0),
                 1f, direction), force);
+    }
+
+    /**
+     * @deprecated Use the normal version of this method and call
+     * {@link Collections#sort(List, Comparator)} using a
+     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * @since 1.1
+     */
+    @Deprecated
+    public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location,
+            float range, boolean sortByDistance)
+    {
+        List<DamagingProjectileAPI> projectiles = getProjectilesWithinRange(location, range);
+
+        if (sortByDistance)
+        {
+            Collections.sort(projectiles, new CollectionUtils.SortEntitiesByDistance(location));
+        }
+
+        return projectiles;
+    }
+
+    /**
+     * @deprecated Use the normal version of this method and call
+     * {@link Collections#sort(List, Comparator)} using a
+     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * @since 1.1
+     */
+    @Deprecated
+    public static List<MissileAPI> getMissilesWithinRange(Vector2f location,
+            float range, boolean sortByDistance)
+    {
+        List<MissileAPI> missiles = getMissilesWithinRange(location, range);
+
+        if (sortByDistance)
+        {
+            Collections.sort(missiles, new CollectionUtils.SortEntitiesByDistance(location));
+        }
+
+        return missiles;
+    }
+
+    /**
+     * @deprecated Use the normal version of this method and call
+     * {@link Collections#sort(List, Comparator)} using a
+     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * @since 1.1
+     */
+    @Deprecated
+    public static List<ShipAPI> getShipsWithinRange(Vector2f location,
+            float range, boolean sortByDistance)
+    {
+        List<ShipAPI> ships = getShipsWithinRange(location, range);
+
+        if (sortByDistance)
+        {
+            Collections.sort(ships, new CollectionUtils.SortEntitiesByDistance(location));
+        }
+
+        return ships;
+    }
+
+    /**
+     * @deprecated Use the normal version of this method and call
+     * {@link Collections#sort(List, Comparator)} using a
+     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * @since 1.1
+     */
+    @Deprecated
+    public static List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location,
+            float range, boolean sortByDistance)
+    {
+        List<CombatEntityAPI> asteroids = new ArrayList<CombatEntityAPI>();
+
+        if (sortByDistance)
+        {
+            Collections.sort(asteroids, new CollectionUtils.SortEntitiesByDistance(location));
+        }
+
+        return asteroids;
+    }
+
+    /**
+     * @deprecated Use the normal version of this method and call
+     * {@link Collections#sort(List, Comparator)} using a
+     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * @since 1.1
+     */
+    @Deprecated
+    public static List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location,
+            float range, boolean sortByDistance)
+    {
+        List<BattleObjectiveAPI> objectives = getObjectivesWithinRange(location, range);
+
+        if (sortByDistance)
+        {
+            Collections.sort(objectives,
+                    new CollectionUtils.SortEntitiesByDistance(location, false));
+        }
+
+        return objectives;
+    }
+
+    /**
+     * @deprecated Use the normal version of this method and call
+     * {@link Collections#sort(List, Comparator)} using a
+     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * @since 1.1
+     */
+    @Deprecated
+    public static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location,
+            float range, boolean sortByDistance)
+    {
+        List<CombatEntityAPI> entities = getEntitiesWithinRange(location, range);
+
+        if (sortByDistance)
+        {
+            Collections.sort(entities, new CollectionUtils.SortEntitiesByDistance(location));
+        }
+
+        return entities;
     }
 
     /**
