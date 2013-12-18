@@ -22,6 +22,7 @@ import org.lazywizard.lazylib.MathUtils;
  * @author LazyWizard
  * @since 1.0
  */
+// TODO: Add onDeprecatedMethodUsage() calls to deprecated methods
 public class AIUtils
 {
     /**

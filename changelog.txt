@@ -47,6 +47,18 @@ Changes to CombatUtils:
  - Updated getFleetMember() to use DeployedFleetMemberAPI introduced in .6.1a
    (this means it now works in missions, not just in campaign battles)
  - Added isVisibleToSide(CombatEntityAPI entity, int side)
+ - Deprecated getProjectilesWithinRange(Vector2f location, float range,
+   boolean sortByDistance)
+ - Deprecated getMissilesWithinRange(Vector2f location, float range,
+   boolean sortByDistance)
+ - Deprecated getShipsWithinRange(Vector2f location, float range,
+   boolean sortByDistance)
+ - Deprecated getAsteroidsWithinRange(Vector2f location, float range,
+   boolean sortByDistance)
+ - Deprecated getObjectivesWithinRange(Vector2f location, float range,
+   boolean sortByDistance)
+ - Deprecated getEntitiesWithinRange(Vector2f location, float range,
+   boolean sortByDistance)
 Changes to FleetUtils:
  - Fixed null pointer exception when using these methods in hyperspace
  - Added getRelation(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
