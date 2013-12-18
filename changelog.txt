@@ -73,7 +73,7 @@ Changes to FleetUtils:
    boolean sortByDistance)
 Changes to MathUtils:
  - Added getRandomPointInCone(Vector2f center, float radius, float minAngle,
-   float maxAngle), returns a random point in a two-dimensional cone.
+   float maxAngle), returns a random point in a two-dimensional cone
  - Added getShortestRotation(float currAngle, float destAngle), returns the
    smallest difference between two angles. This can also be used to find the
    best turn direction
