@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 import org.lazywizard.lazylib.CollectionUtils;
 import org.lazywizard.lazylib.CollectionUtils.SortTokensByDistance;
+import org.lazywizard.lazylib.LazyLib;
 import org.lazywizard.lazylib.MathUtils;
 
 /**
@@ -17,7 +18,6 @@ import org.lazywizard.lazylib.MathUtils;
  * @author LazyWizard
  * @since 1.0
  */
-// TODO: Add onDeprecatedMethodUsage() calls to deprecated methods
 public class FleetUtils
 {
     /**
@@ -382,6 +382,10 @@ public class FleetUtils
     public static List<CampaignFleetAPI> getEnemyFleetsInSystem(CampaignFleetAPI fleet,
             boolean sortByDistance)
     {
+        LazyLib.onDeprecatedMethodUsage(FleetUtils.class,
+                "getEnemyFleetsInSystem(CampaignFleetAPI fleet,"
+                + " boolean sortByDistance)");
+
         List<CampaignFleetAPI> enemies = getEnemyFleetsInSystem(fleet);
 
         if (sortByDistance)
@@ -403,6 +407,10 @@ public class FleetUtils
     public static List<CampaignFleetAPI> getNearbyEnemyFleets(CampaignFleetAPI fleet,
             float range, boolean sortByDistance)
     {
+        LazyLib.onDeprecatedMethodUsage(FleetUtils.class,
+                "getNearbyEnemyFleets(CampaignFleetAPI fleet, float range,"
+                + " boolean sortByDistance)");
+
         List<CampaignFleetAPI> enemies = getNearbyEnemyFleets(fleet, range);
 
         if (sortByDistance)
@@ -424,6 +432,10 @@ public class FleetUtils
     public static List<CampaignFleetAPI> getAlliedFleetsInSystem(CampaignFleetAPI fleet,
             boolean sortByDistance)
     {
+        LazyLib.onDeprecatedMethodUsage(FleetUtils.class,
+                "getAlliedFleetsInSystem(CampaignFleetAPI fleet,"
+                + " boolean sortByDistance)");
+
         List<CampaignFleetAPI> allies = getAlliedFleetsInSystem(fleet);
 
         if (sortByDistance)
@@ -445,6 +457,10 @@ public class FleetUtils
     public static List<CampaignFleetAPI> getNearbyAlliedFleets(CampaignFleetAPI fleet,
             float range, boolean sortByDistance)
     {
+        LazyLib.onDeprecatedMethodUsage(FleetUtils.class,
+                "getNearbyAlliedFleets(CampaignFleetAPI fleet, float range,"
+                + " boolean sortByDistance)");
+
         List<CampaignFleetAPI> allies = getNearbyAlliedFleets(fleet, range);
 
         if (sortByDistance)
