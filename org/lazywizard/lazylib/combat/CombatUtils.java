@@ -27,7 +27,6 @@ import org.lwjgl.util.vector.Vector2f;
  * @author LazyWizard
  * @since 1.0
  */
-// TODO: Add onDeprecatedMethodUsage() calls to deprecated methods
 public class CombatUtils
 {
     /**
@@ -339,6 +338,10 @@ public class CombatUtils
     public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
+        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
+                "getProjectilesWithinRange(Vector2f location, float range,"
+                + " boolean sortByDistance)");
+
         List<DamagingProjectileAPI> projectiles = getProjectilesWithinRange(location, range);
 
         if (sortByDistance)
@@ -359,6 +362,10 @@ public class CombatUtils
     public static List<MissileAPI> getMissilesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
+        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
+                "getMissilesWithinRange(Vector2f location, float range,"
+                + " boolean sortByDistance)");
+
         List<MissileAPI> missiles = getMissilesWithinRange(location, range);
 
         if (sortByDistance)
@@ -379,6 +386,10 @@ public class CombatUtils
     public static List<ShipAPI> getShipsWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
+        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
+                "getShipsWithinRange(Vector2f location, float range,"
+                + " boolean sortByDistance)");
+
         List<ShipAPI> ships = getShipsWithinRange(location, range);
 
         if (sortByDistance)
@@ -399,6 +410,10 @@ public class CombatUtils
     public static List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
+        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
+                "getAsteroidsWithinRange(Vector2f location, float range,"
+                + " boolean sortByDistance)");
+
         List<CombatEntityAPI> asteroids = new ArrayList<CombatEntityAPI>();
 
         if (sortByDistance)
@@ -419,6 +434,10 @@ public class CombatUtils
     public static List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
+        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
+                "getObjectivesWithinRange(Vector2f location, float range,"
+                + " boolean sortByDistance)");
+
         List<BattleObjectiveAPI> objectives = getObjectivesWithinRange(location, range);
 
         if (sortByDistance)
@@ -440,6 +459,10 @@ public class CombatUtils
     public static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
+        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
+                "getEntitiesWithinRange(Vector2f location, float range,"
+                + " boolean sortByDistance)");
+
         List<CombatEntityAPI> entities = getEntitiesWithinRange(location, range);
 
         if (sortByDistance)
