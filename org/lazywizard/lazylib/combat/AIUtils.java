@@ -9,8 +9,10 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import org.lazywizard.lazylib.CollectionUtils;
+import org.lazywizard.lazylib.CollectionUtils.SortEntitiesByDistance;
 import org.lazywizard.lazylib.MathUtils;
 
 /**
@@ -20,7 +22,6 @@ import org.lazywizard.lazylib.MathUtils;
  * @author LazyWizard
  * @since 1.0
  */
-// TODO: Deprecate all methods with a sortByDistance parameter
 public class AIUtils
 {
     /**
@@ -208,16 +209,13 @@ public class AIUtils
     /**
      * Find all present enemies of an entity.
      *
-     * @param entity         The {@link CombatEntityAPI} to search around.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code entity}.
+     * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
      * @return All enemies of {@code entity} on the battle map.
      * <p>
-     * @since 1.1
+     * @since 1.0
      */
-    public static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity,
-            boolean sortByDistance)
+    public static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity)
     {
         List<ShipAPI> enemies = new ArrayList<ShipAPI>();
 
@@ -231,45 +229,20 @@ public class AIUtils
             }
         }
 
-        if (sortByDistance)
-        {
-            Collections.sort(enemies,
-                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
-        }
-
         return enemies;
-    }
-
-    /**
-     * Find all present enemies of an entity.
-     *
-     * @param entity The {@link CombatEntityAPI} to search around.
-     * <p>
-     * @return All enemies of {@code entity} on the battle map.
-     * <p>
-     * @see AIUtils#getEnemiesOnMap(com.fs.starfarer.api.combat.CombatEntityAPI,
-     * boolean)
-     * @since 1.0
-     */
-    public static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity)
-    {
-        return getEnemiesOnMap(entity, false);
     }
 
     /**
      * Finds all enemies within a certain range around an entity.
      *
-     * @param entity         The entity to search around.
-     * @param range          How far around {@code entity} to search.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code entity}.
+     * @param entity The entity to search around.
+     * @param range  How far around {@code entity} to search.
      * <p>
      * @return A {@link List} containing all enemy ships within range.
      * <p>
-     * @since 1.1
+     * @since 1.0
      */
-    public static List<ShipAPI> getNearbyEnemies(CombatEntityAPI entity,
-            float range, boolean sortByDistance)
+    public static List<ShipAPI> getNearbyEnemies(CombatEntityAPI entity, float range)
     {
         List<ShipAPI> enemies = new ArrayList<ShipAPI>();
 
@@ -282,46 +255,19 @@ public class AIUtils
             }
         }
 
-        if (sortByDistance)
-        {
-            Collections.sort(enemies,
-                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
-        }
-
         return enemies;
-    }
-
-    /**
-     * Finds all enemies within a certain range around an entity.
-     *
-     * @param entity The entity to search around.
-     * @param range  How far around {@code entity} to search.
-     * <p>
-     * @return A {@link List} containing all enemy ships within range.
-     * <p>
-     * @see
-     * AIUtils#getNearbyEnemies(com.fs.starfarer.api.combat.CombatEntityAPI,
-     * float, boolean)
-     * @since 1.0
-     */
-    public static List<ShipAPI> getNearbyEnemies(CombatEntityAPI entity, float range)
-    {
-        return getNearbyEnemies(entity, range, false);
     }
 
     /**
      * Find all present allies of an entity.
      *
-     * @param entity         The {@link CombatEntityAPI} to search around.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code entity}.
+     * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
      * @return All allies of {@code entity} on the battle map.
      * <p>
-     * @since 1.1
+     * @since 1.0
      */
-    public static List<ShipAPI> getAlliesOnMap(CombatEntityAPI entity,
-            boolean sortByDistance)
+    public static List<ShipAPI> getAlliesOnMap(CombatEntityAPI entity)
     {
         List<ShipAPI> allies = new ArrayList<ShipAPI>();
 
@@ -334,61 +280,6 @@ public class AIUtils
             }
         }
 
-        if (sortByDistance)
-        {
-            Collections.sort(allies,
-                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
-        }
-
-        return allies;
-    }
-
-    /**
-     * Find all present allies of an entity.
-     *
-     * @param entity The {@link CombatEntityAPI} to search around.
-     * <p>
-     * @return All allies of {@code entity} on the battle map.
-     * <p>
-     * @see AIUtils#getAlliesOnMap(com.fs.starfarer.api.combat.CombatEntityAPI,
-     * boolean)
-     * @since 1.0
-     */
-    public static List<ShipAPI> getAlliesOnMap(CombatEntityAPI entity)
-    {
-        return getAlliesOnMap(entity, false);
-    }
-
-    /**
-     * Finds all allies within a certain range around an entity.
-     *
-     * @param entity         The entity to search around.
-     * @param range          How far around {@code entity} to search.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code entity}.
-     * <p>
-     * @return A {@link List} containing all allied ships within range.
-     * <p>
-     * @since 1.1
-     */
-    public static List<ShipAPI> getNearbyAllies(CombatEntityAPI entity,
-            float range, boolean sortByDistance)
-    {
-        List<ShipAPI> allies = new ArrayList<ShipAPI>();
-        for (ShipAPI ally : getAlliesOnMap(entity))
-        {
-            if (MathUtils.getDistance(entity, ally) <= range)
-            {
-                allies.add(ally);
-            }
-        }
-
-        if (sortByDistance)
-        {
-            Collections.sort(allies,
-                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
-        }
-
         return allies;
     }
 
@@ -400,13 +291,20 @@ public class AIUtils
      * <p>
      * @return A {@link List} containing all allied ships within range.
      * <p>
-     * @see AIUtils#getNearbyAllies(com.fs.starfarer.api.combat.CombatEntityAPI,
-     * float, boolean)
      * @since 1.0
      */
     public static List<ShipAPI> getNearbyAllies(CombatEntityAPI entity, float range)
     {
-        return getNearbyAllies(entity, range, false);
+        List<ShipAPI> allies = new ArrayList<ShipAPI>();
+        for (ShipAPI ally : getAlliesOnMap(entity))
+        {
+            if (MathUtils.getDistance(entity, ally) <= range)
+            {
+                allies.add(ally);
+            }
+        }
+
+        return allies;
     }
 
     /**
@@ -449,40 +347,6 @@ public class AIUtils
     }
 
     /**
-     * Find all present enemies of an entity.
-     *
-     * @param entity         The {@link CombatEntityAPI} to search around.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code entity}.
-     * <p>
-     * @return All enemies of {@code entity} on the battle map.
-     * <p>
-     * @since 1.4
-     */
-    public static List<MissileAPI> getEnemyMissilesOnMap(CombatEntityAPI entity,
-            boolean sortByDistance)
-    {
-        List<MissileAPI> enemies = new ArrayList<MissileAPI>();
-
-        for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
-        {
-            if (tmp.getOwner() != entity.getOwner()
-                    && CombatUtils.isVisibleToSide(tmp, entity.getOwner()))
-            {
-                enemies.add(tmp);
-            }
-        }
-
-        if (sortByDistance)
-        {
-            Collections.sort(enemies,
-                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
-        }
-
-        return enemies;
-    }
-
-    /**
      * Find all present enemy missiles of an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
@@ -490,49 +354,22 @@ public class AIUtils
      * @return All enemy {@link MissileAPI}s of {@code entity} on the battle
      *         map.
      * <p>
-     * @see
-     * AIUtils#getEnemyMissilesOnMap(com.fs.starfarer.api.combat.CombatEntityAPI,
-     * boolean)
      * @since 1.4
      */
     public static List<MissileAPI> getEnemyMissilesOnMap(CombatEntityAPI entity)
     {
-        return getEnemyMissilesOnMap(entity, false);
-    }
+        List<MissileAPI> missiles = new ArrayList<MissileAPI>();
 
-    /**
-     * Finds all enemy missiles within a certain range around an entity.
-     *
-     * @param entity         The entity to search around.
-     * @param range          How far around {@code entity} to search.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code entity}.
-     * <p>
-     * @return A {@link List} containing all enemy missiles within range.
-     * <p>
-     * @since 1.4
-     */
-    public static List<MissileAPI> getNearbyEnemyMissiles(CombatEntityAPI entity,
-            float range, boolean sortByDistance)
-    {
-        List<MissileAPI> enemies = new ArrayList<MissileAPI>();
-
-        for (MissileAPI enemy : getEnemyMissilesOnMap(entity))
+        for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
         {
-            if (CombatUtils.isVisibleToSide(enemy, entity.getOwner())
-                    && MathUtils.getDistance(entity, enemy) <= range)
+            if (tmp.getOwner() != entity.getOwner()
+                    && CombatUtils.isVisibleToSide(tmp, entity.getOwner()))
             {
-                enemies.add(enemy);
+                missiles.add(tmp);
             }
         }
 
-        if (sortByDistance)
-        {
-            Collections.sort(enemies,
-                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
-        }
-
-        return enemies;
+        return missiles;
     }
 
     /**
@@ -543,14 +380,22 @@ public class AIUtils
      * <p>
      * @return A {@link List} containing all enemy missiles within range.
      * <p>
-     * @see
-     * AIUtils#getNearbyEnemyMissiles(com.fs.starfarer.api.combat.CombatEntityAPI,
-     * float, boolean)
      * @since 1.4
      */
     public static List<MissileAPI> getNearbyEnemyMissiles(CombatEntityAPI entity, float range)
     {
-        return getNearbyEnemyMissiles(entity, range, false);
+        List<MissileAPI> missiles = new ArrayList<MissileAPI>();
+
+        for (MissileAPI enemy : getEnemyMissilesOnMap(entity))
+        {
+            if (CombatUtils.isVisibleToSide(enemy, entity.getOwner())
+                    && MathUtils.getDistance(entity, enemy) <= range)
+            {
+                missiles.add(enemy);
+            }
+        }
+
+        return missiles;
     }
 
     /**
@@ -577,6 +422,133 @@ public class AIUtils
                 || (system.isActive() && !system.isOn()) || system.getCooldownRemaining() > 0f
                 // Not enough flux
                 || system.getFluxPerUse() > (flux.getMaxFlux() - flux.getCurrFlux()));
+    }
+
+    /**
+     * @deprecated Use the normal version of this method and call
+     * {@link Collections#sort(List, Comparator)} using a
+     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * @since 1.1
+     */
+    @Deprecated
+    public static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity,
+            boolean sortByDistance)
+    {
+        List<ShipAPI> enemies = getEnemiesOnMap(entity);
+
+        if (sortByDistance)
+        {
+            Collections.sort(enemies,
+                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
+        }
+
+        return enemies;
+    }
+
+    /**
+     * @deprecated Use the normal version of this method and call
+     * {@link Collections#sort(List, Comparator)} using a
+     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * @since 1.1
+     */
+    @Deprecated
+    public static List<ShipAPI> getNearbyEnemies(CombatEntityAPI entity,
+            float range, boolean sortByDistance)
+    {
+        List<ShipAPI> enemies = getNearbyEnemies(entity, range);
+
+        if (sortByDistance)
+        {
+            Collections.sort(enemies,
+                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
+        }
+
+        return enemies;
+    }
+
+    /**
+     * @deprecated Use the normal version of this method and call
+     * {@link Collections#sort(List, Comparator)} using a
+     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * @since 1.1
+     */
+    @Deprecated
+    public static List<ShipAPI> getAlliesOnMap(CombatEntityAPI entity,
+            boolean sortByDistance)
+    {
+        List<ShipAPI> allies = getAlliesOnMap(entity);
+
+        if (sortByDistance)
+        {
+            Collections.sort(allies,
+                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
+        }
+
+        return allies;
+    }
+
+    /**
+     * @deprecated Use the normal version of this method and call
+     * {@link Collections#sort(List, Comparator)} using a
+     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * @since 1.1
+     */
+    @Deprecated
+    public static List<ShipAPI> getNearbyAllies(CombatEntityAPI entity,
+            float range, boolean sortByDistance)
+    {
+        List<ShipAPI> allies = getNearbyAllies(entity, range);
+
+        if (sortByDistance)
+        {
+            Collections.sort(allies,
+                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
+        }
+
+        return allies;
+    }
+
+    /**
+     * @deprecated Use the normal version of this method and call
+     * {@link Collections#sort(List, Comparator)} using a
+     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * @since 1.4
+     */
+    @Deprecated
+    public static List<MissileAPI> getEnemyMissilesOnMap(CombatEntityAPI entity,
+            boolean sortByDistance)
+    {
+        List<MissileAPI> missiles = getEnemyMissilesOnMap(entity);
+
+        if (sortByDistance)
+        {
+            Collections.sort(missiles,
+                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
+        }
+
+        return missiles;
+    }
+
+    /**
+     * @deprecated Use the normal version of this method and call
+     * {@link Collections#sort(List, Comparator)} using a
+     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * @since 1.4
+     */
+    @Deprecated
+    public static List<MissileAPI> getNearbyEnemyMissiles(CombatEntityAPI entity,
+            float range, boolean sortByDistance)
+    {
+        List<MissileAPI> missiles = getNearbyEnemyMissiles(entity, range);
+
+        if (sortByDistance)
+        {
+            Collections.sort(missiles,
+                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
+        }
+
+        return missiles;
+
     }
 
     private AIUtils()

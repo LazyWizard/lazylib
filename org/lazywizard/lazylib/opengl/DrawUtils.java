@@ -71,9 +71,9 @@ public class DrawUtils
     }
 
     static void drawEllipse(float centerX, float centerY, float radius,
-            float xScaling, float yScaling, float angleOffset, int numSegments)
+            float xScaling, float yScaling, float angleOffset, int numSegments,
+            boolean drawFilled)
     {
-        // TODO
     }
 
     /**

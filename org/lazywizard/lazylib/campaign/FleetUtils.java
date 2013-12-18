@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import org.lazywizard.lazylib.CollectionUtils;
-import org.lazywizard.lazylib.CollectionUtils.SortEntitiesByDistance;
+import org.lazywizard.lazylib.CollectionUtils.SortTokensByDistance;
 import org.lazywizard.lazylib.MathUtils;
 
 /**
@@ -374,7 +374,7 @@ public class FleetUtils
     /**
      * @deprecated Use the normal version of this method and call
      * {@link Collections#sort(List, Comparator)} using a
-     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * {@link SortTokensByDistance} as the {@link Comparator}.
      * @since 1.2
      */
     @Deprecated
@@ -395,7 +395,7 @@ public class FleetUtils
     /**
      * @deprecated Use the normal version of this method and call
      * {@link Collections#sort(List, Comparator)} using a
-     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * {@link SortTokensByDistance} as the {@link Comparator}.
      * @since 1.2
      */
     @Deprecated
@@ -416,7 +416,7 @@ public class FleetUtils
     /**
      * @deprecated Use the normal version of this method and call
      * {@link Collections#sort(List, Comparator)} using a
-     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * {@link SortTokensByDistance} as the {@link Comparator}.
      * @since 1.2
      */
     @Deprecated
@@ -437,7 +437,7 @@ public class FleetUtils
     /**
      * @deprecated Use the normal version of this method and call
      * {@link Collections#sort(List, Comparator)} using a
-     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * {@link SortTokensByDistance} as the {@link Comparator}.
      * @since 1.2
      */
     @Deprecated
