@@ -84,6 +84,9 @@ Changes to SimpleEntity:
  - Added getWeapon() method, returns null if another constructor was used
  - Added getType() method, returns the type of constructor used for this object
  - Added SimpleEntityType enumeration
+Changes to WeaponUtils:
+ - Deprecated getEnemiesInArc(WeaponAPI weapon, boolean sortByDistance)
+ - Deprecated getEnemyMissilesInArc(WeaponAPI weapon, boolean sortByDistance)
 
  1.6b (September 28, 2013)
 ===========================

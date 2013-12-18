@@ -23,6 +23,7 @@ import org.lwjgl.util.vector.Vector2f;
  * @since 1.0
  */
 // TODO: add getTimeUntilInArc(WeaponAPI weapon, Vector2f point)
+// TODO: this entire class needs thorough testing for bugs
 public class WeaponUtils
 {
     /**
@@ -144,16 +145,13 @@ public class WeaponUtils
     /**
      * Finds all enemy ships within range of a {@link WeaponAPI}.
      *
-     * @param weapon         The weapon to detect enemies in range of.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code weapon}.
+     * @param weapon The weapon to detect enemies in range of.
      * <p>
      * @return A {@link List} containing all enemy ships within range.
      * <p>
      * @since 1.4
      */
-    public static List<ShipAPI> getEnemiesInArc(WeaponAPI weapon,
-            boolean sortByDistance)
+    public static List<ShipAPI> getEnemiesInArc(WeaponAPI weapon)
     {
         List<ShipAPI> enemies = new ArrayList<ShipAPI>();
         float range = weapon.getRange();
@@ -167,29 +165,7 @@ public class WeaponUtils
             }
         }
 
-        if (sortByDistance)
-        {
-            Collections.sort(enemies,
-                    new CollectionUtils.SortEntitiesByDistance(weapon.getLocation()));
-        }
-
         return enemies;
-    }
-
-    /**
-     * Finds all enemy ships within range of a {@link WeaponAPI}.
-     *
-     * @param weapon The weapon to detect enemies in range of.
-     * <p>
-     * @return A {@link List} containing all enemy ships within range.
-     * <p>
-     * @see WeaponUtils#getEnemiesInArc(com.fs.starfarer.api.combat.WeaponAPI,
-     * boolean)
-     * @since 1.4
-     */
-    public static List<ShipAPI> getEnemiesInArc(WeaponAPI weapon)
-    {
-        return getEnemiesInArc(weapon, false);
     }
 
     /**
@@ -237,16 +213,13 @@ public class WeaponUtils
     /**
      * Finds all enemy missiles within range of a {@link WeaponAPI}.
      *
-     * @param weapon         The weapon to detect enemies in range of.
-     * @param sortByDistance Whether to sort the results by distance from
-     *                       {@code weapon}.
+     * @param weapon The weapon to detect enemies in range of.
      * <p>
      * @return A {@link List} containing all enemy missiles within range.
      * <p>
      * @since 1.4
      */
-    public static List<MissileAPI> getEnemyMissilesInArc(WeaponAPI weapon,
-            boolean sortByDistance)
+    public static List<MissileAPI> getEnemyMissilesInArc(WeaponAPI weapon)
     {
         List<MissileAPI> missiles = new ArrayList<MissileAPI>();
         float range = weapon.getRange();
@@ -261,30 +234,7 @@ public class WeaponUtils
             }
         }
 
-        if (sortByDistance)
-        {
-            Collections.sort(missiles,
-                    new CollectionUtils.SortEntitiesByDistance(weapon.getLocation()));
-        }
-
         return missiles;
-    }
-
-    /**
-     * Finds all enemy missiles within range of a {@link WeaponAPI}.
-     *
-     * @param weapon The weapon to detect enemies in range of.
-     * <p>
-     * @return A {@link List} containing all enemy missiles within range.
-     * <p>
-     * @see
-     * WeaponUtils#getEnemyMissilesInArc(com.fs.starfarer.api.combat.WeaponAPI,
-     * boolean)
-     * @since 1.4
-     */
-    public static List<MissileAPI> getEnemyMissilesInArc(WeaponAPI weapon)
-    {
-        return getEnemyMissilesInArc(weapon, false);
     }
 
     /**
@@ -600,6 +550,54 @@ public class WeaponUtils
 
         return calculateActualDamage(calculateDamagePerBurst(weapon), weapon,
                 target, defense);
+    }
+
+    /**
+     * @deprecated Use the normal version of this method and call
+     * {@link Collections#sort(List, Comparator)} using a
+     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * @since 1.4
+     */
+    @Deprecated
+    public static List<ShipAPI> getEnemiesInArc(WeaponAPI weapon,
+            boolean sortByDistance)
+    {
+        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
+                "getEnemiesInArc(WeaponAPI weapon, boolean sortByDistance)");
+
+        List<ShipAPI> enemies = getEnemiesInArc(weapon);
+
+        if (sortByDistance)
+        {
+            Collections.sort(enemies,
+                    new CollectionUtils.SortEntitiesByDistance(weapon.getLocation()));
+        }
+
+        return enemies;
+    }
+
+    /**
+     * @deprecated Use the normal version of this method and call
+     * {@link Collections#sort(List, Comparator)} using a
+     * {@link SortEntitiesByDistance} as the {@link Comparator}.
+     * @since 1.4
+     */
+    @Deprecated
+    public static List<MissileAPI> getEnemyMissilesInArc(WeaponAPI weapon,
+            boolean sortByDistance)
+    {
+        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
+                "getEnemyMissilesInArc(WeaponAPI weapon, boolean sortByDistance)");
+
+        List<MissileAPI> missiles = getEnemyMissilesInArc(weapon);
+
+        if (sortByDistance)
+        {
+            Collections.sort(missiles,
+                    new CollectionUtils.SortEntitiesByDistance(weapon.getLocation()));
+        }
+
+        return missiles;
     }
 
     private WeaponUtils()
