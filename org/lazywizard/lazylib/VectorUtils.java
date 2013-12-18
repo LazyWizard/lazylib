@@ -8,7 +8,6 @@ import org.lwjgl.util.vector.Vector2f;
  * @author LazyWizard
  * @since 1.7
  */
-// TODO: Javadoc this
 public class VectorUtils
 {
     private static final Vector2f TEMP_VECTOR = new Vector2f();
@@ -42,13 +41,13 @@ public class VectorUtils
         return getFacing(Vector2f.sub(to, from, null));
     }
 
-    // TODO: JavaDoc this
     /**
+     * Returns the cross product of two {@link Vector2f}s.
      *
-     * @param vector1
-     * @param vector2
+     * @param vector1 The first {@link Vector2f}.
+     * @param vector2 The second {@link Vector2f}.
      * <p>
-     * @return
+     * @return The cross product of the two vectors.
      * <p>
      * @since 1.7
      */
@@ -78,17 +77,18 @@ public class VectorUtils
     }
 
     /**
+     * Rotates a {@link Vector2f} by a specified amount around a pivot point.
      *
-     * @param toRotate
-     * @param pivotPoint
-     * @param angle
-     * @param dest
-     *                   <p>
-     * @return
-     *         <p>
+     * @param toRotate   The {@link Vector2f} to rotate.
+     * @param pivotPoint The central point to pivot around.
+     * @param angle      How much to rotate {@code toRotate}, in degrees.
+     * @param dest       The destination {@link Vector2f}. Can be
+     *                   {@code toRotate}.
+     * <p>
+     * @return A rotated version of {@code toRotate} placed in {@code dest}.
+     * <p>
      * @since 1.7
      */
-    // TODO: JavaDoc this
     public static Vector2f rotateAroundPivot(Vector2f toRotate, Vector2f pivotPoint,
             float angle, Vector2f dest)
     {
