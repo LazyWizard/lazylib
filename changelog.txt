@@ -13,7 +13,7 @@ Added DrawUtils (in new org.lazywizard.lazylib.opengl package):
  - drawCircle(float centerX, float centerY, float radius, int numSegments)
  - drawArc(float centerX, float centerY, float radius, float startAngle,
    float arcAngle, int numSegments)
-Added VectorUtils (because LWJGL's Vectors are pretty terrible):
+Added VectorUtils (because LWJGL's Vectors are just terrible):
  - getAngle(Vector2f from, Vector2f to) (moved from MathUtils)
  - getFacing(Vector2f vector) (moved from MathUtils)
  - getCrossProduct(Vector2f vector1, Vector2f vector2)
@@ -79,6 +79,9 @@ Changes to MathUtils:
    best turn direction
  - Moved getFacing(Vector2f vector) to VectorUtils
  - Moved getAngle(Vector2f from, Vector2f to) to VectorUtils
+ - Deprecated getDirectionalVector(CombatEntityAPI source, Vector2f destination)
+ - Deprecated getDirectionalVector(CombatEntityAPI source,
+   CombatEntityAPI destination)
 Changes to SimpleEntity:
  - Added a constructor for mimicking the location of a WeaponAPI w/o reflection
  - Added getWeapon() method, returns null if another constructor was used
