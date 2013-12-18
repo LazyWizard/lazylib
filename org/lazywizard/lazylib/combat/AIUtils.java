@@ -20,6 +20,7 @@ import org.lazywizard.lazylib.MathUtils;
  * @author LazyWizard
  * @since 1.0
  */
+// TODO: Deprecate all methods with a sortByDistance parameter
 public class AIUtils
 {
     /**
