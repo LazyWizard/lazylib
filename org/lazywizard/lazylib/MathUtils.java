@@ -220,33 +220,6 @@ public class MathUtils
     }
 
     /**
-     * Returns a normalized {@link Vector2f} pointing from {@code source}
-     * to {@code destination}.
-     *
-     * @see MathUtils#getDirectionalVector(org.lwjgl.util.vector.Vector2f,
-     * org.lwjgl.util.vector.Vector2f)
-     * @since 1.0
-     */
-    public static Vector2f getDirectionalVector(CombatEntityAPI source, Vector2f destination)
-    {
-        return getDirectionalVector(source.getLocation(), destination);
-    }
-
-    /**
-     * Returns a normalized {@link Vector2f} pointing from {@code source}
-     * to {@code destination}.
-     *
-     * @see MathUtils#getDirectionalVector(org.lwjgl.util.vector.Vector2f,
-     * org.lwjgl.util.vector.Vector2f)
-     * @since 1.0
-     */
-    public static Vector2f getDirectionalVector(CombatEntityAPI source,
-            CombatEntityAPI destination)
-    {
-        return getDirectionalVector(source.getLocation(), destination.getLocation());
-    }
-
-    /**
      * Clamps an angle within 360 degrees (ex: 400 degrees becomes 40 degrees).
      *
      * @param angle The angle to be clamped.
@@ -609,8 +582,31 @@ public class MathUtils
     {
         LazyLib.onDeprecatedMethodUsage(MathUtils.class,
                 "getAngle(Vector2f from, Vector2f to)");
-        
+
         return VectorUtils.getAngle(from, to);
+    }
+
+    /**
+     * @deprecated Use
+     * {@link MathUtils#getDirectionalVector(Vector2f, Vector2f)} instead.
+     * @since 1.0
+     */
+    @Deprecated
+    public static Vector2f getDirectionalVector(CombatEntityAPI source, Vector2f destination)
+    {
+        return getDirectionalVector(source.getLocation(), destination);
+    }
+
+    /**
+     * @deprecated Use
+     * {@link MathUtils#getDirectionalVector(Vector2f, Vector2f)} instead.
+     * @since 1.0
+     */
+    @Deprecated
+    public static Vector2f getDirectionalVector(CombatEntityAPI source,
+            CombatEntityAPI destination)
+    {
+        return getDirectionalVector(source.getLocation(), destination.getLocation());
     }
 
     /**
