@@ -24,7 +24,7 @@ import org.lazywizard.lazylib.opengl.DrawUtils;
 public class LazyLib extends BaseModPlugin
 {
     private static final String SETTINGS_FILE = "lazylib_settings.json";
-    private static final boolean IS_DEV_BUILD = true;
+    private static final boolean IS_DEV_BUILD = false;
     private static final float LIBRARY_VERSION = 1.7f;
     private static final String GAME_VERSION = "0.6.1a";
     private static boolean LOG_DEPRECATED = false, CRASH_DEPRECATED = false;

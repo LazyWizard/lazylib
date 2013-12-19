@@ -1,5 +1,5 @@
- 1.7 (soon)
-============
+ 1.7 (December 18, 2013)
+=========================
 Swapped all usages of CombatUtils.getCombatEngine() to Global.getCombatEngine()
 Significant JavaDoc expansion, reformatting, and other readability improvements
 Deprecated all methods with a sortByDistance parameter
