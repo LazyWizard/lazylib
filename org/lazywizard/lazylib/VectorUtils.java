@@ -68,7 +68,6 @@ public class VectorUtils
      * <p>
      * @since 1.7
      */
-    // TODO: Test rotate()
     public static Vector2f rotate(Vector2f toRotate, float angle, Vector2f dest)
     {
         float cos = (float) FastTrig.cos(angle), sin = (float) FastTrig.sin(angle);
@@ -90,7 +89,6 @@ public class VectorUtils
      * <p>
      * @since 1.7
      */
-    // TODO: Test rotateAroundPivot()
     public static Vector2f rotateAroundPivot(Vector2f toRotate, Vector2f pivotPoint,
             float angle, Vector2f dest)
     {
