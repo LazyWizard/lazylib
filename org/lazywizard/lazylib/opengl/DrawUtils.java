@@ -74,6 +74,7 @@ public class DrawUtils
             float xScaling, float yScaling, float angleOffset, int numSegments,
             boolean drawFilled)
     {
+        // TODO: implement drawEllipse()
     }
 
     /**
