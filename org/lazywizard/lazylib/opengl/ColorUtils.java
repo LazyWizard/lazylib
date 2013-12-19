@@ -5,6 +5,7 @@ import org.lwjgl.util.vector.ReadableVector3f;
 import org.lwjgl.util.vector.ReadableVector4f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  *
@@ -24,6 +25,15 @@ class ColorUtils
     public static ReadableVector4f toVector4f(Color color)
     {
         return new Vector4f(
+                color.getRed() / 255f,
+                color.getGreen() / 255f,
+                color.getBlue() / 255f,
+                color.getAlpha() / 255f);
+    }
+
+    public static void setColor(Color color)
+    {
+        glColor4f(
                 color.getRed() / 255f,
                 color.getGreen() / 255f,
                 color.getBlue() / 255f,
