@@ -13,24 +13,13 @@ Added DrawUtils (in new org.lazywizard.lazylib.opengl package):
  - drawCircle(float centerX, float centerY, float radius, int numSegments)
  - drawArc(float centerX, float centerY, float radius, float startAngle,
    float arcAngle, int numSegments)
-Added VectorUtils (because LWJGL's Vectors are just terrible):
+Added VectorUtils:
  - getAngle(Vector2f from, Vector2f to) (moved from MathUtils)
  - getFacing(Vector2f vector) (moved from MathUtils)
  - getCrossProduct(Vector2f vector1, Vector2f vector2)
  - rotate(Vector2f toRotate, float degrees, Vector2f dest)
  - rotateAroundPivot(Vector2f toRotate, Vector2f pivotPoint, float angle,
    Vector2f dest), rotates a Vector2f around another Vector2f
-Changes to AIUtils:
- - Deprecated getEnemiesOnMap(CombatEntityAPI entity, boolean sortByDistance)
- - Deprecated getNearbyEnemies(CombatEntityAPI entity, float range,
-   boolean sortByDistance)
- - Deprecated getAlliesOnMap(CombatEntityAPI entity, boolean sortByDistance)
- - Deprecated getNearbyAllies(CombatEntityAPI entity, float range,
-   boolean sortByDistance)
- - Deprecated getEnemyMissilesOnMap(CombatEntityAPI entity,
-   boolean sortByDistance)
- - Deprecated getNearbyEnemyMissiles(CombatEntityAPI entity, float range,
-   boolean sortByDistance)
 Changes to CollectionUtils:
  - Added CollectionFilter interface, contains accept(Object obj) method
  - Added filter(Collection toFilter, CollectionFilter filter), allows
@@ -42,11 +31,42 @@ Changes to CollisionUtils:
  - Fixed getCollisionPoint() returning null when collision point lies directly
    on the end of a line (this means getCollisionPoint(beam.getFrom(),
    beam.getTo(), beam.getDamageTarget()) actually works again)
+ - Fixed getCollides() instantiating a new Line2D object each time it's called
 Changes to CombatUtils:
  - No longer implements EveryFrameCombatPlugin (also removed LazyLibCombatHook)
  - Updated getFleetMember() to use DeployedFleetMemberAPI introduced in .6.1a
    (this means it now works in missions, not just in campaign battles)
  - Added isVisibleToSide(CombatEntityAPI entity, int side)
+Changes to FleetUtils:
+ - Fixed null pointer exception when using these methods in hyperspace
+ - Added getRelation(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
+ - Added getNearbyFleets(CampaignFleetAPI fleet, float range)
+Changes to MathUtils:
+ - Added getRandomPointInCone(Vector2f center, float radius, float minAngle,
+   float maxAngle), returns a random point in a two-dimensional cone
+ - Added getShortestRotation(float currAngle, float destAngle), returns the
+   smallest difference between two angles. This can also be used to find the
+   best turn direction
+Changes to SimpleEntity:
+ - Added a constructor for mimicking the location of a WeaponAPI w/o reflection
+ - Added getWeapon() method, returns null if another constructor was used
+ - Added getType() method, returns the type of constructor used for this object
+ - Added SimpleEntityType enumeration
+Changes to WeaponUtils:
+ - Added getAlliesInArc(WeaponAPI weapon)
+ - Added getNearestAllyInArc(WeaponAPI weapon)
+Deprecated in AIUtils:
+ - Deprecated getEnemiesOnMap(CombatEntityAPI entity, boolean sortByDistance)
+ - Deprecated getNearbyEnemies(CombatEntityAPI entity, float range,
+   boolean sortByDistance)
+ - Deprecated getAlliesOnMap(CombatEntityAPI entity, boolean sortByDistance)
+ - Deprecated getNearbyAllies(CombatEntityAPI entity, float range,
+   boolean sortByDistance)
+ - Deprecated getEnemyMissilesOnMap(CombatEntityAPI entity,
+   boolean sortByDistance)
+ - Deprecated getNearbyEnemyMissiles(CombatEntityAPI entity, float range,
+   boolean sortByDistance)
+Deprecated in CombatUtils:
  - Deprecated getProjectilesWithinRange(Vector2f location, float range,
    boolean sortByDistance)
  - Deprecated getMissilesWithinRange(Vector2f location, float range,
@@ -59,10 +79,7 @@ Changes to CombatUtils:
    boolean sortByDistance)
  - Deprecated getEntitiesWithinRange(Vector2f location, float range,
    boolean sortByDistance)
-Changes to FleetUtils:
- - Fixed null pointer exception when using these methods in hyperspace
- - Added getRelation(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
- - Added getNearbyFleets(CampaignFleetAPI fleet, float range)
+Deprecated in FleetUtils:
  - Deprecated getEnemyFleetsInSystem(CampaignFleetAPI fleet,
    boolean sortByDistance)
  - Deprecated getNearbyEnemyFleets(CampaignFleetAPI fleet, float range,
@@ -71,23 +88,13 @@ Changes to FleetUtils:
    boolean sortByDistance)
  - Deprecated getNearbyAlliedFleets(CampaignFleetAPI fleet, float range,
    boolean sortByDistance)
-Changes to MathUtils:
- - Added getRandomPointInCone(Vector2f center, float radius, float minAngle,
-   float maxAngle), returns a random point in a two-dimensional cone
- - Added getShortestRotation(float currAngle, float destAngle), returns the
-   smallest difference between two angles. This can also be used to find the
-   best turn direction
- - Moved getFacing(Vector2f vector) to VectorUtils
- - Moved getAngle(Vector2f from, Vector2f to) to VectorUtils
+Deprecated in MathUtils:
+ - Deprecateded getFacing(Vector2f vector), moved to VectorUtils
+ - Deprecated getAngle(Vector2f from, Vector2f to), moved to VectorUtils
  - Deprecated getDirectionalVector(CombatEntityAPI source, Vector2f destination)
  - Deprecated getDirectionalVector(CombatEntityAPI source,
    CombatEntityAPI destination)
-Changes to SimpleEntity:
- - Added a constructor for mimicking the location of a WeaponAPI w/o reflection
- - Added getWeapon() method, returns null if another constructor was used
- - Added getType() method, returns the type of constructor used for this object
- - Added SimpleEntityType enumeration
-Changes to WeaponUtils:
+Deprecated in WeaponUtils:
  - Deprecated getEnemiesInArc(WeaponAPI weapon, boolean sortByDistance)
  - Deprecated getEnemyMissilesInArc(WeaponAPI weapon, boolean sortByDistance)
 
