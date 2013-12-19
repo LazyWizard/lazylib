@@ -110,7 +110,7 @@ public class WeaponUtils
      * @return The allied {@link ShipAPI} closest to {@code weapon}, or
      *         {@code null} if none are in range.
      * <p>
-     * @since 1.4
+     * @since 1.7
      */
     public static ShipAPI getNearestAllyInArc(WeaponAPI weapon)
     {
@@ -151,7 +151,7 @@ public class WeaponUtils
      * <p>
      * @return A {@link List} containing all allied ships within range.
      * <p>
-     * @since 1.4
+     * @since 1.7
      */
     public static List<ShipAPI> getAlliesInArc(WeaponAPI weapon)
     {
