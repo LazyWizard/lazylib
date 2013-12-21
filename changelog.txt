@@ -1,3 +1,9 @@
+ 1.8 (someday)
+===============
+Added to DrawUtils:
+ - drawRegularPolygon(float centerX, float centerY, int numSides, float size,
+   float angleOffset, boolean drawFilled)
+
  1.7 (December 18, 2013)
 =========================
 Swapped all usages of CombatUtils.getCombatEngine() to Global.getCombatEngine()
