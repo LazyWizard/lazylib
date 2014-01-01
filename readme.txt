@@ -35,11 +35,14 @@ and log4j-1.2.9.jar in the classpath to compile.
  Contributing to this mod:
 ---------------------------
 If you wish to contribute to LazyLib, the project repository can be found at
-https://bitbucket.org/LazyWizard/lazylib (I use Mercurial for revision control).
+https://bitbucket.org/LazyWizard/lazylib. All of my projects use Mercurial for
+revision control. Pull requests are preferred, but if you want direct write
+access just PM me (include a link to your Bitbucket account) and I'll add you
+to the repository.
 
 There are a few goals you should keep in mind when contributing:
  * Any class ending with 'Utils' should only contain static methods and
-   shoudn't be instantiatable.
+   shouldn't be instantiatable.
  * Use human-readable method names. If there's a proper name that describes a
    method's functionality but nobody outside of that field will know it, use a
    more generic, descriptive name.
@@ -50,4 +53,4 @@ There are a few goals you should keep in mind when contributing:
    EveryFrameCombatPlugins in this mod. The only overhead should be the classes
    stored in memory, if possible.
 
-(readme last updated 2013-12-10)
+(readme last updated 2014-01-01)
