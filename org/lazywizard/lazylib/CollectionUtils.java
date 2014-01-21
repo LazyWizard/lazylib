@@ -89,7 +89,7 @@ public class CollectionUtils
      */
     public static <T> List<T> filter(Collection<T> toFilter, CollectionFilter<T> filter)
     {
-        List<T> filtered = new ArrayList<T>(toFilter.size() / 2 + 1);
+        List<T> filtered = new ArrayList<>(toFilter.size() / 2 + 1);
         for (T tmp : toFilter)
         {
             if (filter.accept(tmp))
@@ -117,7 +117,7 @@ public class CollectionUtils
      */
     public static <T> List<T> filter(Collection<T> toFilter, List<CollectionFilter<T>> filters)
     {
-        List<T> filtered = new ArrayList<T>(toFilter.size() / 2 + 1);
+        List<T> filtered = new ArrayList<>(toFilter.size() / 2 + 1);
         outer:
         for (T tmp : toFilter)
         {
@@ -309,7 +309,7 @@ public class CollectionUtils
             totalWeight += tmp;
         }
 
-        List<T> ret = new ArrayList<T>(numToPick);
+        List<T> ret = new ArrayList<>(numToPick);
         float random;
 
         for (int x = 0; x < numToPick; x++)

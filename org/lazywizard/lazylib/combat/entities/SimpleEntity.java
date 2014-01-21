@@ -22,7 +22,7 @@ import org.lwjgl.util.vector.Vector2f;
 public class SimpleEntity extends EntityBase
 {
     // Cache for all reflection-based variants (reduces overhead on creation)
-    private static final Map<Class, Method> methodCache = new HashMap<Class, Method>();
+    private static final Map<Class, Method> methodCache = new HashMap<>();
     private final SimpleEntityType type;
     // Variables for Vector2f-based variant
     private Vector2f location = null;
@@ -163,15 +163,7 @@ public class SimpleEntity extends EntityBase
                 {
                     return (Vector2f) getLocation.invoke(toFollow);
                 }
-                catch (IllegalAccessException ex)
-                {
-                    throw new RuntimeException(ex);
-                }
-                catch (IllegalArgumentException ex)
-                {
-                    throw new RuntimeException(ex);
-                }
-                catch (InvocationTargetException ex)
+                catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
                 {
                     throw new RuntimeException(ex);
                 }
