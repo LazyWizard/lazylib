@@ -55,7 +55,7 @@ public class DrawUtils
         float y = 0;
 
         glBegin(drawFilled ? GL_TRIANGLE_FAN : GL_LINE_LOOP);
-        for (int i = 0; i < numSegments; i++)
+        for (int i = 0; i < numSegments - 1; i++)
         {
             // Output vertex
             glVertex2f(x + centerX, y + centerY);
@@ -65,6 +65,7 @@ public class DrawUtils
             x = (cos * x) - (sin * y);
             y = (sin * t) + (cos * y);
         }
+        glVertex2f(x + centerX, y + centerY);
         glEnd();
     }
 
