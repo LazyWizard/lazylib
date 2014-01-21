@@ -22,6 +22,7 @@ public class StringUtils
      * @since 1.8
      */
     // TODO: Javadoc this!
+    // TODO: Fix indent pushing over maxLineLength
     public static String wrapString(String toWrap, int maxLineLength,
             boolean indentFirstLine, boolean indentFollowingLines, String indent)
     {

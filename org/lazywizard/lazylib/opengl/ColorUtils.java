@@ -1,43 +1,19 @@
 package org.lazywizard.lazylib.opengl;
 
 import java.awt.Color;
-import org.lwjgl.util.vector.ReadableVector3f;
-import org.lwjgl.util.vector.ReadableVector4f;
-import org.lwjgl.util.vector.Vector3f;
-import org.lwjgl.util.vector.Vector4f;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
  *
  * @author LazyWizard
- * @since 1.7
+ * @since 1.8
  */
 class ColorUtils
 {
-    public static ReadableVector3f toVector3f(Color color)
+    public static void glColorAWT(Color color)
     {
-        return new Vector3f(
-                color.getRed() / 255f,
-                color.getGreen() / 255f,
-                color.getBlue() / 255f);
-    }
-
-    public static ReadableVector4f toVector4f(Color color)
-    {
-        return new Vector4f(
-                color.getRed() / 255f,
-                color.getGreen() / 255f,
-                color.getBlue() / 255f,
-                color.getAlpha() / 255f);
-    }
-
-    public static void setColor(Color color)
-    {
-        glColor4f(
-                color.getRed() / 255f,
-                color.getGreen() / 255f,
-                color.getBlue() / 255f,
-                color.getAlpha() / 255f);
+        glColor4ub((byte) color.getRed(), (byte) color.getGreen(),
+                (byte) color.getBlue(), (byte) color.getAlpha());
     }
 
     private ColorUtils()
