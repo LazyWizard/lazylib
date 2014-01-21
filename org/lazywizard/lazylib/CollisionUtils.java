@@ -216,7 +216,7 @@ public class CollisionUtils
 
         // Transform the bounds into a series of points
         List<SegmentAPI> segments = bounds.getSegments();
-        List<Vector2f> points = new ArrayList<Vector2f>(segments.size() + 1);
+        List<Vector2f> points = new ArrayList<>(segments.size() + 1);
         SegmentAPI seg;
         for (int x = 0; x < segments.size(); x++)
         {

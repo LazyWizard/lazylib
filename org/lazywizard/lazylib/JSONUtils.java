@@ -9,6 +9,7 @@ import org.json.JSONException;
  * @author LazyWizard
  * @since 1.8
  */
+// TODO: Javadoc this!
 public class JSONUtils
 {
     /**
@@ -18,6 +19,7 @@ public class JSONUtils
      * @throws JSONException
      * @since 1.8
      */
+    // TODO: Javadoc this!
     public static Color toColor(JSONArray array) throws JSONException
     {
         return new Color(array.getInt(0), array.getInt(1), array.getInt(2),

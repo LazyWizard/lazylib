@@ -156,7 +156,7 @@ public class WeaponUtils
      */
     public static List<ShipAPI> getAlliesInArc(WeaponAPI weapon)
     {
-        List<ShipAPI> allies = new ArrayList<ShipAPI>();
+        List<ShipAPI> allies = new ArrayList<>();
         float range = weapon.getRange();
 
         for (ShipAPI ship : AIUtils.getAlliesOnMap(weapon.getShip()))
@@ -224,7 +224,7 @@ public class WeaponUtils
      */
     public static List<ShipAPI> getEnemiesInArc(WeaponAPI weapon)
     {
-        List<ShipAPI> enemies = new ArrayList<ShipAPI>();
+        List<ShipAPI> enemies = new ArrayList<>();
         float range = weapon.getRange();
 
         for (ShipAPI ship : AIUtils.getEnemiesOnMap(weapon.getShip()))
@@ -292,7 +292,7 @@ public class WeaponUtils
      */
     public static List<MissileAPI> getEnemyMissilesInArc(WeaponAPI weapon)
     {
-        List<MissileAPI> missiles = new ArrayList<MissileAPI>();
+        List<MissileAPI> missiles = new ArrayList<>();
         float range = weapon.getRange();
         range *= range;
 

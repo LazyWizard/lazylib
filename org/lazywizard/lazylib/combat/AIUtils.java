@@ -218,7 +218,7 @@ public class AIUtils
      */
     public static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity)
     {
-        List<ShipAPI> enemies = new ArrayList<ShipAPI>();
+        List<ShipAPI> enemies = new ArrayList<>();
 
         for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
@@ -245,7 +245,7 @@ public class AIUtils
      */
     public static List<ShipAPI> getNearbyEnemies(CombatEntityAPI entity, float range)
     {
-        List<ShipAPI> enemies = new ArrayList<ShipAPI>();
+        List<ShipAPI> enemies = new ArrayList<>();
 
         for (ShipAPI enemy : getEnemiesOnMap(entity))
         {
@@ -270,7 +270,7 @@ public class AIUtils
      */
     public static List<ShipAPI> getAlliesOnMap(CombatEntityAPI entity)
     {
-        List<ShipAPI> allies = new ArrayList<ShipAPI>();
+        List<ShipAPI> allies = new ArrayList<>();
 
         for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
@@ -296,7 +296,7 @@ public class AIUtils
      */
     public static List<ShipAPI> getNearbyAllies(CombatEntityAPI entity, float range)
     {
-        List<ShipAPI> allies = new ArrayList<ShipAPI>();
+        List<ShipAPI> allies = new ArrayList<>();
         for (ShipAPI ally : getAlliesOnMap(entity))
         {
             if (MathUtils.getDistance(entity, ally) <= range)
@@ -359,7 +359,7 @@ public class AIUtils
      */
     public static List<MissileAPI> getEnemyMissilesOnMap(CombatEntityAPI entity)
     {
-        List<MissileAPI> missiles = new ArrayList<MissileAPI>();
+        List<MissileAPI> missiles = new ArrayList<>();
 
         for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
         {
@@ -385,7 +385,7 @@ public class AIUtils
      */
     public static List<MissileAPI> getNearbyEnemyMissiles(CombatEntityAPI entity, float range)
     {
-        List<MissileAPI> missiles = new ArrayList<MissileAPI>();
+        List<MissileAPI> missiles = new ArrayList<>();
 
         for (MissileAPI enemy : getEnemyMissilesOnMap(entity))
         {

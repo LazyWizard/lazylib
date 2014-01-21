@@ -401,7 +401,7 @@ public class MathUtils
     {
         angleOffset %= 360;
 
-        List<Vector2f> points = new ArrayList<Vector2f>(numPoints);
+        List<Vector2f> points = new ArrayList<>(numPoints);
         for (int x = 0; x < numPoints; x++)
         {
             points.add(getPointOnCircumference(center, radius, angleOffset));
@@ -481,7 +481,7 @@ public class MathUtils
         // Calculate the rough number of results we will have and allocate memory for them
         float size = radius / spaceBetweenPoints;
         int toAllocate = (int) ((size * size * Math.PI) + 0.5f);
-        List<Vector2f> points = new ArrayList<Vector2f>(toAllocate);
+        List<Vector2f> points = new ArrayList<>(toAllocate);
 
         // Support for null vectors
         float centerX = (center == null ? 0f : center.x);
