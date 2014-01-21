@@ -2,6 +2,7 @@ package org.lazywizard.lazylib.combat.entities;
 
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import org.lazywizard.lazylib.MathUtils;
+import org.lazywizard.lazylib.VectorUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -32,7 +33,7 @@ public class AnchoredEntity extends EntityBase
     public AnchoredEntity(CombatEntityAPI anchor, Vector2f location)
     {
         relativeDistance = MathUtils.getDistance(anchor.getLocation(), location);
-        relativeAngle = MathUtils.clampAngle(MathUtils.getAngle(
+        relativeAngle = MathUtils.clampAngle(VectorUtils.getAngle(
                 anchor.getLocation(), location) - anchor.getFacing());
         this.anchor = anchor;
     }

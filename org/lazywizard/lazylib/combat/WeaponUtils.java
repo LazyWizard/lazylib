@@ -16,6 +16,7 @@ import org.lazywizard.lazylib.CollectionUtils;
 import org.lazywizard.lazylib.CollectionUtils.SortEntitiesByDistance;
 import org.lazywizard.lazylib.LazyLib;
 import org.lazywizard.lazylib.MathUtils;
+import org.lazywizard.lazylib.VectorUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -319,7 +320,7 @@ public class WeaponUtils
     public static void aimTowardsPoint(WeaponAPI weapon, Vector2f point, float time)
     {
         float currentFacing = weapon.getCurrAngle();
-        float intendedFacing = MathUtils.getAngle(weapon.getLocation(), point);
+        float intendedFacing = VectorUtils.getAngle(weapon.getLocation(), point);
         float facingChange = currentFacing - intendedFacing;
         boolean direction = facingChange < 0f;
         facingChange = Math.abs(facingChange);

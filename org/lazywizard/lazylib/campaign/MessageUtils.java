@@ -1,6 +1,7 @@
 package org.lazywizard.lazylib.campaign;
 
 import com.fs.starfarer.api.Global;
+import org.lazywizard.lazylib.StringUtils;
 
 /**
  * Allows formatted, multi-line, word-wrapped sector messages
@@ -30,72 +31,19 @@ public class MessageUtils
     {
         if (preamble != null)
         {
-            showMessage(preamble);
-        }
-
-        if (message == null)
-        {
-            message = "";
-        }
-
-        // Analyse each line of the message seperately
-        String[] lines = message.split("\n");
-        StringBuilder line = new StringBuilder(LINE_LENGTH);
-
-        // Word wrapping is complicated ;)
-        for (int x = 0; x < lines.length; x++)
-        {
-            // Check if the string even needs to be broken up
-            if (lines[x].length() > LINE_LENGTH)
+            for (String tmp : StringUtils.wrapString(preamble, LINE_LENGTH,
+                    null).split("\n"))
             {
-                // Clear the StringBuilder so we can generate a new line
-                line.setLength(0);
-                // Split the line up into the individual words, and append each
-                // word to the next line until the character limit is reached
-                String[] words = lines[x].split(" ");
-                for (int y = 0; y < words.length; y++)
-                {
-                    // If this word by itself is longer than the line limit,
-                    // just go ahead and post it in its own line
-                    if (words[y].length() > LINE_LENGTH)
-                    {
-                        // Make sure to post the previous line in queue, if any
-                        if (line.length() > 0)
-                        {
-                            printLine(line.toString(), indent);
-                            line.setLength(0);
-                        }
-
-                        printLine(words[y], indent);
-                    }
-                    // If this word would put us over the length limit, post
-                    // the queue and back up a step (re-check this word with
-                    // a blank line - this is in case it trips the above block)
-                    else if (words[y].length() + line.length() > LINE_LENGTH)
-                    {
-                        printLine(line.toString(), indent);
-                        line.setLength(0);
-                        y--;
-                    }
-                    // This word won't put us over the limit, add it to the queue
-                    else
-                    {
-                        line.append(words[y]);
-                        line.append(" ");
-
-                        // If we have reached the end of the message, ensure
-                        // that we post the remaining part of the queue
-                        if (y == (words.length - 1))
-                        {
-                            printLine(line.toString(), indent);
-                        }
-                    }
-                }
+                Global.getSector().getCampaignUI().addMessage(tmp);
             }
-            // Entire message fits into a single line
-            else
+        }
+
+        if (message != null)
+        {
+            for (String tmp : StringUtils.wrapString(message, LINE_LENGTH,
+                    (indent ? "   " : null)).split("\n"))
             {
-                printLine(lines[x], indent);
+                Global.getSector().getCampaignUI().addMessage(tmp);
             }
         }
     }
@@ -110,18 +58,6 @@ public class MessageUtils
     public static void showMessage(String message)
     {
         showMessage(null, message, false);
-    }
-
-    private static void printLine(String message, boolean indent)
-    {
-        if (indent)
-        {
-            Global.getSector().getCampaignUI().addMessage("   " + message);
-        }
-        else
-        {
-            Global.getSector().getCampaignUI().addMessage(message);
-        }
     }
 
     private MessageUtils()

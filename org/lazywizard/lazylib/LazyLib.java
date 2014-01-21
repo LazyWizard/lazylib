@@ -26,12 +26,12 @@ public class LazyLib extends BaseModPlugin
     private static final String SETTINGS_FILE = "lazylib_settings.json";
     private static final boolean IS_DEV_BUILD = true;
     private static final float LIBRARY_VERSION = 1.8f;
-    private static final String GAME_VERSION = "0.6.1a";
+    private static final String GAME_VERSION = "0.6.2a";
     private static boolean LOG_DEPRECATED = false, CRASH_DEPRECATED = false;
     private static Level LOG_LEVEL;
 
     /**
-     * Returns the installed version of LazyLib.
+     * Returns the running version of LazyLib.
      *
      * @return The current version of LazyLib, as a {@link Float}.
      * <p>
