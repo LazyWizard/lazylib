@@ -1,8 +1,16 @@
  1.8 (someday)
 ===============
-Added to DrawUtils:
- - drawRegularPolygon(float centerX, float centerY, int numSides, float size,
-   float angleOffset, boolean drawFilled)
+Updated code to use Java 7 language features
+Added JSONUtils:
+ - toColor(JSONArray array), for reading colors from JSON files
+Added StringUtils:
+ - Currently only contains methods for line-wrapping Strings
+ - wrapString(String toWrap, int maxLineLength)
+ - wrapString(String toWrap, int maxLineLength, boolean indentFirstLine,
+   boolean indentFollowingLines, String indent)
+Changes to DrawUtils:
+ - Added drawRegularPolygon(float centerX, float centerY, int numSides,
+   float size, float angleOffset, boolean drawFilled)
 
  1.7 (December 18, 2013)
 =========================
