@@ -31,8 +31,7 @@ public class MessageUtils
     {
         if (preamble != null)
         {
-            for (String tmp : StringUtils.wrapString(preamble, LINE_LENGTH,
-                    null, false).split("\n"))
+            for (String tmp : StringUtils.wrapString(preamble, LINE_LENGTH).split("\n"))
             {
                 Global.getSector().getCampaignUI().addMessage(tmp);
             }
@@ -41,7 +40,7 @@ public class MessageUtils
         if (message != null)
         {
             for (String tmp : StringUtils.wrapString(message, LINE_LENGTH,
-                    (indent ? "   " : null), false).split("\n"))
+                    true, true, (indent ? "   " : null)).split("\n"))
             {
                 Global.getSector().getCampaignUI().addMessage(tmp);
             }

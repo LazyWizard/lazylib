@@ -5,20 +5,25 @@ package org.lazywizard.lazylib;
  * @author LazyWizard
  * @since 1.8
  */
+// TODO: Javadoc this!
 public class StringUtils
 {
     /**
+     * TODO
      *
-     * @param toWrap
-     * @param maxLineLength
-     * @param indent
-     *                      <p>
-     * @return
-     *         <p>
+     * @param toWrap               TODO
+     * @param maxLineLength        TODO
+     * @param indentFirstLine      TODO
+     * @param indentFollowingLines TODO
+     * @param indent               TODO
+     * <p>
+     * @return TODO
+     * <p>
      * @since 1.8
      */
+    // TODO: Javadoc this!
     public static String wrapString(String toWrap, int maxLineLength,
-            String indent)
+            boolean indentFirstLine, boolean indentFollowingLines, String indent)
     {
         if (indent == null)
         {
@@ -30,6 +35,9 @@ public class StringUtils
             return indent;
         }
 
+        // TODO: Write cleaner way of doing this
+        boolean shouldIndent = indentFirstLine;
+
         // Analyse each line of the message seperately
         String[] lines = toWrap.split("\n");
         StringBuilder line = new StringBuilder(maxLineLength);
@@ -40,7 +48,15 @@ public class StringUtils
             if (rawLine.length() <= maxLineLength)
             {
                 // Entire message fits into a single line
-                message.append(indent).append(rawLine).append("\n");
+                if (shouldIndent)
+                {
+                    message.append(indent).append(rawLine).append("\n");
+                }
+                else
+                {
+                    message.append(rawLine).append("\n");
+                    shouldIndent = indentFollowingLines;
+                }
             }
             else
             {
@@ -58,19 +74,45 @@ public class StringUtils
                         // Make sure to post the previous line in queue, if any
                         if (line.length() > 0)
                         {
-                            message.append(indent).append(line.toString()).append("\n");
+                            if (shouldIndent)
+                            {
+                                message.append(indent).append(line.toString()).append("\n");
+                            }
+                            else
+                            {
+                                message.append(line.toString()).append("\n");
+                                shouldIndent = indentFollowingLines;
+                            }
+
                             line.setLength(0);
                         }
 
                         // TODO: split line at maxLineLength and add dash/newline
-                        message.append(indent).append(words[y]).append("\n");
+                        if (shouldIndent)
+                        {
+                            message.append(indent).append(words[y]).append("\n");
+                        }
+                        else
+                        {
+                            message.append(words[y]).append("\n");
+                            shouldIndent = indentFollowingLines;
+                        }
                     }
                     // If this word would put us over the length limit, post
                     // the queue and back up a step (re-check this word with
                     // a blank line - this is in case it trips the above block)
                     else if (words[y].length() + line.length() > maxLineLength)
                     {
-                        message.append(indent).append(line.toString()).append("\n");
+                        if (shouldIndent)
+                        {
+                            message.append(indent).append(line.toString()).append("\n");
+                        }
+                        else
+                        {
+                            message.append(line.toString()).append("\n");
+                            shouldIndent = indentFollowingLines;
+                        }
+
                         line.setLength(0);
                         y--;
                     }
@@ -84,7 +126,15 @@ public class StringUtils
                         // that we post the remaining part of the queue
                         if (y == (words.length - 1))
                         {
-                            message.append(indent).append(line.toString()).append("\n");
+                            if (shouldIndent)
+                            {
+                                message.append(indent).append(line.toString()).append("\n");
+                            }
+                            else
+                            {
+                                message.append(line.toString()).append("\n");
+                                shouldIndent = indentFollowingLines;
+                            }
                         }
                     }
                 }
@@ -94,12 +144,19 @@ public class StringUtils
         return message.toString();
     }
 
-    public static void main(String[] args)
+    /**
+     * TODO
+     *
+     * @param toWrap        TODO
+     * @param maxLineLength TODO
+     * <p>
+     * @return TODO
+     * <p>
+     * @since 1.8
+     */
+    // TODO: Javadoc this!
+    public static String wrapString(String toWrap, int maxLineLength)
     {
-        System.out.println(wrapString("Test\ntestklsdfja dklsjfklassd flasdjklfj"
-                + " sdlfjsdlakj, jfladksjfkl dkltjalsdkjf lasdjkl\n  tesw"
-                + "adfjklsjagkl;asdjflkasdjgl;kjasdkl;fjsdlak;jflasdk;jgasdjhfjasdh"
-                + "dfhasklfjlasdkjglkasdjflksdja",
-                80, "   "));
+        return wrapString(toWrap, maxLineLength, false, false, null);
     }
 }
