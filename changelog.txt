@@ -11,6 +11,9 @@ Added StringUtils:
 Changes to DrawUtils:
  - Added drawRegularPolygon(float centerX, float centerY, int numSides,
    float size, float angleOffset, boolean drawFilled)
+Changes to FleetUtils:
+ - Added isShipInFleet(String fleetMemberId, CampaignFleetAPI fleet),
+   can be used with FleetMemberAPI.getId() or ShipAPI.getFleetMemberId()
 
  1.7 (December 18, 2013)
 =========================
