@@ -3,6 +3,7 @@ package org.lazywizard.lazylib.campaign;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
+import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -104,6 +105,25 @@ public class FleetUtils
     public static boolean areNeutral(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
     {
         return fleet1.getFaction().getRelationship(fleet2.getFaction().getId()) == 0;
+    }
+
+    // TODO: Javadoc this!
+    public static boolean isShipInFleet(String fleetMemberId, CampaignFleetAPI fleet)
+    {
+        if (fleetMemberId == null)
+        {
+            return false;
+        }
+
+        for (FleetMemberAPI tmp : fleet.getFleetData().getMembersListCopy())
+        {
+            if (fleetMemberId.equals(tmp.getId()))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

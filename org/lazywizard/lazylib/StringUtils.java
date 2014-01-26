@@ -23,6 +23,7 @@ public class StringUtils
      */
     // TODO: Javadoc this!
     // TODO: Fix indent pushing over maxLineLength
+    // TODO: This whole thing could be rewritten far more efficiently
     public static String wrapString(String toWrap, int maxLineLength,
             boolean indentFirstLine, boolean indentFollowingLines, String indent)
     {
@@ -36,13 +37,11 @@ public class StringUtils
             return indent;
         }
 
-        // TODO: Write cleaner way of doing this
-        boolean shouldIndent = indentFirstLine;
-
         // Analyse each line of the message seperately
         String[] lines = toWrap.split("\n");
         StringBuilder line = new StringBuilder(maxLineLength);
         StringBuilder message = new StringBuilder((int) (toWrap.length() * 1.1f));
+        boolean shouldIndent = indentFirstLine;
         for (String rawLine : lines)
         {
             // Check if the string even needs to be broken up
