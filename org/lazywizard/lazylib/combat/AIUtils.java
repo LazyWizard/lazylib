@@ -250,7 +250,7 @@ public class AIUtils
         for (ShipAPI enemy : getEnemiesOnMap(entity))
         {
             if (CombatUtils.isVisibleToSide(enemy, entity.getOwner())
-                    && MathUtils.getDistance(entity, enemy) <= range)
+                    && MathUtils.isWithinRange(entity, enemy, range))
             {
                 enemies.add(enemy);
             }
@@ -299,7 +299,7 @@ public class AIUtils
         List<ShipAPI> allies = new ArrayList<>();
         for (ShipAPI ally : getAlliesOnMap(entity))
         {
-            if (MathUtils.getDistance(entity, ally) <= range)
+            if (MathUtils.isWithinRange(entity, ally, range))
             {
                 allies.add(ally);
             }
@@ -390,7 +390,7 @@ public class AIUtils
         for (MissileAPI enemy : getEnemyMissilesOnMap(entity))
         {
             if (CombatUtils.isVisibleToSide(enemy, entity.getOwner())
-                    && MathUtils.getDistance(entity, enemy) <= range)
+                    && MathUtils.isWithinRange(entity, enemy, range))
             {
                 missiles.add(enemy);
             }

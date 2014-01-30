@@ -214,8 +214,8 @@ public class CollectionUtils
         {
             if (includeRadius)
             {
-                return Float.compare(MathUtils.getDistance(o1, location),
-                        MathUtils.getDistance(o2, location));
+                return Float.compare(MathUtils.getDistanceSquared(o1, location),
+                        MathUtils.getDistanceSquared(o2, location));
             }
 
             return Float.compare(MathUtils.getDistanceSquared(o1.getLocation(),

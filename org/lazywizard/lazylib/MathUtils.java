@@ -38,9 +38,9 @@ public class MathUtils
      * @see MathUtils#getDistance(Vector2f, Vector2f)
      * @since 1.1
      */
-    public static float getDistance(SectorEntityToken token, Vector2f vector)
+    public static float getDistance(SectorEntityToken token, Vector2f loc)
     {
-        return Math.max(0f, getDistance(token.getLocation(), vector) - token.getRadius());
+        return Math.max(0f, getDistance(token.getLocation(), loc) - token.getRadius());
     }
 
     /**
@@ -50,10 +50,10 @@ public class MathUtils
      * @see MathUtils#getDistance(Vector2f, Vector2f)
      * @since 1.0
      */
-    public static float getDistance(CombatEntityAPI obj1, CombatEntityAPI obj2)
+    public static float getDistance(CombatEntityAPI entity1, CombatEntityAPI entity2)
     {
-        return Math.max(0f, getDistance(obj1.getLocation(), obj2.getLocation())
-                - (obj1.getCollisionRadius() + obj2.getCollisionRadius()));
+        return Math.max(0f, getDistance(entity1.getLocation(), entity2.getLocation())
+                - (entity1.getCollisionRadius() + entity2.getCollisionRadius()));
     }
 
     /**
@@ -63,9 +63,9 @@ public class MathUtils
      * @see MathUtils#getDistance(Vector2f, Vector2f)
      * @since 1.0
      */
-    public static float getDistance(CombatEntityAPI entity, Vector2f vector)
+    public static float getDistance(CombatEntityAPI entity, Vector2f loc)
     {
-        return Math.max(0f, getDistance(entity.getLocation(), vector)
+        return Math.max(0f, getDistance(entity.getLocation(), loc)
                 - entity.getCollisionRadius());
     }
 
@@ -80,10 +80,10 @@ public class MathUtils
      * <p>
      * @since 1.0
      */
-    public static float getDistance(Vector2f vector1, Vector2f vector2)
+    public static float getDistance(Vector2f loc1, Vector2f loc2)
     {
-        float a = vector1.x - vector2.x;
-        float b = vector1.y - vector2.y;
+        float a = loc1.x - loc2.x;
+        float b = loc1.y - loc2.y;
         return (float) Math.hypot(a, b);
     }
 
@@ -119,10 +119,10 @@ public class MathUtils
      * @see MathUtils#getDistanceSquared(Vector2f, Vector2f)
      * @since 1.1
      */
-    public static float getDistanceSquared(SectorEntityToken token, Vector2f vector)
+    public static float getDistanceSquared(SectorEntityToken token, Vector2f loc)
     {
         // There's no way to do this while avoiding a sqrt, so might as well...
-        float distance = getDistance(token, vector);
+        float distance = getDistance(token, loc);
         return distance * distance;
         //return getDistanceSquared(token.getLocation(), vector);
     }
@@ -139,10 +139,10 @@ public class MathUtils
      * @see MathUtils#getDistanceSquared(Vector2f, Vector2f)
      * @since 1.0
      */
-    public static float getDistanceSquared(CombatEntityAPI obj1, CombatEntityAPI obj2)
+    public static float getDistanceSquared(CombatEntityAPI entity1, CombatEntityAPI entity2)
     {
         // There's no way to do this while avoiding a sqrt, so might as well...
-        float distance = getDistance(obj1, obj2);
+        float distance = getDistance(entity1, entity2);
         return distance * distance;
         //return getDistanceSquared(obj1.getLocation(), obj2.getLocation());
     }
@@ -159,10 +159,10 @@ public class MathUtils
      * @see MathUtils#getDistanceSquared(Vector2f, Vector2f)
      * @since 1.0
      */
-    public static float getDistanceSquared(CombatEntityAPI entity, Vector2f vector)
+    public static float getDistanceSquared(CombatEntityAPI entity, Vector2f loc)
     {
         // There's no way to do this while avoiding a sqrt, so might as well...
-        float distance = getDistance(entity, vector);
+        float distance = getDistance(entity, loc);
         return distance * distance;
         //return getDistanceSquared(entity.getLocation(), vector);
     }
@@ -178,10 +178,46 @@ public class MathUtils
      * <p>
      * @since 1.0
      */
-    public static float getDistanceSquared(Vector2f vector1, Vector2f vector2)
+    public static float getDistanceSquared(Vector2f loc1, Vector2f loc2)
     {
-        float a = vector1.x - vector2.x, b = vector1.y - vector2.y;
+        float a = loc1.x - loc2.x, b = loc1.y - loc2.y;
         return (a * a) + (b * b);
+    }
+
+    // TODO: Javadoc this and add to changelog!
+    public static boolean isWithinRange(SectorEntityToken token1, SectorEntityToken token2, float range)
+    {
+        return isWithinRange(token1.getLocation(), token2.getLocation(),
+                (range + token1.getRadius() + token2.getRadius()));
+    }
+
+    // TODO: Javadoc this and add to changelog!
+    public static boolean isWithinRange(SectorEntityToken token, Vector2f loc, float range)
+    {
+        return isWithinRange(token.getLocation(), loc, (range + token.getRadius()));
+    }
+
+    // TODO: Javadoc this and add to changelog!
+    public static boolean isWithinRange(CombatEntityAPI entity1, CombatEntityAPI entity2, float range)
+    {
+        return isWithinRange(entity1.getLocation(), entity2.getLocation(),
+                (range + entity1.getCollisionRadius() + entity2.getCollisionRadius()));
+    }
+
+    // TODO: Javadoc this and add to changelog!
+    public static boolean isWithinRange(CombatEntityAPI entity, Vector2f loc, float range)
+    {
+        return isWithinRange(entity.getLocation(), loc,
+                (range + entity.getCollisionRadius()));
+    }
+
+    /**
+     * @since 1.8
+     */
+    // TODO: Javadoc this and add to changelog!
+    public static boolean isWithinRange(Vector2f loc1, Vector2f loc2, float range)
+    {
+        return (getDistanceSquared(loc1, loc2) <= (range * range));
     }
 
     /**
