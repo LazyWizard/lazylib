@@ -184,27 +184,93 @@ public class MathUtils
         return (a * a) + (b * b);
     }
 
-    // TODO: Javadoc this and add to changelog!
+    /**
+     * Check if two {@link SectorEntityToken}s are within a certain distance of
+     * each other, including interaction radii.
+     * <p>
+     * This is <i>vastly</i> more efficient than
+     * {@link MathUtils#getDistance(CombatEntityAPI, CombatEntityAPI)},
+     * and should be used whenever possible.
+     *
+     * @param token1 The first {@link SectorEntityToken} to check.
+     * @param token2 The second {@link SectorEntityToken} to check.
+     * @param range  The minimum distance between {@code token1} and
+     *               {@link token2}.
+     * <p>
+     * @return Whether {@code token1} is within {@code range} su of
+     *         {@code token2}.
+     * <p>
+     * @since 1.8
+     */
     public static boolean isWithinRange(SectorEntityToken token1, SectorEntityToken token2, float range)
     {
         return isWithinRange(token1.getLocation(), token2.getLocation(),
                 (range + token1.getRadius() + token2.getRadius()));
     }
 
-    // TODO: Javadoc this and add to changelog!
+    /**
+     * Check if a {@link SectorEntityToken} is within a certain distance of a
+     * location, including interaction radius.
+     * <p>
+     * This is <i>vastly</i> more efficient than
+     * {@link MathUtils#getDistance(SectorEntityToken, Vector2f)},
+     * and should be used whenever possible.
+     *
+     * @param token The {@link SectorEntityToken} to check.
+     * @param loc   The {@link Vector2f} to check.
+     * @param range The minimum distance between {@code token} and
+     *              {@link loc}.
+     * <p>
+     * @return Whether {@code token} is within {@code range} su of {@code loc}.
+     * <p>
+     * @since 1.8
+     */
     public static boolean isWithinRange(SectorEntityToken token, Vector2f loc, float range)
     {
         return isWithinRange(token.getLocation(), loc, (range + token.getRadius()));
     }
 
-    // TODO: Javadoc this and add to changelog!
+    /**
+     * Check if two {@link CombatEntityAPI}s are within a certain distance of
+     * each other, including collision radii.
+     * <p>
+     * This is <i>vastly</i> more efficient than
+     * {@link MathUtils#getDistance(CombatEntityAPI, CombatEntityAPI)},
+     * and should be used whenever possible.
+     *
+     * @param entity1 The first {@link CombatEntityAPI} to check.
+     * @param entity2 The second {@link CombatEntityAPI} to check.
+     * @param range   The minimum distance between {@code entity1} and
+     *                {@link entity2}.
+     * <p>
+     * @return Whether {@code entity1} is within {@code range} su of
+     *         {@code entity2}.
+     * <p>
+     * @since 1.8
+     */
     public static boolean isWithinRange(CombatEntityAPI entity1, CombatEntityAPI entity2, float range)
     {
         return isWithinRange(entity1.getLocation(), entity2.getLocation(),
                 (range + entity1.getCollisionRadius() + entity2.getCollisionRadius()));
     }
 
-    // TODO: Javadoc this and add to changelog!
+    /**
+     * Check if a {@link CombatEntityAPI} is within a certain distance of a
+     * location, including collision radius.
+     * <p>
+     * This is <i>vastly</i> more efficient than
+     * {@link MathUtils#getDistance(CombatEntityAPI, Vector2f)},
+     * and should be used whenever possible.
+     *
+     * @param entity The {@link CombatEntityAPI} to check.
+     * @param loc    The {@link Vector2f} to check.
+     * @param range  The minimum distance between {@code entity} and
+     *               {@link loc}.
+     * <p>
+     * @return Whether {@code entity} is within {@code range} su of {@code loc}.
+     * <p>
+     * @since 1.8
+     */
     public static boolean isWithinRange(CombatEntityAPI entity, Vector2f loc, float range)
     {
         return isWithinRange(entity.getLocation(), loc,
@@ -212,9 +278,16 @@ public class MathUtils
     }
 
     /**
+     * Check if two objects are within a certain distance of each other.
+     *
+     * @param loc1  The first {@link Vector2f}.
+     * @param loc2  The second {@link Vector2f}.
+     * @param range The minimum distance between {@code loc1} and {@link loc2}.
+     * <p>
+     * @return Whether {@code loc1} is within {@code range} su of {@code loc2}.
+     * <p>
      * @since 1.8
      */
-    // TODO: Javadoc this and add to changelog!
     public static boolean isWithinRange(Vector2f loc1, Vector2f loc2, float range)
     {
         return (getDistanceSquared(loc1, loc2) <= (range * range));

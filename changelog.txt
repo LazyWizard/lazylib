@@ -1,17 +1,21 @@
  1.8 (someday)
 ===============
-Updated code to use Java 7 language features
+Updated codebase to use Java 7 language features
 Added JSONUtils:
- - toColor(JSONArray array), for reading colors from JSON files
+ - toColor(JSONArray array), for reading colors from JSON/CSV files
 Added StringUtils:
- - Currently only contains methods for line-wrapping Strings
  - wrapString(String toWrap, int maxLineLength)
- - wrapString(String toWrap, int maxLineLength, boolean indentFirstLine,
-   boolean indentFollowingLines, String indent)
+ - indent(String toIndent, String indentWith)
 Changes to DrawUtils:
  - Added drawFilled boolean parameter to drawArc(), deprecated old version
 Changes to MathUtils:
- - Added isInRange( //TODO
+ - Added isWithinRange(SectorEntityToken token1, SectorEntityToken token2,
+   float range)
+ - Added isWithinRange(SectorEntityToken token, Vector2f loc, float range)
+ - Added isWithinRange(CombatEntityAPI entity1, CombatEntityAPI entity2,
+   float range)
+ - Added isWithinRange(CombatEntityAPI entity, Vector2f loc, float range)
+ - Added isWithinRange(Vector2f loc1, Vector2f loc2, float range)
 Changes to FleetUtils:
  - Added isShipInFleet(String fleetMemberId, CampaignFleetAPI fleet),
    can be used with FleetMemberAPI.getId() or ShipAPI.getFleetMemberId()
