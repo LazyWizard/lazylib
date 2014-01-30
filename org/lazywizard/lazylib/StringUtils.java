@@ -114,4 +114,8 @@ public class StringUtils
 
         return output.toString();
     }
+
+    private StringUtils()
+    {
+    }
 }
