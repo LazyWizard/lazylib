@@ -44,8 +44,7 @@ public class WeaponUtils
     public static boolean isWithinArc(CombatEntityAPI entity, WeaponAPI weapon)
     {
         // Check if weapon is in range
-        if (MathUtils.getDistance(entity, weapon.getLocation())
-                > (weapon.getRange() + entity.getCollisionRadius()))
+        if (!MathUtils.isWithinRange(entity, weapon.getLocation(), weapon.getRange()))
         {
             return false;
         }
@@ -161,7 +160,7 @@ public class WeaponUtils
 
         for (ShipAPI ship : AIUtils.getAlliesOnMap(weapon.getShip()))
         {
-            if (MathUtils.getDistance(ship, weapon.getLocation()) <= range
+            if (MathUtils.isWithinRange(ship, weapon.getLocation(), range)
                     && weapon.distanceFromArc(ship.getLocation()) == 0f)
             {
                 allies.add(ship);
@@ -229,7 +228,7 @@ public class WeaponUtils
 
         for (ShipAPI ship : AIUtils.getEnemiesOnMap(weapon.getShip()))
         {
-            if (MathUtils.getDistance(ship, weapon.getLocation()) <= range
+            if (MathUtils.isWithinRange(ship, weapon.getLocation(), range)
                     && weapon.distanceFromArc(ship.getLocation()) == 0f)
             {
                 enemies.add(ship);
@@ -294,12 +293,11 @@ public class WeaponUtils
     {
         List<MissileAPI> missiles = new ArrayList<>();
         float range = weapon.getRange();
-        range *= range;
 
         for (MissileAPI missile : AIUtils.getEnemyMissilesOnMap(weapon.getShip()))
         {
-            if (MathUtils.getDistanceSquared(missile.getLocation(), weapon.getLocation())
-                    <= range && weapon.distanceFromArc(missile.getLocation()) == 0f)
+            if (MathUtils.isWithinRange(missile.getLocation(), weapon.getLocation(),
+                    range) && weapon.distanceFromArc(missile.getLocation()) == 0f)
             {
                 missiles.add(missile);
             }

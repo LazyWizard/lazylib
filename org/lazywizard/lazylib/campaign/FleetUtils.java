@@ -301,11 +301,10 @@ public class FleetUtils
     public static List<CampaignFleetAPI> getNearbyEnemyFleets(CampaignFleetAPI fleet, float range)
     {
         List<CampaignFleetAPI> enemies = new ArrayList<>();
-        range *= range;
 
         for (CampaignFleetAPI enemy : getEnemyFleetsInSystem(fleet))
         {
-            if (MathUtils.getDistanceSquared(fleet, enemy) <= range)
+            if (MathUtils.isWithinRange(fleet, enemy, range))
             {
                 enemies.add(enemy);
             }
@@ -352,11 +351,10 @@ public class FleetUtils
     public static List<CampaignFleetAPI> getNearbyAlliedFleets(CampaignFleetAPI fleet, float range)
     {
         List<CampaignFleetAPI> allies = new ArrayList<>();
-        range *= range;
 
         for (CampaignFleetAPI ally : getAlliedFleetsInSystem(fleet))
         {
-            if (MathUtils.getDistanceSquared(fleet, ally) <= range)
+            if (MathUtils.isWithinRange(fleet, ally, range))
             {
                 allies.add(ally);
             }
@@ -379,11 +377,10 @@ public class FleetUtils
     public static List<CampaignFleetAPI> getNearbyFleets(CampaignFleetAPI fleet, float range)
     {
         List<CampaignFleetAPI> fleets = new ArrayList<>();
-        range *= range;
 
         for (CampaignFleetAPI tmp : fleet.getContainingLocation().getFleets())
         {
-            if (MathUtils.getDistanceSquared(fleet, tmp) <= range)
+            if (MathUtils.isWithinRange(fleet, tmp, range))
             {
                 fleets.add(tmp);
             }

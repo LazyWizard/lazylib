@@ -111,11 +111,10 @@ public class CombatUtils
     public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location, float range)
     {
         List<DamagingProjectileAPI> projectiles = new ArrayList<>();
-        range *= range;
 
         for (DamagingProjectileAPI tmp : Global.getCombatEngine().getProjectiles())
         {
-            if (MathUtils.getDistanceSquared(tmp.getLocation(), location) <= range)
+            if (MathUtils.isWithinRange(tmp.getLocation(), location, range))
             {
                 projectiles.add(tmp);
             }
@@ -138,11 +137,10 @@ public class CombatUtils
     public static List<MissileAPI> getMissilesWithinRange(Vector2f location, float range)
     {
         List<MissileAPI> missiles = new ArrayList<>();
-        range *= range;
 
         for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
         {
-            if (MathUtils.getDistanceSquared(tmp.getLocation(), location) <= range)
+            if (MathUtils.isWithinRange(tmp.getLocation(), location, range))
             {
                 missiles.add(tmp);
             }
@@ -173,7 +171,7 @@ public class CombatUtils
                 continue;
             }
 
-            if (MathUtils.getDistance(tmp, location) <= range)
+            if (MathUtils.isWithinRange(tmp, location, range))
             {
                 ships.add(tmp);
             }
@@ -198,7 +196,7 @@ public class CombatUtils
 
         for (CombatEntityAPI tmp : Global.getCombatEngine().getAsteroids())
         {
-            if (MathUtils.getDistance(tmp, location) <= range)
+            if (MathUtils.isWithinRange(tmp, location, range))
             {
                 asteroids.add(tmp);
             }
@@ -222,11 +220,10 @@ public class CombatUtils
             float range)
     {
         List<BattleObjectiveAPI> objectives = new ArrayList<>();
-        range *= range;
 
         for (BattleObjectiveAPI tmp : Global.getCombatEngine().getObjectives())
         {
-            if (MathUtils.getDistanceSquared(tmp.getLocation(), location) <= range)
+            if (MathUtils.isWithinRange(tmp.getLocation(), location, range))
             {
                 objectives.add(tmp);
             }
@@ -249,11 +246,10 @@ public class CombatUtils
     public static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location, float range)
     {
         List<CombatEntityAPI> entities = new ArrayList<>();
-        range *= range;
 
         for (CombatEntityAPI tmp : Global.getCombatEngine().getShips())
         {
-            if (MathUtils.getDistanceSquared(tmp, location) <= range)
+            if (MathUtils.isWithinRange(tmp, location, range))
             {
                 entities.add(tmp);
             }
@@ -262,7 +258,7 @@ public class CombatUtils
         // This also includes missiles
         for (CombatEntityAPI tmp : Global.getCombatEngine().getProjectiles())
         {
-            if (MathUtils.getDistanceSquared(tmp, location) <= range)
+            if (MathUtils.isWithinRange(tmp, location,range))
             {
                 entities.add(tmp);
             }
@@ -270,7 +266,7 @@ public class CombatUtils
 
         for (CombatEntityAPI tmp : Global.getCombatEngine().getAsteroids())
         {
-            if (MathUtils.getDistanceSquared(tmp, location) <= range)
+            if (MathUtils.isWithinRange(tmp, location, range))
             {
                 entities.add(tmp);
             }
