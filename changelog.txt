@@ -9,8 +9,9 @@ Added StringUtils:
  - wrapString(String toWrap, int maxLineLength, boolean indentFirstLine,
    boolean indentFollowingLines, String indent)
 Changes to DrawUtils:
- - Added drawRegularPolygon(float centerX, float centerY, int numSides,
-   float size, float angleOffset, boolean drawFilled)
+ - Added drawFilled boolean parameter to drawArc(), deprecated old version
+Changes to MathUtils:
+ - Added isInRange( //TODO
 Changes to FleetUtils:
  - Added isShipInFleet(String fleetMemberId, CampaignFleetAPI fleet),
    can be used with FleetMemberAPI.getId() or ShipAPI.getFleetMemberId()

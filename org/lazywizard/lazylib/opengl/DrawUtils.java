@@ -77,65 +77,6 @@ public class DrawUtils
     }
 
     /**
-     * Draws a hollow regular polygon, or a filled regular polygon if
-     * {@code drawFilled} is true.
-     * <p>
-     * This method only contains the actual drawing code and assumes all OpenGL
-     * flags, color, line width etc have been set by the user beforehand.
-     * <p>
-     * Optimized polygon-drawing algorithm based on code taken from:
-     * <a href=http://slabode.exofire.net/circle_draw.shtml>
-     * http://slabode.exofire.net/circle_draw.shtml</a>
-     *
-     * @param centerX     The x value of the center point of the polygon.
-     * @param centerY     The y value of the center point of the polygon.
-     * @param numSides    How many sides the polygon should have.
-     * @param size        How far from the center to each point.
-     * @param angleOffset The angle offset of the polygon, in degrees (90
-     *                    degrees = facing upwards).
-     * @param drawFilled  Whether the polygon should be hollow or filled.
-     * <p>
-     * @since 1.8
-     */
-    public static void drawRegularPolygon(float centerX, float centerY,
-            int numSides, float size, float angleOffset, boolean drawFilled)
-    {
-        if (numSides < 3)
-        {
-            return;
-        }
-
-        // Convert angles into radians for our calculations
-        angleOffset = (float) Math.toRadians(angleOffset);
-
-        // Precalculate the sine and cosine
-        // Instead of recalculating sin/cos for each line segment,
-        // this algorithm rotates the line around the center point
-        float theta = 2f * 3.1415926f / (float) numSides;
-        float cos = (float) FastTrig.cos(theta);
-        float sin = (float) FastTrig.sin(theta);
-        float t;
-
-        // Start at angle startAngle
-        float x = (float) (size * FastTrig.cos(angleOffset));
-        float y = (float) (size * FastTrig.sin(angleOffset));
-
-        glBegin(drawFilled ? GL_TRIANGLE_FAN : GL_LINE_STRIP);
-        for (int i = 0; i < numSides; i++)
-        {
-            // Output vertex
-            glVertex2f(x + centerX, y + centerY);
-
-            // Apply the rotation matrix
-            t = x;
-            x = (cos * x) - (sin * y);
-            y = (sin * t) + (cos * y);
-        }
-        glVertex2f(x + centerX, y + centerY);
-        glEnd();
-    }
-
-    /**
      * Draws an arc made up of line segments.
      * <p>
      * This method only contains the actual drawing code and assumes all OpenGL
@@ -153,11 +94,12 @@ public class DrawUtils
      * @param numSegments How many line segments the arc should be made up
      *                    of (higher number = smoother arc, but higher GPU
      *                    cost).
+     * @param drawFilled  Whether to draw the arc filled.
      * <p>
-     * @since 1.7
+     * @since 1.8
      */
     public static void drawArc(float centerX, float centerY, float radius,
-            float startAngle, float arcAngle, int numSegments)
+            float startAngle, float arcAngle, int numSegments, boolean drawFilled)
     {
         // Convert angles into radians for our calculations
         startAngle = (float) Math.toRadians(startAngle);
@@ -175,7 +117,11 @@ public class DrawUtils
         float x = (float) (radius * FastTrig.cos(startAngle));
         float y = (float) (radius * FastTrig.sin(startAngle));
 
-        glBegin(GL_LINE_STRIP);
+        glBegin(drawFilled ? GL_TRIANGLE_FAN : GL_LINE_STRIP);
+        if (drawFilled)
+        {
+            glVertex2f(centerX, centerY);
+        }
         for (int i = 0; i < numSegments; i++)
         {
             // Output vertex
@@ -188,6 +134,18 @@ public class DrawUtils
         }
         glVertex2f(x + centerX, y + centerY);
         glEnd();
+    }
+
+    /**
+     * @deprecated Use {@link DrawUtils#drawArc(float, float, float, float,
+     * float, int, boolean)} instead.
+     * @since 1.7
+     */
+    @Deprecated
+    public static void drawArc(float centerX, float centerY, float radius,
+            float startAngle, float arcAngle, int numSegments)
+    {
+        drawArc(centerX, centerY, radius, startAngle, arcAngle, numSegments, false);
     }
 
     private DrawUtils()
