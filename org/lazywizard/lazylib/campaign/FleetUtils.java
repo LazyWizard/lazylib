@@ -3,6 +3,7 @@ package org.lazywizard.lazylib.campaign;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
+import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -107,7 +108,18 @@ public class FleetUtils
         return fleet1.getFaction().getRelationship(fleet2.getFaction().getId()) == 0;
     }
 
-    // TODO: Javadoc this!
+    /**
+     * Checks if a fleet contains a specific ship.
+     * <p>
+     * @param fleetMemberId The fleet member ID of the ship to check. This can
+     *                      be retrieved with {@link ShipAPI#getFleetMemberId()}
+     *                      or {@link FleetMemberAPI#getId()}.
+     * @param fleet         The fleet to check for the presence of this ship in.
+     * <p>
+     * @return {@code true} if {@code fleet} contains a ship with this ID,
+     *         {@code false} otherwise.
+     * @since 1.8
+     */
     public static boolean isShipInFleet(String fleetMemberId, CampaignFleetAPI fleet)
     {
         if (fleetMemberId == null)

@@ -1,62 +1,42 @@
 package org.lazywizard.lazylib;
 
 /**
+ * Contains methods for working with {@link String}s.
  *
  * @author LazyWizard
  * @since 1.8
  */
-// TODO: Javadoc this!
 public class StringUtils
 {
     /**
-     * TODO
+     * Word-wraps a {@link String} (ensures it fits within a certain width).
      *
-     * @param toWrap               TODO
-     * @param maxLineLength        TODO
-     * @param indentFirstLine      TODO
-     * @param indentFollowingLines TODO
-     * @param indent               TODO
+     * @param toWrap        The {@link String} to be word-wrapped.
+     * @param maxLineLength How long a line can reach before it's split in two.
      * <p>
-     * @return TODO
+     * @return {@code toWrap} wrapped to {@code maxLineLength} width.
      * <p>
      * @since 1.8
      */
-    // TODO: Javadoc this!
-    // TODO: Fix indent pushing over maxLineLength
     // TODO: This whole thing could be rewritten far more efficiently
-    public static String wrapString(String toWrap, int maxLineLength,
-            boolean indentFirstLine, boolean indentFollowingLines, String indent)
+    public static String wrapString(String toWrap, int maxLineLength)
     {
-        if (indent == null)
-        {
-            indent = "";
-        }
-
         if (toWrap == null)
         {
-            return indent;
+            return "";
         }
 
         // Analyse each line of the message seperately
         String[] lines = toWrap.split("\n");
         StringBuilder line = new StringBuilder(maxLineLength);
         StringBuilder message = new StringBuilder((int) (toWrap.length() * 1.1f));
-        boolean shouldIndent = indentFirstLine;
         for (String rawLine : lines)
         {
             // Check if the string even needs to be broken up
             if (rawLine.length() <= maxLineLength)
             {
                 // Entire message fits into a single line
-                if (shouldIndent)
-                {
-                    message.append(indent).append(rawLine).append("\n");
-                }
-                else
-                {
-                    message.append(rawLine).append("\n");
-                    shouldIndent = indentFollowingLines;
-                }
+                message.append(rawLine).append("\n");
             }
             else
             {
@@ -74,45 +54,19 @@ public class StringUtils
                         // Make sure to post the previous line in queue, if any
                         if (line.length() > 0)
                         {
-                            if (shouldIndent)
-                            {
-                                message.append(indent).append(line.toString()).append("\n");
-                            }
-                            else
-                            {
-                                message.append(line.toString()).append("\n");
-                                shouldIndent = indentFollowingLines;
-                            }
-
+                            message.append(line.toString()).append("\n");
                             line.setLength(0);
                         }
 
                         // TODO: split line at maxLineLength and add dash/newline
-                        if (shouldIndent)
-                        {
-                            message.append(indent).append(words[y]).append("\n");
-                        }
-                        else
-                        {
-                            message.append(words[y]).append("\n");
-                            shouldIndent = indentFollowingLines;
-                        }
+                        message.append(words[y]).append("\n");
                     }
                     // If this word would put us over the length limit, post
                     // the queue and back up a step (re-check this word with
                     // a blank line - this is in case it trips the above block)
                     else if (words[y].length() + line.length() > maxLineLength)
                     {
-                        if (shouldIndent)
-                        {
-                            message.append(indent).append(line.toString()).append("\n");
-                        }
-                        else
-                        {
-                            message.append(line.toString()).append("\n");
-                            shouldIndent = indentFollowingLines;
-                        }
-
+                        message.append(line.toString()).append("\n");
                         line.setLength(0);
                         y--;
                     }
@@ -126,15 +80,7 @@ public class StringUtils
                         // that we post the remaining part of the queue
                         if (y == (words.length - 1))
                         {
-                            if (shouldIndent)
-                            {
-                                message.append(indent).append(line.toString()).append("\n");
-                            }
-                            else
-                            {
-                                message.append(line.toString()).append("\n");
-                                shouldIndent = indentFollowingLines;
-                            }
+                            message.append(line.toString()).append("\n");
                         }
                     }
                 }
@@ -145,18 +91,27 @@ public class StringUtils
     }
 
     /**
-     * TODO
-     *
-     * @param toWrap        TODO
-     * @param maxLineLength TODO
+     * Prepends every line of a {@link String} with another {@link String}.
      * <p>
-     * @return TODO
+     * @param toIndent   The {@link String} to be indented.
+     * @param indentWith The {@link String} to indent each line with. For
+     *                   example, a bulleted list could be created by passing in
+     *                   {@code " * "}.
+     * <p>
+     * @return {@code toIndent} with every line prepended with
+     *         {@code indentWith}.
      * <p>
      * @since 1.8
      */
-    // TODO: Javadoc this!
-    public static String wrapString(String toWrap, int maxLineLength)
+    public static String indent(String toIndent, String indentWith)
     {
-        return wrapString(toWrap, maxLineLength, false, false, null);
+        StringBuilder output = new StringBuilder((int) (toIndent.length() * 1.2f));
+
+        for (String tmp : toIndent.split("\n"))
+        {
+            output.append(indentWith).append(tmp);
+        }
+
+        return output.toString();
     }
 }

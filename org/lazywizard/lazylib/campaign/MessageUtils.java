@@ -39,10 +39,16 @@ public class MessageUtils
 
         if (message != null)
         {
-            for (String tmp : StringUtils.wrapString(message, LINE_LENGTH,
-                    true, true, (indent ? "   " : null)).split("\n"))
+            for (String tmp : StringUtils.wrapString(message, LINE_LENGTH).split("\n"))
             {
-                Global.getSector().getCampaignUI().addMessage(tmp);
+                if (indent)
+                {
+                    Global.getSector().getCampaignUI().addMessage("   " + tmp);
+                }
+                else
+                {
+                    Global.getSector().getCampaignUI().addMessage(tmp);
+                }
             }
         }
     }
