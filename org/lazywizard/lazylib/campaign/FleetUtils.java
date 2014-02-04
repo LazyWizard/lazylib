@@ -118,11 +118,12 @@ public class FleetUtils
      * <p>
      * @return {@code true} if {@code fleet} contains a ship with this ID,
      *         {@code false} otherwise.
+     * <p>
      * @since 1.8
      */
     public static boolean isShipInFleet(String fleetMemberId, CampaignFleetAPI fleet)
     {
-        if (fleetMemberId == null)
+        if (fleetMemberId == null || fleetMemberId.isEmpty())
         {
             return false;
         }

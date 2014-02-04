@@ -1,11 +1,16 @@
  1.8 (someday)
 ===============
 Updated codebase to use Java 7 language features
+Changed all getXInRange() methods to use new MathUtils.isWithinRange()
+ - Should provide a noticeable speed boost for any methods dealing with an
+   object that has a collision/interaction radius
 Added JSONUtils:
  - toColor(JSONArray array), for reading colors from JSON/CSV files
 Added StringUtils:
  - wrapString(String toWrap, int maxLineLength)
  - indent(String toIndent, String indentWith)
+Changes to AnchoredEntity:
+ - Changed variables from private to protected for easier subclassing
 Changes to DrawUtils:
  - Added drawFilled boolean parameter to drawArc(), deprecated old version
 Changes to MathUtils:
@@ -19,6 +24,11 @@ Changes to MathUtils:
 Changes to FleetUtils:
  - Added isShipInFleet(String fleetMemberId, CampaignFleetAPI fleet),
    can be used with FleetMemberAPI.getId() or ShipAPI.getFleetMemberId()
+Changes to SimpleEntity:
+ - Changed variables from private to protected for easier subclassing
+Changes to WeaponUtils:
+ - Fixed bug where isWithinArc() was using double the entity's actual collision
+   radius in its calculations
 
  1.7 (December 18, 2013)
 =========================
