@@ -14,11 +14,13 @@ import org.lwjgl.util.vector.Vector2f;
  */
 public class AnchoredEntity extends EntityBase
 {
-    private CombatEntityAPI anchor;
-    private float relativeDistance, relativeAngle;
+    protected CombatEntityAPI anchor;
+    protected float relativeDistance, relativeAngle;
 
     private AnchoredEntity()
     {
+        anchor = null;
+        relativeDistance = relativeAngle = 0;
     }
 
     /**

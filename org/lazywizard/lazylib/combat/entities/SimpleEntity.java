@@ -23,14 +23,14 @@ public class SimpleEntity extends EntityBase
 {
     // Cache for all reflection-based variants (reduces overhead on creation)
     private static final Map<Class, Method> methodCache = new HashMap<>();
-    private final SimpleEntityType type;
+    protected final SimpleEntityType type;
     // Variables for Vector2f-based variant
-    private Vector2f location = null;
+    protected Vector2f location = null;
     // Variables for WeaponAPI-based variant
-    private WeaponAPI weapon = null;
+    protected WeaponAPI weapon = null;
     // Variables for reflection-based variant
-    private Object toFollow = null;
-    private Method getLocation = null;
+    protected Object toFollow = null;
+    protected Method getLocation = null;
 
     /**
      * @since 1.7
