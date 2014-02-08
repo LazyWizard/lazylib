@@ -16,6 +16,7 @@ import org.lwjgl.util.vector.Vector2f;
  */
 public class MathUtils
 {
+    // This is the internal RNG used by all randomized LazyLib methods
     private static final Random rng = new Random();
 
     /**
