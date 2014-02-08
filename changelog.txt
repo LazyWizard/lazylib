@@ -3,7 +3,7 @@
 Updated codebase to use Java 7 language features
 Changed all getXInRange() methods to use new MathUtils.isWithinRange()
  - Should provide a noticeable speed boost for any methods dealing with an
-   object that has a collision/interaction radius
+   object that has a collision/interaction radius - up to 15x faster execution
 Added JSONUtils:
  - toColor(JSONArray array), for reading colors from JSON/CSV files
 Added StringUtils:
@@ -11,6 +11,7 @@ Added StringUtils:
  - indent(String toIndent, String indentWith)
 Changes to AnchoredEntity:
  - Changed variables from private to protected for easier subclassing
+ - Added reanchor(CombatEntity newAnchor, Vector2f newLocation)
 Changes to DrawUtils:
  - Added drawFilled boolean parameter to drawArc(), deprecated old version
 Changes to MathUtils:

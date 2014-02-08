@@ -17,12 +17,6 @@ public class AnchoredEntity extends EntityBase
     protected CombatEntityAPI anchor;
     protected float relativeDistance, relativeAngle;
 
-    private AnchoredEntity()
-    {
-        anchor = null;
-        relativeDistance = relativeAngle = 0;
-    }
-
     /**
      * Creates a {@code CombatEntityAPI} that follows and rotates with another
      * anchoring {@code CombatEntityAPI}.
@@ -34,10 +28,23 @@ public class AnchoredEntity extends EntityBase
      */
     public AnchoredEntity(CombatEntityAPI anchor, Vector2f location)
     {
-        relativeDistance = MathUtils.getDistance(anchor.getLocation(), location);
+        reanchor(anchor, location);
+    }
+
+    /**
+     * Reorient this entity around a new anchor.
+     *
+     * @param newAnchor   The {@link CombatEntityAPI} to follow and rotate with.
+     * @param newLocation The location relative to {@code anchor} to track.
+     * <p>
+     * @since 1.8
+     */
+    public void reanchor(CombatEntityAPI newAnchor, Vector2f newLocation)
+    {
+        relativeDistance = MathUtils.getDistance(newAnchor.getLocation(), newLocation);
         relativeAngle = MathUtils.clampAngle(VectorUtils.getAngle(
-                anchor.getLocation(), location) - anchor.getFacing());
-        this.anchor = anchor;
+                newAnchor.getLocation(), newLocation) - newAnchor.getFacing());
+        anchor = newAnchor;
     }
 
     /**
