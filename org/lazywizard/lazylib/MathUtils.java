@@ -190,13 +190,13 @@ public class MathUtils
      * each other, including interaction radii.
      * <p>
      * This is <i>vastly</i> more efficient than comparisons using
-     * {@link MathUtils#getDistance(CombatEntityAPI, CombatEntityAPI)},
+     * {@link MathUtils#getDistance(SectorEntityToken, SectorEntityToken)},
      * and should be used whenever possible.
      *
      * @param token1 The first {@link SectorEntityToken} to check.
      * @param token2 The second {@link SectorEntityToken} to check.
      * @param range  The minimum distance between {@code token1} and
-     *               {@link token2}.
+     *               {@code token2}.
      * <p>
      * @return Whether {@code token1} is within {@code range} su of
      *         {@code token2}.
@@ -219,8 +219,7 @@ public class MathUtils
      *
      * @param token The {@link SectorEntityToken} to check.
      * @param loc   The {@link Vector2f} to check.
-     * @param range The minimum distance between {@code token} and
-     *              {@link loc}.
+     * @param range The minimum distance between {@code token} and {@code loc}.
      * <p>
      * @return Whether {@code token} is within {@code range} su of {@code loc}.
      * <p>
@@ -242,7 +241,7 @@ public class MathUtils
      * @param entity1 The first {@link CombatEntityAPI} to check.
      * @param entity2 The second {@link CombatEntityAPI} to check.
      * @param range   The minimum distance between {@code entity1} and
-     *                {@link entity2}.
+     *                {@code entity2}.
      * <p>
      * @return Whether {@code entity1} is within {@code range} su of
      *         {@code entity2}.
@@ -266,7 +265,7 @@ public class MathUtils
      * @param entity The {@link CombatEntityAPI} to check.
      * @param loc    The {@link Vector2f} to check.
      * @param range  The minimum distance between {@code entity} and
-     *               {@link loc}.
+     *               {@code loc}.
      * <p>
      * @return Whether {@code entity} is within {@code range} su of {@code loc}.
      * <p>
@@ -283,7 +282,7 @@ public class MathUtils
      *
      * @param loc1  The first {@link Vector2f}.
      * @param loc2  The second {@link Vector2f}.
-     * @param range The minimum distance between {@code loc1} and {@link loc2}.
+     * @param range The minimum distance between {@code loc1} and {@code loc2}.
      * <p>
      * @return Whether {@code loc1} is within {@code range} su of {@code loc2}.
      * <p>
