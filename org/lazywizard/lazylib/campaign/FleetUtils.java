@@ -148,6 +148,7 @@ public class FleetUtils
      * <p>
      * @since 1.2
      */
+    // TODO: rewrite to include radius, if possible to do so efficiently
     public static SectorEntityToken getNearestStation(SectorEntityToken token)
     {
         SectorEntityToken closest = null;
@@ -182,6 +183,7 @@ public class FleetUtils
      * <p>
      * @since 1.2
      */
+    // TODO: rewrite to include radius, if possible to do so efficiently
     public static CampaignFleetAPI getNearestEnemyFleet(CampaignFleetAPI fleet)
     {
         CampaignFleetAPI closest = null;
@@ -216,6 +218,7 @@ public class FleetUtils
      * <p>
      * @since 1.2
      */
+    // TODO: rewrite to include radius, if possible to do so efficiently
     public static CampaignFleetAPI getNearestAlliedFleet(CampaignFleetAPI fleet)
     {
         CampaignFleetAPI closest = null;
@@ -251,6 +254,7 @@ public class FleetUtils
      * <p>
      * @since 1.2
      */
+    // TODO: rewrite to include radius, if possible to do so efficiently
     public static CampaignFleetAPI getNearestFleet(SectorEntityToken token)
     {
         CampaignFleetAPI closest = null;

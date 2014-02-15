@@ -63,6 +63,7 @@ public class AIUtils
      * <p>
      * @since 1.0
      */
+    // TODO: rewrite to include radius, if possible to do so efficiently
     public static ShipAPI getNearestEnemy(CombatEntityAPI entity)
     {
         ShipAPI closest = null;
@@ -103,6 +104,7 @@ public class AIUtils
      * <p>
      * @since 1.0
      */
+    // TODO: rewrite to include radius, if possible to do so efficiently
     public static ShipAPI getNearestAlly(CombatEntityAPI entity)
     {
         ShipAPI closest = null;
@@ -138,6 +140,7 @@ public class AIUtils
      * <p>
      * @since 1.0
      */
+    // TODO: rewrite to include radius, if possible to do so efficiently
     public static ShipAPI getNearestShip(CombatEntityAPI entity)
     {
         ShipAPI closest = null;

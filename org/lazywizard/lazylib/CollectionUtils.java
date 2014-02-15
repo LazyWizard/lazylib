@@ -377,8 +377,8 @@ public class CollectionUtils
 
         private SortObjectivesByDistance()
         {
-            Global.getLogger(CollectionUtils.class).log(Level.WARN,
-                    "Using deprecated class SortObjectivesByDistance");
+            LazyLib.onDeprecatedMethodUsage(CollectionUtils.class,
+                    "SortObjectivesByDistance");
         }
 
         /**
