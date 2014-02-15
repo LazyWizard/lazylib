@@ -5,9 +5,9 @@ Log now includes class and line number of caller if 'logDeprecated' is true
 Changed all getXInRange()/getNearbyX() to use new MathUtils.isWithinRange()
  - Should provide a noticeable speed boost for those methods dealing with an
    object that has a collision/interaction radius
-Added JSONUtils:
+Added org.lazywizard.lazylib.JSONUtils:
  - toColor(JSONArray array), for reading colors from JSON/CSV files
-Added StringUtils:
+Added org.lazywizard.lazylib.StringUtils:
  - wrapString(String toWrap, int maxLineLength)
  - indent(String toIndent, String indentWith)
 Changes to AnchoredEntity:
@@ -33,6 +33,9 @@ Changes to VectorUtils:
 Changes to WeaponUtils:
  - Fixed bug where isWithinArc() was using double the entity's actual collision
    radius in its calculations
+Deprecated in DrawUtils:
+ - Deprecated drawArc(float centerX, float centerY, float radius,
+   float startAngle, float arcAngle, int numSegments)
 Deprecated in MathUtils:
  - Deprecated getDirectionalVector(Vector2f source, Vector2f destination),
    moved to VectorUtils
@@ -48,11 +51,11 @@ Added lazylib_settings.json:
    useful for modders since these will eventually be removed from LazyLib
  - "crashOnDeprecated", if true will throw a RuntimeException when a deprecated
    LazyLib method is used (for modders to track down usage via the stacktrace)
-Added DrawUtils (in new org.lazywizard.lazylib.opengl package):
+Added org.lazywizard.lazylib.opengl.DrawUtils:
  - drawCircle(float centerX, float centerY, float radius, int numSegments)
  - drawArc(float centerX, float centerY, float radius, float startAngle,
    float arcAngle, int numSegments)
-Added VectorUtils:
+Added org.lazywizard.lazylib.VectorUtils:
  - getAngle(Vector2f from, Vector2f to) (moved from MathUtils)
  - getFacing(Vector2f vector) (moved from MathUtils)
  - getCrossProduct(Vector2f vector1, Vector2f vector2)
@@ -203,11 +206,11 @@ Changes to WeaponUtils:
  1.5 (August 01, 2013)
 =======================
 Re-added DefenseType enumeration (contains HULL, ARMOR, SHIELD, PHASE_OR_MISS)
-Added AnchoredEntity:
+Added org.lazywizard.lazylib.combat.entities.AnchoredEntity:
  - Alternative implementation of CombatEntityAPI that follows and rotates
    alongside another CombatEntityAPI (the 'anchor')
  - Includes a working getVelocity() implementation, unlike SimpleEntity
-Added DefenseUtils:
+Added org.lazywizard.lazylib.combat.DefenseUtils:
  - Contains methods to convert between world and armor grid coordinates
  - Can check what DefenseType is present at a specific point on a ship
 Changes to AIUtils:
