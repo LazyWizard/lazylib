@@ -10,6 +10,8 @@ public class StringUtils
 {
     /**
      * Word-wraps a {@link String} (ensures it fits within a certain width).
+     * Note: this does not work properly with text containing tab characters
+     * ({@code \t}).
      *
      * @param toWrap        The {@link String} to be word-wrapped.
      * @param maxLineLength How long a line can reach before it's split in two.
@@ -48,8 +50,8 @@ public class StringUtils
                 for (int y = 0; y < words.length; y++)
                 {
                     // If this word by itself is longer than the line limit,
-                    // just go ahead and post it in its own line
-                    if (words[y].length() > maxLineLength)
+                    // break it up into multiple sub-lines separated by a dash
+                    if (words[y].length() >= maxLineLength)
                     {
                         // Make sure to post the previous line in queue, if any
                         if (line.length() > 0)
@@ -58,13 +60,24 @@ public class StringUtils
                             line.setLength(0);
                         }
 
-                        // TODO: split line at maxLineLength and add dash/newline
-                        message.append(words[y]).append("\n");
+                        // Break up word into multiple lines separated with dash
+                        while (words[y].length() > maxLineLength)
+                        {
+                            message.append(words[y].substring(0, maxLineLength - 1))
+                                    .append("-\n");
+                            words[y] = words[y].substring(maxLineLength - 1);
+                        }
+
+                        // Print remaining word, if any is left after above block
+                        if (!words[y].trim().isEmpty())
+                        {
+                            message.append(words[y]).append("\n");
+                        }
                     }
                     // If this word would put us over the length limit, post
                     // the queue and back up a step (re-check this word with
                     // a blank line - this is in case it trips the above block)
-                    else if (words[y].length() + line.length() > maxLineLength)
+                    else if (words[y].length() + line.length() >= maxLineLength)
                     {
                         message.append(line.toString()).append("\n");
                         line.setLength(0);
