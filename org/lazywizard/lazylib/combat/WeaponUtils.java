@@ -112,6 +112,7 @@ public class WeaponUtils
      * <p>
      * @since 1.7
      */
+    // TODO: rewrite to include radius, if possible to do so efficiently
     public static ShipAPI getNearestAllyInArc(WeaponAPI weapon)
     {
         ShipAPI closest = null;
@@ -180,6 +181,7 @@ public class WeaponUtils
      * <p>
      * @since 1.4
      */
+    // TODO: rewrite to include radius, if possible to do so efficiently
     public static ShipAPI getNearestEnemyInArc(WeaponAPI weapon)
     {
         ShipAPI closest = null;

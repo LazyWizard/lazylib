@@ -78,8 +78,6 @@ public class CombatUtils
         // adds support for more than two sides in a battle!
         if (side + entity.getOwner() != 1)
         {
-            Global.getLogger(AIUtils.class).log(Level.DEBUG,
-                    "Always visible: " + entity.toString());
             return true;
         }
 

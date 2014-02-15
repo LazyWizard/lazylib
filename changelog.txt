@@ -1,9 +1,9 @@
  1.8 (someday)
 ===============
 Updated codebase to use Java 7 language features
-Changed all getXInRange() methods to use new MathUtils.isWithinRange()
- - Should provide a noticeable speed boost for any methods dealing with an
-   object that has a collision/interaction radius - up to 15x faster execution
+Changed all getXInRange()/getNearbyX() to use new MathUtils.isWithinRange()
+ - Should provide a noticeable speed boost for those methods dealing with an
+   object that has a collision/interaction radius
 Added JSONUtils:
  - toColor(JSONArray array), for reading colors from JSON/CSV files
 Added StringUtils:
