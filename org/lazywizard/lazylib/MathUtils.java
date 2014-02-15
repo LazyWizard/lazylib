@@ -189,7 +189,7 @@ public class MathUtils
      * Check if two {@link SectorEntityToken}s are within a certain distance of
      * each other, including interaction radii.
      * <p>
-     * This is <i>vastly</i> more efficient than
+     * This is <i>vastly</i> more efficient than comparisons using
      * {@link MathUtils#getDistance(CombatEntityAPI, CombatEntityAPI)},
      * and should be used whenever possible.
      *
@@ -213,7 +213,7 @@ public class MathUtils
      * Check if a {@link SectorEntityToken} is within a certain distance of a
      * location, including interaction radius.
      * <p>
-     * This is <i>vastly</i> more efficient than
+     * This is <i>vastly</i> more efficient than comparisons using
      * {@link MathUtils#getDistance(SectorEntityToken, Vector2f)},
      * and should be used whenever possible.
      *
@@ -235,7 +235,7 @@ public class MathUtils
      * Check if two {@link CombatEntityAPI}s are within a certain distance of
      * each other, including collision radii.
      * <p>
-     * This is <i>vastly</i> more efficient than
+     * This is <i>vastly</i> more efficient than comparisons using
      * {@link MathUtils#getDistance(CombatEntityAPI, CombatEntityAPI)},
      * and should be used whenever possible.
      *
@@ -259,7 +259,7 @@ public class MathUtils
      * Check if a {@link CombatEntityAPI} is within a certain distance of a
      * location, including collision radius.
      * <p>
-     * This is <i>vastly</i> more efficient than
+     * This is <i>vastly</i> more efficient than comparisons using
      * {@link MathUtils#getDistance(CombatEntityAPI, Vector2f)},
      * and should be used whenever possible.
      *
@@ -292,30 +292,6 @@ public class MathUtils
     public static boolean isWithinRange(Vector2f loc1, Vector2f loc2, float range)
     {
         return (getDistanceSquared(loc1, loc2) <= (range * range));
-    }
-
-    /**
-     * Returns a normalized {@link Vector2f} pointing from {@code source} to
-     * {@code destination}.
-     *
-     * @param source      The origin of the vector.
-     * @param destination The location to point at.
-     * <p>
-     * @return A normalized {@link Vector2f} pointing at {@code destination}.
-     * <p>
-     * @since 1.0
-     */
-    public static Vector2f getDirectionalVector(Vector2f source, Vector2f destination)
-    {
-        Vector2f dir = Vector2f.sub(destination, source, null);
-
-        // Avoid crash with identical vectors
-        if (dir.x == 0f && dir.y == 0f)
-        {
-            return dir;
-        }
-
-        return dir.normalise(null);
     }
 
     /**
@@ -686,25 +662,48 @@ public class MathUtils
 
     /**
      * @deprecated Use
-     * {@link MathUtils#getDirectionalVector(Vector2f, Vector2f)} instead.
+     * {@link VectorUtils#getDirectionalVector(Vector2f, Vector2f)} instead.
      * @since 1.0
      */
     @Deprecated
     public static Vector2f getDirectionalVector(CombatEntityAPI source, Vector2f destination)
     {
-        return getDirectionalVector(source.getLocation(), destination);
+        LazyLib.onDeprecatedMethodUsage(MathUtils.class,
+                "getDirectionalVector(CombatEntityAPI source,"
+                + " Vector2f destination)");
+
+        return VectorUtils.getDirectionalVector(source.getLocation(), destination);
     }
 
     /**
      * @deprecated Use
-     * {@link MathUtils#getDirectionalVector(Vector2f, Vector2f)} instead.
+     * {@link VectorUtils#getDirectionalVector(Vector2f, Vector2f)} instead.
      * @since 1.0
      */
     @Deprecated
     public static Vector2f getDirectionalVector(CombatEntityAPI source,
             CombatEntityAPI destination)
     {
-        return getDirectionalVector(source.getLocation(), destination.getLocation());
+        LazyLib.onDeprecatedMethodUsage(MathUtils.class,
+                "getDirectionalVector(CombatEntityAPI source,"
+                + " CombatEntityAPI destination)");
+
+        return VectorUtils.getDirectionalVector(source.getLocation(),
+                destination.getLocation());
+    }
+
+    /**
+     * @deprecated Use
+     * {@link VectorUtils#getDirectionalVector(Vector2f, Vector2f)} instead.
+     * @since 1.0
+     */
+    @Deprecated
+    public static Vector2f getDirectionalVector(Vector2f source, Vector2f destination)
+    {
+        LazyLib.onDeprecatedMethodUsage(MathUtils.class,
+                "getDirectionalVector(Vector2f source, Vector2f destination)");
+
+        return VectorUtils.getDirectionalVector(source, destination);
     }
 
     /**
