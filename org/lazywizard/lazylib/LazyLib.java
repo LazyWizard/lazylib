@@ -31,7 +31,9 @@ public class LazyLib extends BaseModPlugin
     private static Level LOG_LEVEL;
 
     /**
-     * Returns the running version of LazyLib.
+     * Returns the running version of LazyLib. If your mod requires features
+     * from a certain version of LazyLib, this can be used to warn players that
+     * their version is out of date.
      *
      * @return The current version of LazyLib, as a {@link Float}.
      * <p>
@@ -58,7 +60,7 @@ public class LazyLib extends BaseModPlugin
     /**
      * Checks if this is a development (potentially unstable) build of LazyLib.
      *
-     * @return {@code true} if this is a beta build of LazyLib, {@code false}
+     * @return {@code true} if this is a WIP build of LazyLib, {@code false}
      *         otherwise.
      * <p>
      * @since 1.4
@@ -110,7 +112,9 @@ public class LazyLib extends BaseModPlugin
         // org.lazywizard.lazylib
         Global.getLogger(CollectionUtils.class).setLevel(level);
         Global.getLogger(CollisionUtils.class).setLevel(level);
+        Global.getLogger(JSONUtils.class).setLevel(level);
         Global.getLogger(MathUtils.class).setLevel(level);
+        Global.getLogger(StringUtils.class).setLevel(level);
         Global.getLogger(VectorUtils.class).setLevel(level);
         // org.lazywizard.lazylib.campaign
         Global.getLogger(CargoUtils.class).setLevel(level);
