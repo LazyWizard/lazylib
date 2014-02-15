@@ -107,7 +107,7 @@ public class StringUtils
      * Prepends every line of a {@link String} with another {@link String}.
      * <p>
      * @param toIndent   The {@link String} to be indented.
-     * @param indentWith The {@link String} to indent each line with. For
+     * @param indentWith The {@link String} to prefix each line with. For
      *                   example, a bulleted list could be created by passing in
      *                   {@code " * "}.
      * <p>
@@ -118,11 +118,17 @@ public class StringUtils
      */
     public static String indent(String toIndent, String indentWith)
     {
-        StringBuilder output = new StringBuilder((int) (toIndent.length() * 1.2f));
-
-        for (String tmp : toIndent.split("\n"))
+        String[] lines = toIndent.split("\n", -1);
+        StringBuilder output = new StringBuilder((int) (toIndent.length()
+                + (indentWith.length() * lines.length)));
+        for (int x = 0; x < lines.length; x++)
         {
-            output.append(indentWith).append(tmp);
+            output.append(indentWith).append(lines[x]);
+
+            if (x < (lines.length - 1))
+            {
+                output.append("\n");
+            }
         }
 
         return output.toString();
