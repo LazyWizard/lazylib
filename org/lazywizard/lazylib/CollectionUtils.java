@@ -1,6 +1,5 @@
 package org.lazywizard.lazylib;
 
-import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
@@ -12,7 +11,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Level;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -295,8 +293,7 @@ public class CollectionUtils
     @Deprecated
     public static <T> List<T> weightedRandom(Map<T, Float> pickFrom, int numToPick)
     {
-        LazyLib.onDeprecatedMethodUsage(CollectionUtils.class,
-                "weightedRandom(Map<T, Float> pickFrom, int numToPick)");
+        LazyLib.onDeprecatedMethodUsage();
 
         if (pickFrom.isEmpty() || numToPick <= 0)
         {
@@ -337,8 +334,7 @@ public class CollectionUtils
     @Deprecated
     public static <T> T weightedRandom(Map<T, Float> pickFrom)
     {
-        LazyLib.onDeprecatedMethodUsage(CollectionUtils.class,
-                "weightedRandom(Map<T, Float> pickFrom)");
+        LazyLib.onDeprecatedMethodUsage();
 
         if (pickFrom.isEmpty())
         {
@@ -377,8 +373,7 @@ public class CollectionUtils
 
         private SortObjectivesByDistance()
         {
-            LazyLib.onDeprecatedMethodUsage(CollectionUtils.class,
-                    "SortObjectivesByDistance");
+            LazyLib.onDeprecatedMethodUsage();
         }
 
         /**

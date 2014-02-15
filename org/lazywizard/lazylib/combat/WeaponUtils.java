@@ -352,8 +352,7 @@ public class WeaponUtils
     @Deprecated
     public static float calculateActualDamage(float baseDamage, WeaponAPI weapon)
     {
-        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
-                "calculateActualDamage(float baseDamage, WeaponAPI weapon)");
+        LazyLib.onDeprecatedMethodUsage();
 
         if (weapon.getShip() == null)
         {
@@ -404,9 +403,7 @@ public class WeaponUtils
     public static float calculateActualDamage(float baseDamage, WeaponAPI weapon,
             ShipAPI target, DefenseType defense)
     {
-        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
-                "calculateActualDamage(float baseDamage, WeaponAPI weapon,"
-                + " ShipAPI target, DefenseType defense)");
+        LazyLib.onDeprecatedMethodUsage();
 
         MutableShipStatsAPI stats = target.getMutableStats();
         MutableShipStatsAPI shooter = (weapon.getShip() == null ? null
@@ -486,8 +483,7 @@ public class WeaponUtils
     @Deprecated
     public static float calculateDamagePerShot(WeaponAPI weapon)
     {
-        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
-                "calculateDamagePerShot(WeaponAPI weapon)");
+        LazyLib.onDeprecatedMethodUsage();
 
         return calculateActualDamage(weapon.getDerivedStats().getDamagePerShot(), weapon);
     }
@@ -513,9 +509,7 @@ public class WeaponUtils
     public static float calculateDamagePerShot(WeaponAPI weapon, ShipAPI target,
             DefenseType defense)
     {
-        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
-                "calculateDamagePerShot(WeaponAPI weapon, ShipAPI target,"
-                + " DefenseType defense)");
+        LazyLib.onDeprecatedMethodUsage();
 
         return calculateActualDamage(calculateDamagePerShot(weapon), weapon,
                 target, defense);
@@ -537,8 +531,7 @@ public class WeaponUtils
     @Deprecated
     public static float calculateDamagePerSecond(WeaponAPI weapon)
     {
-        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
-                "calculateDamagePerSecond(WeaponAPI weapon)");
+        LazyLib.onDeprecatedMethodUsage();
 
         return calculateActualDamage(weapon.getDerivedStats().getDps(), weapon);
     }
@@ -564,9 +557,7 @@ public class WeaponUtils
     public static float calculateDamagePerSecond(WeaponAPI weapon, ShipAPI target,
             DefenseType defense)
     {
-        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
-                "calculateDamagePerSecond(WeaponAPI weapon, ShipAPI target,"
-                + " DefenseType defense)");
+        LazyLib.onDeprecatedMethodUsage();
 
         return calculateActualDamage(calculateDamagePerSecond(weapon), weapon,
                 target, defense);
@@ -588,8 +579,7 @@ public class WeaponUtils
     @Deprecated
     public static float calculateDamagePerBurst(WeaponAPI weapon)
     {
-        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
-                "calculateDamagePerBurst(WeaponAPI weapon");
+        LazyLib.onDeprecatedMethodUsage();
 
         return calculateActualDamage(weapon.getDerivedStats().getBurstDamage(), weapon);
     }
@@ -615,9 +605,7 @@ public class WeaponUtils
     public static float calculateDamagePerBurst(WeaponAPI weapon, ShipAPI target,
             DefenseType defense)
     {
-        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
-                "calculateDamagePerBurst(WeaponAPI weapon, ShipAPI target,"
-                + " DefenseType defense)");
+        LazyLib.onDeprecatedMethodUsage();
 
         return calculateActualDamage(calculateDamagePerBurst(weapon), weapon,
                 target, defense);
@@ -633,8 +621,7 @@ public class WeaponUtils
     public static List<ShipAPI> getEnemiesInArc(WeaponAPI weapon,
             boolean sortByDistance)
     {
-        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
-                "getEnemiesInArc(WeaponAPI weapon, boolean sortByDistance)");
+        LazyLib.onDeprecatedMethodUsage();
 
         List<ShipAPI> enemies = getEnemiesInArc(weapon);
 
@@ -657,8 +644,7 @@ public class WeaponUtils
     public static List<MissileAPI> getEnemyMissilesInArc(WeaponAPI weapon,
             boolean sortByDistance)
     {
-        LazyLib.onDeprecatedMethodUsage(WeaponUtils.class,
-                "getEnemyMissilesInArc(WeaponAPI weapon, boolean sortByDistance)");
+        LazyLib.onDeprecatedMethodUsage();
 
         List<MissileAPI> missiles = getEnemyMissilesInArc(weapon);
 

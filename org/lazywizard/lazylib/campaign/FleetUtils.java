@@ -416,9 +416,7 @@ public class FleetUtils
     public static List<CampaignFleetAPI> getEnemyFleetsInSystem(CampaignFleetAPI fleet,
             boolean sortByDistance)
     {
-        LazyLib.onDeprecatedMethodUsage(FleetUtils.class,
-                "getEnemyFleetsInSystem(CampaignFleetAPI fleet,"
-                + " boolean sortByDistance)");
+        LazyLib.onDeprecatedMethodUsage();
 
         List<CampaignFleetAPI> enemies = getEnemyFleetsInSystem(fleet);
 
@@ -441,9 +439,7 @@ public class FleetUtils
     public static List<CampaignFleetAPI> getNearbyEnemyFleets(CampaignFleetAPI fleet,
             float range, boolean sortByDistance)
     {
-        LazyLib.onDeprecatedMethodUsage(FleetUtils.class,
-                "getNearbyEnemyFleets(CampaignFleetAPI fleet, float range,"
-                + " boolean sortByDistance)");
+        LazyLib.onDeprecatedMethodUsage();
 
         List<CampaignFleetAPI> enemies = getNearbyEnemyFleets(fleet, range);
 
@@ -466,9 +462,7 @@ public class FleetUtils
     public static List<CampaignFleetAPI> getAlliedFleetsInSystem(CampaignFleetAPI fleet,
             boolean sortByDistance)
     {
-        LazyLib.onDeprecatedMethodUsage(FleetUtils.class,
-                "getAlliedFleetsInSystem(CampaignFleetAPI fleet,"
-                + " boolean sortByDistance)");
+        LazyLib.onDeprecatedMethodUsage();
 
         List<CampaignFleetAPI> allies = getAlliedFleetsInSystem(fleet);
 
@@ -491,9 +485,7 @@ public class FleetUtils
     public static List<CampaignFleetAPI> getNearbyAlliedFleets(CampaignFleetAPI fleet,
             float range, boolean sortByDistance)
     {
-        LazyLib.onDeprecatedMethodUsage(FleetUtils.class,
-                "getNearbyAlliedFleets(CampaignFleetAPI fleet, float range,"
-                + " boolean sortByDistance)");
+        LazyLib.onDeprecatedMethodUsage();
 
         List<CampaignFleetAPI> allies = getNearbyAlliedFleets(fleet, range);
 

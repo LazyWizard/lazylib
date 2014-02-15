@@ -2,6 +2,7 @@ package org.lazywizard.lazylib;
 
 import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
+import java.util.Arrays;
 import org.apache.log4j.Level;
 import org.json.JSONObject;
 import org.lazywizard.lazylib.campaign.CargoUtils;
@@ -142,25 +143,54 @@ public class LazyLib extends BaseModPlugin
      * using the stacktrace. You can ignore this method; there's no reason to
      * ever call it manually.
      * <p>
-     * @param source    The class that contains the deprecated method.
-     * @param methodSig The signature of the method that is deprecated.
-     * <p>
      * @since 1.7
      */
-    public static void onDeprecatedMethodUsage(Class source, String methodSig)
+    public static void onDeprecatedMethodUsage()
     {
+        // Don't do something as expensive as dumping a stack trace if we don't need to!
+        if (!LOG_DEPRECATED && !CRASH_DEPRECATED)
+        {
+            return;
+        }
+
+        // Basic sanity check
+        StackTraceElement[] tmp = Thread.currentThread().getStackTrace();
+        if (tmp.length < 3)
+        {
+            return;
+        }
+
+        StackTraceElement caller = tmp[2];
+
+        // Only do something if this method was actually called by LazyLib
+        if (!caller.getClassName().startsWith("org.lazywizard.lazylib."))
+        {
+            return;
+        }
+
         if (LOG_DEPRECATED)
         {
-            Global.getLogger(LazyLib.class).log(Level.WARN,
-                    "Using deprecated method " + source.getSimpleName()
-                    + "." + methodSig);
+            // Search stack trace for last non-LazyLib class and log the
+            // method/line number of whatever called the deprecated method
+            // Kind of hacky, but much easier to use than the old version
+            for (StackTraceElement ste : Arrays.copyOfRange(tmp, 2, tmp.length))
+            {
+                if (!ste.getClassName().startsWith("org.lazywizard.lazylib."))
+                {
+                    Global.getLogger(LazyLib.class).log(Level.WARN,
+                            "Called deprecated method " + caller.getClassName()
+                            + "." + caller.getMethodName() + "() from " + ste.getClassName()
+                            + "." + ste.getMethodName() + ":" + ste.getLineNumber());
+                    break;
+                }
+            }
         }
 
         if (CRASH_DEPRECATED)
         {
             throw new RuntimeException("Deprecated method "
-                    + source.getSimpleName() + "." + methodSig
-                    + " used while \"crashOnDeprecated\" = true");
+                    + caller.getClassName() + "." + caller.getMethodName()
+                    + "() used while \"crashOnDeprecated\" = true");
         }
     }
 

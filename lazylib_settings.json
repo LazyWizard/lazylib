@@ -5,10 +5,12 @@
     "logLevel":"ERROR",
     
     # Whether to log usage of deprecated LazyLib methods (for modders)
-    # Deprecated methods will be removed eventually, so this is very useful!
+    # The logged output will include the class and line number of the caller
+    # Deprecated methods will be removed eventually, so this is very useful
+    # Note: this setting has a massive impact on performance, don't leave it on!
     "logDeprecated":false,
     
     # Whether to crash the game when a deprecated LazyLib method is used
-    # This is here so modders can follow the stacktrace to the source calling it
+    # This is here so modders can follow the full trace of the code calling it
     "crashOnDeprecated":false,
 }

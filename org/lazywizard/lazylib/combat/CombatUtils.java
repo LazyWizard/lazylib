@@ -332,9 +332,7 @@ public class CombatUtils
     public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
-        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
-                "getProjectilesWithinRange(Vector2f location, float range,"
-                + " boolean sortByDistance)");
+        LazyLib.onDeprecatedMethodUsage();
 
         List<DamagingProjectileAPI> projectiles = getProjectilesWithinRange(location, range);
 
@@ -356,9 +354,7 @@ public class CombatUtils
     public static List<MissileAPI> getMissilesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
-        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
-                "getMissilesWithinRange(Vector2f location, float range,"
-                + " boolean sortByDistance)");
+        LazyLib.onDeprecatedMethodUsage();
 
         List<MissileAPI> missiles = getMissilesWithinRange(location, range);
 
@@ -380,9 +376,7 @@ public class CombatUtils
     public static List<ShipAPI> getShipsWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
-        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
-                "getShipsWithinRange(Vector2f location, float range,"
-                + " boolean sortByDistance)");
+        LazyLib.onDeprecatedMethodUsage();
 
         List<ShipAPI> ships = getShipsWithinRange(location, range);
 
@@ -404,9 +398,7 @@ public class CombatUtils
     public static List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
-        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
-                "getAsteroidsWithinRange(Vector2f location, float range,"
-                + " boolean sortByDistance)");
+        LazyLib.onDeprecatedMethodUsage();
 
         List<CombatEntityAPI> asteroids = new ArrayList<>();
 
@@ -428,9 +420,7 @@ public class CombatUtils
     public static List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
-        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
-                "getObjectivesWithinRange(Vector2f location, float range,"
-                + " boolean sortByDistance)");
+        LazyLib.onDeprecatedMethodUsage();
 
         List<BattleObjectiveAPI> objectives = getObjectivesWithinRange(location, range);
 
@@ -453,9 +443,7 @@ public class CombatUtils
     public static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
-        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
-                "getEntitiesWithinRange(Vector2f location, float range,"
-                + " boolean sortByDistance)");
+        LazyLib.onDeprecatedMethodUsage();
 
         List<CombatEntityAPI> entities = getEntitiesWithinRange(location, range);
 
@@ -474,8 +462,7 @@ public class CombatUtils
     @Deprecated
     public static CombatEngineAPI getCombatEngine()
     {
-        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
-                "getCombatEngine()");
+        LazyLib.onDeprecatedMethodUsage();
 
         return Global.getCombatEngine();
     }
@@ -488,8 +475,7 @@ public class CombatUtils
     @Deprecated
     public static float getElapsedCombatTimeIncludingPaused()
     {
-        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
-                "getElapsedCombatTimeIncludingPaused()");
+        LazyLib.onDeprecatedMethodUsage();
 
         if (Global.getCombatEngine() == null)
         {
@@ -507,8 +493,7 @@ public class CombatUtils
     @Deprecated
     public static float getElapsedCombatTime()
     {
-        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
-                "getElapsedCombatTime()");
+        LazyLib.onDeprecatedMethodUsage();
 
         if (Global.getCombatEngine() == null)
         {
@@ -525,8 +510,7 @@ public class CombatUtils
     @Deprecated
     public static float getTimeSinceLastFrame()
     {
-        LazyLib.onDeprecatedMethodUsage(CombatUtils.class,
-                "getTimeSinceLastFrame()");
+        LazyLib.onDeprecatedMethodUsage();
 
         if (Global.getCombatEngine() == null)
         {

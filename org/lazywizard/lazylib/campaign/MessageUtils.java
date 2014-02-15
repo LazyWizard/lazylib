@@ -18,7 +18,8 @@ public class MessageUtils
     public static final int LINE_LENGTH = 80;
 
     /**
-     * Formats and word-wraps the supplied text, then outputs it to the player.
+     * Formats and word-wraps the supplied text, then outputs it as a sector
+     * message.
      *
      * @param preamble The header for this message, won't be indented.
      * @param message  The main body of text.
@@ -54,7 +55,8 @@ public class MessageUtils
     }
 
     /**
-     * Formats and word-wraps the supplied text, then outputs it to the player.
+     * Formats and word-wraps the supplied text, then outputs it as a sector
+     * message.
      *
      * @param message The message to output.
      * <p>
