@@ -1,6 +1,7 @@
  1.8 (someday)
 ===============
 Updated codebase to use Java 7 language features
+Log now includes class and line number of caller if 'logDeprecated' is true
 Changed all getXInRange()/getNearbyX() to use new MathUtils.isWithinRange()
  - Should provide a noticeable speed boost for those methods dealing with an
    object that has a collision/interaction radius

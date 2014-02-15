@@ -438,9 +438,7 @@ public class AIUtils
     public static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity,
             boolean sortByDistance)
     {
-        LazyLib.onDeprecatedMethodUsage(AIUtils.class,
-                "getEnemiesOnMap(CombatEntityAPI entity,"
-                + " boolean sortByDistance)");
+        LazyLib.onDeprecatedMethodUsage();
 
         List<ShipAPI> enemies = getEnemiesOnMap(entity);
 
@@ -463,9 +461,7 @@ public class AIUtils
     public static List<ShipAPI> getNearbyEnemies(CombatEntityAPI entity,
             float range, boolean sortByDistance)
     {
-        LazyLib.onDeprecatedMethodUsage(AIUtils.class,
-                "getNearbyEnemies(CombatEntityAPI entity, float range,"
-                + " boolean sortByDistance)");
+        LazyLib.onDeprecatedMethodUsage();
 
         List<ShipAPI> enemies = getNearbyEnemies(entity, range);
 
@@ -488,9 +484,7 @@ public class AIUtils
     public static List<ShipAPI> getAlliesOnMap(CombatEntityAPI entity,
             boolean sortByDistance)
     {
-        LazyLib.onDeprecatedMethodUsage(AIUtils.class,
-                "getAlliesOnMap(CombatEntityAPI entity,"
-                + " boolean sortByDistance)");
+        LazyLib.onDeprecatedMethodUsage();
 
         List<ShipAPI> allies = getAlliesOnMap(entity);
 
@@ -513,9 +507,7 @@ public class AIUtils
     public static List<ShipAPI> getNearbyAllies(CombatEntityAPI entity,
             float range, boolean sortByDistance)
     {
-        LazyLib.onDeprecatedMethodUsage(AIUtils.class,
-                "getNearbyAllies(CombatEntityAPI entity, float range,"
-                + " boolean sortByDistance)");
+        LazyLib.onDeprecatedMethodUsage();
 
         List<ShipAPI> allies = getNearbyAllies(entity, range);
 
@@ -538,9 +530,7 @@ public class AIUtils
     public static List<MissileAPI> getEnemyMissilesOnMap(CombatEntityAPI entity,
             boolean sortByDistance)
     {
-        LazyLib.onDeprecatedMethodUsage(AIUtils.class,
-                "getEnemyMissilesOnMap(CombatEntityAPI entity,"
-                + " boolean sortByDistance)");
+        LazyLib.onDeprecatedMethodUsage();
 
         List<MissileAPI> missiles = getEnemyMissilesOnMap(entity);
 
@@ -563,9 +553,7 @@ public class AIUtils
     public static List<MissileAPI> getNearbyEnemyMissiles(CombatEntityAPI entity,
             float range, boolean sortByDistance)
     {
-        LazyLib.onDeprecatedMethodUsage(AIUtils.class,
-                "getNearbyEnemyMissiles(CombatEntityAPI entity, float range,"
-                + " boolean sortByDistance)");
+        LazyLib.onDeprecatedMethodUsage();
 
         List<MissileAPI> missiles = getNearbyEnemyMissiles(entity, range);
 

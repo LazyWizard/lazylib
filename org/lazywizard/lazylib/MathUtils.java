@@ -641,8 +641,7 @@ public class MathUtils
     @Deprecated
     public static float getFacing(Vector2f vector)
     {
-        LazyLib.onDeprecatedMethodUsage(MathUtils.class,
-                "getFacing(Vector2f vector)");
+        LazyLib.onDeprecatedMethodUsage();
 
         return VectorUtils.getFacing(vector);
     }
@@ -653,8 +652,7 @@ public class MathUtils
      */
     public static float getAngle(Vector2f from, Vector2f to)
     {
-        LazyLib.onDeprecatedMethodUsage(MathUtils.class,
-                "getAngle(Vector2f from, Vector2f to)");
+        LazyLib.onDeprecatedMethodUsage();
 
         return VectorUtils.getAngle(from, to);
     }
@@ -667,9 +665,7 @@ public class MathUtils
     @Deprecated
     public static Vector2f getDirectionalVector(CombatEntityAPI source, Vector2f destination)
     {
-        LazyLib.onDeprecatedMethodUsage(MathUtils.class,
-                "getDirectionalVector(CombatEntityAPI source,"
-                + " Vector2f destination)");
+        LazyLib.onDeprecatedMethodUsage();
 
         return VectorUtils.getDirectionalVector(source.getLocation(), destination);
     }
@@ -683,9 +679,7 @@ public class MathUtils
     public static Vector2f getDirectionalVector(CombatEntityAPI source,
             CombatEntityAPI destination)
     {
-        LazyLib.onDeprecatedMethodUsage(MathUtils.class,
-                "getDirectionalVector(CombatEntityAPI source,"
-                + " CombatEntityAPI destination)");
+        LazyLib.onDeprecatedMethodUsage();
 
         return VectorUtils.getDirectionalVector(source.getLocation(),
                 destination.getLocation());
@@ -699,8 +693,7 @@ public class MathUtils
     @Deprecated
     public static Vector2f getDirectionalVector(Vector2f source, Vector2f destination)
     {
-        LazyLib.onDeprecatedMethodUsage(MathUtils.class,
-                "getDirectionalVector(Vector2f source, Vector2f destination)");
+        LazyLib.onDeprecatedMethodUsage();
 
         return VectorUtils.getDirectionalVector(source, destination);
     }
@@ -713,8 +706,7 @@ public class MathUtils
     @Deprecated
     public static boolean isPointWithinBounds(Vector2f point, CombatEntityAPI entity)
     {
-        LazyLib.onDeprecatedMethodUsage(MathUtils.class,
-                "isPointWithinBounds(Vector2f point, CombatEntityAPI entity)");
+        LazyLib.onDeprecatedMethodUsage();
 
         return CollisionUtils.isPointWithinBounds(point, entity);
     }
