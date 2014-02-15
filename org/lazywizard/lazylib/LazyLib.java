@@ -180,7 +180,7 @@ public class LazyLib extends BaseModPlugin
                     Global.getLogger(LazyLib.class).log(Level.WARN,
                             "Called deprecated method " + caller.getClassName()
                             + "." + caller.getMethodName() + "() from " + ste.getClassName()
-                            + "." + ste.getMethodName() + ":" + ste.getLineNumber());
+                            + "." + ste.getMethodName() + "():" + ste.getLineNumber());
                     break;
                 }
             }
