@@ -68,10 +68,10 @@ public class StringUtils
                             words[y] = words[y].substring(maxLineLength - 1);
                         }
 
-                        // Print remaining word, if any is left after above block
+                        // Add any remaining text to the next line
                         if (!words[y].trim().isEmpty())
                         {
-                            message.append(words[y]).append("\n");
+                            line.append(words[y]);
                         }
                     }
                     // If this word would put us over the length limit, post
