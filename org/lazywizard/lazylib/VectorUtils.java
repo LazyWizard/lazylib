@@ -42,6 +42,30 @@ public class VectorUtils
     }
 
     /**
+     * Returns a normalized {@link Vector2f} pointing from {@code source} to
+     * {@code destination}.
+     *
+     * @param source      The origin of the vector.
+     * @param destination The location to point at.
+     * <p>
+     * @return A normalized {@link Vector2f} pointing at {@code destination}.
+     * <p>
+     * @since 1.8
+     */
+    public static Vector2f getDirectionalVector(Vector2f source, Vector2f destination)
+    {
+        Vector2f dir = Vector2f.sub(destination, source, null);
+
+        // Avoid crash with identical vectors
+        if (dir.x == 0f && dir.y == 0f)
+        {
+            return dir;
+        }
+
+        return dir.normalise(null);
+    }
+
+    /**
      * Returns the cross product of two {@link Vector2f}s.
      *
      * @param vector1 The first {@link Vector2f}.

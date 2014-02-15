@@ -27,9 +27,14 @@ Changes to FleetUtils:
    can be used with FleetMemberAPI.getId() or ShipAPI.getFleetMemberId()
 Changes to SimpleEntity:
  - Changed variables from private to protected for easier subclassing
+Changes to VectorUtils:
+ - Added getDirectionalVector(Vector2f source, Vector2f destination)
 Changes to WeaponUtils:
  - Fixed bug where isWithinArc() was using double the entity's actual collision
    radius in its calculations
+Deprecated in MathUtils:
+ - Deprecated getDirectionalVector(Vector2f source, Vector2f destination),
+   moved to VectorUtils
 
  1.7 (December 18, 2013)
 =========================
@@ -122,7 +127,7 @@ Deprecated in FleetUtils:
  - Deprecated getNearbyAlliedFleets(CampaignFleetAPI fleet, float range,
    boolean sortByDistance)
 Deprecated in MathUtils:
- - Deprecateded getFacing(Vector2f vector), moved to VectorUtils
+ - Deprecated getFacing(Vector2f vector), moved to VectorUtils
  - Deprecated getAngle(Vector2f from, Vector2f to), moved to VectorUtils
  - Deprecated getDirectionalVector(CombatEntityAPI source, Vector2f destination)
  - Deprecated getDirectionalVector(CombatEntityAPI source,
