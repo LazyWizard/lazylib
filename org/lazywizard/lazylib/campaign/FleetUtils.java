@@ -148,7 +148,6 @@ public class FleetUtils
      * <p>
      * @since 1.2
      */
-    // TODO: rewrite to include radius, if possible to do so efficiently
     public static SectorEntityToken getNearestStation(SectorEntityToken token)
     {
         SectorEntityToken closest = null;
@@ -163,7 +162,6 @@ public class FleetUtils
 
             distanceSquared = MathUtils.getDistanceSquared(station.getLocation(),
                     token.getLocation());
-
             if (distanceSquared < closestDistanceSquared)
             {
                 closest = station;
@@ -183,11 +181,10 @@ public class FleetUtils
      * <p>
      * @since 1.2
      */
-    // TODO: rewrite to include radius, if possible to do so efficiently
     public static CampaignFleetAPI getNearestEnemyFleet(CampaignFleetAPI fleet)
     {
         CampaignFleetAPI closest = null;
-        float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
+        float distance, closestDistance = Float.MAX_VALUE;
 
         for (CampaignFleetAPI tmp : fleet.getContainingLocation().getFleets())
         {
@@ -196,13 +193,11 @@ public class FleetUtils
                 continue;
             }
 
-            distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
-                    fleet.getLocation());
-
-            if (distanceSquared < closestDistanceSquared)
+            distance = MathUtils.getDistance(tmp, fleet.getLocation());
+            if (distance < closestDistance)
             {
                 closest = tmp;
-                closestDistanceSquared = distanceSquared;
+                closestDistance = distance;
             }
         }
 
@@ -218,11 +213,10 @@ public class FleetUtils
      * <p>
      * @since 1.2
      */
-    // TODO: rewrite to include radius, if possible to do so efficiently
     public static CampaignFleetAPI getNearestAlliedFleet(CampaignFleetAPI fleet)
     {
         CampaignFleetAPI closest = null;
-        float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
+        float distance, closestDistance = Float.MAX_VALUE;
 
         for (CampaignFleetAPI tmp : fleet.getContainingLocation().getFleets())
         {
@@ -231,13 +225,11 @@ public class FleetUtils
                 continue;
             }
 
-            distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
-                    fleet.getLocation());
-
-            if (distanceSquared < closestDistanceSquared)
+            distance = MathUtils.getDistance(tmp, fleet.getLocation());
+            if (distance < closestDistance)
             {
                 closest = tmp;
-                closestDistanceSquared = distanceSquared;
+                closestDistance = distance;
             }
         }
 
@@ -254,11 +246,10 @@ public class FleetUtils
      * <p>
      * @since 1.2
      */
-    // TODO: rewrite to include radius, if possible to do so efficiently
     public static CampaignFleetAPI getNearestFleet(SectorEntityToken token)
     {
         CampaignFleetAPI closest = null;
-        float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
+        float distance, closestDistance = Float.MAX_VALUE;
 
         for (CampaignFleetAPI tmp : token.getContainingLocation().getFleets())
         {
@@ -267,13 +258,11 @@ public class FleetUtils
                 continue;
             }
 
-            distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
-                    token.getLocation());
-
-            if (distanceSquared < closestDistanceSquared)
+            distance = MathUtils.getDistance(tmp, token.getLocation());
+            if (distance < closestDistance)
             {
                 closest = tmp;
-                closestDistanceSquared = distanceSquared;
+                closestDistance = distance;
             }
         }
 

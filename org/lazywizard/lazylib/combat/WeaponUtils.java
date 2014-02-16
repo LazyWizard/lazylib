@@ -112,12 +112,10 @@ public class WeaponUtils
      * <p>
      * @since 1.7
      */
-    // TODO: rewrite to include radius, if possible to do so efficiently
     public static ShipAPI getNearestAllyInArc(WeaponAPI weapon)
     {
         ShipAPI closest = null;
-        float maxRange = weapon.getRange() * weapon.getRange();
-        float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
+        float distance, closestDistance = Float.MAX_VALUE;
 
         for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
@@ -127,18 +125,17 @@ public class WeaponUtils
                 continue;
             }
 
-            distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
-                    weapon.getLocation());
+            distance = MathUtils.getDistance(tmp, weapon.getLocation());
 
-            if (distanceSquared > maxRange)
+            if (distance > weapon.getRange())
             {
                 continue;
             }
 
-            if (distanceSquared < closestDistanceSquared)
+            if (distance < closestDistance)
             {
                 closest = tmp;
-                closestDistanceSquared = distanceSquared;
+                closestDistance = distance;
             }
         }
 
@@ -181,12 +178,10 @@ public class WeaponUtils
      * <p>
      * @since 1.4
      */
-    // TODO: rewrite to include radius, if possible to do so efficiently
     public static ShipAPI getNearestEnemyInArc(WeaponAPI weapon)
     {
         ShipAPI closest = null;
-        float maxRange = weapon.getRange() * weapon.getRange();
-        float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
+        float distance, closestDistance = Float.MAX_VALUE;
 
         for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
@@ -196,18 +191,17 @@ public class WeaponUtils
                 continue;
             }
 
-            distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
-                    weapon.getLocation());
+            distance = MathUtils.getDistance(tmp, weapon.getLocation());
 
-            if (distanceSquared > maxRange)
+            if (distance > weapon.getRange())
             {
                 continue;
             }
 
-            if (distanceSquared < closestDistanceSquared)
+            if (distance < closestDistance)
             {
                 closest = tmp;
-                closestDistanceSquared = distanceSquared;
+                closestDistance = distance;
             }
         }
 
