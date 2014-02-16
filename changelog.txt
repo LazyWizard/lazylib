@@ -10,9 +10,13 @@ Added org.lazywizard.lazylib.JSONUtils:
 Added org.lazywizard.lazylib.StringUtils:
  - wrapString(String toWrap, int maxLineLength)
  - indent(String toIndent, String indentWith)
+Changes to AIUtils:
+ - getNearestEnemy() now includes collision radius in its checks
+ - getNearestAlly() now includes collision radius in its checks
+ - getNearestShip() now includes collision radius in its checks
 Changes to AnchoredEntity:
  - Changed variables from private to protected for easier subclassing
- - Added reanchor(CombatEntity newAnchor, Vector2f newLocation)
+ - Added reanchor(CombatEntityAPI newAnchor, Vector2f newLocation)
 Changes to DrawUtils:
  - Added drawFilled boolean parameter to drawArc(), deprecated old version
 Changes to MathUtils:
@@ -26,6 +30,9 @@ Changes to MathUtils:
 Changes to FleetUtils:
  - Added isShipInFleet(String fleetMemberId, CampaignFleetAPI fleet),
    can be used with FleetMemberAPI.getId() or ShipAPI.getFleetMemberId()
+ - getNearestEnemyFleet() now includes interaction radius in its checks
+ - getNearestAlliedFleet() now includes interaction radius in its checks
+ - getNearestFleet() now includes interaction radius in its checks
 Changes to SimpleEntity:
  - Changed variables from private to protected for easier subclassing
 Changes to VectorUtils:
@@ -33,6 +40,8 @@ Changes to VectorUtils:
 Changes to WeaponUtils:
  - Fixed bug where isWithinArc() was using double the entity's actual collision
    radius in its calculations
+ - getNearestAllyInArc() now includes collision radius in its checks
+ - getNearestEnemyInArc() now includes collision radius in its checks
 Deprecated in DrawUtils:
  - Deprecated drawArc(float centerX, float centerY, float radius,
    float startAngle, float arcAngle, int numSegments)

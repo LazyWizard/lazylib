@@ -63,11 +63,10 @@ public class AIUtils
      * <p>
      * @since 1.0
      */
-    // TODO: rewrite to include radius, if possible to do so efficiently
     public static ShipAPI getNearestEnemy(CombatEntityAPI entity)
     {
         ShipAPI closest = null;
-        float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
+        float distance, closestDistance = Float.MAX_VALUE;
 
         for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
@@ -82,13 +81,11 @@ public class AIUtils
                 continue;
             }
 
-            distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
-                    entity.getLocation());
-
-            if (distanceSquared < closestDistanceSquared)
+            distance = MathUtils.getDistance(tmp, entity.getLocation());
+            if (distance < closestDistance)
             {
                 closest = tmp;
-                closestDistanceSquared = distanceSquared;
+                closestDistance = distance;
             }
         }
 
@@ -104,11 +101,10 @@ public class AIUtils
      * <p>
      * @since 1.0
      */
-    // TODO: rewrite to include radius, if possible to do so efficiently
     public static ShipAPI getNearestAlly(CombatEntityAPI entity)
     {
         ShipAPI closest = null;
-        float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
+        float distance, closestDistance = Float.MAX_VALUE;
 
         for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
@@ -118,13 +114,11 @@ public class AIUtils
                 continue;
             }
 
-            distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
-                    entity.getLocation());
-
-            if (distanceSquared < closestDistanceSquared)
+            distance = MathUtils.getDistance(tmp, entity.getLocation());
+            if (distance < closestDistance)
             {
                 closest = tmp;
-                closestDistanceSquared = distanceSquared;
+                closestDistance = distance;
             }
         }
 
@@ -140,11 +134,10 @@ public class AIUtils
      * <p>
      * @since 1.0
      */
-    // TODO: rewrite to include radius, if possible to do so efficiently
     public static ShipAPI getNearestShip(CombatEntityAPI entity)
     {
         ShipAPI closest = null;
-        float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
+        float distance, closestDistance = Float.MAX_VALUE;
 
         for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
@@ -158,13 +151,11 @@ public class AIUtils
                 continue;
             }
 
-            distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
-                    entity.getLocation());
-
-            if (distanceSquared < closestDistanceSquared)
+            distance = MathUtils.getDistance(tmp, entity.getLocation());
+            if (distance < closestDistance)
             {
                 closest = tmp;
-                closestDistanceSquared = distanceSquared;
+                closestDistance = distance;
             }
         }
 

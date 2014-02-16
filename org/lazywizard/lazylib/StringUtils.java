@@ -20,7 +20,6 @@ public class StringUtils
      * <p>
      * @since 1.8
      */
-    // TODO: This whole thing could be rewritten far more efficiently
     public static String wrapString(String toWrap, int maxLineLength)
     {
         if (toWrap == null)

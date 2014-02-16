@@ -13,7 +13,10 @@ public class MessageUtils
 {
     /**
      * How long a line can be before being split by
-     * {@link MessageUtils#showMessage(java.lang.String)}
+     * {@link MessageUtils#showMessage(java.lang.String)}. This is hardcoded to
+     * a number that still looks good at very low resolutions. If you wish to
+     * have a different message length, you can use {@link
+     * StringUtils#wrapString(java.lang.String, int)} then output the results.
      */
     public static final int LINE_LENGTH = 80;
 
