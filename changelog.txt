@@ -1,5 +1,5 @@
- 1.8 (someday)
-===============
+ 1.8 (February 16, 2014)
+=========================
 Updated codebase to use Java 7 language features
 Log now includes class and line number of caller if 'logDeprecated' is true
 Changed all getXInRange()/getNearbyX() to use new MathUtils.isWithinRange()
