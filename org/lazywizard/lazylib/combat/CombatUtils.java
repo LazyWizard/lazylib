@@ -96,7 +96,7 @@ public class CombatUtils
     }
 
     /**
-     * Returns all projectiles in range of a given location.
+     * Returns all projectiles in range of a given location, excluding missiles.
      *
      * @param location The location to search around.
      * @param range    How far around {@code location} to search.
@@ -112,6 +112,11 @@ public class CombatUtils
 
         for (DamagingProjectileAPI tmp : Global.getCombatEngine().getProjectiles())
         {
+            if (tmp instanceof MissileAPI)
+            {
+                continue;
+            }
+
             if (MathUtils.isWithinRange(tmp.getLocation(), location, range))
             {
                 projectiles.add(tmp);
@@ -256,7 +261,7 @@ public class CombatUtils
         // This also includes missiles
         for (CombatEntityAPI tmp : Global.getCombatEngine().getProjectiles())
         {
-            if (MathUtils.isWithinRange(tmp, location,range))
+            if (MathUtils.isWithinRange(tmp, location, range))
             {
                 entities.add(tmp);
             }

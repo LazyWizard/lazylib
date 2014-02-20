@@ -32,7 +32,7 @@ public class VectorUtils
      * @param from The source {@link Vector2f}.
      * @param to   The {@link Vector2f} to get the angle to.
      * <p>
-     * @return The angle from {@code from} to {@code to}.
+     * @return The angle pointing from {@code from} to {@code to}.
      * <p>
      * @since 1.7
      */

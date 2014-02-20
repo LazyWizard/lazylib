@@ -212,9 +212,10 @@ public class AIUtils
      */
     public static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity)
     {
-        List<ShipAPI> enemies = new ArrayList<>();
+        List<ShipAPI> ships = Global.getCombatEngine().getShips();
+        List<ShipAPI> enemies = new ArrayList<>((ships.size() / 2) + 1);
 
-        for (ShipAPI tmp : Global.getCombatEngine().getShips())
+        for (ShipAPI tmp : ships)
         {
             if (tmp.getOwner() != entity.getOwner()
                     && !tmp.isHulk() && !tmp.isShuttlePod()
@@ -243,8 +244,7 @@ public class AIUtils
 
         for (ShipAPI enemy : getEnemiesOnMap(entity))
         {
-            if (CombatUtils.isVisibleToSide(enemy, entity.getOwner())
-                    && MathUtils.isWithinRange(entity, enemy, range))
+            if (MathUtils.isWithinRange(entity, enemy, range))
             {
                 enemies.add(enemy);
             }
@@ -357,8 +357,7 @@ public class AIUtils
 
         for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
         {
-            if (tmp.getOwner() != entity.getOwner()
-                    && CombatUtils.isVisibleToSide(tmp, entity.getOwner()))
+            if (tmp.getOwner() != entity.getOwner() || tmp.isFizzling())
             {
                 missiles.add(tmp);
             }
@@ -383,8 +382,7 @@ public class AIUtils
 
         for (MissileAPI enemy : getEnemyMissilesOnMap(entity))
         {
-            if (CombatUtils.isVisibleToSide(enemy, entity.getOwner())
-                    && MathUtils.isWithinRange(entity, enemy, range))
+            if (MathUtils.isWithinRange(entity, enemy, range))
             {
                 missiles.add(enemy);
             }

@@ -145,7 +145,7 @@ public class CollectionUtils
     public static interface CollectionFilter<T>
     {
         /**
-         * Returns if an object should be allowed past this filter.
+         * Checks if an object should be allowed past this filter.
          *
          * @param t The object to be checked.
          * <p>
