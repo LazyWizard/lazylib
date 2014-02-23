@@ -212,6 +212,11 @@ public class AIUtils
      */
     public static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity)
     {
+        if (LazyLib.isCachingEnabled())
+        {
+            return CombatCache.getCachedVisibleEnemies(entity.getOwner());
+        }
+
         List<ShipAPI> ships = Global.getCombatEngine().getShips();
         List<ShipAPI> enemies = new ArrayList<>((ships.size() / 2) + 1);
 

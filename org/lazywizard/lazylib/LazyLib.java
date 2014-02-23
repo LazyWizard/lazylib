@@ -26,9 +26,10 @@ public class LazyLib extends BaseModPlugin
 {
     private static final String SETTINGS_FILE = "lazylib_settings.json";
     private static final boolean IS_DEV_BUILD = false;
-    private static final float LIBRARY_VERSION = 1.9f;
+    private static final float LIBRARY_VERSION = 1.81f;
     private static final String GAME_VERSION = "0.6.2a";
-    private static boolean LOG_DEPRECATED = false, CRASH_DEPRECATED = false;
+    private static boolean CACHE_ENABLED = false, LOG_DEPRECATED = false,
+            CRASH_DEPRECATED = false;
     private static Level LOG_LEVEL;
 
     /**
@@ -69,6 +70,12 @@ public class LazyLib extends BaseModPlugin
     public static boolean isDevBuild()
     {
         return IS_DEV_BUILD;
+    }
+
+    // TODO: Javadoc this and add to changelog!
+    public static boolean isCachingEnabled()
+    {
+        return CACHE_ENABLED;
     }
 
     /**
@@ -202,6 +209,7 @@ public class LazyLib extends BaseModPlugin
         // Load LazyLib settings from JSON file
         JSONObject settings = Global.getSettings().loadJSON(SETTINGS_FILE);
         setLogLevel(Level.toLevel(settings.getString("logLevel"), Level.ERROR));
+        CACHE_ENABLED = settings.getBoolean("enableCaching");
         LOG_DEPRECATED = settings.getBoolean("logDeprecated");
         CRASH_DEPRECATED = settings.getBoolean("crashOnDeprecated");
     }
