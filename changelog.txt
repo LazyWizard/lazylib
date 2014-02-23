@@ -1,3 +1,10 @@
+ 1.8b (someday)
+================
+Added "enableCaching" to lazylib_settings.json
+Changes to AIUtils:
+ - getEnemiesOnMap() will now store the results for faster consecutive calls
+   during the same frame if caching is enabled
+
  1.8 (February 16, 2014)
 =========================
 Updated codebase to use Java 7 language features
