@@ -57,17 +57,31 @@ public class WeaponUtils
 
         // Check if weapon is aimed at any part of the target
         float arc = weapon.getArc() / 2f;
-        Vector2f loc = entity.getLocation();
-        Vector2f loc1 = weapon.getLocation();
-        Vector2f loc2 = MathUtils.getPointOnCircumference(loc1, weapon.getRange(),
+        Vector2f target = entity.getLocation();
+        Vector2f wep = weapon.getLocation();
+        Vector2f endArcLeft = MathUtils.getPointOnCircumference(wep, weapon.getRange(),
                 weapon.getArcFacing() - arc);
-        Vector2f loc3 = MathUtils.getPointOnCircumference(loc1, weapon.getRange(),
+        Vector2f endArcRight = MathUtils.getPointOnCircumference(wep, weapon.getRange(),
                 weapon.getArcFacing() + arc);
-        Line2D.Float line1 = new Line2D.Float(loc1.x, loc1.y, loc3.x, loc3.y);
-        Line2D.Float line2 = new Line2D.Float(loc2.x, loc2.y, loc3.x, loc3.y);
         float radSquared = entity.getCollisionRadius() * entity.getCollisionRadius();
-        return line1.ptLineDistSq(loc.x, loc.y) < radSquared
-                || line2.ptLineDistSq(loc.x, loc.y) < radSquared;
+        // We can use ptLineDistSq (which is simpler than ptSegDistSq) because
+        // we already did an 'is in range' check at the start of this method
+        return (Line2D
+                .ptLineDistSq(
+                        wep.x,
+                        wep.y,
+                        endArcLeft.x,
+                        endArcLeft.y,
+                        target.x,
+                        target.y) <= radSquared)
+                || (Line2D
+                .ptLineDistSq(
+                        wep.x,
+                        wep.y,
+                        endArcRight.x,
+                        endArcRight.y,
+                        target.x,
+                        target.y) <= radSquared);
     }
 
     /**

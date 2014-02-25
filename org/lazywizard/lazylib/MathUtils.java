@@ -354,22 +354,22 @@ public class MathUtils
         angle = clampAngle(angle);
 
         // Bypass relatively expensive trig operations whenever possible
-        if (equals(angle, 0f))
+        if (angle == 0f)
         {
             return new Vector2f((center == null ? 0f : center.x) + radius,
                     (center == null ? 0f : center.y));
         }
-        if (equals(angle, 90f))
+        if (angle == 90f)
         {
             return new Vector2f((center == null ? 0f : center.x),
                     (center == null ? 0f : center.y) + radius);
         }
-        if (equals(angle, 180f))
+        if (angle == 180f)
         {
             return new Vector2f((center == null ? 0f : center.x) - radius,
                     (center == null ? 0f : center.y));
         }
-        if (equals(angle, 270f))
+        if (angle == 270f)
         {
             return new Vector2f((center == null ? 0f : center.x),
                     (center == null ? 0f : center.y) - radius);
