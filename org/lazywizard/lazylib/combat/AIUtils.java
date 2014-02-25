@@ -68,19 +68,8 @@ public class AIUtils
         ShipAPI closest = null;
         float distance, closestDistance = Float.MAX_VALUE;
 
-        for (ShipAPI tmp : Global.getCombatEngine().getShips())
+        for (ShipAPI tmp : getEnemiesOnMap(entity))
         {
-            if (tmp.getOwner() == entity.getOwner()
-                    || tmp.isHulk() || tmp.isShuttlePod())
-            {
-                continue;
-            }
-
-            if (!CombatUtils.isVisibleToSide(tmp, entity.getOwner()))
-            {
-                continue;
-            }
-
             distance = MathUtils.getDistance(tmp, entity.getLocation());
             if (distance < closestDistance)
             {
