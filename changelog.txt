@@ -1,3 +1,9 @@
+ 1.8c (March 07, 2014)
+=======================
+Changes to VectorUtils:
+ - Fixed rotate() and rotateAroundPivot() issues (they were using radians
+   instead of degrees like every other Starsector/LazyLib method does)
+
  1.8b (March 07, 2014)
 =======================
 Added "enableCaching" to lazylib_settings.json, on by default
