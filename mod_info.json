@@ -1,6 +1,6 @@
 {
-    "id": "lw_lazylib",
-    "name": "LazyLib",
+    "id": "lw_lazylib_nodep",
+    "name": "LazyLib (deprecated methods removed)",
     "author": "LazyWizard",
     "utility": "true",
     "version": "1.8b",

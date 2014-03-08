@@ -37,14 +37,14 @@ public class DefenseUtils
      */
     public static float getArmorValue(ShipAPI ship, Vector2f loc)
     {
-        Vector2f cell = getArmorCellAtWorldCoord(ship, loc);
+        int[] cell = ship.getArmorGrid().getCellAtLocation(loc);
 
         if (cell == null)
         {
             return NOT_IN_GRID;
         }
 
-        return ship.getArmorGrid().getArmorValue((int) cell.x, (int) cell.y);
+        return ship.getArmorGrid().getArmorValue(cell[0], cell[1]);
     }
 
     /**
@@ -61,7 +61,7 @@ public class DefenseUtils
      */
     public static float getArmorDamage(ShipAPI ship, Vector2f loc)
     {
-        Vector2f cell = getArmorCellAtWorldCoord(ship, loc);
+        int[] cell = ship.getArmorGrid().getCellAtLocation(loc);
 
         if (cell == null)
         {
@@ -69,7 +69,7 @@ public class DefenseUtils
         }
 
         return (ship.getArmorGrid().getMaxArmorInCell()
-                - ship.getArmorGrid().getArmorValue((int) cell.x, (int) cell.y));
+                - ship.getArmorGrid().getArmorValue(cell[0], cell[1]));
     }
 
     /**
@@ -88,14 +88,14 @@ public class DefenseUtils
      */
     public static float getArmorLevel(ShipAPI ship, Vector2f loc)
     {
-        Vector2f cell = getArmorCellAtWorldCoord(ship, loc);
+        int[] cell = ship.getArmorGrid().getCellAtLocation(loc);
 
         if (cell == null)
         {
             return NOT_IN_GRID;
         }
 
-        return (ship.getArmorGrid().getArmorFraction((int) cell.x, (int) cell.y));
+        return (ship.getArmorGrid().getArmorFraction(cell[0], cell[1]));
     }
 
     /**
@@ -133,25 +133,6 @@ public class DefenseUtils
 
         // No defenses present, just bare hull
         return DefenseType.HULL;
-    }
-
-    /**
-     * @deprecated Use {@link ArmorGridAPI#getCellAtLocation(Vector2f)} instead.
-     * @since 1.5
-     */
-    @Deprecated
-    private static Vector2f getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        int[] cell = ship.getArmorGrid().getCellAtLocation(loc);
-
-        if (cell == null)
-        {
-            return null;
-        }
-
-        return new Vector2f(cell[0], cell[1]);
     }
 
     private DefenseUtils()
