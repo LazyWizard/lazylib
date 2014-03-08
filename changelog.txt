@@ -4,6 +4,12 @@ Added "enableCaching" to lazylib_settings.json
 Changes to AIUtils:
  - getEnemiesOnMap() will now store the results for faster consecutive calls
    during the same frame if caching is enabled
+Changes to CollisionUtils:
+ - Fixed getClosestIntersection() actually returning the furthest one (oops)
+Changes to LazyLib:
+ - Added isCachingEnabled()
+Changes to WeaponUtils:
+ - Fixed an edge case bug with isWithinArc() and entities just outside the arc
 
  1.8 (February 16, 2014)
 =========================

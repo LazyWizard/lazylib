@@ -58,7 +58,7 @@ public class SimpleEntity extends EntityBase
      */
     public SimpleEntity(Vector2f location)
     {
-        this.location = location;
+        this.location = new Vector2f(location);
         type = SimpleEntityType.VECTOR;
     }
 

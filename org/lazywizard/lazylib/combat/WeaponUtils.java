@@ -60,14 +60,13 @@ public class WeaponUtils
         Vector2f target = entity.getLocation();
         Vector2f wep = weapon.getLocation();
         Vector2f endArcLeft = MathUtils.getPointOnCircumference(wep, weapon.getRange(),
-                weapon.getArcFacing() - arc);
+                weapon.getCurrAngle() - arc);
         Vector2f endArcRight = MathUtils.getPointOnCircumference(wep, weapon.getRange(),
-                weapon.getArcFacing() + arc);
+                weapon.getCurrAngle() + arc);
         float radSquared = entity.getCollisionRadius() * entity.getCollisionRadius();
-        // We can use ptLineDistSq (which is simpler than ptSegDistSq) because
-        // we already did an 'is in range' check at the start of this method
-        return (Line2D
-                .ptLineDistSq(
+
+        boolean partiallyInArc = (Line2D
+                .ptSegDistSq(
                         wep.x,
                         wep.y,
                         endArcLeft.x,
@@ -75,13 +74,14 @@ public class WeaponUtils
                         target.x,
                         target.y) <= radSquared)
                 || (Line2D
-                .ptLineDistSq(
+                .ptSegDistSq(
                         wep.x,
                         wep.y,
                         endArcRight.x,
                         endArcRight.y,
                         target.x,
                         target.y) <= radSquared);
+        return partiallyInArc;
     }
 
     /**

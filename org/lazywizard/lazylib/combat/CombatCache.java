@@ -50,7 +50,7 @@ class CombatCache
         for (Map.Entry<Integer, Set<ShipAPI>> entry : visCache.entrySet())
         {
             int owner = entry.getKey();
-            Set visible = entry.getValue();
+            Set<ShipAPI> visible = entry.getValue();
             visible.clear();
             for (ShipAPI tmp : ships)
             {

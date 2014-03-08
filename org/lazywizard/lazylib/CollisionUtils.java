@@ -60,7 +60,7 @@ public class CollisionUtils
                     closestIntersection = new Vector2f(intersection);
                 }
                 else if (MathUtils.getDistanceSquared(lineStart, intersection)
-                        > MathUtils.getDistanceSquared(lineStart, closestIntersection))
+                        < MathUtils.getDistanceSquared(lineStart, closestIntersection))
                 {
                     closestIntersection.set(intersection);
                 }
@@ -72,7 +72,8 @@ public class CollisionUtils
     }
 
     /**
-     * Finds the point of intersection between two lines.
+     * Finds the point of intersection between two lines. Accurate to within
+     * 1/10 su.
      *
      * @param start1 The start of the first line to test collision with.
      * @param end1   The end of the first line to test collision with.
@@ -87,13 +88,16 @@ public class CollisionUtils
     public static Vector2f getCollisionPoint(Vector2f start1, Vector2f end1,
             Vector2f start2, Vector2f end2)
     {
-        if (MathUtils.isPointOnLine(end1, start2, end2))
+        if (Line2D.Float.ptSegDistSq(start2.x, start2.y, end2.x, end2.y,
+                end1.x, end1.y) <= 0.01f)
         {
             return end1;
         }
-        else if (MathUtils.isPointOnLine(start1, start2, end2))
+
+        if (Line2D.Float.ptSegDistSq(start2.x, start2.y, end2.x, end2.y,
+                start1.x, start1.y) <= 0.01f)
         {
-            return end2;
+            return start1;
         }
 
         float denom = ((end1.x - start1.x) * (end2.y - start2.y))
@@ -168,7 +172,9 @@ public class CollisionUtils
     }
 
     /**
-     * Check if a point is along a {@link SegmentAPI}.
+     * Check if a point is along a {@link SegmentAPI}. Accurate to within 1/10th
+     * su, use {@link MathUtils#isPointOnLine(Vector2f, Vector2f, Vector2f)}
+     * if you need higher precision.
      *
      * @param point   The point to check.
      * @param segment The {@link SegmentAPI} to check for collision with.
@@ -180,7 +186,8 @@ public class CollisionUtils
      */
     public static boolean isPointOnSegment(Vector2f point, SegmentAPI segment)
     {
-        return MathUtils.isPointOnLine(point, segment.getP1(), segment.getP2());
+        return (Line2D.Float.ptSegDistSq(segment.getP1().x, segment.getP1().y,
+                segment.getP2().x, segment.getP2().y, point.x, point.y) <= 0.01f);
     }
 
     /**
@@ -223,8 +230,7 @@ public class CollisionUtils
             seg = segments.get(x);
 
             // Use this opportunity to test if the point is exactly on the bounds
-            // Margin of error to compensate for floating point inaccuracies
-            if (MathUtils.isPointOnLine(point, seg.getP1(), seg.getP2()))
+            if (CollisionUtils.isPointOnSegment(point, seg))
             {
                 return true;
             }

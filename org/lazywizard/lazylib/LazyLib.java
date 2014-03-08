@@ -72,7 +72,14 @@ public class LazyLib extends BaseModPlugin
         return IS_DEV_BUILD;
     }
 
-    // TODO: Javadoc this and add to changelog!
+    /**
+     * Checks if caching of the results of expensive methods is enabled.
+     * <p>
+     * @return {@code true} if results caching is enabled, {@code false}
+     *         otherwise.
+     * <p>
+     * @since 1.8b
+     */
     public static boolean isCachingEnabled()
     {
         return CACHE_ENABLED;
