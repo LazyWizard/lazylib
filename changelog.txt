@@ -2,7 +2,7 @@
 =======================
 Changes to VectorUtils:
  - Fixed rotate() and rotateAroundPivot() issues (they were using radians
-   instead of degrees as every other Starsector/LazyLib method does)
+   instead of degrees like every other Starsector/LazyLib method does)
 
  1.8b (March 07, 2014)
 =======================
