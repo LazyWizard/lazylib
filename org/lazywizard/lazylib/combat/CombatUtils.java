@@ -286,7 +286,8 @@ public class CombatUtils
      * @param entity    The {@link CombatEntityAPI} to apply the force to.
      * @param direction The directional vector of the force (this will
      *                  automatically be normalized).
-     * @param force     How much force to apply.
+     * @param force     How much force to apply. Unit is how much it takes
+     *                  to modify a 100 weight object's velocity by 1 su/sec.
      * <p>
      * @since 1.2
      */
@@ -304,6 +305,7 @@ public class CombatUtils
         // Avoid divide-by-zero errors...
         float mass = Math.max(1f, entity.getMass());
         // Calculate the velocity change and its resulting vector
+        // Don't bother going over Starsector's speed cap
         float velChange = Math.min(1250f, force / mass);
         Vector2f dir = new Vector2f();
         direction.normalise(dir);
@@ -315,9 +317,12 @@ public class CombatUtils
     /**
      * Apply force to an object. Remember Newton's Second Law.
      *
+     * Force is multiplied by 100 to avoid requiring ridiculous force amounts.
+     *
      * @param entity    The {@link CombatEntityAPI} to apply the force to.
      * @param direction The angle the force will be applied towards.
-     * @param force     How much force to apply.
+     * @param force     How much force to apply. Unit is how much it takes
+     *                  to modify a 100 weight object's velocity by 1 su/sec.
      * <p>
      * @since 1.2
      */

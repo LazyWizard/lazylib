@@ -519,6 +519,7 @@ public class MathUtils
 
     /**
      * Check if a point is along the line between two {@link Vector2f}s.
+     * Accurate to within 1/100 of a unit.
      *
      * @param point     The point to check.
      * @param lineStart The starting point of the line.
@@ -532,7 +533,7 @@ public class MathUtils
     public static boolean isPointOnLine(Vector2f point, Vector2f lineStart, Vector2f lineEnd)
     {
         return (Line2D.Float.ptSegDistSq(lineStart.x, lineStart.y,
-                lineEnd.x, lineEnd.y, point.x, point.y) <= 0.00001);
+                lineEnd.x, lineEnd.y, point.x, point.y) <= 0.0001);
     }
 
     /**
