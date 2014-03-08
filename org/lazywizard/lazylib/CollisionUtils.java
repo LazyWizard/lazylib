@@ -73,7 +73,7 @@ public class CollisionUtils
 
     /**
      * Finds the point of intersection between two lines. Accurate to within
-     * 1/10 su.
+     * 1/3 su.
      *
      * @param start1 The start of the first line to test collision with.
      * @param end1   The end of the first line to test collision with.
@@ -89,13 +89,13 @@ public class CollisionUtils
             Vector2f start2, Vector2f end2)
     {
         if (Line2D.Float.ptSegDistSq(start2.x, start2.y, end2.x, end2.y,
-                end1.x, end1.y) <= 0.01f)
+                end1.x, end1.y) <= 0.11111f)
         {
             return end1;
         }
 
         if (Line2D.Float.ptSegDistSq(start2.x, start2.y, end2.x, end2.y,
-                start1.x, start1.y) <= 0.01f)
+                start1.x, start1.y) <= 0.11111f)
         {
             return start1;
         }
@@ -172,7 +172,7 @@ public class CollisionUtils
     }
 
     /**
-     * Check if a point is along a {@link SegmentAPI}. Accurate to within 1/10th
+     * Check if a point is along a {@link SegmentAPI}. Accurate to within 1/3
      * su, use {@link MathUtils#isPointOnLine(Vector2f, Vector2f, Vector2f)}
      * if you need higher precision.
      *
@@ -187,7 +187,7 @@ public class CollisionUtils
     public static boolean isPointOnSegment(Vector2f point, SegmentAPI segment)
     {
         return (Line2D.Float.ptSegDistSq(segment.getP1().x, segment.getP1().y,
-                segment.getP2().x, segment.getP2().y, point.x, point.y) <= 0.01f);
+                segment.getP2().x, segment.getP2().y, point.x, point.y) <= 0.11111f);
     }
 
     /**

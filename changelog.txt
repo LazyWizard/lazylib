@@ -1,11 +1,14 @@
- 1.8b (someday)
-================
-Added "enableCaching" to lazylib_settings.json
+ 1.8b (March 07, 2014)
+=======================
+Added "enableCaching" to lazylib_settings.json, on by default
 Changes to AIUtils:
  - getEnemiesOnMap() will now store the results for faster consecutive calls
-   during the same frame if caching is enabled
+   during the same frame if caching is enabled, also affects all other
+   enemy-filtering methods as they use getEnemiesOnMap() internally
 Changes to CollisionUtils:
  - Fixed getClosestIntersection() actually returning the furthest one (oops)
+ - isPointOnSegment() is now only accurate to within 1/3th of a pixel,
+   use MathUtils.isPointOnLine() if you need strict accuracy
 Changes to LazyLib:
  - Added isCachingEnabled()
 Changes to WeaponUtils:
