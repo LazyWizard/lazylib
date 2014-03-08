@@ -4,7 +4,6 @@ import com.fs.starfarer.api.combat.ArmorGridAPI;
 import com.fs.starfarer.api.combat.ShieldAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import org.lazywizard.lazylib.CollisionUtils;
-import org.lazywizard.lazylib.LazyLib;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
