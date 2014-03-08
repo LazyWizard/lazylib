@@ -402,7 +402,7 @@ public class FleetUtils
      * @since 1.2
      */
     @Deprecated
-    public static List<CampaignFleetAPI> getEnemyFleetsInSystem(CampaignFleetAPI fleet,
+    private static List<CampaignFleetAPI> getEnemyFleetsInSystem(CampaignFleetAPI fleet,
             boolean sortByDistance)
     {
         LazyLib.onDeprecatedMethodUsage();
@@ -425,7 +425,7 @@ public class FleetUtils
      * @since 1.2
      */
     @Deprecated
-    public static List<CampaignFleetAPI> getNearbyEnemyFleets(CampaignFleetAPI fleet,
+    private static List<CampaignFleetAPI> getNearbyEnemyFleets(CampaignFleetAPI fleet,
             float range, boolean sortByDistance)
     {
         LazyLib.onDeprecatedMethodUsage();
@@ -448,7 +448,7 @@ public class FleetUtils
      * @since 1.2
      */
     @Deprecated
-    public static List<CampaignFleetAPI> getAlliedFleetsInSystem(CampaignFleetAPI fleet,
+    private static List<CampaignFleetAPI> getAlliedFleetsInSystem(CampaignFleetAPI fleet,
             boolean sortByDistance)
     {
         LazyLib.onDeprecatedMethodUsage();
@@ -471,7 +471,7 @@ public class FleetUtils
      * @since 1.2
      */
     @Deprecated
-    public static List<CampaignFleetAPI> getNearbyAlliedFleets(CampaignFleetAPI fleet,
+    private static List<CampaignFleetAPI> getNearbyAlliedFleets(CampaignFleetAPI fleet,
             float range, boolean sortByDistance)
     {
         LazyLib.onDeprecatedMethodUsage();

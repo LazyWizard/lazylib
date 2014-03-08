@@ -6,8 +6,9 @@ Changes to AIUtils:
    during the same frame if caching is enabled, also affects all other
    enemy-filtering methods as they use getEnemiesOnMap() internally
 Changes to CollisionUtils:
- - Fixed getClosestIntersection() actually returning the furthest one (oops)
- - isPointOnSegment() is now only accurate to within 1/3th of a pixel,
+ - Fixed getCollisionPoint() actually returning the furthest collision instead
+   of the closest (oops)
+ - isPointOnSegment() is now only accurate to within 1/3 su,
    use MathUtils.isPointOnLine() if you need strict accuracy
 Changes to LazyLib:
  - Added isCachingEnabled()

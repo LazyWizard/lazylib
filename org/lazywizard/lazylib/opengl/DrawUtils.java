@@ -142,7 +142,7 @@ public class DrawUtils
      * @since 1.7
      */
     @Deprecated
-    public static void drawArc(float centerX, float centerY, float radius,
+    private static void drawArc(float centerX, float centerY, float radius,
             float startAngle, float arcAngle, int numSegments)
     {
         drawArc(centerX, centerY, radius, startAngle, arcAngle, numSegments, false);

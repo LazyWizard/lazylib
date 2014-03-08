@@ -339,7 +339,7 @@ public class CombatUtils
      * @since 1.1
      */
     @Deprecated
-    public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location,
+    private static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
         LazyLib.onDeprecatedMethodUsage();
@@ -361,7 +361,7 @@ public class CombatUtils
      * @since 1.1
      */
     @Deprecated
-    public static List<MissileAPI> getMissilesWithinRange(Vector2f location,
+    private static List<MissileAPI> getMissilesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
         LazyLib.onDeprecatedMethodUsage();
@@ -383,7 +383,7 @@ public class CombatUtils
      * @since 1.1
      */
     @Deprecated
-    public static List<ShipAPI> getShipsWithinRange(Vector2f location,
+    private static List<ShipAPI> getShipsWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
         LazyLib.onDeprecatedMethodUsage();
@@ -405,7 +405,7 @@ public class CombatUtils
      * @since 1.1
      */
     @Deprecated
-    public static List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location,
+    private static List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
         LazyLib.onDeprecatedMethodUsage();
@@ -427,7 +427,7 @@ public class CombatUtils
      * @since 1.1
      */
     @Deprecated
-    public static List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location,
+    private static List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
         LazyLib.onDeprecatedMethodUsage();
@@ -450,7 +450,7 @@ public class CombatUtils
      * @since 1.1
      */
     @Deprecated
-    public static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location,
+    private static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location,
             float range, boolean sortByDistance)
     {
         LazyLib.onDeprecatedMethodUsage();
@@ -470,7 +470,7 @@ public class CombatUtils
      * @since 1.0
      */
     @Deprecated
-    public static CombatEngineAPI getCombatEngine()
+    private static CombatEngineAPI getCombatEngine()
     {
         LazyLib.onDeprecatedMethodUsage();
 
@@ -483,7 +483,7 @@ public class CombatUtils
      * @since 1.2
      */
     @Deprecated
-    public static float getElapsedCombatTimeIncludingPaused()
+    private static float getElapsedCombatTimeIncludingPaused()
     {
         LazyLib.onDeprecatedMethodUsage();
 
@@ -501,7 +501,7 @@ public class CombatUtils
      * @since 1.0
      */
     @Deprecated
-    public static float getElapsedCombatTime()
+    private static float getElapsedCombatTime()
     {
         LazyLib.onDeprecatedMethodUsage();
 
@@ -518,7 +518,7 @@ public class CombatUtils
      * @since 1.4
      */
     @Deprecated
-    public static float getTimeSinceLastFrame()
+    private static float getTimeSinceLastFrame()
     {
         LazyLib.onDeprecatedMethodUsage();
 

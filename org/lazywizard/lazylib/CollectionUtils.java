@@ -291,7 +291,7 @@ public class CollectionUtils
      * @since 1.0
      */
     @Deprecated
-    public static <T> List<T> weightedRandom(Map<T, Float> pickFrom, int numToPick)
+    private static <T> List<T> weightedRandom(Map<T, Float> pickFrom, int numToPick)
     {
         LazyLib.onDeprecatedMethodUsage();
 
@@ -332,7 +332,7 @@ public class CollectionUtils
      * @since 1.0
      */
     @Deprecated
-    public static <T> T weightedRandom(Map<T, Float> pickFrom)
+    private static <T> T weightedRandom(Map<T, Float> pickFrom)
     {
         LazyLib.onDeprecatedMethodUsage();
 
@@ -367,7 +367,7 @@ public class CollectionUtils
      * @since 1.1
      */
     @Deprecated
-    public static class SortObjectivesByDistance implements Comparator<BattleObjectiveAPI>
+    private static class SortObjectivesByDistance implements Comparator<BattleObjectiveAPI>
     {
         private Vector2f location;
 

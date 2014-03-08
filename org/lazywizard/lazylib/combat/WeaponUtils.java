@@ -358,7 +358,7 @@ public class WeaponUtils
      * removed after the next Starsector release.
      */
     @Deprecated
-    public static float calculateActualDamage(float baseDamage, WeaponAPI weapon)
+    private static float calculateActualDamage(float baseDamage, WeaponAPI weapon)
     {
         LazyLib.onDeprecatedMethodUsage();
 
@@ -408,7 +408,7 @@ public class WeaponUtils
      * removed after the next Starsector release.
      */
     @Deprecated
-    public static float calculateActualDamage(float baseDamage, WeaponAPI weapon,
+    private static float calculateActualDamage(float baseDamage, WeaponAPI weapon,
             ShipAPI target, DefenseType defense)
     {
         LazyLib.onDeprecatedMethodUsage();
@@ -489,7 +489,7 @@ public class WeaponUtils
      * removed after the next Starsector release.
      */
     @Deprecated
-    public static float calculateDamagePerShot(WeaponAPI weapon)
+    private static float calculateDamagePerShot(WeaponAPI weapon)
     {
         LazyLib.onDeprecatedMethodUsage();
 
@@ -514,7 +514,7 @@ public class WeaponUtils
      * removed after the next Starsector release.
      */
     @Deprecated
-    public static float calculateDamagePerShot(WeaponAPI weapon, ShipAPI target,
+    private static float calculateDamagePerShot(WeaponAPI weapon, ShipAPI target,
             DefenseType defense)
     {
         LazyLib.onDeprecatedMethodUsage();
@@ -537,7 +537,7 @@ public class WeaponUtils
      * removed after the next Starsector release.
      */
     @Deprecated
-    public static float calculateDamagePerSecond(WeaponAPI weapon)
+    private static float calculateDamagePerSecond(WeaponAPI weapon)
     {
         LazyLib.onDeprecatedMethodUsage();
 
@@ -562,7 +562,7 @@ public class WeaponUtils
      * removed after the next Starsector release.
      */
     @Deprecated
-    public static float calculateDamagePerSecond(WeaponAPI weapon, ShipAPI target,
+    private static float calculateDamagePerSecond(WeaponAPI weapon, ShipAPI target,
             DefenseType defense)
     {
         LazyLib.onDeprecatedMethodUsage();
@@ -585,7 +585,7 @@ public class WeaponUtils
      * removed after the next Starsector release.
      */
     @Deprecated
-    public static float calculateDamagePerBurst(WeaponAPI weapon)
+    private static float calculateDamagePerBurst(WeaponAPI weapon)
     {
         LazyLib.onDeprecatedMethodUsage();
 
@@ -610,7 +610,7 @@ public class WeaponUtils
      * removed after the next Starsector release.
      */
     @Deprecated
-    public static float calculateDamagePerBurst(WeaponAPI weapon, ShipAPI target,
+    private static float calculateDamagePerBurst(WeaponAPI weapon, ShipAPI target,
             DefenseType defense)
     {
         LazyLib.onDeprecatedMethodUsage();
@@ -626,7 +626,7 @@ public class WeaponUtils
      * @since 1.4
      */
     @Deprecated
-    public static List<ShipAPI> getEnemiesInArc(WeaponAPI weapon,
+    private static List<ShipAPI> getEnemiesInArc(WeaponAPI weapon,
             boolean sortByDistance)
     {
         LazyLib.onDeprecatedMethodUsage();
@@ -649,7 +649,7 @@ public class WeaponUtils
      * @since 1.4
      */
     @Deprecated
-    public static List<MissileAPI> getEnemyMissilesInArc(WeaponAPI weapon,
+    private static List<MissileAPI> getEnemyMissilesInArc(WeaponAPI weapon,
             boolean sortByDistance)
     {
         LazyLib.onDeprecatedMethodUsage();

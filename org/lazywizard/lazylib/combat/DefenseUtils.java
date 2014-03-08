@@ -140,7 +140,7 @@ public class DefenseUtils
      * @since 1.5
      */
     @Deprecated
-    public static Vector2f getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
+    private static Vector2f getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
     {
         LazyLib.onDeprecatedMethodUsage();
 
