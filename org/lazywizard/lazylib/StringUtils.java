@@ -15,6 +15,8 @@ public class StringUtils
      *
      * @param toWrap        The {@link String} to be word-wrapped.
      * @param maxLineLength How long a line can reach before it's split in two.
+     *                      Must be at least 2, otherwise it will return an
+     *                      empty String.
      * <p>
      * @return {@code toWrap} wrapped to {@code maxLineLength} width.
      * <p>
@@ -22,13 +24,15 @@ public class StringUtils
      */
     public static String wrapString(String toWrap, int maxLineLength)
     {
-        if (toWrap == null)
+        if (toWrap == null || maxLineLength <= 1)
         {
             return "";
         }
 
         // Analyse each line of the message seperately
         String[] lines = toWrap.split("\n");
+        // StringBuilder doesn't auto-resize down, so setting the length here
+        // is an optimization even though length is reset to 0 each line
         StringBuilder line = new StringBuilder(maxLineLength);
         StringBuilder message = new StringBuilder((int) (toWrap.length() * 1.1f));
         for (String rawLine : lines)
@@ -68,9 +72,18 @@ public class StringUtils
                         }
 
                         // Add any remaining text to the next line
-                        if (!words[y].trim().isEmpty())
+                        if (!words[y].isEmpty())
                         {
-                            line.append(words[y]);
+                            // If we have reached the end of the message, ensure
+                            // that we post the remaining part of the queue
+                            if (y == (words.length - 1))
+                            {
+                                message.append(words[y]).append("\n");
+                            }
+                            else
+                            {
+                                line.append(words[y]);
+                            }
                         }
                     }
                     // If this word would put us over the length limit, post
@@ -97,6 +110,12 @@ public class StringUtils
                     }
                 }
             }
+        }
+
+        // Don't end with a newline if the original string didn't do so
+        if (!toWrap.endsWith("\n"))
+        {
+            message.deleteCharAt(message.length() - 1);
         }
 
         return message.toString();

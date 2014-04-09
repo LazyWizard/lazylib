@@ -1,3 +1,13 @@
+ 1.8d (someday)
+================
+Changes to CollisionUtils:
+ - Fixed getCollisionPoint() not properly updating the bounds facing/position
+Changes to StringUtils:
+ - Fixed wrapString() adding a newline to Strings that didn't have one
+   originally
+ - Also fixed a rare bug with wrapString() where it wouldn't post the last
+   segment of a broken-up word if it was the last word in the entire String
+
  1.8c (March 07, 2014)
 =======================
 Changes to VectorUtils:
