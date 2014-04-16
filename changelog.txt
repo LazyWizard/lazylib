@@ -1,11 +1,15 @@
  1.8d (someday)
 ================
+Added LuaUtils:
+ - TODO TODO TODO TODO TODO TODO
+ - If this is added, bump version number up to 1.9
 Changes to CollisionUtils:
  - Fixed getCollisionPoint() not properly updating the bounds facing/position
+Changes to MathUtils:
+ - Added getMidpoint(Vector2f point1, Vector2f point2)
 Changes to StringUtils:
- - Fixed wrapString() adding a newline to Strings that didn't have one
-   originally
- - Also fixed a rare bug with wrapString() where it wouldn't post the last
+ - Fixed wrapString() appending a newline when the input didn't have one
+ - Also fixed a rare bug with wrapString() where it wouldn't include the last
    segment of a broken-up word if it was the last word in the entire String
 
  1.8c (March 07, 2014)

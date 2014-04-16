@@ -3,9 +3,9 @@
     "name": "LazyLib (deprecated methods removed)",
     "author": "LazyWizard",
     "utility": "true",
-    "version": "1.8c",
+    "version": "1.8d",
     "description": "A collection of libraries to aid with modding. Not a mod in itself, but required by certain other mods.\n\nThis release is targeted towards Starsector version 0.6.2a, but will most likely work for later point releases.",
     "gameVersion": "0.6.2a",
-    "jars": ["jars/LazyLib.jar"],
+    "jars": ["jars/LazyLib.jar", "jars/LuaJ.jar",],
     "modPlugin": "org.lazywizard.lazylib.LazyLib"
 }

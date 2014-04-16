@@ -336,6 +336,13 @@ public class MathUtils
         return distance;
     }
 
+    // TODO: Javadoc this
+    public static Vector2f getMidpoint(Vector2f point1, Vector2f point2)
+    {
+        return new Vector2f((point1.x + point2.x) / 2f,
+                (point1.y + point2.y) / 2f);
+    }
+
     /**
      * Returns a point along the circumference of a circle at the given angle.
      *
