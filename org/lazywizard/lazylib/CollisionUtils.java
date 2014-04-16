@@ -48,6 +48,7 @@ public class CollisionUtils
         Vector2f closestIntersection = null;
 
         // Convert all segments to lines, do collision checks to find closest hit
+        bounds.update(target.getLocation(), target.getFacing());
         for (SegmentAPI tmp : bounds.getSegments())
         {
             Vector2f intersection
