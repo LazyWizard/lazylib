@@ -524,6 +524,20 @@ public class MathUtils
         return (a * a) + (b * b) < (radius * radius);
     }
 
+    // @author Dark.Revenant
+    // TODO: Javadoc this and add to changelog
+    public static boolean isPointWithinEllipse(Vector2f point, Vector2f ellipseCenter, float sideRadius, float forwardRadius, float ellipseAngle)
+    {
+        double angle = VectorUtils.getAngle(ellipseCenter, point);
+        double squareDistance = MathUtils.getDistanceSquared(point, ellipseCenter);
+        double aSquared = forwardRadius * forwardRadius;
+        double bSquared = sideRadius * sideRadius;
+        double cosSquared = FastTrig.cos(angle - ellipseAngle);
+        cosSquared *= cosSquared;
+        double squareRadius = aSquared + cosSquared * (bSquared - aSquared);
+        return squareDistance <= squareRadius;
+    }
+
     /**
      * Check if a point is along the line between two {@link Vector2f}s.
      * Accurate to within 1/100 of a unit.
