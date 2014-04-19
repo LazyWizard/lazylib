@@ -433,6 +433,7 @@ public class MathUtils
     public static Vector2f getPointOnEllipse(Vector2f ellipseCenter,
             float ellipseWidth, float ellipseHeight, float ellipseAngleOffset, float angle)
     {
+        ellipseAngleOffset = (float) Math.toRadians(ellipseAngleOffset);
         angle = (float) Math.toRadians(angle);
         float sin = (float) FastTrig.sin(angle),
                 cos = (float) FastTrig.cos(angle);
@@ -449,12 +450,14 @@ public class MathUtils
     }
 
     // TODO
-    private static void getRandomPointOnEllipse()
+    private static void getRandomPointOnEllipse(Vector2f ellipseCenter,
+            float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
     {
     }
 
     // TODO
-    private static void getRandomPointInEllipse()
+    private static void getRandomPointInEllipse(Vector2f ellipseCenter,
+            float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
     {
     }
 
@@ -550,22 +553,21 @@ public class MathUtils
     {
         float a = point.x - (center == null ? 0f : center.x),
                 b = point.y - (center == null ? 0f : center.y);
-        return (a * a) + (b * b) < (radius * radius);
+        return (a * a) + (b * b) <= (radius * radius);
     }
 
-    // @author Dark.Revenant
     // Also returns true if the point is ON the ellipse
     // TODO: Javadoc this and add to changelog
-    public static boolean isPointWithinEllipse(Vector2f point, Vector2f ellipseCenter, float sideRadius, float forwardRadius, float ellipseAngle)
+    public static boolean isPointWithinEllipse(Vector2f point, Vector2f ellipseCenter,
+            float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
     {
-        double angle = VectorUtils.getAngle(ellipseCenter, point);
-        double squareDistance = MathUtils.getDistanceSquared(point, ellipseCenter);
-        double aSquared = forwardRadius * forwardRadius;
-        double bSquared = sideRadius * sideRadius;
-        double cosSquared = FastTrig.cos(angle - ellipseAngle);
-        cosSquared *= cosSquared;
-        double squareRadius = aSquared + cosSquared * (bSquared - aSquared);
-        return squareDistance <= squareRadius;
+        // Move relative to 0, 0 and rotate to match ellipse offset
+        Vector2f origin = Vector2f.sub(point, ellipseCenter, null);
+        VectorUtils.rotate(origin, -ellipseAngleOffset, origin);
+
+        float x = (origin.x * origin.x) / (ellipseWidth * ellipseWidth);
+        float y = (origin.y * origin.y) / (ellipseHeight * ellipseHeight);
+        return ((x + y) <= 1.0001f);
     }
 
     /**
