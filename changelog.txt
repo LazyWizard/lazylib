@@ -1,8 +1,7 @@
- 1.8d (someday)
-================
+ 1.9 (someday)
+===============
 Added LuaUtils:
  - TODO TODO TODO TODO TODO TODO
- - If this is added, bump version number up to 1.9
 Changes to CollisionUtils:
  - Fixed getCollisionPoint() not properly updating the bounds facing/position
 Changes to MathUtils:
