@@ -429,6 +429,35 @@ public class MathUtils
         //return getRandomPointOnCircumference(center, radius * rng.nextFloat());
     }
 
+    // TODO: Javadoc this
+    public static Vector2f getPointOnEllipse(Vector2f ellipseCenter,
+            float ellipseWidth, float ellipseHeight, float ellipseAngleOffset, float angle)
+    {
+        angle = (float) Math.toRadians(angle);
+        float sin = (float) FastTrig.sin(angle),
+                cos = (float) FastTrig.cos(angle);
+
+        // Get point on unrotated ellipse around origin (0, 0)
+        final float x = ellipseWidth * cos;
+        final float y = ellipseHeight * sin;
+
+        // Rotate point to match ellipses rotation
+        sin = (float) FastTrig.sin(ellipseAngleOffset);
+        cos = (float) FastTrig.cos(ellipseAngleOffset);
+        return new Vector2f((x * cos) - (y * sin) + ellipseCenter.x,
+                (x * sin) + (y * cos) + ellipseCenter.y);
+    }
+
+    // TODO
+    private static void getRandomPointOnEllipse()
+    {
+    }
+
+    // TODO
+    private static void getRandomPointInEllipse()
+    {
+    }
+
     /**
      * Returns a random point inside of a circular sector (2d cone) with uniform
      * distribution.
@@ -525,6 +554,7 @@ public class MathUtils
     }
 
     // @author Dark.Revenant
+    // Also returns true if the point is ON the ellipse
     // TODO: Javadoc this and add to changelog
     public static boolean isPointWithinEllipse(Vector2f point, Vector2f ellipseCenter, float sideRadius, float forwardRadius, float ellipseAngle)
     {
