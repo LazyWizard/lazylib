@@ -1,16 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.lazywizard.lazylib.campaign.orbits;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.OrbitAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
-import org.lazywizard.lazylib.FastTrig;
 import org.lazywizard.lazylib.MathUtils;
-import org.lwjgl.util.vector.Vector2f;
 
 /**
  * Represents an elliptical orbit path.
@@ -50,6 +43,7 @@ public class EllipticalOrbit implements OrbitAPI
         this.orbitAngle = (float) Math.toRadians(orbitAngle);
         this.orbitSpeed = 360f / daysPerOrbit;
         currentAngle = startAngle;
+        //runcode StarSystemAPI system = (StarSystemAPI) Global.getSector().getCurrentLocation(); system.getEntityByName("Orbital Station").setOrbit(new org.lazywizard.lazylib.campaign.orbits.EllipticalOrbit(system.getEntityByName("Corvus II"), 90f, 400f, 900f, 45f, 1f));
     }
 
     /**
@@ -79,23 +73,8 @@ public class EllipticalOrbit implements OrbitAPI
             return;
         }
 
-        angle = (float) Math.toRadians(angle);
-        float sin = (float) FastTrig.sin(angle),
-                cos = (float) FastTrig.cos(angle);
-
-        // Get point on unrotated ellipse around origin (0, 0)
-        final float x = orbitWidth * cos;
-        final float y = orbitHeight * sin;
-
-        // Rotate to match actual rotated elliptical path
-        sin = (float) FastTrig.sin(orbitAngle);
-        cos = (float) FastTrig.cos(orbitAngle);
-        Vector2f newLoc = new Vector2f((x * cos) - (y * sin),
-                (x * sin) + (y * cos));
-
-        // Translate from origin to final location
-        Vector2f.add(newLoc, focus.getLocation(), newLoc);
-        entity.getLocation().set(newLoc);
+        entity.getLocation().set(MathUtils.getPointOnEllipse(focus.getLocation(),
+                orbitWidth, orbitHeight, orbitAngle, angle));
     }
 
     @Override
