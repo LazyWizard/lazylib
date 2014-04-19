@@ -5,6 +5,7 @@ Added LuaUtils:
 Changes to CollisionUtils:
  - Fixed getCollisionPoint() not properly updating the bounds facing/position
 Changes to MathUtils:
+ - isPointWithinCircle() now returns true for points on the circumference
  - Added getMidpoint(Vector2f point1, Vector2f point2)
  - Added getPointOnEllipse(Vector2f ellipseCenter, float ellipseWidth,
    float ellipseHeight, float ellipseAngleOffset, float angle)
