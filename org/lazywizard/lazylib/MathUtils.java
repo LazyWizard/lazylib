@@ -83,8 +83,7 @@ public class MathUtils
      */
     public static float getDistance(Vector2f loc1, Vector2f loc2)
     {
-        float a = loc1.x - loc2.x;
-        float b = loc1.y - loc2.y;
+        final float a = loc1.x - loc2.x, b = loc1.y - loc2.y;
         return (float) Math.hypot(a, b);
     }
 
@@ -103,7 +102,7 @@ public class MathUtils
     public static float getDistanceSquared(SectorEntityToken token1, SectorEntityToken token2)
     {
         // There's no way to do this while avoiding a sqrt, so might as well...
-        float distance = getDistance(token1, token2);
+        final float distance = getDistance(token1, token2);
         return distance * distance;
         //return getDistanceSquared(token1.getLocation(), token2.getLocation());
     }
@@ -123,7 +122,7 @@ public class MathUtils
     public static float getDistanceSquared(SectorEntityToken token, Vector2f loc)
     {
         // There's no way to do this while avoiding a sqrt, so might as well...
-        float distance = getDistance(token, loc);
+        final float distance = getDistance(token, loc);
         return distance * distance;
         //return getDistanceSquared(token.getLocation(), vector);
     }
@@ -143,7 +142,7 @@ public class MathUtils
     public static float getDistanceSquared(CombatEntityAPI entity1, CombatEntityAPI entity2)
     {
         // There's no way to do this while avoiding a sqrt, so might as well...
-        float distance = getDistance(entity1, entity2);
+        final float distance = getDistance(entity1, entity2);
         return distance * distance;
         //return getDistanceSquared(obj1.getLocation(), obj2.getLocation());
     }
@@ -163,7 +162,7 @@ public class MathUtils
     public static float getDistanceSquared(CombatEntityAPI entity, Vector2f loc)
     {
         // There's no way to do this while avoiding a sqrt, so might as well...
-        float distance = getDistance(entity, loc);
+        final float distance = getDistance(entity, loc);
         return distance * distance;
         //return getDistanceSquared(entity.getLocation(), vector);
     }
@@ -181,7 +180,7 @@ public class MathUtils
      */
     public static float getDistanceSquared(Vector2f loc1, Vector2f loc2)
     {
-        float a = loc1.x - loc2.x, b = loc1.y - loc2.y;
+        final float a = loc1.x - loc2.x, b = loc1.y - loc2.y;
         return (a * a) + (b * b);
     }
 
@@ -336,7 +335,17 @@ public class MathUtils
         return distance;
     }
 
-    // TODO: Javadoc this
+    /**
+     * Returns the point exactly between two other points.
+     * <p>
+     * @param point1 The first point.
+     * @param point2 The second point.
+     * <p>
+     * @return A {@link Vector2f} at the midpoint of the line between
+     *         {@code point1} and {@code point2}.
+     * <p>
+     * @since 1.9
+     */
     public static Vector2f getMidpoint(Vector2f point1, Vector2f point2)
     {
         return new Vector2f((point1.x + point2.x) / 2f,
@@ -382,7 +391,7 @@ public class MathUtils
                     (center == null ? 0f : center.y) - radius);
         }
 
-        double rad = Math.toRadians(angle);
+        final double rad = Math.toRadians(angle);
         return new Vector2f((float) FastTrig.cos(rad) * radius
                 + (center == null ? 0f : center.x),
                 (float) FastTrig.sin(rad) * radius
@@ -419,7 +428,7 @@ public class MathUtils
      */
     public static Vector2f getRandomPointInCircle(Vector2f center, float radius)
     {
-        double t = 2 * Math.PI * rng.nextDouble(),
+        final double t = 2 * Math.PI * rng.nextDouble(),
                 u = rng.nextDouble() + rng.nextDouble(),
                 r = (u > 1 ? 2 - u : u);
         return new Vector2f((float) (r * FastTrig.cos(t)) * radius
@@ -478,7 +487,7 @@ public class MathUtils
     public static Vector2f getRandomPointInCone(Vector2f center, float radius,
             float minAngle, float maxAngle)
     {
-        double t = Math.toRadians(MathUtils.getRandomNumberInRange(minAngle, maxAngle)),
+        final double t = Math.toRadians(MathUtils.getRandomNumberInRange(minAngle, maxAngle)),
                 u = rng.nextDouble() + rng.nextDouble(),
                 r = (u > 1 ? 2 - u : u);
         return new Vector2f((float) (r * FastTrig.cos(t)) * radius
@@ -500,7 +509,7 @@ public class MathUtils
      */
     public static Vector2f getRandomPointOnLine(Vector2f lineStart, Vector2f lineEnd)
     {
-        float t = rng.nextFloat();
+        final float t = rng.nextFloat();
         return new Vector2f(lineStart.x + t * (lineEnd.x - lineStart.x),
                 lineStart.y + t * (lineEnd.y - lineStart.y));
     }
@@ -525,7 +534,7 @@ public class MathUtils
     {
         angleOffset %= 360;
 
-        List<Vector2f> points = new ArrayList<>(numPoints);
+        final List<Vector2f> points = new ArrayList<>(numPoints);
         for (int x = 0; x < numPoints; x++)
         {
             points.add(getPointOnCircumference(center, radius, angleOffset));
@@ -551,7 +560,7 @@ public class MathUtils
      */
     public static boolean isPointWithinCircle(Vector2f point, Vector2f center, float radius)
     {
-        float a = point.x - (center == null ? 0f : center.x),
+        final float a = point.x - (center == null ? 0f : center.x),
                 b = point.y - (center == null ? 0f : center.y);
         return (a * a) + (b * b) <= (radius * radius);
     }
@@ -565,8 +574,8 @@ public class MathUtils
         Vector2f origin = Vector2f.sub(point, ellipseCenter, null);
         VectorUtils.rotate(origin, -ellipseAngleOffset, origin);
 
-        float x = (origin.x * origin.x) / (ellipseWidth * ellipseWidth);
-        float y = (origin.y * origin.y) / (ellipseHeight * ellipseHeight);
+        final float x = (origin.x * origin.x) / (ellipseWidth * ellipseWidth),
+                y = (origin.y * origin.y) / (ellipseHeight * ellipseHeight);
         return ((x + y) <= 1.0001f);
     }
 
@@ -618,16 +627,16 @@ public class MathUtils
         }
 
         // Calculate the rough number of results we will have and allocate memory for them
-        float size = radius / spaceBetweenPoints;
-        int toAllocate = (int) ((size * size * Math.PI) + 0.5f);
+        final float size = radius / spaceBetweenPoints;
+        final int toAllocate = (int) ((size * size * Math.PI) + 0.5f);
         List<Vector2f> points = new ArrayList<>(toAllocate);
 
         // Support for null vectors
-        float centerX = (center == null ? 0f : center.x);
-        float centerY = (center == null ? 0f : center.y);
-        float a, b;
+        final float centerX = (center == null ? 0f : center.x);
+        final float centerY = (center == null ? 0f : center.y);
 
         // For every point, check if it is inside the given circle
+        float a, b;
         for (float x = centerX - radius; x < centerY + radius; x += spaceBetweenPoints)
         {
             for (float y = centerX - radius; y < centerY + radius; y += spaceBetweenPoints)

@@ -2,6 +2,8 @@
 ===============
 Added LuaUtils:
  - TODO TODO TODO TODO TODO TODO
+Added org.lazywizard.lazylib.campaign.orbits.EllipticalOrbit:
+ - Implementation of OrbitAPI that travels along an elliptical path
 Changes to CollisionUtils:
  - Fixed getCollisionPoint() not properly updating the bounds facing/position
 Changes to MathUtils:
