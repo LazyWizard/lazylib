@@ -15,6 +15,7 @@ import org.lazywizard.lazylib.CollectionUtils;
 import org.lazywizard.lazylib.CollectionUtils.SortEntitiesByDistance;
 import org.lazywizard.lazylib.LazyLib;
 import org.lazywizard.lazylib.MathUtils;
+import org.lwjgl.util.vector.Vector2f;
 
 /**
  * Contains methods that deal with a single combat entity and how it views the
@@ -383,6 +384,73 @@ public class AIUtils
         }
 
         return missiles;
+    }
+
+    // Algorithm by broofa @ stackoverflow.com
+    // Translated by Dark.Revenant
+    // Returns position of where the projectile should head towards to hit the target
+    // Returns null if the projectile can never hit the target
+    // Does not take acceleration or turn speed into account
+    // TODO: Test this, Javadoc and add to changelog
+    public static Vector2f getBestInterceptPoint(Vector2f point, float speed,
+            CombatEntityAPI target)
+    {
+        Vector2f targetLoc = target.getLocation();
+        Vector2f targetVel = target.getVelocity();
+        Vector2f difference = new Vector2f(targetLoc.x - point.x, targetLoc.y - point.y);
+
+        final float a = (targetVel.x * targetVel.x) + (targetVel.y * targetVel.y)                - (speed * speed),
+                b = 2f * ((targetVel.x * difference.x) + (targetVel.y * difference.y)),
+                c = (difference.x * difference.x) + (difference.y * difference.y);
+
+        Vector2f solutionSet = quad(a, b, c);
+
+        Vector2f intercept = null;
+        if (solutionSet != null)
+        {
+            float bestFit = Math.min(solutionSet.x, solutionSet.y);
+            if (bestFit < 0f)
+            {
+                bestFit = Math.max(solutionSet.x, solutionSet.y);
+            }
+            if (bestFit > 0f)
+            {
+                intercept = new Vector2f(targetLoc.x + targetVel.x * bestFit,
+                        targetLoc.y + targetVel.y * bestFit);
+            }
+        }
+
+        return intercept;
+    }
+
+    private static Vector2f quad(float a, float b, float c)
+    {
+        Vector2f solution = null;
+
+        if (Float.compare(Math.abs(a), 0) == 0)
+        {
+            if (Float.compare(Math.abs(b), 0) == 0)
+            {
+                solution = (Float.compare(Math.abs(c), 0) == 0)
+                        ? new Vector2f(0, 0) : null;
+            }
+            else
+            {
+                solution = new Vector2f(-c / b, -c / b);
+            }
+        }
+        else
+        {
+            float d = (b * b) - (4 * a * c);
+            if (d >= 0)
+            {
+                d = (float) Math.sqrt(d);
+                a = 2 * a;
+                solution = new Vector2f((-b - d) / a, (-b + d) / a);
+            }
+        }
+
+        return solution;
     }
 
     /**
