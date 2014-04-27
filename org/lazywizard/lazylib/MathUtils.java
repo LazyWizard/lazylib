@@ -566,7 +566,7 @@ public class MathUtils
     }
 
     // Also returns true if the point is ON the ellipse
-    // TODO: Javadoc this and add to changelog
+    // TODO: Javadoc this
     public static boolean isPointWithinEllipse(Vector2f point, Vector2f ellipseCenter,
             float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
     {
