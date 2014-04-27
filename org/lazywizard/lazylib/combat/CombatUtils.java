@@ -10,6 +10,8 @@ import com.fs.starfarer.api.combat.FogOfWarAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
+import com.fs.starfarer.api.fleet.FleetMemberType;
+import com.fs.starfarer.api.mission.FleetSide;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -30,13 +32,16 @@ import org.lwjgl.util.vector.Vector2f;
 public class CombatUtils
 {
     /**
-     * Find a {@link ShipAPI}'s corresponding {@link FleetMemberAPI}.
+     * Find a {@link ShipAPI}'s corresponding {@link FleetMemberAPI}. Due to the
+     * way the game keeps tracks of ships, this will return {@code null} for
+     * hulks.
      *
      * @param ship The {@link ShipAPI} whose corresponding
      *             {@link FleetMemberAPI} we are trying to find.
      * <p>
      * @return The {@link FleetMemberAPI} that represents this {@link ShipAPI}
-     *         in the campaign, or {@code null} if no match is found.
+     *         in the campaign, or {@code null} if no match is found or {@code ship} is
+     *         a hulk.
      * <p>
      * @since 1.5
      */
@@ -276,6 +281,21 @@ public class CombatUtils
         }
 
         return entities;
+    }
+
+    // TODO: Test, Javadoc, add to changelog
+    public static ShipAPI spawnShipOrWingDirectly(String variantId,
+            FleetMemberType type, FleetSide side, float combatReadiness,
+            Vector2f location, float facing)
+    {
+        FleetMemberAPI member = Global.getFactory().createFleetMember(type, variantId);
+        ShipAPI ship = Global.getCombatEngine().getFleetManager(side)
+                .spawnFleetMember(member, location, facing, 0f);
+        ship.setCurrentCR(combatReadiness);
+        ship.setOwner(side.ordinal());
+        ship.setControlsLocked(false);
+        ship.getShipAI().forceCircumstanceEvaluation();
+        return ship;
     }
 
     /**
