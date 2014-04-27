@@ -1,9 +1,12 @@
 package org.lazywizard.lazylib.combat;
 
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.campaign.CampaignFleetAPI;
+import com.fs.starfarer.api.campaign.LocationAPI;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
+import com.fs.starfarer.api.combat.CombatFleetManagerAPI;
 import com.fs.starfarer.api.combat.DamagingProjectileAPI;
 import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
 import com.fs.starfarer.api.combat.FogOfWarAPI;
@@ -33,31 +36,64 @@ public class CombatUtils
 {
     /**
      * Find a {@link ShipAPI}'s corresponding {@link FleetMemberAPI}. Due to the
-     * way the game keeps tracks of ships, this will return {@code null} for
-     * hulks.
+     * way the game keeps tracks of ship ownership, this will be extremely slow
+     * when used with hulks.
      *
      * @param ship The {@link ShipAPI} whose corresponding
      *             {@link FleetMemberAPI} we are trying to find.
      * <p>
      * @return The {@link FleetMemberAPI} that represents this {@link ShipAPI}
-     *         in the campaign, or {@code null} if no match is found or {@code ship} is
-     *         a hulk.
+     *         in the campaign, or {@code null} if no match is found.
      * <p>
      * @since 1.5
      */
     public static FleetMemberAPI getFleetMember(ShipAPI ship)
     {
-        DeployedFleetMemberAPI dfm = Global.getCombatEngine()
-                .getFleetManager(ship.getOriginalOwner())
-                .getDeployedFleetMember(ship);
+        CombatFleetManagerAPI fm = Global.getCombatEngine()
+                .getFleetManager(ship.getOriginalOwner());
+        DeployedFleetMemberAPI dfm = fm.getDeployedFleetMember(ship);
 
         // Compatibility fix for main menu battles
-        if (dfm == null)
+        if (dfm != null && dfm.getMember() != null)
         {
-            return null;
+            return dfm.getMember();
         }
 
-        return dfm.getMember();
+        // Not found? Check reserves
+        String id = ship.getFleetMemberId();
+        for (FleetMemberAPI member : fm.getReservesCopy())
+        {
+            if (id.equals(member.getId()))
+            {
+                return member;
+            }
+        }
+
+        // Still not found? Check every member of every fleet of every system
+        // for a match, starting with the most likely locations :(
+        if (Global.getCombatEngine().isInCampaign())
+        {
+            List<LocationAPI> locations = new ArrayList<>();
+            locations.add(Global.getSector().getCurrentLocation());
+            locations.add(Global.getSector().getHyperspace());
+            locations.addAll(Global.getSector().getStarSystems());
+            for (LocationAPI location : locations)
+            {
+                for (CampaignFleetAPI fleet : location.getFleets())
+                {
+                    for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy())
+                    {
+                        if (id.equals(member.getId()))
+                        {
+                            return member;
+                        }
+                    }
+                }
+            }
+        }
+
+        // No match was found! This should never happen!
+        return null;
     }
 
     /**
@@ -288,11 +324,16 @@ public class CombatUtils
             FleetMemberType type, FleetSide side, float combatReadiness,
             Vector2f location, float facing)
     {
+        // Create the ship and spawn it on the combat map
         FleetMemberAPI member = Global.getFactory().createFleetMember(type, variantId);
         ShipAPI ship = Global.getCombatEngine().getFleetManager(side)
                 .spawnFleetMember(member, location, facing, 0f);
+
+        // Side isn't actually set by spawnFleetMember(), so set it ourselves
         ship.setCurrentCR(combatReadiness);
         ship.setOwner(side.ordinal());
+
+        // Fixes AI not responding after ship creation (bug with burn drive?)
         ship.setControlsLocked(false);
         ship.getShipAI().forceCircumstanceEvaluation();
         return ship;
