@@ -391,7 +391,7 @@ public class AIUtils
     // Returns position of where the projectile should head towards to hit the target
     // Returns null if the projectile can never hit the target
     // Does not take acceleration or turn speed into account
-    // TODO: Test this, Javadoc and add to changelog
+    // TODO: Test this, Javadoc
     public static Vector2f getBestInterceptPoint(Vector2f point, float speed,
             CombatEntityAPI target)
     {
@@ -399,7 +399,7 @@ public class AIUtils
         Vector2f targetVel = target.getVelocity();
         Vector2f difference = new Vector2f(targetLoc.x - point.x, targetLoc.y - point.y);
 
-        final float a = (targetVel.x * targetVel.x) + (targetVel.y * targetVel.y)                - (speed * speed),
+        final float a = (targetVel.x * targetVel.x) + (targetVel.y * targetVel.y) - (speed * speed),
                 b = 2f * ((targetVel.x * difference.x) + (targetVel.y * difference.y)),
                 c = (difference.x * difference.x) + (difference.y * difference.y);
 

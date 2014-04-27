@@ -319,7 +319,7 @@ public class CombatUtils
         return entities;
     }
 
-    // TODO: Test, Javadoc, add to changelog
+    // TODO: Test, Javadoc this
     public static ShipAPI spawnShipOrWingDirectly(String variantId,
             FleetMemberType type, FleetSide side, float combatReadiness,
             Vector2f location, float facing)
