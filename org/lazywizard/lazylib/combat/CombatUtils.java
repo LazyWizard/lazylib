@@ -324,18 +324,14 @@ public class CombatUtils
             FleetMemberType type, FleetSide side, float combatReadiness,
             Vector2f location, float facing)
     {
-        // Create the ship and spawn it on the combat map
+        // Create the ship, set its stats and spawn it on the combat map
         FleetMemberAPI member = Global.getFactory().createFleetMember(type, variantId);
+        member.getCrewComposition().addRegular(member.getNeededCrew());
         ShipAPI ship = Global.getCombatEngine().getFleetManager(side)
                 .spawnFleetMember(member, location, facing, 0f);
-
-        // Side isn't actually set by spawnFleetMember(), so set it ourselves
+        ship.setCRAtDeployment(combatReadiness);
         ship.setCurrentCR(combatReadiness);
         ship.setOwner(side.ordinal());
-
-        // Fixes AI not responding after ship creation (bug with burn drive?)
-        ship.setControlsLocked(false);
-        ship.getShipAI().forceCircumstanceEvaluation();
         return ship;
     }
 
