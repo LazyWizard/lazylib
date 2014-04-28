@@ -59,8 +59,14 @@ public class CombatUtils
             return dfm.getMember();
         }
 
-        // Not found? Check reserves
+        // Directly spawned ships won't have a fleet member assigned
         String id = ship.getFleetMemberId();
+        if (id == null)
+        {
+            return null;
+        }
+
+        // Not found in fleet manager? Check reserves
         for (FleetMemberAPI member : fm.getReservesCopy())
         {
             if (id.equals(member.getId()))
