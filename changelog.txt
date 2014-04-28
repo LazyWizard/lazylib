@@ -13,6 +13,9 @@ Changes to CombatUtils:
  - Fixed getFleetMember() returning null when a hulk is passed in
  - Added spawnShipOrWingDirectly(String variantId, FleetMemberType type,
    FleetSide side, float combatReadiness, Vector2f location, float facing)
+Changes to DrawUtils:
+ - Added drawCircle(float centerX, float centerY, float radius,
+   int numSegments, boolean drawFilled)
 Changes to MathUtils:
  - isPointWithinCircle() now returns true for points on the circumference
  - Added getMidpoint(Vector2f point1, Vector2f point2)
