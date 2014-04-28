@@ -541,6 +541,9 @@ public class MathUtils
         final float cos = (float) FastTrig.cos(theta);
         final float sin = (float) FastTrig.sin(theta);
 
+        final float centerX = (center == null ? 0f : center.x);
+        final float centerY = (center == null ? 0f : center.y);
+
         // Offset starting angle
         float x = (float) (radius * FastTrig.cos(angleOffset));
         float y = (float) (radius * FastTrig.sin(angleOffset));
@@ -549,14 +552,14 @@ public class MathUtils
         List<Vector2f> points = new ArrayList<>();
         for (int i = 0; i < numPoints - 1; i++)
         {
-            points.add(new Vector2f(x + center.x, y + center.y));
+            points.add(new Vector2f(x + centerX, y + centerY));
 
             // Apply the rotation matrix
             tmp = x;
             x = (cos * x) - (sin * y);
             y = (sin * tmp) + (cos * y);
         }
-        points.add(new Vector2f(x + center.x, y + center.y));
+        points.add(new Vector2f(x + centerX, y + centerY));
         return points;
     }
 
