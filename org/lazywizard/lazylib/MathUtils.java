@@ -458,10 +458,12 @@ public class MathUtils
                 (x * sin) + (y * cos) + ellipseCenter.y);
     }
 
-    // TODO
-    private static void getRandomPointOnEllipse(Vector2f ellipseCenter,
+    // TODO: Javadoc this
+    public static Vector2f getRandomPointOnEllipse(Vector2f ellipseCenter,
             float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
     {
+        return getPointOnEllipse(ellipseCenter, ellipseWidth, ellipseHeight,
+                ellipseAngleOffset, rng.nextFloat() * 360f);
     }
 
     // TODO
