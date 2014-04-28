@@ -404,8 +404,6 @@ public class AIUtils
                 c = (difference.x * difference.x) + (difference.y * difference.y);
 
         Vector2f solutionSet = quad(a, b, c);
-
-        Vector2f intercept = null;
         if (solutionSet != null)
         {
             float bestFit = Math.min(solutionSet.x, solutionSet.y);
@@ -415,12 +413,13 @@ public class AIUtils
             }
             if (bestFit > 0f)
             {
-                intercept = new Vector2f(targetLoc.x + targetVel.x * bestFit,
+                return new Vector2f(targetLoc.x + targetVel.x * bestFit,
                         targetLoc.y + targetVel.y * bestFit);
             }
         }
 
-        return intercept;
+        // No possible intercept found
+        return null;
     }
 
     private static Vector2f quad(float a, float b, float c)

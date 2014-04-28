@@ -14,8 +14,6 @@ import org.lwjgl.util.vector.Vector2f;
  * @author LazyWizard
  * @since 1.0
  */
-// TODO: Add ellipsis collision methods
-// http://easycalculation.com/area/learn-ellipse.php 2 * Math.PI * Math.sqrt(((y * yxRatio) * (y * yxRatio)) + ((( x * xyRatio) * ( x * xyRatio)) / 2))
 public class CollisionUtils
 {
     /**

@@ -332,6 +332,7 @@ public class CombatUtils
         ship.setCRAtDeployment(combatReadiness);
         ship.setCurrentCR(combatReadiness);
         ship.setOwner(side.ordinal());
+        ship.getShipAI().forceCircumstanceEvaluation();
         return ship;
     }
 
