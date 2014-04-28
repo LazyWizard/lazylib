@@ -1,15 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package org.lazywizard.lazylib;
 
 import org.lwjgl.util.vector.Vector2f;
 
 /**
- * Since methods dealing with ellipses are very rarely used, they have been moved into their own class to reduce clutter
+ * Contains methods for dealing with ellipses. Since these methods are very
+ * rarely used, they have been moved into their own class to reduce clutter in
+ * the main library classes.
  *
  * @author LazyWizard
  * @since 1.9
@@ -44,12 +40,11 @@ public class EllipseUtils
                 ellipseAngleOffset, MathUtils.getRandom().nextFloat() * 360f);
     }
 
-    // TODO
+    // TODO: implement and make sure it's uniformly distributed
     private static void getRandomPointInEllipse(Vector2f ellipseCenter,
             float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
     {
     }
-
 
     // Also returns true if the point is ON the ellipse
     // TODO: Javadoc this
