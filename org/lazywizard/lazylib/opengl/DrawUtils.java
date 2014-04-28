@@ -115,8 +115,6 @@ public class DrawUtils
         scaledY = (x * offsetSin) + (y * yFactor * offsetCos);
         glVertex2f(scaledX + centerX, scaledY + centerY);
         glEnd();
-
-        // TODO: implement drawEllipse()
     }
 
     /**
