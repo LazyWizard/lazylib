@@ -3,6 +3,7 @@ package org.lazywizard.lazylib.campaign.orbits;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.OrbitAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
+import org.lazywizard.lazylib.EllipseUtils;
 import org.lazywizard.lazylib.MathUtils;
 
 /**
@@ -13,10 +14,10 @@ import org.lazywizard.lazylib.MathUtils;
  */
 public class EllipticalOrbit implements OrbitAPI
 {
-    private final SectorEntityToken focus;
-    private final float orbitAngle, orbitWidth, orbitHeight, orbitSpeed;
-    private SectorEntityToken entity;
-    private float currentAngle;
+    protected final SectorEntityToken focus;
+    protected final float orbitAngle, orbitWidth, orbitHeight, orbitSpeed;
+    protected SectorEntityToken entity;
+    protected float currentAngle;
 
     /**
      * Creates an elliptical orbit around a focus object.
@@ -33,6 +34,8 @@ public class EllipticalOrbit implements OrbitAPI
      *                     orbital path.
      * @param daysPerOrbit How long it should take for us to make one orbit
      *                     around {@code focus}.
+     * <p>
+     * @since 1.9
      */
     public EllipticalOrbit(SectorEntityToken focus, float startAngle,
             float orbitWidth, float orbitHeight, float orbitAngle, float daysPerOrbit)
@@ -46,15 +49,25 @@ public class EllipticalOrbit implements OrbitAPI
         //runcode StarSystemAPI system = (StarSystemAPI) Global.getSector().getCurrentLocation(); system.getEntityByName("Orbital Station").setOrbit(new org.lazywizard.lazylib.campaign.orbits.EllipticalOrbit(system.getEntityByName("Corvus II"), 90f, 400f, 900f, 45f, 1f));
     }
 
-    /**
-     * Gets the object we are orbiting.
-     *
-     * @return The {@link SectorEntityToken} we are orbiting around.
-     */
-    @Override
-    public SectorEntityToken getFocus()
+    // TODO: Javadoc these methods and add setters
+    public float getAngle()
     {
-        return focus;
+        return currentAngle;
+    }
+
+    public float getOrbitWidth()
+    {
+        return orbitWidth;
+    }
+
+    public float getOrbitHeight()
+    {
+        return orbitHeight;
+    }
+
+    public float getOrbitAngle()
+    {
+        return orbitAngle;
     }
 
     /**
@@ -62,6 +75,8 @@ public class EllipticalOrbit implements OrbitAPI
      * <p>
      * @param angle The angle (in degrees) along the orbital path we should be
      *              moved to.
+     * <p>
+     * @since 1.9
      */
     public void setAngle(float angle)
     {
@@ -73,10 +88,34 @@ public class EllipticalOrbit implements OrbitAPI
             return;
         }
 
-        entity.getLocation().set(MathUtils.getPointOnEllipse(focus.getLocation(),
+        entity.getLocation().set(EllipseUtils.getPointOnEllipse(focus.getLocation(),
                 orbitWidth, orbitHeight, orbitAngle, angle));
     }
 
+    /**
+     * Returns the object we are orbiting.
+     *
+     * @return The {@link SectorEntityToken} we are orbiting around.
+     */
+    @Override
+    public SectorEntityToken getFocus()
+    {
+        return focus;
+    }
+
+    /**
+     * Called by Starsector itself - you can ignore this.
+     */
+    @Override
+    public void setEntity(SectorEntityToken entity)
+    {
+        this.entity = entity;
+        setAngle(currentAngle);
+    }
+
+    /**
+     * Called by Starsector itself - you can ignore this.
+     */
     @Override
     public void advance(float amount)
     {
@@ -88,12 +127,5 @@ public class EllipticalOrbit implements OrbitAPI
         // Advance rotation
         setAngle(MathUtils.clampAngle(currentAngle + (orbitSpeed
                 * Global.getSector().getClock().convertToDays(amount))));
-    }
-
-    @Override
-    public void setEntity(SectorEntityToken entity)
-    {
-        this.entity = entity;
-        setAngle(currentAngle);
     }
 }
