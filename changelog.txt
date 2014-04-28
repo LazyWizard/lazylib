@@ -17,7 +17,8 @@ Changes to DrawUtils:
  - Added drawCircle(float centerX, float centerY, float radius,
    int numSegments, boolean drawFilled)
 Changes to MathUtils:
- - isPointWithinCircle() now returns true for points on the circumference
+ - isPointWithinCircle() now returns true for points along the circumference
+ - Optimized getPointsAlongCircumference() and large numbers of points
  - Added getMidpoint(Vector2f point1, Vector2f point2)
  - Added getPointOnEllipse(Vector2f ellipseCenter, float ellipseWidth,
    float ellipseHeight, float ellipseAngleOffset, float angle)

@@ -532,16 +532,31 @@ public class MathUtils
     public static List<Vector2f> getPointsAlongCircumference(Vector2f center,
             float radius, int numPoints, float angleOffset)
     {
-        angleOffset %= 360;
+        angleOffset = (float) Math.toRadians(angleOffset);
 
-        final List<Vector2f> points = new ArrayList<>(numPoints);
-        for (int x = 0; x < numPoints; x++)
+        // Precalculate the sine and cosine
+        // Instead of recalculating sin/cos for each line segment,
+        // this algorithm rotates the line around the center point
+        final float theta = 2f * 3.1415926f / (float) numPoints;
+        final float cos = (float) FastTrig.cos(theta);
+        final float sin = (float) FastTrig.sin(theta);
+
+        // Offset starting angle
+        float x = (float) (radius * FastTrig.cos(angleOffset));
+        float y = (float) (radius * FastTrig.sin(angleOffset));
+        float tmp;
+
+        List<Vector2f> points = new ArrayList<>();
+        for (int i = 0; i < numPoints - 1; i++)
         {
-            points.add(getPointOnCircumference(center, radius, angleOffset));
-            angleOffset += (360f / numPoints);
-            angleOffset %= 360;
-        }
+            points.add(new Vector2f(x + center.x, y + center.y));
 
+            // Apply the rotation matrix
+            tmp = x;
+            x = (cos * x) - (sin * y);
+            y = (sin * tmp) + (cos * y);
+        }
+        points.add(new Vector2f(x + center.x, y + center.y));
         return points;
     }
 
