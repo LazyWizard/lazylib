@@ -335,7 +335,25 @@ public class CombatUtils
         return entities;
     }
 
-    // TODO: Test, Javadoc this
+    /**
+     * Spawns a ship directly onto the battle map, bypassing the fleet reserves.
+     * <p>
+     * <b>NOTE: this method will not work out of the box in the campaign (.6.2a)
+     * due to an after-battle crash in the default FleetEncounterContextPlugin
+     * caused by spawned ships not being registered with the fleet.</b>
+     * <p>
+     * @param variantId       The ID of the ship variant to spawn.
+     * @param type            Whether this is a ship or a fighter wing.
+     * @param side            What side of the battle this ship should fight on.
+     * @param combatReadiness The CR the ship should start with.
+     * @param location        The location on the battle map the ship should
+     *                        spawn at.
+     * @param facing          The initial facing of the ship on the battle map.
+     * <p>
+     * @return The {@link ShipAPI} that was spawned by this method.
+     * <p>
+     * @since 1.9
+     */
     public static ShipAPI spawnShipOrWingDirectly(String variantId,
             FleetMemberType type, FleetSide side, float combatReadiness,
             Vector2f location, float facing)

@@ -49,22 +49,49 @@ public class EllipticalOrbit implements OrbitAPI
         //runcode StarSystemAPI system = (StarSystemAPI) Global.getSector().getCurrentLocation(); system.getEntityByName("Orbital Station").setOrbit(new org.lazywizard.lazylib.campaign.orbits.EllipticalOrbit(system.getEntityByName("Corvus II"), 90f, 400f, 900f, 45f, 1f));
     }
 
-    // TODO: Javadoc these methods and add setters
+    /**
+     * Returns the current angle along the orbital path of the orbiting entity.
+     * <p>
+     * @return The angle of the current position along the elliptical path.
+     * <p>
+     * @since 1.9
+     */
     public float getAngle()
     {
         return currentAngle;
     }
 
+    /**
+     * Returns the width of the ellipsis used as a path.
+     * <p>
+     * @return The width of the ellipsis in su.
+     * <p>
+     * @since 1.9
+     */
     public float getOrbitWidth()
     {
         return orbitWidth;
     }
 
+    /**
+     * Returns the height of the ellipsis used as a path.
+     * <p>
+     * @return The height of the ellipsis in su.
+     * <p>
+     * @since 1.9
+     */
     public float getOrbitHeight()
     {
         return orbitHeight;
     }
 
+    /**
+     * Returns the offset angle of the ellipsis used as a path.
+     * <p>
+     * @return The offset of the ellipsis used as a path, in degrees.
+     * <p>
+     * @since 1.9
+     */
     public float getOrbitAngle()
     {
         return orbitAngle;

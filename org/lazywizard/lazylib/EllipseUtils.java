@@ -3,9 +3,9 @@ package org.lazywizard.lazylib;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
- * Contains methods for dealing with ellipses. Since these methods are very
- * rarely used, they have been moved into their own class to reduce clutter in
- * the main library classes.
+ * Contains methods for dealing with ellipses. Since these methods are only
+ * used in very specific cases, they have been moved into their own class to
+ * reduce clutter in the main library classes.
  *
  * @author LazyWizard
  * @since 1.9

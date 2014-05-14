@@ -20,6 +20,7 @@ Changes to CombatUtils:
  - Fixed getFleetMember() returning null when a hulk is passed in
  - Added spawnShipOrWingDirectly(String variantId, FleetMemberType type,
    FleetSide side, float combatReadiness, Vector2f location, float facing)
+   NOTE: This does not work in campaign using the vanilla FleetEncounterContext!
 Changes to DrawUtils:
  - Added drawEllipse(float centerX, float centerY, float width, float height,
    float angleOffset, int numSegments, boolean drawFilled)
