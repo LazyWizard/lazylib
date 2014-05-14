@@ -1,7 +1,5 @@
  1.9 (someday)
 ===============
-Added LuaUtils:
- - TODO TODO TODO TODO TODO TODO
 Added org.lazywizard.lazylib.EllipseUtils:
  - By popular request, this includes methods to deal with elliptical shapes
  - Put into its own class to avoid further clutter in MathUtils

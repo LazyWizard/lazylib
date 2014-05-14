@@ -27,7 +27,10 @@ import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
- * Contains methods that deal with the battle map in general.
+ * Contains methods that deal with the battle map in general. These methods do
+ * not respect fog of war, and assume that you are in combat
+ * ({@code Global.getCombatEngine() != null}). If you wish to check fog of war
+ * visibility you should use the methods in {@link AIUtils}.
  *
  * @author LazyWizard
  * @since 1.0
@@ -75,14 +78,20 @@ public class CombatUtils
             }
         }
 
-        // Still not found? Check every member of every fleet of every system
-        // for a match, starting with the most likely locations :(
+        // Still not found? Check every member of every fleet of every system :(
         if (Global.getCombatEngine().isInCampaign())
         {
             List<LocationAPI> locations = new ArrayList<>();
-            locations.add(Global.getSector().getCurrentLocation());
-            locations.add(Global.getSector().getHyperspace());
             locations.addAll(Global.getSector().getStarSystems());
+            locations.add(Global.getSector().getHyperspace());
+
+            // Make sure the current location is the first checked
+            int curLocIndex = locations.indexOf(Global.getSector().getCurrentLocation());
+            if (curLocIndex > 0)
+            {
+                Collections.swap(locations, curLocIndex, 0);
+            }
+
             for (LocationAPI location : locations)
             {
                 for (CampaignFleetAPI fleet : location.getFleets())
@@ -200,7 +209,8 @@ public class CombatUtils
     }
 
     /**
-     * Returns all ships in range of a given location.
+     * Returns all ships in range of a given location, excluding the shuttle
+     * pod.
      *
      * @param location The location to search around.
      * @param range    How far around {@code location} to search.

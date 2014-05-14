@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.lazywizard.lazylib.campaign.CargoUtils;
 import org.lazywizard.lazylib.campaign.FleetUtils;
 import org.lazywizard.lazylib.campaign.MessageUtils;
+import org.lazywizard.lazylib.campaign.orbits.EllipticalOrbit;
 import org.lazywizard.lazylib.combat.AIUtils;
 import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lazywizard.lazylib.combat.DefenseUtils;
@@ -127,6 +128,7 @@ public class LazyLib extends BaseModPlugin
         // org.lazywizard.lazylib
         Global.getLogger(CollectionUtils.class).setLevel(level);
         Global.getLogger(CollisionUtils.class).setLevel(level);
+        Global.getLogger(EllipseUtils.class).setLevel(level);
         Global.getLogger(JSONUtils.class).setLevel(level);
         Global.getLogger(MathUtils.class).setLevel(level);
         Global.getLogger(StringUtils.class).setLevel(level);
@@ -135,6 +137,8 @@ public class LazyLib extends BaseModPlugin
         Global.getLogger(CargoUtils.class).setLevel(level);
         Global.getLogger(FleetUtils.class).setLevel(level);
         Global.getLogger(MessageUtils.class).setLevel(level);
+        // org.lazywizard.lazylib.campaign.orbits
+        Global.getLogger(EllipticalOrbit.class).setLevel(level);
         // org.lazywizard.lazylib.combat
         Global.getLogger(AIUtils.class).setLevel(level);
         Global.getLogger(CombatUtils.class).setLevel(level);

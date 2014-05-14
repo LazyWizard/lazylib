@@ -19,7 +19,8 @@ import org.lwjgl.util.vector.Vector2f;
 
 /**
  * Contains methods that deal with a single combat entity and how it views the
- * battle map.
+ * battle map. These methods respect the fog of war, unlike those in
+ * {@link CombatUtils}.
  *
  * @author LazyWizard
  * @since 1.0
@@ -56,11 +57,12 @@ public class AIUtils
     }
 
     /**
-     * Find the closest enemy of an entity.
+     * Find the closest visible enemy of an entity that.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
-     * @return The enemy closest to {@code entity}.
+     * @return The enemy closest to {@code entity} who can be seen within the
+     *         fog of war.
      * <p>
      * @since 1.0
      */
@@ -116,11 +118,12 @@ public class AIUtils
     }
 
     /**
-     * Find the closest ship near entity.
+     * Find the closest visible ship near an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
-     * @return The ship closest to {@code entity}.
+     * @return The ship closest to {@code entity} that can be seen within the
+     *         fog of war.
      * <p>
      * @since 1.0
      */
@@ -153,11 +156,12 @@ public class AIUtils
     }
 
     /**
-     * Find the closest missile near entity.
+     * Find the closest visible missile near entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
-     * @return The {@link MissileAPI} closest to {@code entity}.
+     * @return The {@link MissileAPI} closest to {@code entity} that can be seen
+     *         within the fog of war.
      * <p>
      * @since 1.4
      */
@@ -192,11 +196,12 @@ public class AIUtils
     }
 
     /**
-     * Find all present enemies of an entity.
+     * Find all present and visible enemies of an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
-     * @return All enemies of {@code entity} on the battle map.
+     * @return All enemies of {@code entity} on the battle map that can be seen
+     *         within the fog of war.
      * <p>
      * @since 1.0
      */
@@ -224,12 +229,13 @@ public class AIUtils
     }
 
     /**
-     * Finds all enemies within a certain range around an entity.
+     * Finds all visible enemies within a certain range around an entity.
      *
      * @param entity The entity to search around.
      * @param range  How far around {@code entity} to search.
      * <p>
-     * @return A {@link List} containing all enemy ships within range.
+     * @return A {@link List} containing all enemy ships within range that can
+     *         be seen within the fog of war.
      * <p>
      * @since 1.0
      */
@@ -298,11 +304,12 @@ public class AIUtils
     }
 
     /**
-     * Find the closest enemy missile near an entity.
+     * Find the closest visible enemy missile near an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
-     * @return The enemy {@link MissileAPI} closest to {@code entity}.
+     * @return The enemy {@link MissileAPI} closest to {@code entity} that can
+     *         be seen within the fog of war.
      * <p>
      * @since 1.4
      */
@@ -337,12 +344,12 @@ public class AIUtils
     }
 
     /**
-     * Find all present enemy missiles of an entity.
+     * Find all present visible enemy missiles of an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
      * @return All enemy {@link MissileAPI}s of {@code entity} on the battle
-     *         map.
+     *         map that can be seen within the fog of war.
      * <p>
      * @since 1.4
      */
@@ -362,12 +369,13 @@ public class AIUtils
     }
 
     /**
-     * Finds all enemy missiles within a certain range around an entity.
+     * Finds all visible enemy missiles within a certain range around an entity.
      *
      * @param entity The entity to search around.
      * @param range  How far around {@code entity} to search.
      * <p>
-     * @return A {@link List} containing all enemy missiles within range.
+     * @return A {@link List} containing all enemy missiles within range that
+     *         can be seen within the fog of war.
      * <p>
      * @since 1.4
      */
