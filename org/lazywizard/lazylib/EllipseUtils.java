@@ -103,7 +103,7 @@ public class EllipseUtils
             float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
     {
         // Move relative to 0, 0 and rotate to match ellipse offset
-        Vector2f origin = (ellipseCenter == null ? point
+        Vector2f origin = (ellipseCenter == null ? new Vector2f(point)
                 : Vector2f.sub(point, ellipseCenter, null));
         VectorUtils.rotate(origin, -ellipseAngleOffset, origin);
 
