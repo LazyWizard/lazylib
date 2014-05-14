@@ -26,7 +26,7 @@ public class DrawUtils
      *
      * @param centerX     The x value of the center point of the circle.
      * @param centerY     The y value of the center point of the circle.
-     * @param radius      The radius (in pixels) of the circle to be drawn.
+     * @param radius      The radius of the circle to be drawn.
      * @param numSegments How many line segments the circle should be made up
      *                    of (higher number = smoother circle, but higher GPU
      *                    cost).
@@ -69,7 +69,30 @@ public class DrawUtils
         glEnd();
     }
 
-    // TODO: Javadoc this
+    /**
+     * Draws an elliptical shape made of line segments, or a filled ellipse if
+     * {@code drawFilled} is true.
+     * <p>
+     * This method only contains the actual drawing code and assumes all OpenGL
+     * flags, color, line width etc have been set by the user beforehand.
+     * <p>
+     * Optimized circle-drawing algorithm based on code taken from:
+     * <a href=http://slabode.exofire.net/circle_draw.shtml>
+     * http://slabode.exofire.net/circle_draw.shtml</a>
+     *
+     * @param centerX     The x value of the center point of the circle.
+     * @param centerY     The y value of the center point of the circle.
+     * @param width       The width (size on unrotated x-axis) of the ellipse.
+     * @param height      The height (size on unrotated y-axis) of the ellipse.
+     * @param angleOffset How much to rotate the ellipse from its original axis,
+     *                    in degrees.
+     * @param numSegments How many line segments the ellipse should be made up
+     *                    of (higher number = smoother ellipse, but higher GPU
+     *                    cost).
+     * @param drawFilled  Whether the ellipse should be hollow or filled.
+     * <p>
+     * @since 1.9
+     */
     public static void drawEllipse(float centerX, float centerY, float width,
             float height, float angleOffset, int numSegments, boolean drawFilled)
     {
@@ -92,8 +115,8 @@ public class DrawUtils
         final float yFactor = (height / width);
 
         // Start at angle = 0
-        float x = width;// * offsetCos;
-        float y = 0f;//height * offsetSin;
+        float x = width;
+        float y = 0f;
         float scaledX, scaledY, tmp;
 
         glBegin(drawFilled ? GL_TRIANGLE_FAN : GL_LINE_LOOP);
@@ -129,7 +152,7 @@ public class DrawUtils
      *
      * @param centerX     The x value of the center point of the arc.
      * @param centerY     The y value of the center point of the arc.
-     * @param radius      The radius (in pixels) of the arc to be drawn.
+     * @param radius      The radius of the arc to be drawn.
      * @param startAngle  The angle the arc should start at, in degrees.
      * @param arcAngle    The size of the arc, in degrees.
      * @param numSegments How many line segments the arc should be made up
