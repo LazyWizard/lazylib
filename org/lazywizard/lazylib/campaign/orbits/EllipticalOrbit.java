@@ -3,7 +3,7 @@ package org.lazywizard.lazylib.campaign.orbits;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.OrbitAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
-import org.lazywizard.lazylib.EllipseUtils;
+import org.lazywizard.lazylib.FastTrig;
 import org.lazywizard.lazylib.MathUtils;
 
 /**
@@ -15,7 +15,8 @@ import org.lazywizard.lazylib.MathUtils;
 public class EllipticalOrbit implements OrbitAPI
 {
     protected final SectorEntityToken focus;
-    protected final float orbitAngle, orbitWidth, orbitHeight, orbitSpeed;
+    protected final float orbitAngle, orbitWidth, orbitHeight, orbitSpeed,
+            offsetSin, offsetCos;
     protected SectorEntityToken entity;
     protected float currentAngle;
 
@@ -43,9 +44,12 @@ public class EllipticalOrbit implements OrbitAPI
         this.focus = focus;
         this.orbitWidth = orbitWidth;
         this.orbitHeight = orbitHeight;
-        this.orbitAngle = (float) Math.toRadians(orbitAngle);
+        this.orbitAngle = orbitAngle;
         this.orbitSpeed = 360f / daysPerOrbit;
-        currentAngle = startAngle;
+        double rad = Math.toRadians(orbitAngle);
+        offsetSin = (float) Math.sin(rad);
+        offsetCos = (float) Math.cos(rad);
+        setAngle(startAngle);
         //runcode StarSystemAPI system = (StarSystemAPI) Global.getSector().getCurrentLocation(); system.getEntityByName("Orbital Station").setOrbit(new org.lazywizard.lazylib.campaign.orbits.EllipticalOrbit(system.getEntityByName("Corvus II"), 90f, 400f, 900f, 45f, 1f));
     }
 
@@ -115,8 +119,15 @@ public class EllipticalOrbit implements OrbitAPI
             return;
         }
 
-        entity.getLocation().set(EllipseUtils.getPointOnEllipse(focus.getLocation(),
-                orbitWidth, orbitHeight, orbitAngle, angle));
+        angle = (float) Math.toRadians(angle);
+
+        // Get point on unrotated ellipse around origin (0, 0)
+        final float x = orbitWidth * (float) FastTrig.cos(angle);
+        final float y = orbitHeight * (float) FastTrig.sin(angle);
+
+        // Rotate point to match ellipses rotation and translate back to center
+        entity.getLocation().set((x * offsetCos) - (y * offsetSin) + focus.getLocation().x,
+                (x * offsetSin) + (y * offsetCos) + focus.getLocation().y);
     }
 
     /**

@@ -43,7 +43,7 @@ public class EllipseUtils
         final float x = ellipseWidth * cos;
         final float y = ellipseHeight * sin;
 
-        // Rotate point to match ellipses rotation
+        // Rotate point to match ellipses rotation and translate back to center
         sin = (float) FastTrig.sin(ellipseAngleOffset);
         cos = (float) FastTrig.cos(ellipseAngleOffset);
         return new Vector2f((x * cos) - (y * sin)
