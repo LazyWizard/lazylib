@@ -532,14 +532,14 @@ public class MathUtils
     }
 
     /**
-     * Returns whether a point is within the bounds of a circle or not.
+     * Checks whether a point is on or within the bounds of a circle.
      *
      * @param point  The {@link Vector2f} to check.
      * @param center The center point of the circle (can be null for a 0, 0
      *               origin).
      * @param radius The radius of the circle.
      * <p>
-     * @return {@code true} if {@code point} is within the circle,
+     * @return {@code true} if {@code point} is on or within the circle,
      *         {@code false} otherwise.
      * <p>
      * @since 1.0

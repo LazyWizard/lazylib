@@ -57,7 +57,7 @@ public class AIUtils
     }
 
     /**
-     * Find the closest visible enemy of an entity that.
+     * Find the closest visible enemy of an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
