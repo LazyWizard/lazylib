@@ -49,7 +49,15 @@ public class CargoUtils
         }
     }
 
-    // TODO: Test, Javadoc, add to changelog
+    /**
+     * Moves all mothballed {@link FleetMemberAPI}s from one {@link CargoAPI} to
+     * another.
+     * <p>
+     * @param from The {@link CargoAPI} to be emptied.
+     * @param to   The destination {@link CargoAPI}.
+     * <p>
+     * @since 1.9
+     */
     public static void moveMothballedShips(CargoAPI from, CargoAPI to)
     {
         for (FleetMemberAPI tmp : from.getMothballedShips().getMembersListCopy())
