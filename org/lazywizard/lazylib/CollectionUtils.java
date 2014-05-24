@@ -87,7 +87,7 @@ public class CollectionUtils
      */
     public static <T> List<T> filter(Collection<T> toFilter, CollectionFilter<T> filter)
     {
-        List<T> filtered = new ArrayList<>(toFilter.size() / 2 + 1);
+        List<T> filtered = new ArrayList<>();
         for (T tmp : toFilter)
         {
             if (filter.accept(tmp))
@@ -108,14 +108,14 @@ public class CollectionUtils
      *                 used to filter {@code toFilter}.
      * <p>
      * @return A {@link List} containing only the entries of {@code toFilter}
-     *         that passed {@code filters}' {@code accept()} method.
+     *         that passed {@code filters}' {@code accept()} methods.
      * <p>
      * @see CollectionUtils#filter(Collection, CollectionUtils.CollectionFilter)
      * @since 1.7
      */
     public static <T> List<T> filter(Collection<T> toFilter, List<CollectionFilter<T>> filters)
     {
-        List<T> filtered = new ArrayList<>(toFilter.size() / 2 + 1);
+        List<T> filtered = new ArrayList<>();
         outer:
         for (T tmp : toFilter)
         {

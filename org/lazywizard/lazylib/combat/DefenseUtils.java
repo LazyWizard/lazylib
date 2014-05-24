@@ -112,8 +112,8 @@ public class DefenseUtils
     public static DefenseType getDefenseAtPoint(ShipAPI ship, Vector2f loc)
     {
         // Point is not in bounds or ship's phase cloak is active
-        if (!CollisionUtils.isPointWithinBounds(loc, ship)
-                || (ship.getPhaseCloak() != null && ship.getPhaseCloak().isActive()))
+        if ((ship.getPhaseCloak() != null && ship.getPhaseCloak().isActive())
+                || !CollisionUtils.isPointWithinBounds(loc, ship))
         {
             return DefenseType.PHASE_OR_MISS;
         }
