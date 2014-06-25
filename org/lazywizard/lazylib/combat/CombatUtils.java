@@ -358,6 +358,18 @@ public class CombatUtils
             FleetMemberType type, FleetSide side, float combatReadiness,
             Vector2f location, float facing)
     {
+        // Warn the player about the FleetEncounterContext bug in .6.2a
+        if (Global.getCombatEngine().isInCampaign()
+                && "0.6.2a".equals(LazyLib.getSupportedGameVersion()))
+        {
+            Global.getLogger(CombatUtils.class).log(Level.WARN,
+                    "spawnShipOrWingDirectly may not function correctly in the"
+                    + " campaign using the vanilla fleet encounter"
+                    + " code! A modified fleet InteractionDialogPlugin"
+                    + " using a custom FleetEncounterContextPlugin is"
+                    + " required to avoid an after-battle crash.");
+        }
+
         // Create the ship, set its stats and spawn it on the combat map
         FleetMemberAPI member = Global.getFactory().createFleetMember(type, variantId);
         member.getCrewComposition().addRegular(member.getNeededCrew());
