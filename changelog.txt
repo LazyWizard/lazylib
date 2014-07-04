@@ -16,7 +16,7 @@ Added org.lazywizard.lazylib.opengl.ColorUtils:
  - glColor(Color color, float alphaMult, boolean overrideOriginalAlpha)
 Changes to AIUtils:
  - Added getBestInterceptPoint(Vector2f point, float speed,
-   CombatEntityAPI target) - all credit goes to Dark.Revenant
+   Vector2f targetLoc, Vector2f targetVel) - all credit goes to Dark.Revenant
 Changes to CargoUtils:
  - Added moveMothballedShips(CargoAPI from, CargoAPI to)
 Changes to CollisionUtils:

@@ -394,12 +394,24 @@ public class AIUtils
         return missiles;
     }
 
-    // Algorithm by broofa @ stackoverflow.com
-    // Translated by Dark.Revenant
-    // Returns position of where the projectile should head towards to hit the target
-    // Returns null if the projectile can never hit the target
-    // Does not take acceleration or turn speed into account
-    // TODO: Test this, Javadoc
+    /**
+     * Returns the best place to aim to hit a target, given its current location
+     * and velocity. This method does not take acceleration into account.
+     * <p>
+     * @param point     The origin point of the object that will attempt to
+     *                  collide with the target (usually a weapon's projectile
+     *                  spawn point).
+     * @param speed     The speed of the object that will attempt to collide
+     *                  with the target (usually a projectile's travel speed).
+     * @param targetLoc The location of the target.
+     * @param targetVel The current velocity of the target.
+     * <p>
+     * @return The best point to aim towards to hit {@code target} given current
+     *         velocities, or {@code null} if a collision is not possible.
+     * <p>
+     * @author Dark.Revenant (original by broofa @ stackoverflow.com)
+     * @since 1.9
+     */
     public static Vector2f getBestInterceptPoint(Vector2f point, float speed,
             Vector2f targetLoc, Vector2f targetVel)
     {
