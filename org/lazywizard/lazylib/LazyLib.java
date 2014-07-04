@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.lazywizard.lazylib.campaign.CargoUtils;
 import org.lazywizard.lazylib.campaign.FleetUtils;
 import org.lazywizard.lazylib.campaign.MessageUtils;
+import org.lazywizard.lazylib.campaign.orbits.EllipticalOrbit;
 import org.lazywizard.lazylib.combat.AIUtils;
 import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lazywizard.lazylib.combat.DefenseUtils;
@@ -25,8 +26,8 @@ import org.lazywizard.lazylib.opengl.DrawUtils;
 public class LazyLib extends BaseModPlugin
 {
     private static final String SETTINGS_FILE = "lazylib_settings.json";
-    private static final boolean IS_DEV_BUILD = true;
-    private static final float LIBRARY_VERSION = 1.83f;
+    private static final boolean IS_DEV_BUILD = false;
+    private static final float LIBRARY_VERSION = 1.9f;
     private static final String GAME_VERSION = "0.6.2a";
     private static boolean CACHE_ENABLED = false, LOG_DEPRECATED = false,
             CRASH_DEPRECATED = false;
@@ -127,6 +128,7 @@ public class LazyLib extends BaseModPlugin
         // org.lazywizard.lazylib
         Global.getLogger(CollectionUtils.class).setLevel(level);
         Global.getLogger(CollisionUtils.class).setLevel(level);
+        Global.getLogger(EllipseUtils.class).setLevel(level);
         Global.getLogger(JSONUtils.class).setLevel(level);
         Global.getLogger(MathUtils.class).setLevel(level);
         Global.getLogger(StringUtils.class).setLevel(level);
@@ -135,6 +137,8 @@ public class LazyLib extends BaseModPlugin
         Global.getLogger(CargoUtils.class).setLevel(level);
         Global.getLogger(FleetUtils.class).setLevel(level);
         Global.getLogger(MessageUtils.class).setLevel(level);
+        // org.lazywizard.lazylib.campaign.orbits
+        Global.getLogger(EllipticalOrbit.class).setLevel(level);
         // org.lazywizard.lazylib.combat
         Global.getLogger(AIUtils.class).setLevel(level);
         Global.getLogger(CombatUtils.class).setLevel(level);
@@ -215,9 +219,9 @@ public class LazyLib extends BaseModPlugin
 
         // Load LazyLib settings from JSON file
         JSONObject settings = Global.getSettings().loadJSON(SETTINGS_FILE);
-        setLogLevel(Level.toLevel(settings.getString("logLevel"), Level.ERROR));
-        CACHE_ENABLED = settings.getBoolean("enableCaching");
-        LOG_DEPRECATED = settings.getBoolean("logDeprecated");
-        CRASH_DEPRECATED = settings.getBoolean("crashOnDeprecated");
+        setLogLevel(Level.toLevel(settings.optString("logLevel", "ERROR"), Level.ERROR));
+        CACHE_ENABLED = settings.optBoolean("enableCaching", false);
+        LOG_DEPRECATED = settings.optBoolean("logDeprecated", false);
+        CRASH_DEPRECATED = settings.optBoolean("crashOnDeprecated", false);
     }
 }

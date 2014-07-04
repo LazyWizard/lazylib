@@ -94,6 +94,11 @@ public class VectorUtils
      */
     public static Vector2f rotate(Vector2f toRotate, float angle, Vector2f dest)
     {
+        if (angle == 0f)
+        {
+            return dest.set(toRotate);
+        }
+
         angle = (float) Math.toRadians(angle);
         float cos = (float) FastTrig.cos(angle), sin = (float) FastTrig.sin(angle);
         dest.set((toRotate.x * cos) - (toRotate.y * sin),

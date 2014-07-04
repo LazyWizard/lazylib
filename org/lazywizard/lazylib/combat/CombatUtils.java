@@ -1,22 +1,32 @@
 package org.lazywizard.lazylib.combat;
 
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.campaign.CampaignFleetAPI;
+import com.fs.starfarer.api.campaign.LocationAPI;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
+import com.fs.starfarer.api.combat.CombatFleetManagerAPI;
 import com.fs.starfarer.api.combat.DamagingProjectileAPI;
 import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
 import com.fs.starfarer.api.combat.FogOfWarAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
+import com.fs.starfarer.api.fleet.FleetMemberType;
+import com.fs.starfarer.api.mission.FleetSide;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.apache.log4j.Level;
+import org.lazywizard.lazylib.LazyLib;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
- * Contains methods that deal with the battle map in general.
+ * Contains methods that deal with the battle map in general. These methods do
+ * not respect fog of war, and assume that you are in combat
+ * ({@code Global.getCombatEngine() != null}). If you wish to check fog of war
+ * visibility you should use the methods in {@link AIUtils}.
  *
  * @author LazyWizard
  * @since 1.0
@@ -24,7 +34,9 @@ import org.lwjgl.util.vector.Vector2f;
 public class CombatUtils
 {
     /**
-     * Find a {@link ShipAPI}'s corresponding {@link FleetMemberAPI}.
+     * Find a {@link ShipAPI}'s corresponding {@link FleetMemberAPI}. Due to the
+     * way the game keeps tracks of ship ownership, this will be extremely slow
+     * when used with hulks.
      *
      * @param ship The {@link ShipAPI} whose corresponding
      *             {@link FleetMemberAPI} we are trying to find.
@@ -36,17 +48,63 @@ public class CombatUtils
      */
     public static FleetMemberAPI getFleetMember(ShipAPI ship)
     {
-        DeployedFleetMemberAPI dfm = Global.getCombatEngine()
-                .getFleetManager(ship.getOriginalOwner())
-                .getDeployedFleetMember(ship);
+        CombatFleetManagerAPI fm = Global.getCombatEngine()
+                .getFleetManager(ship.getOriginalOwner());
+        DeployedFleetMemberAPI dfm = fm.getDeployedFleetMember(ship);
 
         // Compatibility fix for main menu battles
-        if (dfm == null)
+        if (dfm != null && dfm.getMember() != null)
+        {
+            return dfm.getMember();
+        }
+
+        // Directly spawned ships won't have a fleet member assigned
+        String id = ship.getFleetMemberId();
+        if (id == null)
         {
             return null;
         }
 
-        return dfm.getMember();
+        // Not found in fleet manager? Check reserves
+        for (FleetMemberAPI member : fm.getReservesCopy())
+        {
+            if (id.equals(member.getId()))
+            {
+                return member;
+            }
+        }
+
+        // Still not found? Check every member of every fleet of every system :(
+        if (Global.getCombatEngine().isInCampaign())
+        {
+            List<LocationAPI> locations = new ArrayList<>();
+            locations.addAll(Global.getSector().getStarSystems());
+            locations.add(Global.getSector().getHyperspace());
+
+            // Make sure the current location is the first checked
+            int curLocIndex = locations.indexOf(Global.getSector().getCurrentLocation());
+            if (curLocIndex > 0)
+            {
+                Collections.swap(locations, curLocIndex, 0);
+            }
+
+            for (LocationAPI location : locations)
+            {
+                for (CampaignFleetAPI fleet : location.getFleets())
+                {
+                    for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy())
+                    {
+                        if (id.equals(member.getId()))
+                        {
+                            return member;
+                        }
+                    }
+                }
+            }
+        }
+
+        // No match was found! This should never happen!
+        return null;
     }
 
     /**
@@ -147,7 +205,8 @@ public class CombatUtils
     }
 
     /**
-     * Returns all ships in range of a given location.
+     * Returns all ships in range of a given location, excluding the shuttle
+     * pod.
      *
      * @param location The location to search around.
      * @param range    How far around {@code location} to search.
@@ -270,6 +329,53 @@ public class CombatUtils
         }
 
         return entities;
+    }
+
+    /**
+     * Spawns a ship directly onto the battle map, bypassing the fleet reserves.
+     * <p>
+     * <b>NOTE: this method will not work out of the box in the campaign (.6.2a)
+     * due to an after-battle crash in the default FleetEncounterContextPlugin
+     * caused by spawned ships not being registered with the fleet.</b>
+     * <p>
+     * @param variantId       The ID of the ship variant to spawn.
+     * @param type            Whether this is a ship or a fighter wing.
+     * @param side            What side of the battle this ship should fight on.
+     * @param combatReadiness The CR the ship should start with.
+     * @param location        The location on the battle map the ship should
+     *                        spawn at.
+     * @param facing          The initial facing of the ship on the battle map.
+     * <p>
+     * @return The {@link ShipAPI} that was spawned by this method.
+     * <p>
+     * @since 1.9
+     */
+    public static ShipAPI spawnShipOrWingDirectly(String variantId,
+            FleetMemberType type, FleetSide side, float combatReadiness,
+            Vector2f location, float facing)
+    {
+        // Warn the player about the FleetEncounterContext bug in .6.2a
+        if (Global.getCombatEngine().isInCampaign()
+                && "0.6.2a".equals(LazyLib.getSupportedGameVersion()))
+        {
+            Global.getLogger(CombatUtils.class).log(Level.WARN,
+                    "spawnShipOrWingDirectly may not function correctly in the"
+                    + " campaign using the vanilla fleet encounter"
+                    + " code! A modified fleet InteractionDialogPlugin"
+                    + " using a custom FleetEncounterContextPlugin is"
+                    + " required to avoid an after-battle crash.");
+        }
+
+        // Create the ship, set its stats and spawn it on the combat map
+        FleetMemberAPI member = Global.getFactory().createFleetMember(type, variantId);
+        member.getCrewComposition().addRegular(member.getNeededCrew());
+        ShipAPI ship = Global.getCombatEngine().getFleetManager(side)
+                .spawnFleetMember(member, location, facing, 0f);
+        ship.setCRAtDeployment(combatReadiness);
+        ship.setCurrentCR(combatReadiness);
+        ship.setOwner(side.ordinal());
+        ship.getShipAI().forceCircumstanceEvaluation();
+        return ship;
     }
 
     /**

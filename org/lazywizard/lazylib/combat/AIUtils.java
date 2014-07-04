@@ -11,10 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import org.lazywizard.lazylib.LazyLib;
 import org.lazywizard.lazylib.MathUtils;
+import org.lwjgl.util.vector.Vector2f;
 
 /**
  * Contains methods that deal with a single combat entity and how it views the
- * battle map.
+ * battle map. These methods respect the fog of war, unlike those in
+ * {@link CombatUtils}.
  *
  * @author LazyWizard
  * @since 1.0
@@ -51,11 +53,12 @@ public class AIUtils
     }
 
     /**
-     * Find the closest enemy of an entity.
+     * Find the closest visible enemy of an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
-     * @return The enemy closest to {@code entity}.
+     * @return The enemy closest to {@code entity} who can be seen within the
+     *         fog of war.
      * <p>
      * @since 1.0
      */
@@ -111,11 +114,12 @@ public class AIUtils
     }
 
     /**
-     * Find the closest ship near entity.
+     * Find the closest visible ship near an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
-     * @return The ship closest to {@code entity}.
+     * @return The ship closest to {@code entity} that can be seen within the
+     *         fog of war.
      * <p>
      * @since 1.0
      */
@@ -148,11 +152,12 @@ public class AIUtils
     }
 
     /**
-     * Find the closest missile near entity.
+     * Find the closest visible missile near entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
-     * @return The {@link MissileAPI} closest to {@code entity}.
+     * @return The {@link MissileAPI} closest to {@code entity} that can be seen
+     *         within the fog of war.
      * <p>
      * @since 1.4
      */
@@ -187,11 +192,12 @@ public class AIUtils
     }
 
     /**
-     * Find all present enemies of an entity.
+     * Find all present and visible enemies of an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
-     * @return All enemies of {@code entity} on the battle map.
+     * @return All enemies of {@code entity} on the battle map that can be seen
+     *         within the fog of war.
      * <p>
      * @since 1.0
      */
@@ -219,12 +225,13 @@ public class AIUtils
     }
 
     /**
-     * Finds all enemies within a certain range around an entity.
+     * Finds all visible enemies within a certain range around an entity.
      *
      * @param entity The entity to search around.
      * @param range  How far around {@code entity} to search.
      * <p>
-     * @return A {@link List} containing all enemy ships within range.
+     * @return A {@link List} containing all enemy ships within range that can
+     *         be seen within the fog of war.
      * <p>
      * @since 1.0
      */
@@ -293,11 +300,12 @@ public class AIUtils
     }
 
     /**
-     * Find the closest enemy missile near an entity.
+     * Find the closest visible enemy missile near an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
-     * @return The enemy {@link MissileAPI} closest to {@code entity}.
+     * @return The enemy {@link MissileAPI} closest to {@code entity} that can
+     *         be seen within the fog of war.
      * <p>
      * @since 1.4
      */
@@ -332,12 +340,12 @@ public class AIUtils
     }
 
     /**
-     * Find all present enemy missiles of an entity.
+     * Find all present visible enemy missiles of an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
      * @return All enemy {@link MissileAPI}s of {@code entity} on the battle
-     *         map.
+     *         map that can be seen within the fog of war.
      * <p>
      * @since 1.4
      */
@@ -357,12 +365,13 @@ public class AIUtils
     }
 
     /**
-     * Finds all enemy missiles within a certain range around an entity.
+     * Finds all visible enemy missiles within a certain range around an entity.
      *
      * @param entity The entity to search around.
      * @param range  How far around {@code entity} to search.
      * <p>
-     * @return A {@link List} containing all enemy missiles within range.
+     * @return A {@link List} containing all enemy missiles within range that
+     *         can be seen within the fog of war.
      * <p>
      * @since 1.4
      */
@@ -379,6 +388,82 @@ public class AIUtils
         }
 
         return missiles;
+    }
+
+    /**
+     * Returns the best place to aim to hit a target, given its current location
+     * and velocity. This method does not take acceleration into account.
+     * <p>
+     * @param point     The origin point of the object that will attempt to
+     *                  collide with the target (usually a weapon's projectile
+     *                  spawn point).
+     * @param speed     The speed of the object that will attempt to collide
+     *                  with the target (usually a projectile's travel speed).
+     * @param targetLoc The location of the target.
+     * @param targetVel The current velocity of the target.
+     * <p>
+     * @return The best point to aim towards to hit {@code target} given current
+     *         velocities, or {@code null} if a collision is not possible.
+     * <p>
+     * @author Dark.Revenant (original by broofa @ stackoverflow.com)
+     * @since 1.9
+     */
+    public static Vector2f getBestInterceptPoint(Vector2f point, float speed,
+            Vector2f targetLoc, Vector2f targetVel)
+    {
+        Vector2f difference = new Vector2f(targetLoc.x - point.x, targetLoc.y - point.y);
+
+        final float a = (targetVel.x * targetVel.x) + (targetVel.y * targetVel.y) - (speed * speed),
+                b = 2f * ((targetVel.x * difference.x) + (targetVel.y * difference.y)),
+                c = (difference.x * difference.x) + (difference.y * difference.y);
+
+        Vector2f solutionSet = quad(a, b, c);
+        if (solutionSet != null)
+        {
+            float bestFit = Math.min(solutionSet.x, solutionSet.y);
+            if (bestFit < 0f)
+            {
+                bestFit = Math.max(solutionSet.x, solutionSet.y);
+            }
+            if (bestFit > 0f)
+            {
+                return new Vector2f(targetLoc.x + targetVel.x * bestFit,
+                        targetLoc.y + targetVel.y * bestFit);
+            }
+        }
+
+        // No possible intercept found
+        return null;
+    }
+
+    private static Vector2f quad(float a, float b, float c)
+    {
+        Vector2f solution = null;
+
+        if (Float.compare(Math.abs(a), 0) == 0)
+        {
+            if (Float.compare(Math.abs(b), 0) == 0)
+            {
+                solution = (Float.compare(Math.abs(c), 0) == 0)
+                        ? new Vector2f(0, 0) : null;
+            }
+            else
+            {
+                solution = new Vector2f(-c / b, -c / b);
+            }
+        }
+        else
+        {
+            float d = (b * b) - (4 * a * c);
+            if (d >= 0)
+            {
+                d = (float) Math.sqrt(d);
+                a = 2 * a;
+                solution = new Vector2f((-b - d) / a, (-b + d) / a);
+            }
+        }
+
+        return solution;
     }
 
     /**

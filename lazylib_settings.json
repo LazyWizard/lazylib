@@ -6,7 +6,7 @@
     # You can ignore this setting, it's only used to control internal LazyLib
     # debugging. logDeprecated (below) is not affected by this setting
     # Valid levels: OFF, FATAL, ERROR, WARN, INFO, DEBUG, ALL
-    "logLevel":"ERROR",
+    "logLevel":"WARN",
     
     # Whether to log usage of deprecated LazyLib methods (for modders)
     # The logged output will include the class and line number of the caller

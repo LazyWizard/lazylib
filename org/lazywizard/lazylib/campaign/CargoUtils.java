@@ -3,6 +3,7 @@ package org.lazywizard.lazylib.campaign;
 import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.CargoStackAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
+import com.fs.starfarer.api.fleet.FleetMemberAPI;
 
 /**
  * Contains methods for working with cargo and item stacks.
@@ -46,6 +47,25 @@ public class CargoUtils
         {
             moveStack(stack, to.getCargo());
         }
+    }
+
+    /**
+     * Moves all mothballed {@link FleetMemberAPI}s from one {@link CargoAPI} to
+     * another.
+     * <p>
+     * @param from The {@link CargoAPI} to be emptied.
+     * @param to   The destination {@link CargoAPI}.
+     * <p>
+     * @since 1.9
+     */
+    public static void moveMothballedShips(CargoAPI from, CargoAPI to)
+    {
+        for (FleetMemberAPI tmp : from.getMothballedShips().getMembersListCopy())
+        {
+            to.getMothballedShips().addFleetMember(tmp);
+        }
+
+        from.getMothballedShips().clear();
     }
 
     /**

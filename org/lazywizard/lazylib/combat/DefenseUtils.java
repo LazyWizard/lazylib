@@ -99,7 +99,9 @@ public class DefenseUtils
 
     /**
      * Determine what {@link DefenseType} is present at a specific location
-     * on a {@link ShipAPI}.
+     * on a {@link ShipAPI}. This method will consider points not inside of the
+     * ship's bounds as a miss even if said point is still within the armor
+     * grid.
      *
      * @param ship The {@link ShipAPI} to examine.
      * @param loc  The location to check at.
@@ -111,8 +113,8 @@ public class DefenseUtils
     public static DefenseType getDefenseAtPoint(ShipAPI ship, Vector2f loc)
     {
         // Point is not in bounds or ship's phase cloak is active
-        if (!CollisionUtils.isPointWithinBounds(loc, ship)
-                || (ship.getPhaseCloak() != null && ship.getPhaseCloak().isActive()))
+        if ((ship.getPhaseCloak() != null && ship.getPhaseCloak().isActive())
+                || !CollisionUtils.isPointWithinBounds(loc, ship))
         {
             return DefenseType.PHASE_OR_MISS;
         }
