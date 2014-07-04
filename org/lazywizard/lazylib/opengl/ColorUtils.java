@@ -6,11 +6,20 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  *
  * @author LazyWizard
- * @since 1.8
+ * @since 1.9
  */
-class ColorUtils
+// TODO: Javadoc and add to changelog
+public class ColorUtils
 {
-    public static void glColorAWT(Color color)
+    public static void glColor(Color color, float alphaMult,
+            boolean overrideOriginalAlpha)
+    {
+        glColor4ub((byte) color.getRed(), (byte) color.getGreen(),
+                (byte) color.getBlue(), (byte) ((overrideOriginalAlpha
+                ? alphaMult : (color.getAlpha() * alphaMult))));
+    }
+
+    public static void glColor(Color color)
     {
         glColor4ub((byte) color.getRed(), (byte) color.getGreen(),
                 (byte) color.getBlue(), (byte) color.getAlpha());
