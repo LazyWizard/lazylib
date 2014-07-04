@@ -1,5 +1,6 @@
- 1.9 (someday)
-===============
+ 1.9 (July 04, 2014)
+=====================
+The game no longer crashes if a setting is missing from LazyLib's config file
 Added org.lazywizard.lazylib.EllipseUtils:
  - By popular request, this includes methods to deal with elliptical shapes
  - Put into its own class to avoid further clutter in MathUtils

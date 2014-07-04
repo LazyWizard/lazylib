@@ -26,7 +26,7 @@ import org.lazywizard.lazylib.opengl.DrawUtils;
 public class LazyLib extends BaseModPlugin
 {
     private static final String SETTINGS_FILE = "lazylib_settings.json";
-    private static final boolean IS_DEV_BUILD = true;
+    private static final boolean IS_DEV_BUILD = false;
     private static final float LIBRARY_VERSION = 1.9f;
     private static final String GAME_VERSION = "0.6.2a";
     private static boolean CACHE_ENABLED = false, LOG_DEPRECATED = false,
@@ -219,9 +219,9 @@ public class LazyLib extends BaseModPlugin
 
         // Load LazyLib settings from JSON file
         JSONObject settings = Global.getSettings().loadJSON(SETTINGS_FILE);
-        setLogLevel(Level.toLevel(settings.getString("logLevel"), Level.ERROR));
-        CACHE_ENABLED = settings.getBoolean("enableCaching");
-        LOG_DEPRECATED = settings.getBoolean("logDeprecated");
-        CRASH_DEPRECATED = settings.getBoolean("crashOnDeprecated");
+        setLogLevel(Level.toLevel(settings.optString("logLevel", "ERROR"), Level.ERROR));
+        CACHE_ENABLED = settings.optBoolean("enableCaching", false);
+        LOG_DEPRECATED = settings.optBoolean("logDeprecated", false);
+        CRASH_DEPRECATED = settings.optBoolean("crashOnDeprecated", false);
     }
 }
