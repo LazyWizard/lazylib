@@ -1,6 +1,8 @@
 package org.lazywizard.lazylib.opengl;
 
+import java.nio.FloatBuffer;
 import org.lazywizard.lazylib.FastTrig;
+import org.lwjgl.BufferUtils;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -54,19 +56,26 @@ public class DrawUtils
         float y = 0;
         float tmp;
 
-        glBegin(drawFilled ? GL_TRIANGLE_FAN : GL_LINE_LOOP);
-        for (int i = 0; i < numSegments - 1; i++)
+        float[] vertices = new float[numSegments * 2];
+        for (int i = 0; i < vertices.length; i += 2)
         {
             // Output vertex
-            glVertex2f(x + centerX, y + centerY);
+            vertices[i] = x + centerX;
+            vertices[i + 1] = y + centerY;
 
             // Apply the rotation matrix
             tmp = x;
             x = (cos * x) - (sin * y);
             y = (sin * tmp) + (cos * y);
         }
-        glVertex2f(x + centerX, y + centerY);
-        glEnd();
+
+        // Draw the circle
+        FloatBuffer vertexMap = BufferUtils.createFloatBuffer(vertices.length);
+        vertexMap.put(vertices).flip();
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(2, 0, vertexMap);
+        glDrawArrays(drawFilled ? GL_TRIANGLE_FAN : GL_LINE_LOOP, 0, vertices.length / 2);
+        glDisableClientState(GL_VERTEX_ARRAY);
     }
 
     /**
@@ -119,25 +128,30 @@ public class DrawUtils
         float y = 0f;
         float scaledX, scaledY, tmp;
 
-        glBegin(drawFilled ? GL_TRIANGLE_FAN : GL_LINE_LOOP);
-        for (int i = 0; i < numSegments - 1; i++)
+        float[] vertices = new float[numSegments * 2];
+        for (int i = 0; i < vertices.length; i += 2)
         {
             // Rotate/scale the circle into an ellipse
             scaledX = (x * offsetCos) - (y * yFactor * offsetSin);
             scaledY = (x * offsetSin) + (y * yFactor * offsetCos);
 
             // Output vertex
-            glVertex2f(scaledX + centerX, scaledY + centerY);
+            vertices[i] = scaledX + centerX;
+            vertices[i + 1] = scaledY + centerY;
 
             // Apply the rotation matrix to the circle
             tmp = x;
             x = (cos * x) - (sin * y);
             y = (sin * tmp) + (cos * y);
         }
-        scaledX = (x * offsetCos) - (y * yFactor * offsetSin);
-        scaledY = (x * offsetSin) + (y * yFactor * offsetCos);
-        glVertex2f(scaledX + centerX, scaledY + centerY);
-        glEnd();
+
+        // Draw the ellipse
+        FloatBuffer vertexMap = BufferUtils.createFloatBuffer(vertices.length);
+        vertexMap.put(vertices).flip();
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(2, 0, vertexMap);
+        glDrawArrays(drawFilled ? GL_TRIANGLE_FAN : GL_LINE_LOOP, 0, vertices.length / 2);
+        glDisableClientState(GL_VERTEX_ARRAY);
     }
 
     /**
@@ -165,6 +179,11 @@ public class DrawUtils
     public static void drawArc(float centerX, float centerY, float radius,
             float startAngle, float arcAngle, int numSegments, boolean drawFilled)
     {
+        if (numSegments < 1)
+        {
+            return;
+        }
+
         // Convert angles into radians for our calculations
         startAngle = (float) Math.toRadians(startAngle);
         arcAngle = (float) Math.toRadians(arcAngle);
@@ -181,23 +200,33 @@ public class DrawUtils
         float y = (float) (radius * FastTrig.sin(startAngle));
         float tmp;
 
-        glBegin(drawFilled ? GL_TRIANGLE_FAN : GL_LINE_STRIP);
+        float[] vertices = new float[numSegments * 2 + (drawFilled ? 4 : 2)];
         if (drawFilled)
         {
-            glVertex2f(centerX, centerY);
+            vertices[0] = centerX;
+            vertices[1] = centerY;
         }
-        for (int i = 0; i < numSegments; i++)
+        for (int i = (drawFilled ? 2 : 0); i < vertices.length - 2; i += 2)
         {
             // Output vertex
-            glVertex2f(x + centerX, y + centerY);
+            vertices[i] = x + centerX;
+            vertices[i + 1] = y + centerY;
 
             // Apply the rotation matrix
             tmp = x;
             x = (cos * x) - (sin * y);
             y = (sin * tmp) + (cos * y);
         }
-        glVertex2f(x + centerX, y + centerY);
-        glEnd();
+        vertices[vertices.length - 2] = x + centerX;
+        vertices[vertices.length - 1] = y + centerY;
+
+        // Draw the ellipse
+        FloatBuffer vertexMap = BufferUtils.createFloatBuffer(vertices.length);
+        vertexMap.put(vertices).flip();
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(2, 0, vertexMap);
+        glDrawArrays(drawFilled ? GL_TRIANGLE_FAN : GL_LINE_STRIP, 0, vertices.length / 2);
+        glDisableClientState(GL_VERTEX_ARRAY);
     }
 
     /**
