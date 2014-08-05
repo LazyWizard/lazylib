@@ -367,6 +367,11 @@ public class MathUtils
      */
     public static Vector2f getPointOnCircumference(Vector2f center, float radius, float angle)
     {
+        if (radius == 0f)
+        {
+            return (center == null ? new Vector2f(0f,0f) : new Vector2f(center));
+        }
+
         angle = clampAngle(angle);
 
         // Bypass relatively expensive trig operations whenever possible

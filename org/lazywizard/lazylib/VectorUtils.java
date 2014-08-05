@@ -122,6 +122,11 @@ public class VectorUtils
     public static Vector2f rotateAroundPivot(Vector2f toRotate, Vector2f pivotPoint,
             float angle, Vector2f dest)
     {
+        if (angle == 0f)
+        {
+            return dest.set(toRotate);
+        }
+
         Vector2f.sub(toRotate, pivotPoint, TEMP_VECTOR);
         rotate(TEMP_VECTOR, angle, TEMP_VECTOR);
         Vector2f.add(TEMP_VECTOR, pivotPoint, dest);

@@ -50,6 +50,8 @@ public class CombatUtils
     {
         CombatFleetManagerAPI fm = Global.getCombatEngine()
                 .getFleetManager(ship.getOriginalOwner());
+        // TODO: replace with getDeployedFleetMemberEvenIfDisabled() once .6.5a lands
+        // That should let us remove 90% of this method's body
         DeployedFleetMemberAPI dfm = fm.getDeployedFleetMember(ship);
 
         // Compatibility fix for main menu battles

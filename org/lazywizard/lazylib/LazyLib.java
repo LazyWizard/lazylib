@@ -15,6 +15,7 @@ import org.lazywizard.lazylib.combat.DefenseUtils;
 import org.lazywizard.lazylib.combat.WeaponUtils;
 import org.lazywizard.lazylib.combat.entities.AnchoredEntity;
 import org.lazywizard.lazylib.combat.entities.SimpleEntity;
+import org.lazywizard.lazylib.opengl.ColorUtils;
 import org.lazywizard.lazylib.opengl.DrawUtils;
 
 /**
@@ -131,6 +132,7 @@ public class LazyLib extends BaseModPlugin
         Global.getLogger(EllipseUtils.class).setLevel(level);
         Global.getLogger(JSONUtils.class).setLevel(level);
         Global.getLogger(MathUtils.class).setLevel(level);
+        Global.getLogger(ModUtils.class).setLevel(level);
         Global.getLogger(StringUtils.class).setLevel(level);
         Global.getLogger(VectorUtils.class).setLevel(level);
         // org.lazywizard.lazylib.campaign
@@ -148,6 +150,7 @@ public class LazyLib extends BaseModPlugin
         Global.getLogger(AnchoredEntity.class).setLevel(level);
         Global.getLogger(SimpleEntity.class).setLevel(level);
         // org.lazywizard.lazylib.opengl
+        Global.getLogger(ColorUtils.class).setLevel(level);
         Global.getLogger(DrawUtils.class).setLevel(level);
 
         LOG_LEVEL = level;
