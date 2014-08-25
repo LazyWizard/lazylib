@@ -1,0 +1,11 @@
+{
+	"masterVersionFile":"https://bitbucket.org/LazyWizard/lazylib/raw/tip/versionchecker.version",
+	"modName":"LazyLib",
+	"modVersion":
+	{
+		"major":1,
+		"minor":9,
+		"patch":1
+	},
+	"starsectorVersion":".6.2a"
+}
