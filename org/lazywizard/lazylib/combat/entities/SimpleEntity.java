@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import com.fs.starfarer.api.combat.ShipEngineControllerAPI.ShipEngineAPI;
 import org.apache.log4j.Level;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -28,6 +29,8 @@ public class SimpleEntity extends EntityBase
     protected Vector2f location = null;
     // Variables for WeaponAPI-based variant
     protected WeaponAPI weapon = null;
+    // Variables for ShipEngineAPI-based variant
+    protected ShipEngineAPI engine = null;
     // Variables for reflection-based variant
     protected Object toFollow = null;
     protected Method getLocation = null;
@@ -39,6 +42,7 @@ public class SimpleEntity extends EntityBase
     {
         VECTOR,
         WEAPON,
+        ENGINE,
         REFLECTION
     }
 
@@ -75,6 +79,21 @@ public class SimpleEntity extends EntityBase
     {
         this.weapon = weapon;
         type = SimpleEntityType.WEAPON;
+    }
+
+    /**
+     * Creates a {@code CombatEntityAPI} that mimics the location of a
+     * {@link com.fs.starfarer.api.combat.ShipEngineControllerAPI.ShipEngineAPI}.
+     * <p>
+     * @param engine The {@link ShipEngineAPI} whose location getLocation()
+     *               should return.
+     * <p>
+     * @since 1.9b
+     */
+    public SimpleEntity(ShipEngineAPI engine)
+    {
+        this.engine = engine;
+        type = SimpleEntityType.ENGINE;
     }
 
     /**
@@ -156,6 +175,11 @@ public class SimpleEntity extends EntityBase
             {
                 return weapon.getLocation();
             }
+            // ShipEngineAPI-based constructor
+            case ENGINE:
+            {
+                return engine.getLocation();
+            }
             // Reflection-based constructor (any other Object passed in)
             case REFLECTION:
             {
@@ -184,6 +208,19 @@ public class SimpleEntity extends EntityBase
     public WeaponAPI getWeapon()
     {
         return weapon;
+    }
+
+    /**
+     * Returns the {@link ShipEngineAPI} this entity is attached to, if any.
+     *
+     * @return The {@link ShipEngineAPI} passed into the constructor, or
+     *         {@code null} if another constructor was used.
+     * <p>
+     * @since 1.9b
+     */
+    public ShipEngineAPI getEngine()
+    {
+        return engine;
     }
 
     /**
