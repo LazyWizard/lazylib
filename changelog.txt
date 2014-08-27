@@ -1,3 +1,14 @@
+ 1.9b (August 27, 2014)
+========================
+Minor optimizations
+Added support for Version Checker update notifications
+Added org.lazywizard.lazylib.ModUtils:
+ - This class helps with non-gameplay related modding tasks
+ - isClassPresent(String classCanonicalName)
+Changes to SimpleEntity:
+ - Added a constructor for mimicking the location of a ShipEngineAPI
+ - Added getEngine() method, returns null if another constructor was used
+
  1.9 (July 04, 2014)
 =====================
 The game no longer crashes if a setting is missing from LazyLib's config file

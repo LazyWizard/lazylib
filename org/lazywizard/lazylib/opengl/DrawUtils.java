@@ -229,18 +229,6 @@ public class DrawUtils
         glDisableClientState(GL_VERTEX_ARRAY);
     }
 
-    /**
-     * @deprecated Use {@link DrawUtils#drawArc(float, float, float, float,
-     * float, int, boolean)} instead.
-     * @since 1.7
-     */
-    @Deprecated
-    public static void drawArc(float centerX, float centerY, float radius,
-            float startAngle, float arcAngle, int numSegments)
-    {
-        drawArc(centerX, centerY, radius, startAngle, arcAngle, numSegments, false);
-    }
-
     private DrawUtils()
     {
     }

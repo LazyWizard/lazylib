@@ -1,5 +1,7 @@
 package org.lazywizard.lazylib;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -104,6 +106,26 @@ public class VectorUtils
         dest.set((toRotate.x * cos) - (toRotate.y * sin),
                 (toRotate.x * sin) + (toRotate.y * cos));
         return dest;
+    }
+
+    // TODO: Test, Javadoc and add to changelog
+    static List<Vector2f> rotate(List<Vector2f> toRotate, float angle)
+    {
+        if (angle == 0f)
+        {
+            return new ArrayList<>(toRotate);
+        }
+
+        angle = (float) Math.toRadians(angle);
+        float cos = (float) FastTrig.cos(angle), sin = (float) FastTrig.sin(angle);
+        List<Vector2f> rotated = new ArrayList<>(toRotate.size());
+        for (Vector2f point : toRotate)
+        {
+            rotated.add(new Vector2f((point.x * cos) - (point.y * sin),
+                    (point.x * sin) + (point.y * cos)));
+        }
+
+        return rotated;
     }
 
     /**

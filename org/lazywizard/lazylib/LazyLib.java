@@ -1,8 +1,8 @@
 package org.lazywizard.lazylib;
 
+import java.util.Arrays;
 import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
-import java.util.Arrays;
 import org.apache.log4j.Level;
 import org.json.JSONObject;
 import org.lazywizard.lazylib.campaign.CargoUtils;
@@ -28,7 +28,7 @@ public class LazyLib extends BaseModPlugin
 {
     private static final String SETTINGS_FILE = "lazylib_settings.json";
     private static final boolean IS_DEV_BUILD = false;
-    private static final float LIBRARY_VERSION = 1.9f;
+    private static final float LIBRARY_VERSION = 1.92f;
     private static final String GAME_VERSION = "0.6.2a";
     private static boolean CACHE_ENABLED = false, LOG_DEPRECATED = false,
             CRASH_DEPRECATED = false;
