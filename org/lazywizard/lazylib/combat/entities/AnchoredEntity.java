@@ -58,6 +58,11 @@ public class AnchoredEntity extends EntityBase
     @Override
     public Vector2f getLocation()
     {
+        if (relativeDistance == 0f)
+        {
+            return anchor.getLocation();
+        }
+
         return MathUtils.getPointOnCircumference(anchor.getLocation(),
                 relativeDistance, relativeAngle + anchor.getFacing());
     }

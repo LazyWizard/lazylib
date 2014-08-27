@@ -1,11 +1,11 @@
 package org.lazywizard.lazylib;
 
-import com.fs.starfarer.api.campaign.SectorEntityToken;
-import com.fs.starfarer.api.combat.CombatEntityAPI;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import com.fs.starfarer.api.campaign.SectorEntityToken;
+import com.fs.starfarer.api.combat.CombatEntityAPI;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -367,6 +367,11 @@ public class MathUtils
      */
     public static Vector2f getPointOnCircumference(Vector2f center, float radius, float angle)
     {
+        if (radius == 0f)
+        {
+            return (center == null ? new Vector2f(0f, 0f) : new Vector2f(center));
+        }
+
         angle = clampAngle(angle);
 
         // Bypass relatively expensive trig operations whenever possible

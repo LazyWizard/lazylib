@@ -1,0 +1,11 @@
+{
+    "masterVersionFile":"https://dl.dropboxusercontent.com/u/32722116/Version%20Files/lazylib.version",
+    "modName":"LazyLib",
+    "modVersion":
+    {
+        "major":1,
+        "minor":9,
+        "patch":2
+    },
+    "starsectorVersion":".6.2a"
+}

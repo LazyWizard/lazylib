@@ -1,20 +1,27 @@
 package org.lazywizard.lazylib;
 
-import com.fs.starfarer.api.Global;
 import java.util.List;
+import com.fs.starfarer.api.Global;
 import org.apache.log4j.Level;
 
 /**
  * Contains methods for dealing with mod level (non-gameplay) tasks.
  *
  * @author LazyWizard
- * @since 1.9
+ * @since 1.9b
  */
-// TODO: Finish, test, make public, add to changelog
-class ModUtils
+public class ModUtils
 {
-    // TODO: Test, Javadoc, add to changelog
-    // Note: this does NOT initialize the class if it is present
+    /**
+     * Checks if a class is present within the loaded mods.
+     *
+     * Note: this does <i>not</i> initialize the class if it is present.
+     *
+     * @param classCanonicalName The canonical name of the class to check for.
+     * <p>
+     * @return {@code true} if the class is present, {@code false} otherwise.
+     * @since 1.9b
+     */
     public static boolean isClassPresent(String classCanonicalName)
     {
         try
@@ -31,7 +38,7 @@ class ModUtils
     }
 
     // TODO: Test, Javadoc, add to changelog
-    public static boolean loadClassesIfClassIsPresent(String classCanonicalName,
+    static boolean loadClassesIfClassIsPresent(String classCanonicalName,
             List<String> classesToLoadCanonicalNames,
             boolean initializeClasses) throws ClassNotFoundException
     {

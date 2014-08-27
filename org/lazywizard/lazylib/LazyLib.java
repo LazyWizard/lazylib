@@ -1,8 +1,8 @@
 package org.lazywizard.lazylib;
 
+import java.util.Arrays;
 import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
-import java.util.Arrays;
 import org.apache.log4j.Level;
 import org.json.JSONObject;
 import org.lazywizard.lazylib.campaign.CargoUtils;
@@ -15,6 +15,7 @@ import org.lazywizard.lazylib.combat.DefenseUtils;
 import org.lazywizard.lazylib.combat.WeaponUtils;
 import org.lazywizard.lazylib.combat.entities.AnchoredEntity;
 import org.lazywizard.lazylib.combat.entities.SimpleEntity;
+import org.lazywizard.lazylib.opengl.ColorUtils;
 import org.lazywizard.lazylib.opengl.DrawUtils;
 
 /**
@@ -27,7 +28,7 @@ public class LazyLib extends BaseModPlugin
 {
     private static final String SETTINGS_FILE = "lazylib_settings.json";
     private static final boolean IS_DEV_BUILD = false;
-    private static final float LIBRARY_VERSION = 1.9f;
+    private static final float LIBRARY_VERSION = 1.92f;
     private static final String GAME_VERSION = "0.6.2a";
     private static boolean CACHE_ENABLED = false, LOG_DEPRECATED = false,
             CRASH_DEPRECATED = false;
@@ -131,6 +132,7 @@ public class LazyLib extends BaseModPlugin
         Global.getLogger(EllipseUtils.class).setLevel(level);
         Global.getLogger(JSONUtils.class).setLevel(level);
         Global.getLogger(MathUtils.class).setLevel(level);
+        Global.getLogger(ModUtils.class).setLevel(level);
         Global.getLogger(StringUtils.class).setLevel(level);
         Global.getLogger(VectorUtils.class).setLevel(level);
         // org.lazywizard.lazylib.campaign
@@ -148,6 +150,7 @@ public class LazyLib extends BaseModPlugin
         Global.getLogger(AnchoredEntity.class).setLevel(level);
         Global.getLogger(SimpleEntity.class).setLevel(level);
         // org.lazywizard.lazylib.opengl
+        Global.getLogger(ColorUtils.class).setLevel(level);
         Global.getLogger(DrawUtils.class).setLevel(level);
 
         LOG_LEVEL = level;
