@@ -1,5 +1,7 @@
 package org.lazywizard.lazylib;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -106,6 +108,26 @@ public class VectorUtils
         return dest;
     }
 
+    // TODO: Test, Javadoc and add to changelog
+    static List<Vector2f> rotate(List<Vector2f> toRotate, float angle)
+    {
+        if (angle == 0f)
+        {
+            return new ArrayList<>(toRotate);
+        }
+
+        angle = (float) Math.toRadians(angle);
+        float cos = (float) FastTrig.cos(angle), sin = (float) FastTrig.sin(angle);
+        List<Vector2f> rotated = new ArrayList<>(toRotate.size());
+        for (Vector2f point : toRotate)
+        {
+            rotated.add(new Vector2f((point.x * cos) - (point.y * sin),
+                    (point.x * sin) + (point.y * cos)));
+        }
+
+        return rotated;
+    }
+
     /**
      * Rotates a {@link Vector2f} by a specified amount around a pivot point.
      *
@@ -122,6 +144,11 @@ public class VectorUtils
     public static Vector2f rotateAroundPivot(Vector2f toRotate, Vector2f pivotPoint,
             float angle, Vector2f dest)
     {
+        if (angle == 0f)
+        {
+            return dest.set(toRotate);
+        }
+
         Vector2f.sub(toRotate, pivotPoint, TEMP_VECTOR);
         rotate(TEMP_VECTOR, angle, TEMP_VECTOR);
         Vector2f.add(TEMP_VECTOR, pivotPoint, dest);
