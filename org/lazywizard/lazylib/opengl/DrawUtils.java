@@ -72,10 +72,12 @@ public class DrawUtils
         // Draw the circle
         FloatBuffer vertexMap = BufferUtils.createFloatBuffer(vertices.length);
         vertexMap.put(vertices).flip();
+        glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
         glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(2, 0, vertexMap);
         glDrawArrays(drawFilled ? GL_TRIANGLE_FAN : GL_LINE_LOOP, 0, vertices.length / 2);
-        glDisableClientState(GL_VERTEX_ARRAY);
+        //glDisableClientState(GL_VERTEX_ARRAY);
+        glPopClientAttrib();
     }
 
     /**
@@ -148,10 +150,12 @@ public class DrawUtils
         // Draw the ellipse
         FloatBuffer vertexMap = BufferUtils.createFloatBuffer(vertices.length);
         vertexMap.put(vertices).flip();
+        glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
         glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(2, 0, vertexMap);
         glDrawArrays(drawFilled ? GL_TRIANGLE_FAN : GL_LINE_LOOP, 0, vertices.length / 2);
-        glDisableClientState(GL_VERTEX_ARRAY);
+        //glDisableClientState(GL_VERTEX_ARRAY);
+        glPopClientAttrib();
     }
 
     /**
@@ -223,10 +227,12 @@ public class DrawUtils
         // Draw the ellipse
         FloatBuffer vertexMap = BufferUtils.createFloatBuffer(vertices.length);
         vertexMap.put(vertices).flip();
+        glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
         glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(2, 0, vertexMap);
         glDrawArrays(drawFilled ? GL_TRIANGLE_FAN : GL_LINE_STRIP, 0, vertices.length / 2);
-        glDisableClientState(GL_VERTEX_ARRAY);
+        //glDisableClientState(GL_VERTEX_ARRAY);
+        glPopClientAttrib();
     }
 
     private DrawUtils()
