@@ -1,3 +1,15 @@
+ 2.0 (someday)
+===============
+Renamed FleetUtils to CampaignUtils
+Changes to CampaignUtils:
+ - Changed all method arguments to use a SectorEntityToken instead of a
+   CampaignFleetAPI wherever applicable
+ - Added areSameFaction(SectorEntityToken token1, SectorEntityToken token2)
+ - Added isShipInMothballed(String fleetMemberId, CargoAPI cargo)
+
+________________________________________________________________________________
+
+
  1.9b (August 27, 2014)
 ========================
 Minor optimizations

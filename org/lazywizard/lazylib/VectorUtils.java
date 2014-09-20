@@ -15,16 +15,22 @@ public class VectorUtils
     private static final Vector2f TEMP_VECTOR = new Vector2f();
 
     /**
-     * Returns the facing of a {@link Vector2f}.
+     * Returns the facing (angle) of a {@link Vector2f}.
      *
      * @param vector The vector to get the facing of.
      * <p>
-     * @return The facing (angle) of {@code vector}.
+     * @return The facing (angle) of {@code vector} in degrees, or 0 if the
+     *         vector has no length.
      * <p>
      * @since 1.7
      */
     public static float getFacing(Vector2f vector)
     {
+        if (vector.lengthSquared() == 0f)
+        {
+            return 0f;
+        }
+
         return MathUtils.clampAngle((float) Math.toDegrees(Math.atan2(vector.y, vector.x)));
     }
 
