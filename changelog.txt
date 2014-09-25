@@ -6,6 +6,85 @@ Changes to CampaignUtils:
    CampaignFleetAPI wherever applicable
  - Added areSameFaction(SectorEntityToken token1, SectorEntityToken token2)
  - Added isShipInMothballed(String fleetMemberId, CargoAPI cargo)
+Removed all pre-existing deprecated methods from the code
+Removed all methods with a 'sortByDistance' parameter
+ - Use Collections.sort(list, new CollectionUtils.SortXByDistance(location))
+   instead
+Removed from CollectionUtils:
+ - Removed CollectionUtils$SortObjectivesByDistance
+   (use SortEntitiesByDistance instead)
+ - List<T> weightedRandom(Map<T, Float> pickFrom, int numToPick)
+ - T weightedRandom(Map<T, Float> pickFrom)
+Removed from MathUtils:
+ - float getFacing(Vector2f vector)
+   (moved to VectorUtils)
+ - float getAngle(Vector2f from, Vector2f to)
+   (moved to VectorUtils)
+ - Vector2f getDirectionalVector(Vector2f source, Vector2f destination)
+   (moved to VectorUtils)
+ - Vector2f getDirectionalVector(CombatEntityAPI source, Vector2f destination)
+ - Vector2f getDirectionalVector(CombatEntityAPI source,
+   CombatEntityAPI destination)
+ - boolean isPointWithinBounds(Vector2f point, CombatEntityAPI entity)
+   (moved to CollisionUtils)
+Removed from CampaignUtils:
+ - List<CampaignFleetAPI> getEnemyFleetsInSystem(CampaignFleetAPI fleet,
+   boolean sortByDistance)
+ - List<CampaignFleetAPI> getNearbyEnemyFleets(CampaignFleetAPI fleet,
+   float range, boolean sortByDistance)
+ - List<CampaignFleetAPI> getAlliedFleetsInSystem(CampaignFleetAPI fleet,
+   boolean sortByDistance)
+ - List<CampaignFleetAPI> getNearbyAlliedFleets(CampaignFleetAPI fleet,
+   float range, boolean sortByDistance)
+Removed from AIUtils:
+ - List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity, boolean sortByDistance)
+ - List<ShipAPI> getNearbyEnemies(CombatEntityAPI entity, float range,
+   boolean sortByDistance)
+ - List<ShipAPI> getAlliesOnMap(CombatEntityAPI entity, boolean sortByDistance)
+ - List<ShipAPI> getNearbyAllies(CombatEntityAPI entity, float range,
+   boolean sortByDistance)
+ - List<MissileAPI> getEnemyMissilesOnMap(CombatEntityAPI entity,
+   boolean sortByDistance)
+ - List<MissileAPI> getNearbyEnemyMissiles(CombatEntityAPI entity, float range,
+   boolean sortByDistance)
+Removed from CombatUtils:
+ - List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location,
+   float range, boolean sortByDistance)
+ - List<MissileAPI> getMissilesWithinRange(Vector2f location, float range,
+   boolean sortByDistance)
+ - List<ShipAPI> getShipsWithinRange(Vector2f location, float range,
+   boolean sortByDistance)
+ - List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location,
+   float range, boolean sortByDistance)
+ - List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location,
+   float range, boolean sortByDistance)
+ - List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location,
+   float range, boolean sortByDistance)
+ - CombatEngineAPI getCombatEngine()
+ - float getElapsedCombatTimeIncludingPaused()
+ - float getElapsedCombatTime()
+ - float getTimeSinceLastFrame()
+Removed from DefenseUtils:
+ - Vector2f getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
+Removed from WeaponUtils:
+ - float calculateActualDamage(float baseDamage, WeaponAPI weapon)
+ - float calculateActualDamage(float baseDamage, WeaponAPI weapon,
+   ShipAPI target, DefenseType defense)
+ - float calculateDamagePerShot(WeaponAPI weapon)
+ - float calculateDamagePerShot(WeaponAPI weapon, ShipAPI target,
+   DefenseType defense)
+ - float calculateDamagePerSecond(WeaponAPI weapon)
+ - float calculateDamagePerSecond(WeaponAPI weapon, ShipAPI target,
+   DefenseType defense)
+ - float calculateDamagePerBurst(WeaponAPI weapon)
+ - float calculateDamagePerBurst(WeaponAPI weapon, ShipAPI target,
+   DefenseType defense)
+ - List<ShipAPI> getEnemiesInArc(WeaponAPI weapon, boolean sortByDistance)
+ - List<MissileAPI> getEnemyMissilesInArc(WeaponAPI weapon,
+   boolean sortByDistance)
+Removed from DrawUtils:
+ - drawArc(float centerX, float centerY, float radius, float startAngle,
+   float arcAngle, int numSegments
 
 ________________________________________________________________________________
 
