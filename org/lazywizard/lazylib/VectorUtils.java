@@ -125,7 +125,7 @@ public class VectorUtils
      * <p>
      * @since 2.0
      */
-    static List<Vector2f> rotate(List<Vector2f> toRotate, float angle)
+    public static List<Vector2f> rotate(List<Vector2f> toRotate, float angle)
     {
         if (angle == 0f)
         {
