@@ -11,13 +11,13 @@ import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import org.lazywizard.lazylib.MathUtils;
 
 /**
+ * Contains methods for working with campaign objects and in-system tasks.
  *
  * @author LazyWizard
- *
  * @since 2.0
  */
 // TODO: TEST THIS!
-class CampaignUtils
+public class CampaignUtils
 {
     /**
      * Checks if a fleet is the player fleet.
