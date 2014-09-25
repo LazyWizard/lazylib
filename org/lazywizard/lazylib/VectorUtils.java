@@ -108,13 +108,23 @@ public class VectorUtils
         }
 
         angle = (float) Math.toRadians(angle);
-        float cos = (float) FastTrig.cos(angle), sin = (float) FastTrig.sin(angle);
+        final float cos = (float) FastTrig.cos(angle), sin = (float) FastTrig.sin(angle);
         dest.set((toRotate.x * cos) - (toRotate.y * sin),
                 (toRotate.x * sin) + (toRotate.y * cos));
         return dest;
     }
 
-    // TODO: Test, Javadoc and add to changelog
+    /**
+     * Rotates a {@link List} of {@link Vector2f}s by a specified amount. Much
+     * more efficient than rotating each point individually.
+     *
+     * @param toRotate The {@link List} of {@link Vector2f}s to rotate.
+     * @param angle    How much to rotate {@code toRotate}, in degrees.
+     * <p>
+     * @return A {@link List} of {@link Vector2f}s that have been rotated.
+     * <p>
+     * @since 2.0
+     */
     static List<Vector2f> rotate(List<Vector2f> toRotate, float angle)
     {
         if (angle == 0f)
@@ -123,8 +133,8 @@ public class VectorUtils
         }
 
         angle = (float) Math.toRadians(angle);
-        float cos = (float) FastTrig.cos(angle), sin = (float) FastTrig.sin(angle);
-        List<Vector2f> rotated = new ArrayList<>(toRotate.size());
+        final float cos = (float) FastTrig.cos(angle), sin = (float) FastTrig.sin(angle);
+        final List<Vector2f> rotated = new ArrayList<>(toRotate.size());
         for (Vector2f point : toRotate)
         {
             rotated.add(new Vector2f((point.x * cos) - (point.y * sin),
@@ -159,6 +169,46 @@ public class VectorUtils
         rotate(TEMP_VECTOR, angle, TEMP_VECTOR);
         Vector2f.add(TEMP_VECTOR, pivotPoint, dest);
         return dest;
+    }
+
+    /**
+     * Rotates a {@link List} of {@link Vector2f}s by a specified amount around
+     * a pivot point. Much more efficient than rotating each point individually.
+     * <p>
+     * @param toRotate   The {@link List} of {@link Vector2f}s to rotate.
+     * @param pivotPoint The central point to pivot around.
+     * @param angle      How much to rotate {@code toRotate}, in degrees.
+     * <p>
+     * @return A {@link List} of {@link Vector2f}s that have been rotated around
+     *         {@code pivotPoint}.
+     * <p>
+     * @since 2.0
+     */
+    public static List<Vector2f> rotateAroundPivot(List<Vector2f> toRotate,
+            Vector2f pivotPoint, float angle)
+    {
+        List<Vector2f> rotated = new ArrayList<>(toRotate.size());
+        if (angle == 0f)
+        {
+            for (Vector2f point : toRotate)
+            {
+                rotated.add(new Vector2f(point));
+            }
+
+            return rotated;
+        }
+
+        angle = (float) Math.toRadians(angle);
+        final float cos = (float) FastTrig.cos(angle), sin = (float) FastTrig.sin(angle);
+        for (Vector2f point : toRotate)
+        {
+            Vector2f.sub(point, pivotPoint, TEMP_VECTOR);
+            TEMP_VECTOR.set((TEMP_VECTOR.x * cos) - (TEMP_VECTOR.y * sin),
+                    (TEMP_VECTOR.x * sin) + (TEMP_VECTOR.y * cos));
+            rotated.add(Vector2f.add(TEMP_VECTOR, pivotPoint, null));
+        }
+
+        return rotated;
     }
 
     private VectorUtils()
