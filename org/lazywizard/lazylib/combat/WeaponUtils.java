@@ -1,13 +1,13 @@
 package org.lazywizard.lazylib.combat;
 
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.List;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import java.awt.geom.Line2D;
-import java.util.ArrayList;
-import java.util.List;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 import org.lwjgl.util.vector.Vector2f;
@@ -90,20 +90,19 @@ public class WeaponUtils
      */
     public static float getTimeToAim(WeaponAPI weapon, Vector2f aimAt)
     {
+        float distance = Math.abs(weapon.distanceFromArc(aimAt));
+        if (distance == 0f)
+        {
+            return 0f;
+        }
+
         float turnSpeed = weapon.getTurnRate();
-        float time = Math.abs(weapon.distanceFromArc(aimAt)) / turnSpeed;
+        float time = distance / turnSpeed;
 
         // Divide by zero - can't turn, only a threat if already aimed
         if (Float.isNaN(time))
         {
-            if (weapon.distanceFromArc(aimAt) == 0)
-            {
-                return 0f;
-            }
-            else
-            {
-                return Float.MAX_VALUE;
-            }
+            return Float.MAX_VALUE;
         }
 
         return time;
@@ -124,8 +123,14 @@ public class WeaponUtils
         ShipAPI closest = null;
         float distance, closestDistance = Float.MAX_VALUE;
 
+        ShipAPI owner = weapon.getShip();
         for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
+            if (tmp == owner)
+            {
+                continue;
+            }
+
             if (tmp.getOwner() != weapon.getShip().getOwner()
                     || weapon.distanceFromArc(tmp.getLocation()) > 0f)
             {
@@ -163,8 +168,14 @@ public class WeaponUtils
         List<ShipAPI> allies = new ArrayList<>();
         float range = weapon.getRange();
 
+        ShipAPI owner = weapon.getShip();
         for (ShipAPI ship : AIUtils.getAlliesOnMap(weapon.getShip()))
         {
+            if (ship == owner)
+            {
+                continue;
+            }
+
             if (MathUtils.isWithinRange(ship, weapon.getLocation(), range)
                     && weapon.distanceFromArc(ship.getLocation()) == 0f)
             {
