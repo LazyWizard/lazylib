@@ -136,6 +136,53 @@ public class DefenseUtils
         return DefenseType.HULL;
     }
 
+    // TODO: Test, Javadoc, add to changelog
+    public static int[] getMostDamagedArmorCell(ShipAPI ship)
+    {
+        final float[][] grid = ship.getArmorGrid().getGrid();
+        final float max = ship.getArmorGrid().getMaxArmorInCell();
+        int resultX = -1, resultY = -1;
+        float lowest = max;
+
+        // Iterate through all armor cells to find the worst damaged one
+        for (int x = 0; x < grid.length; x++)
+        {
+            for (int y = 0; y < grid.length; y++)
+            {
+                float cur = grid[x][y];
+
+                // You won't get lower than no armor left ;)
+                if (cur == 0f)
+                {
+                    return new int[]
+                    {
+                        x, y
+                    };
+                }
+
+                // Check if this cell is more damaged than our current lowest
+                if (cur < max && cur < lowest)
+                {
+                    lowest = cur;
+                    resultX = x;
+                    resultY = y;
+                }
+            }
+        }
+
+        // Return null if there were no damaged armor cells
+        if (resultX < 0)
+        {
+            return null;
+        }
+
+        // Return most damaged armor cell
+        return new int[]
+        {
+            resultX, resultY
+        };
+    }
+
     private DefenseUtils()
     {
     }

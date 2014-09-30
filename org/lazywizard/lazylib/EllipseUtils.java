@@ -96,8 +96,7 @@ public class EllipseUtils
             float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
     {
         final Random rng = MathUtils.getRandom();
-        final double t = 2 * Math.PI * rng.nextDouble(),
-                u = rng.nextDouble() + rng.nextDouble();
+        final double u = rng.nextDouble() + rng.nextDouble();
         final float r = (float) (u > 1 ? 2 - u : u);
 
         return getRandomPointOnEllipse(ellipseCenter, ellipseWidth * r,
