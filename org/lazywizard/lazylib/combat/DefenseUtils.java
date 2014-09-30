@@ -183,6 +183,33 @@ public class DefenseUtils
         };
     }
 
+    // TODO: Javadoc, add to changelog
+    public static boolean hasArmorDamage(ShipAPI ship)
+    {
+        final float[][] grid = ship.getArmorGrid().getGrid();
+        final float max = ship.getArmorGrid().getMaxArmorInCell();
+
+        // Iterate through all armor cells and find any that aren't at max
+        for (int x = 0; x < grid.length; x++)
+        {
+            for (int y = 0; y < grid.length; y++)
+            {
+                if (grid[x][y] < max)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // TODO: Javadoc, add to changelog
+    public static boolean hasHullDamage(ShipAPI ship)
+    {
+        return (ship.getHullLevel() < 1f);
+    }
+
     private DefenseUtils()
     {
     }
