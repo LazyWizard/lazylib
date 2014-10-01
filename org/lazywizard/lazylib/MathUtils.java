@@ -2,9 +2,7 @@ package org.lazywizard.lazylib;
 
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
@@ -662,34 +660,6 @@ public class MathUtils
     public static int getRandomNumberInRange(int min, int max)
     {
         return rng.nextInt((max - min) + 1) + min;
-    }
-
-    // Ensure even distribution of getRandomNumberInRange()
-    public static void main(String[] args)
-    {
-        final int totalTests = 150_000_000;
-        final int min = -499, max = 500;
-
-        // Populate results mapping
-        Map<Integer, Integer> results = new LinkedHashMap<>();
-        for (int x = min; x <= max; x++)
-        {
-            results.put(x, 0);
-        }
-
-        // Run tests
-        for (int x = 0; x < totalTests; x++)
-        {
-            Integer rand = getRandomNumberInRange(min, max);
-            results.put(rand, results.get(rand) + 1);
-        }
-
-        // Print results
-        for (Map.Entry<Integer, Integer> entry : results.entrySet())
-        {
-            System.out.println(entry.getKey() + ": " + entry.getValue() + " ("
-                    + ((entry.getValue() / (float) totalTests) * 100f) + "%)");
-        }
     }
 
     /**
