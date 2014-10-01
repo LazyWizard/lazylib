@@ -1,11 +1,13 @@
 package org.lazywizard.lazylib;
 
-import com.fs.starfarer.api.campaign.SectorEntityToken;
-import com.fs.starfarer.api.combat.CombatEntityAPI;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import com.fs.starfarer.api.campaign.SectorEntityToken;
+import com.fs.starfarer.api.combat.CombatEntityAPI;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -369,7 +371,7 @@ public class MathUtils
     {
         if (radius == 0f)
         {
-            return (center == null ? new Vector2f(0f,0f) : new Vector2f(center));
+            return (center == null ? new Vector2f(0f, 0f) : new Vector2f(center));
         }
 
         angle = clampAngle(angle);
@@ -633,7 +635,7 @@ public class MathUtils
     }
 
     /**
-     * Returns a random number within a given range.
+     * Returns a random float within a given range.
      *
      * @param min The minimum value to select.
      * @param max The maximum value to select.
@@ -645,6 +647,49 @@ public class MathUtils
     public static float getRandomNumberInRange(float min, float max)
     {
         return rng.nextFloat() * (max - min) + min;
+    }
+
+    /**
+     * Returns a random integer within a given range.
+     *
+     * @param min The minimum value to select.
+     * @param max The maximum value to select (inclusive).
+     * <p>
+     * @return A random {@link Integer} between {@code min} and {@code max}, inclusive.
+     * <p>
+     * @since 2.0
+     */
+    public static int getRandomNumberInRange(int min, int max)
+    {
+        return rng.nextInt((max - min) + 1) + min;
+    }
+
+    // Ensure even distribution of getRandomNumberInRange()
+    public static void main(String[] args)
+    {
+        final int totalTests = 150_000_000;
+        final int min = -499, max = 500;
+
+        // Populate results mapping
+        Map<Integer, Integer> results = new LinkedHashMap<>();
+        for (int x = min; x <= max; x++)
+        {
+            results.put(x, 0);
+        }
+
+        // Run tests
+        for (int x = 0; x < totalTests; x++)
+        {
+            Integer rand = getRandomNumberInRange(min, max);
+            results.put(rand, results.get(rand) + 1);
+        }
+
+        // Print results
+        for (Map.Entry<Integer, Integer> entry : results.entrySet())
+        {
+            System.out.println(entry.getKey() + ": " + entry.getValue() + " ("
+                    + ((entry.getValue() / (float) totalTests) * 100f) + "%)");
+        }
     }
 
     /**
