@@ -6,9 +6,15 @@ Changes to CampaignUtils:
    CampaignFleetAPI wherever applicable
  - Added areSameFaction(SectorEntityToken token1, SectorEntityToken token2)
  - Added isShipInMothballed(String fleetMemberId, CargoAPI cargo)
+Changes to DefenseUtils:
+ - Added hasHullDamage(ShipAPI ship)
+ - Added hasArmorDamage(ShipAPI ship)
+ - Added getMostDamagedArmorCell(ShipAPI ship)
 Changes to EllipseUtils:
  - Added Vector2f getRandomPointInEllipse(Vector2f ellipseCenter,
    float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
+Changes to MathUtils:
+ - Added int getRandomNumberInRange(int min, int max)
 Changes to VectorUtils:
  - Added List<Vector2f> rotate(List<Vector2f> toRotate, float angle)
  - Added List<Vector2f> rotateAroundPivot(List<Vector2f> toRotate,

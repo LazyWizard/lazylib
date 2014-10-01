@@ -4,6 +4,7 @@ import com.fs.starfarer.api.combat.ArmorGridAPI;
 import com.fs.starfarer.api.combat.ShieldAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import org.lazywizard.lazylib.CollisionUtils;
+import org.lwjgl.util.Point;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -136,54 +137,16 @@ public class DefenseUtils
         return DefenseType.HULL;
     }
 
-    // TODO: Test, Javadoc, add to changelog
-    public static int[] getMostDamagedArmorCell(ShipAPI ship)
-    {
-        final float[][] grid = ship.getArmorGrid().getGrid();
-        final float max = ship.getArmorGrid().getMaxArmorInCell();
-        int resultX = -1, resultY = -1;
-        float lowest = max;
-
-        // Iterate through all armor cells to find the worst damaged one
-        for (int x = 0; x < grid.length; x++)
-        {
-            for (int y = 0; y < grid.length; y++)
-            {
-                float cur = grid[x][y];
-
-                // You won't get lower than no armor left ;)
-                if (cur == 0f)
-                {
-                    return new int[]
-                    {
-                        x, y
-                    };
-                }
-
-                // Check if this cell is more damaged than our current lowest
-                if (cur < max && cur < lowest)
-                {
-                    lowest = cur;
-                    resultX = x;
-                    resultY = y;
-                }
-            }
-        }
-
-        // Return null if there were no damaged armor cells
-        if (resultX < 0)
-        {
-            return null;
-        }
-
-        // Return most damaged armor cell
-        return new int[]
-        {
-            resultX, resultY
-        };
-    }
-
-    // TODO: Javadoc, add to changelog
+    /**
+     * Checks if a ship has taken any armor damage.
+     *
+     * @param ship The {@link ShipAPI} to check for armor damage on.
+     * <p>
+     * @return {@code true} if {@code ship} has armor damage, {@code false}
+     *         otherwise.
+     * <p>
+     * @since 2.0
+     */
     public static boolean hasArmorDamage(ShipAPI ship)
     {
         final float[][] grid = ship.getArmorGrid().getGrid();
@@ -204,10 +167,73 @@ public class DefenseUtils
         return false;
     }
 
-    // TODO: Javadoc, add to changelog
+    /**
+     * Checks if a ship has taken any hull damage.
+     *
+     * @param ship The {@link ShipAPI} to check for hull damage on.
+     * <p>
+     * @return {@code true} if {@code ship} has hull damage, {@code false}
+     *         otherwise.
+     * <p>
+     * @since 2.0
+     */
     public static boolean hasHullDamage(ShipAPI ship)
     {
-        return (ship.getHullLevel() < 1f);
+        return (ship.getHitpoints() < ship.getMaxHitpoints());
+    }
+
+    // TODO: Test this
+    /**
+     * Returns the most damaged armor cell on a {@link ShipAPI}, or {@code null}
+     * if the ship hasn't taken any armor damage.
+     * <p>
+     * @param ship The {@link ShipAPI} to check for armor damage on.
+     * <p>
+     * @return A {@link Point} containing the armor grid coordinates of the most
+     *         damaged armor cell, or {@code null} if no armor damage was found.
+     *         If multiple cells are at 0 armor, the first found will be
+     *         returned.
+     * <p>
+     * @since 2.0
+     */
+    public static Point getMostDamagedArmorCell(ShipAPI ship)
+    {
+        final float[][] grid = ship.getArmorGrid().getGrid();
+        final float max = ship.getArmorGrid().getMaxArmorInCell();
+        int resultX = -1, resultY = -1;
+        float lowest = max;
+
+        // Iterate through all armor cells to find the worst damaged one
+        for (int x = 0; x < grid.length; x++)
+        {
+            for (int y = 0; y < grid.length; y++)
+            {
+                float cur = grid[x][y];
+
+                // You won't get lower than no armor left ;)
+                if (cur == 0f)
+                {
+                    return new Point(x, y);
+                }
+
+                // Check if this cell is more damaged than our current lowest
+                if (cur < max && cur < lowest)
+                {
+                    lowest = cur;
+                    resultX = x;
+                    resultY = y;
+                }
+            }
+        }
+
+        // Return null if there were no damaged armor cells
+        if (resultX < 0)
+        {
+            return null;
+        }
+
+        // Return most damaged armor cell
+        return new Point(resultX, resultY);
     }
 
     private DefenseUtils()
