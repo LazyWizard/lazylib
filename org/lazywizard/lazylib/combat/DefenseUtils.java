@@ -155,7 +155,7 @@ public class DefenseUtils
         // Iterate through all armor cells and find any that aren't at max
         for (int x = 0; x < grid.length; x++)
         {
-            for (int y = 0; y < grid.length; y++)
+            for (int y = 0; y < grid[0].length; y++)
             {
                 if (grid[x][y] < max)
                 {
@@ -206,7 +206,7 @@ public class DefenseUtils
         // Iterate through all armor cells to find the worst damaged one
         for (int x = 0; x < grid.length; x++)
         {
-            for (int y = 0; y < grid.length; y++)
+            for (int y = 0; y < grid[0].length; y++)
             {
                 float cur = grid[x][y];
 

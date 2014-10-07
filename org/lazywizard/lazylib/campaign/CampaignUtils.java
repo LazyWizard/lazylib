@@ -16,6 +16,7 @@ import org.lazywizard.lazylib.MathUtils;
  * @author LazyWizard
  * @since 2.0
  */
+// TODO: Replace enemy/allied with RepLevel once .65a lands
 // TODO: TEST THIS!
 public class CampaignUtils
 {
@@ -31,11 +32,6 @@ public class CampaignUtils
      */
     public static boolean isPlayer(CampaignFleetAPI fleet)
     {
-        if (fleet == null)
-        {
-            return false;
-        }
-
         return (fleet == Global.getSector().getPlayerFleet());
     }
 

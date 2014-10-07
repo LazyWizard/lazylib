@@ -1,5 +1,7 @@
 package org.lazywizard.lazylib.combat;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
@@ -7,8 +9,6 @@ import com.fs.starfarer.api.combat.FluxTrackerAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
-import java.util.ArrayList;
-import java.util.List;
 import org.lazywizard.lazylib.LazyLib;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
@@ -467,7 +467,8 @@ public class AIUtils
     }
 
     /**
-     * Check if a ship's system can be used/toggled this frame.
+     * Check if a ship's system can be used/toggled this frame. Equivalent to
+     * checking whether the 'use system' key would do anything this frame.
      * This still returns true if the shipsystem is already on!
      *
      * @param ship The ship to check the system of.
