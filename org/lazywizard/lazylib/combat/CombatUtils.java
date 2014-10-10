@@ -1,11 +1,8 @@
 package org.lazywizard.lazylib.combat;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.campaign.CampaignFleetAPI;
-import com.fs.starfarer.api.campaign.LocationAPI;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.CombatFleetManagerAPI;
@@ -50,9 +47,7 @@ public class CombatUtils
     {
         CombatFleetManagerAPI fm = Global.getCombatEngine()
                 .getFleetManager(ship.getOriginalOwner());
-        // TODO: replace with getDeployedFleetMemberEvenIfDisabled() once .65a lands
-        // That should let us remove 90% of this method's complexity
-        DeployedFleetMemberAPI dfm = fm.getDeployedFleetMember(ship);
+        DeployedFleetMemberAPI dfm = fm.getDeployedFleetMemberEvenIfDisabled(ship);
 
         // Compatibility fix for main menu battles
         if (dfm != null && dfm.getMember() != null)
@@ -76,36 +71,7 @@ public class CombatUtils
             }
         }
 
-        // Still not found? Check every member of every fleet of every system :(
-        if (Global.getCombatEngine().isInCampaign())
-        {
-            List<LocationAPI> locations = new ArrayList<>();
-            locations.addAll(Global.getSector().getStarSystems());
-            locations.add(Global.getSector().getHyperspace());
-
-            // Make sure the current location is the first checked
-            int curLocIndex = locations.indexOf(Global.getSector().getCurrentLocation());
-            if (curLocIndex > 0)
-            {
-                Collections.swap(locations, curLocIndex, 0);
-            }
-
-            for (LocationAPI location : locations)
-            {
-                for (CampaignFleetAPI fleet : location.getFleets())
-                {
-                    for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy())
-                    {
-                        if (id.equals(member.getId()))
-                        {
-                            return member;
-                        }
-                    }
-                }
-            }
-        }
-
-        // No match was found! This should never happen!
+        // No match was found
         return null;
     }
 

@@ -1,5 +1,6 @@
  2.0 (someday)
 ===============
+Updated to be compatible with Starsector .65a
 Renamed FleetUtils to CampaignUtils
 Changes to CampaignUtils:
  - Changed all method arguments to use a SectorEntityToken instead of a
