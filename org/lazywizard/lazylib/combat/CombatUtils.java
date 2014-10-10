@@ -11,6 +11,7 @@ import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
 import com.fs.starfarer.api.combat.FogOfWarAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
+import com.fs.starfarer.api.combat.ViewportAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.fleet.FleetMemberType;
 import com.fs.starfarer.api.mission.FleetSide;
@@ -344,6 +345,20 @@ public class CombatUtils
         ship.setOwner(side.ordinal());
         ship.getShipAI().forceCircumstanceEvaluation();
         return ship;
+    }
+
+    /**
+     * Recenters the viewport at a specific point.
+     * <p>
+     * @param newCenter The new center point of the {@link ViewportAPI}.
+     * <p>
+     * @since 2.0
+     */
+    public static void centerViewport(Vector2f newCenter)
+    {
+        final ViewportAPI view = Global.getCombatEngine().getViewport();
+        final float width = view.getVisibleWidth(), height = view.getVisibleHeight();
+        view.set(newCenter.x - (width / 2f), newCenter.y - (height / 2f), width, height);
     }
 
     /**

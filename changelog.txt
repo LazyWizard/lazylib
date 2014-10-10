@@ -7,6 +7,8 @@ Changes to CampaignUtils:
    CampaignFleetAPI wherever applicable
  - Added areSameFaction(SectorEntityToken token1, SectorEntityToken token2)
  - Added isShipInMothballed(String fleetMemberId, CargoAPI cargo)
+Changes to CombatUtils:
+ - Added centerViewport(Vector2f newCenter)
 Changes to DefenseUtils:
  - Added hasHullDamage(ShipAPI ship)
  - Added hasArmorDamage(ShipAPI ship)
