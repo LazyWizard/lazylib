@@ -5,7 +5,38 @@ Renamed FleetUtils to CampaignUtils
 Changes to CampaignUtils:
  - Changed all method arguments to use a SectorEntityToken instead of a
    CampaignFleetAPI wherever applicable
+ - Removed methods that RepLevel now handles
+ - Removed methods that search for a specific subclass of SectorEntityToken
+   in favor of more generic methods
+ - Removed areAllies(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
+ - Removed areEnemies(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
+ - Removed areNeutral(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
+ - Removed getNearestFleet(CampaignFleetAPI fleet)
+ - Removed getNearestAlliedFleet(CampaignFleetAPI fleet)
+ - Removed getNearbyAlliedFleets(CampaignFleetAPI fleet, float range)
+ - Removed getAlliedFleetsInSystem(CampaignFleetAPI fleet)
+ - Renamed getNearestEnemyFleet() to getNearestHostileFleet(), only returns
+   fleets who will actively attack on sight
+ - Renamed getNearbyEnemyFleets() to getNearbyHostileFleets(), only returns
+   fleets who will actively attack on sight
+ - Renamed getEnemyFleetsInSystem() to getHostileFleetsInSystem(), only returns
+   fleets who will actively attack on sight
+ - Removed getNearestStation(CampaignFleetAPI fleet)
+ - Removed getEnemyFleetsInSystem(CampaignFleetAPI)
  - Added areSameFaction(SectorEntityToken token1, SectorEntityToken token2)
+ - Added areAtRep(SectorEntityToken token1, SectorEntityToken token2,
+   IncludeRep include, RepLevel rep)
+ - Added getReputation(SectorEntityToken token1, SectorEntityToken token2)
+ - Added getNearestEntityOfType(SectorEntityToken token, Class entityType)
+ - Added getNearbyEntitiesOfType(SectorEntityToken token, float range,
+   Class entityType)
+ - Added getNearestEntityByRep(SectorEntityToken token, Class entityType,
+   IncludeRep include, RepLevel rep)
+ - Added getEntitiesByRep(SectorEntityToken token, Class entityType,
+   IncludeRep include, RepLevel rep)
+ - Added getNearbyEntitiesByRep(SectorEntityToken token, float range,
+   Class entityType, IncludeRep include, RepLevel rep)
+Changes to CargoUtils:
  - Added isShipInMothballed(String fleetMemberId, CargoAPI cargo)
 Changes to CombatUtils:
  - Added centerViewport(Vector2f newCenter)

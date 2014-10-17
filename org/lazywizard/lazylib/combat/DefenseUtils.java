@@ -199,9 +199,8 @@ public class DefenseUtils
     public static Point getMostDamagedArmorCell(ShipAPI ship)
     {
         final float[][] grid = ship.getArmorGrid().getGrid();
-        final float max = ship.getArmorGrid().getMaxArmorInCell();
+        float lowest = ship.getArmorGrid().getMaxArmorInCell();
         int resultX = -1, resultY = -1;
-        float lowest = max;
 
         // Iterate through all armor cells to find the worst damaged one
         for (int x = 0; x < grid.length; x++)
@@ -211,13 +210,13 @@ public class DefenseUtils
                 float cur = grid[x][y];
 
                 // You won't get lower than no armor left ;)
-                if (cur == 0f)
+                if (cur <= 0f)
                 {
                     return new Point(x, y);
                 }
 
                 // Check if this cell is more damaged than our current lowest
-                if (cur < max && cur < lowest)
+                if (cur < lowest)
                 {
                     lowest = cur;
                     resultX = x;
