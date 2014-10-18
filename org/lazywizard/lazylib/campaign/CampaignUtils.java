@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
-import com.fs.starfarer.api.campaign.OrbitalStationAPI;
 import com.fs.starfarer.api.campaign.RepLevel;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.combat.ShipAPI;
@@ -121,6 +120,14 @@ public class CampaignUtils
     public static boolean areAtRep(SectorEntityToken token1, SectorEntityToken token2,
             IncludeRep include, RepLevel rep)
     {
+        // These parameters will always return true
+        if ((include == IncludeRep.AT_OR_HIGHER && rep.ordinal() == 0)
+                || (include == IncludeRep.AT_OR_LOWER
+                && rep.ordinal() == (RepLevel.values().length - 1)))
+        {
+            return true;
+        }
+
         // EQUALS_OR_X support is easier (albiet a bit hacky) this way
         if (include == IncludeRep.AT_OR_HIGHER)
         {
@@ -136,8 +143,8 @@ public class CampaignUtils
         // Ensure reputation is within given range
         RepLevel actualRep = getReputation(token1, token2);
         return ((include == IncludeRep.AT && actualRep == rep)
-                || (include == IncludeRep.HIGHER && actualRep.isAtWorst(rep))
-                || (include == IncludeRep.LOWER && actualRep.isAtBest(rep)));
+                || (include == IncludeRep.HIGHER && actualRep.ordinal() > rep.ordinal())
+                || (include == IncludeRep.LOWER && actualRep.ordinal() < rep.ordinal()));
     }
 
     /**
@@ -342,13 +349,6 @@ public class CampaignUtils
         return entities;
     }
 
-    public static void main(String[] args)
-    {
-        CampaignFleetAPI player = null;
-        List<OrbitalStationAPI> friendlyStations = CampaignUtils.getEntitiesByRep(
-                player, OrbitalStationAPI.class, IncludeRep.AT_OR_HIGHER, RepLevel.FAVORABLE);
-    }
-
     /**
      * Find the closest entity of a specified type and reputation with a
      * {@link SectorEntityToken}, excluding itself.
@@ -505,6 +505,55 @@ public class CampaignUtils
         }
 
         return fleets;
+    }
+
+    private static boolean testAreAtRep(IncludeRep include, RepLevel rep, RepLevel actualRep)
+    {
+        // These parameters will always return true
+        if ((include == IncludeRep.AT_OR_HIGHER && rep.ordinal() == 0)
+                || (include == IncludeRep.AT_OR_LOWER
+                && rep.ordinal() == (RepLevel.values().length - 1)))
+        {
+            System.out.println("(short-circuited)");
+            return true;
+        }
+
+        // EQUALS_OR_X support is easier (albiet a bit hacky) this way
+        if (include == IncludeRep.AT_OR_HIGHER)
+        {
+            rep = RepLevel.values()[rep.ordinal() - 1];
+            include = IncludeRep.HIGHER;
+            System.out.println("(actually testing if " + actualRep
+                    + "(" + actualRep.ordinal() + ") "
+                    + include + " " + rep + "(" + rep.ordinal() + "))");
+        }
+        else if (include == IncludeRep.AT_OR_LOWER)
+        {
+            rep = RepLevel.values()[rep.ordinal() + 1];
+            include = IncludeRep.LOWER;
+            System.out.println("(actually testing if " + actualRep
+                    + "(" + actualRep.ordinal() + ") "
+                    + include + " " + rep + "(" + rep.ordinal() + "))");
+        }
+
+        // Ensure reputation is within given range
+        return ((include == IncludeRep.AT && actualRep == rep)
+                || (include == IncludeRep.HIGHER && actualRep.ordinal() > rep.ordinal())
+                || (include == IncludeRep.LOWER && actualRep.ordinal() < rep.ordinal()));
+    }
+
+    public static void main(String[] args)
+    {
+        for (int x = 0; x < 50; x++)
+        {
+            IncludeRep include = IncludeRep.values()[(int) (Math.random() * IncludeRep.values().length)];
+            RepLevel require = RepLevel.values()[(int) (Math.random() * RepLevel.values().length)];
+            RepLevel actual = RepLevel.values()[(int) (Math.random() * RepLevel.values().length)];
+
+            System.out.println("Is " + actual + "(" + actual.ordinal() + ") "
+                    + include + " " + require + "(" + require.ordinal() + "): "
+                    + testAreAtRep(include, require, actual) + "\n");
+        }
     }
 
     CampaignUtils()
