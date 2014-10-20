@@ -3,7 +3,7 @@
     "name": "LazyLib",
     "author": "LazyWizard",
     "utility": "true",
-    "version": "2.0",
+    "version": "2.0b",
     "description": "A collection of classes to aid with modding. Not a mod in itself, but required by certain other mods.\n\nThis release is targeted towards Starsector version 0.65a, but will most likely work for later point releases.",
     "gameVersion": "0.65a",
     "jars": ["jars/LazyLib.jar"],

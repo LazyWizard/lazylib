@@ -1,3 +1,15 @@
+ 2.0b (October 20, 2014)
+=========================
+Changes to CampaignUtils:
+ - Added getNearestEntityFromFaction(SectorEntityToken token, Class entityType,
+   FactionAPI faction)
+ - Added getNearbyEntitiesFromFaction(SectorEntityToken token, float range,
+   Class entityType, FactionAPI faction)
+ - Added getEntitiesFromFaction(LocationAPI location, Class entityType,
+   FactionAPI faction)
+ - Renamed getXByRep() methods to getXWithRep(), also made them no longer
+   include members of the token's faction in their results
+
  2.0 (October 20, 2014)
 ========================
 Updated to be compatible with Starsector .65a
@@ -30,11 +42,11 @@ Changes to CampaignUtils:
  - Added getNearestEntityOfType(SectorEntityToken token, Class entityType)
  - Added getNearbyEntitiesOfType(SectorEntityToken token, float range,
    Class entityType)
- - Added getNearestEntityByRep(SectorEntityToken token, Class entityType,
+ - Added getNearestEntityWithRep(SectorEntityToken token, Class entityType,
    IncludeRep include, RepLevel rep)
- - Added getEntitiesByRep(SectorEntityToken token, Class entityType,
+ - Added getEntitiesWithRep(SectorEntityToken token, Class entityType,
    IncludeRep include, RepLevel rep)
- - Added getNearbyEntitiesByRep(SectorEntityToken token, float range,
+ - Added getNearbyEntitiesWithRep(SectorEntityToken token, float range,
    Class entityType, IncludeRep include, RepLevel rep)
 Changes to CargoUtils:
  - Added isShipInMothballed(String fleetMemberId, CargoAPI cargo)
