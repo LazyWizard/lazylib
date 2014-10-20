@@ -1,5 +1,7 @@
 package org.lazywizard.lazylib.combat;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
@@ -7,12 +9,6 @@ import com.fs.starfarer.api.combat.FluxTrackerAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import org.lazywizard.lazylib.CollectionUtils;
-import org.lazywizard.lazylib.CollectionUtils.SortEntitiesByDistance;
 import org.lazywizard.lazylib.LazyLib;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
@@ -471,7 +467,8 @@ public class AIUtils
     }
 
     /**
-     * Check if a ship's system can be used/toggled this frame.
+     * Check if a ship's system can be used/toggled this frame. Equivalent to
+     * checking whether the 'use system' key would do anything this frame.
      * This still returns true if the shipsystem is already on!
      *
      * @param ship The ship to check the system of.
@@ -494,145 +491,6 @@ public class AIUtils
                 || (system.isActive() && !system.isOn()) || system.getCooldownRemaining() > 0f
                 // Not enough flux
                 || system.getFluxPerUse() > (flux.getMaxFlux() - flux.getCurrFlux()));
-    }
-
-    /**
-     * @deprecated Use the normal version of this method and call
-     * {@link Collections#sort(List, Comparator)} using a
-     * {@link SortEntitiesByDistance} as the {@link Comparator}.
-     * @since 1.1
-     */
-    @Deprecated
-    public static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity,
-            boolean sortByDistance)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        List<ShipAPI> enemies = getEnemiesOnMap(entity);
-
-        if (sortByDistance)
-        {
-            Collections.sort(enemies,
-                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
-        }
-
-        return enemies;
-    }
-
-    /**
-     * @deprecated Use the normal version of this method and call
-     * {@link Collections#sort(List, Comparator)} using a
-     * {@link SortEntitiesByDistance} as the {@link Comparator}.
-     * @since 1.1
-     */
-    @Deprecated
-    public static List<ShipAPI> getNearbyEnemies(CombatEntityAPI entity,
-            float range, boolean sortByDistance)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        List<ShipAPI> enemies = getNearbyEnemies(entity, range);
-
-        if (sortByDistance)
-        {
-            Collections.sort(enemies,
-                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
-        }
-
-        return enemies;
-    }
-
-    /**
-     * @deprecated Use the normal version of this method and call
-     * {@link Collections#sort(List, Comparator)} using a
-     * {@link SortEntitiesByDistance} as the {@link Comparator}.
-     * @since 1.1
-     */
-    @Deprecated
-    public static List<ShipAPI> getAlliesOnMap(CombatEntityAPI entity,
-            boolean sortByDistance)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        List<ShipAPI> allies = getAlliesOnMap(entity);
-
-        if (sortByDistance)
-        {
-            Collections.sort(allies,
-                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
-        }
-
-        return allies;
-    }
-
-    /**
-     * @deprecated Use the normal version of this method and call
-     * {@link Collections#sort(List, Comparator)} using a
-     * {@link SortEntitiesByDistance} as the {@link Comparator}.
-     * @since 1.1
-     */
-    @Deprecated
-    public static List<ShipAPI> getNearbyAllies(CombatEntityAPI entity,
-            float range, boolean sortByDistance)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        List<ShipAPI> allies = getNearbyAllies(entity, range);
-
-        if (sortByDistance)
-        {
-            Collections.sort(allies,
-                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
-        }
-
-        return allies;
-    }
-
-    /**
-     * @deprecated Use the normal version of this method and call
-     * {@link Collections#sort(List, Comparator)} using a
-     * {@link SortEntitiesByDistance} as the {@link Comparator}.
-     * @since 1.4
-     */
-    @Deprecated
-    public static List<MissileAPI> getEnemyMissilesOnMap(CombatEntityAPI entity,
-            boolean sortByDistance)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        List<MissileAPI> missiles = getEnemyMissilesOnMap(entity);
-
-        if (sortByDistance)
-        {
-            Collections.sort(missiles,
-                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
-        }
-
-        return missiles;
-    }
-
-    /**
-     * @deprecated Use the normal version of this method and call
-     * {@link Collections#sort(List, Comparator)} using a
-     * {@link SortEntitiesByDistance} as the {@link Comparator}.
-     * @since 1.4
-     */
-    @Deprecated
-    public static List<MissileAPI> getNearbyEnemyMissiles(CombatEntityAPI entity,
-            float range, boolean sortByDistance)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        List<MissileAPI> missiles = getNearbyEnemyMissiles(entity, range);
-
-        if (sortByDistance)
-        {
-            Collections.sort(missiles,
-                    new CollectionUtils.SortEntitiesByDistance(entity.getLocation()));
-        }
-
-        return missiles;
-
     }
 
     private AIUtils()

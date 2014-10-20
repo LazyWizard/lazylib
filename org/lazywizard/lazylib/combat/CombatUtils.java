@@ -1,14 +1,9 @@
 package org.lazywizard.lazylib.combat;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.campaign.CampaignFleetAPI;
-import com.fs.starfarer.api.campaign.LocationAPI;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
-import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.CombatFleetManagerAPI;
 import com.fs.starfarer.api.combat.DamagingProjectileAPI;
@@ -16,12 +11,11 @@ import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
 import com.fs.starfarer.api.combat.FogOfWarAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
+import com.fs.starfarer.api.combat.ViewportAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.fleet.FleetMemberType;
 import com.fs.starfarer.api.mission.FleetSide;
 import org.apache.log4j.Level;
-import org.lazywizard.lazylib.CollectionUtils;
-import org.lazywizard.lazylib.CollectionUtils.SortEntitiesByDistance;
 import org.lazywizard.lazylib.LazyLib;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
@@ -54,9 +48,7 @@ public class CombatUtils
     {
         CombatFleetManagerAPI fm = Global.getCombatEngine()
                 .getFleetManager(ship.getOriginalOwner());
-        // TODO: replace with getDeployedFleetMemberEvenIfDisabled() once .6.5a lands
-        // That should let us remove 90% of this method's complexity
-        DeployedFleetMemberAPI dfm = fm.getDeployedFleetMember(ship);
+        DeployedFleetMemberAPI dfm = fm.getDeployedFleetMemberEvenIfDisabled(ship);
 
         // Compatibility fix for main menu battles
         if (dfm != null && dfm.getMember() != null)
@@ -80,36 +72,7 @@ public class CombatUtils
             }
         }
 
-        // Still not found? Check every member of every fleet of every system :(
-        if (Global.getCombatEngine().isInCampaign())
-        {
-            List<LocationAPI> locations = new ArrayList<>();
-            locations.addAll(Global.getSector().getStarSystems());
-            locations.add(Global.getSector().getHyperspace());
-
-            // Make sure the current location is the first checked
-            int curLocIndex = locations.indexOf(Global.getSector().getCurrentLocation());
-            if (curLocIndex > 0)
-            {
-                Collections.swap(locations, curLocIndex, 0);
-            }
-
-            for (LocationAPI location : locations)
-            {
-                for (CampaignFleetAPI fleet : location.getFleets())
-                {
-                    for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy())
-                    {
-                        if (id.equals(member.getId()))
-                        {
-                            return member;
-                        }
-                    }
-                }
-            }
-        }
-
-        // No match was found! This should never happen!
+        // No match was found
         return null;
     }
 
@@ -385,6 +348,20 @@ public class CombatUtils
     }
 
     /**
+     * Recenters the viewport at a specific point.
+     * <p>
+     * @param newCenter The new center point of the {@link ViewportAPI}.
+     * <p>
+     * @since 2.0
+     */
+    public static void centerViewport(Vector2f newCenter)
+    {
+        final ViewportAPI view = Global.getCombatEngine().getViewport();
+        final float width = view.getVisibleWidth(), height = view.getVisibleHeight();
+        view.set(newCenter.x - (width / 2f), newCenter.y - (height / 2f), width, height);
+    }
+
+    /**
      * Apply force to an object. Remember Newton's Second Law.
      *
      * Force is multiplied by 100 to avoid requiring ridiculous force amounts.
@@ -436,204 +413,6 @@ public class CombatUtils
     {
         applyForce(entity, MathUtils.getPointOnCircumference(new Vector2f(0, 0),
                 1f, direction), force);
-    }
-
-    /**
-     * @deprecated Use the normal version of this method and call
-     * {@link Collections#sort(List, Comparator)} using a
-     * {@link SortEntitiesByDistance} as the {@link Comparator}.
-     * @since 1.1
-     */
-    @Deprecated
-    public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location,
-            float range, boolean sortByDistance)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        List<DamagingProjectileAPI> projectiles = getProjectilesWithinRange(location, range);
-
-        if (sortByDistance)
-        {
-            Collections.sort(projectiles, new CollectionUtils.SortEntitiesByDistance(location));
-        }
-
-        return projectiles;
-    }
-
-    /**
-     * @deprecated Use the normal version of this method and call
-     * {@link Collections#sort(List, Comparator)} using a
-     * {@link SortEntitiesByDistance} as the {@link Comparator}.
-     * @since 1.1
-     */
-    @Deprecated
-    public static List<MissileAPI> getMissilesWithinRange(Vector2f location,
-            float range, boolean sortByDistance)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        List<MissileAPI> missiles = getMissilesWithinRange(location, range);
-
-        if (sortByDistance)
-        {
-            Collections.sort(missiles, new CollectionUtils.SortEntitiesByDistance(location));
-        }
-
-        return missiles;
-    }
-
-    /**
-     * @deprecated Use the normal version of this method and call
-     * {@link Collections#sort(List, Comparator)} using a
-     * {@link SortEntitiesByDistance} as the {@link Comparator}.
-     * @since 1.1
-     */
-    @Deprecated
-    public static List<ShipAPI> getShipsWithinRange(Vector2f location,
-            float range, boolean sortByDistance)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        List<ShipAPI> ships = getShipsWithinRange(location, range);
-
-        if (sortByDistance)
-        {
-            Collections.sort(ships, new CollectionUtils.SortEntitiesByDistance(location));
-        }
-
-        return ships;
-    }
-
-    /**
-     * @deprecated Use the normal version of this method and call
-     * {@link Collections#sort(List, Comparator)} using a
-     * {@link SortEntitiesByDistance} as the {@link Comparator}.
-     * @since 1.1
-     */
-    @Deprecated
-    public static List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location,
-            float range, boolean sortByDistance)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        List<CombatEntityAPI> asteroids = new ArrayList<>();
-
-        if (sortByDistance)
-        {
-            Collections.sort(asteroids, new CollectionUtils.SortEntitiesByDistance(location));
-        }
-
-        return asteroids;
-    }
-
-    /**
-     * @deprecated Use the normal version of this method and call
-     * {@link Collections#sort(List, Comparator)} using a
-     * {@link SortEntitiesByDistance} as the {@link Comparator}.
-     * @since 1.1
-     */
-    @Deprecated
-    public static List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location,
-            float range, boolean sortByDistance)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        List<BattleObjectiveAPI> objectives = getObjectivesWithinRange(location, range);
-
-        if (sortByDistance)
-        {
-            Collections.sort(objectives,
-                    new CollectionUtils.SortEntitiesByDistance(location, false));
-        }
-
-        return objectives;
-    }
-
-    /**
-     * @deprecated Use the normal version of this method and call
-     * {@link Collections#sort(List, Comparator)} using a
-     * {@link SortEntitiesByDistance} as the {@link Comparator}.
-     * @since 1.1
-     */
-    @Deprecated
-    public static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location,
-            float range, boolean sortByDistance)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        List<CombatEntityAPI> entities = getEntitiesWithinRange(location, range);
-
-        if (sortByDistance)
-        {
-            Collections.sort(entities, new CollectionUtils.SortEntitiesByDistance(location));
-        }
-
-        return entities;
-    }
-
-    /**
-     * @deprecated Use {@link Global#getCombatEngine()} instead.
-     * @since 1.0
-     */
-    @Deprecated
-    public static CombatEngineAPI getCombatEngine()
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        return Global.getCombatEngine();
-    }
-
-    /**
-     * @deprecated Use {@link CombatEngineAPI#getTotalElapsedTime(boolean)}
-     * instead.
-     * @since 1.2
-     */
-    @Deprecated
-    public static float getElapsedCombatTimeIncludingPaused()
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        if (Global.getCombatEngine() == null)
-        {
-            return 0f;
-        }
-
-        return Global.getCombatEngine().getTotalElapsedTime(true);
-    }
-
-    /**
-     * @deprecated Use {@link CombatEngineAPI#getTotalElapsedTime(boolean)}
-     * instead.
-     * @since 1.0
-     */
-    @Deprecated
-    public static float getElapsedCombatTime()
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        if (Global.getCombatEngine() == null)
-        {
-            return 0f;
-        }
-
-        return Global.getCombatEngine().getTotalElapsedTime(false);
-    }
-
-    /**
-     * @deprecated Use {@link CombatEngineAPI#getElapsedInLastFrame()} instead.
-     * @since 1.4
-     */
-    @Deprecated
-    public static float getTimeSinceLastFrame()
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        if (Global.getCombatEngine() == null)
-        {
-            return 0f;
-        }
-
-        return Global.getCombatEngine().getElapsedInLastFrame();
     }
 
     private CombatUtils()

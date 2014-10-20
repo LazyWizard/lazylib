@@ -1,13 +1,13 @@
 package org.lazywizard.lazylib.combat.entities;
 
+import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.combat.CombatEntityAPI;
+import com.fs.starfarer.api.combat.WeaponAPI;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.ShipEngineControllerAPI.ShipEngineAPI;
-import com.fs.starfarer.api.combat.WeaponAPI;
 import org.apache.log4j.Level;
 import org.lwjgl.util.vector.Vector2f;
 

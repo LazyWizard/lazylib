@@ -92,6 +92,37 @@ public class CargoUtils
     }
 
     /**
+     * Checks if a cargo contains a specific mothballed ship.
+     * <p>
+     * @param fleetMemberId The fleet member ID of the ship to check. This can
+     *                      be retrieved with {@link ShipAPI#getFleetMemberId()}
+     *                      or {@link FleetMemberAPI#getId()}.
+     * @param cargo         The cargo to check for the presence of this ship in.
+     * <p>
+     * @return {@code true} if {@code cargo} contains a ship with this ID,
+     *         {@code false} otherwise.
+     * <p>
+     * @since 2.0
+     */
+    public static boolean isShipInMothballed(String fleetMemberId, CargoAPI cargo)
+    {
+        if (fleetMemberId == null || fleetMemberId.isEmpty() || cargo == null)
+        {
+            return false;
+        }
+
+        for (FleetMemberAPI tmp : cargo.getMothballedShips().getMembersListCopy())
+        {
+            if (fleetMemberId.equals(tmp.getId()))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Returns the amount of space taken by weapons in a {@link CargoAPI}.
      *
      * @param cargo The {@link CargoAPI} to analyze.
@@ -188,21 +219,21 @@ public class CargoUtils
     }
 
     /**
-     * Returns the amount of space taken by all resources in a {@link CargoAPI}.
+     * Returns the amount of space taken by all commodities in a {@link CargoAPI}.
      *
      * @param cargo The {@link CargoAPI} to analyze.
      * <p>
-     * @return The amount of space taken by resource stacks in {@code cargo}.
+     * @return The amount of space taken by commodity stacks in {@code cargo}.
      * <p>
      * @since 1.0
      */
-    public static float getSpaceTakenByResources(CargoAPI cargo)
+    public static float getSpaceTakenByCommodities(CargoAPI cargo)
     {
         float totalSpace = 0f;
 
         for (CargoStackAPI stack : cargo.getStacksCopy())
         {
-            if (stack.isResourceStack())
+            if (stack.isCommodityStack())
             {
                 totalSpace += stack.getCargoSpace();
             }
