@@ -21,13 +21,35 @@ import org.lazywizard.lazylib.MathUtils;
 // TODO: TEST THIS!
 public class CampaignUtils
 {
-    // TODO: Javadoc this with a good explanation of its usage
+    /**
+     * Controls what {@link RepLevel}s will be accepted by methods that check
+     * reputation relative to the {@link RepLevel} passed in. For example,
+     * {@link RepLevel#FAVORABLE} is {@link IncludeRep#AT_OR_HIGHER}
+     * {@link RepLevel#NEUTRAL}.
+     * <p>
+     * @since 2.0
+     */
     public static enum IncludeRep
     {
+        /**
+         * Equivalent to {@code <}.
+         */
         LOWER,
+        /**
+         * Equivalent to {@code <=}.
+         */
         AT_OR_LOWER,
+        /**
+         * Equivalent to {@code ==}.
+         */
         AT,
+        /**
+         * Equivalent to {@code >=}.
+         */
         AT_OR_HIGHER,
+        /**
+         * Equivalent to {@code >}.
+         */
         HIGHER
     }
 
@@ -507,56 +529,7 @@ public class CampaignUtils
         return fleets;
     }
 
-    private static boolean testAreAtRep(IncludeRep include, RepLevel rep, RepLevel actualRep)
-    {
-        // These parameters will always return true
-        if ((include == IncludeRep.AT_OR_HIGHER && rep.ordinal() == 0)
-                || (include == IncludeRep.AT_OR_LOWER
-                && rep.ordinal() == (RepLevel.values().length - 1)))
-        {
-            System.out.println("(short-circuited)");
-            return true;
-        }
-
-        // EQUALS_OR_X support is easier (albiet a bit hacky) this way
-        if (include == IncludeRep.AT_OR_HIGHER)
-        {
-            rep = RepLevel.values()[rep.ordinal() - 1];
-            include = IncludeRep.HIGHER;
-            System.out.println("(actually testing if " + actualRep
-                    + "(" + actualRep.ordinal() + ") "
-                    + include + " " + rep + "(" + rep.ordinal() + "))");
-        }
-        else if (include == IncludeRep.AT_OR_LOWER)
-        {
-            rep = RepLevel.values()[rep.ordinal() + 1];
-            include = IncludeRep.LOWER;
-            System.out.println("(actually testing if " + actualRep
-                    + "(" + actualRep.ordinal() + ") "
-                    + include + " " + rep + "(" + rep.ordinal() + "))");
-        }
-
-        // Ensure reputation is within given range
-        return ((include == IncludeRep.AT && actualRep == rep)
-                || (include == IncludeRep.HIGHER && actualRep.ordinal() > rep.ordinal())
-                || (include == IncludeRep.LOWER && actualRep.ordinal() < rep.ordinal()));
-    }
-
-    public static void main(String[] args)
-    {
-        for (int x = 0; x < 50; x++)
-        {
-            IncludeRep include = IncludeRep.values()[(int) (Math.random() * IncludeRep.values().length)];
-            RepLevel require = RepLevel.values()[(int) (Math.random() * RepLevel.values().length)];
-            RepLevel actual = RepLevel.values()[(int) (Math.random() * RepLevel.values().length)];
-
-            System.out.println("Is " + actual + "(" + actual.ordinal() + ") "
-                    + include + " " + require + "(" + require.ordinal() + "): "
-                    + testAreAtRep(include, require, actual) + "\n");
-        }
-    }
-
-    CampaignUtils()
+    private CampaignUtils()
     {
     }
 }
