@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
+import com.fs.starfarer.api.campaign.FactionAPI;
+import com.fs.starfarer.api.campaign.LocationAPI;
 import com.fs.starfarer.api.campaign.RepLevel;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.combat.ShipAPI;
@@ -372,6 +374,123 @@ public class CampaignUtils
     }
 
     /**
+     * Find the closest entity of a specified type and faction near a
+     * {@link SectorEntityToken}, excluding itself.
+     *
+     * @param token      The {@link SectorEntityToken} to search around.
+     * @param entityType The class extending {@link SectorEntityToken} we should
+     *                   be searching for; for example: {@code CampaignFleetAPI.class}
+     *                   or {@code OrbitalStationAPI.class}.
+     * @param faction    The faction ownership we are looking for.
+     * <p>
+     * @return The object of type {@code type} closest to {@code token} owned by
+     *         {@code faction}.
+     * <p>
+     * @since 2.0
+     */
+    public static <T extends SectorEntityToken> T getNearestEntityFromFaction(
+            SectorEntityToken token, Class<T> entityType, FactionAPI faction)
+    {
+        T closest = null;
+        float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
+
+        for (Object tmp : token.getContainingLocation().getEntities(entityType))
+        {
+            T entity = (T) tmp;
+
+            if (entity == token || faction != entity.getFaction())
+            {
+                continue;
+            }
+
+            distanceSquared = MathUtils.getDistanceSquared(token.getLocation(),
+                    entity.getLocation());
+            if (distanceSquared < closestDistanceSquared)
+            {
+                closest = entity;
+                closestDistanceSquared = distanceSquared;
+            }
+        }
+
+        return closest;
+    }
+
+    /**
+     * Find entities of a specified type from a specific faction near a
+     * {@link SectorEntityToken}.
+     *
+     * @param token      The {@link SectorEntityToken} to search around.
+     * @param range      How far around {@code token} to search.
+     * @param entityType The class extending {@link SectorEntityToken} we should
+     *                   be searching for; for example: {@code CampaignFleetAPI.class}
+     *                   or {@code OrbitalStationAPI.class}.
+     * @param faction    What faction the entity must be owned by.
+     * <p>
+     * @return All objects of type {@code type} and faction {@code faction}
+     *         within range of {@code token}.
+     * <p>
+     * @since 2.0
+     */
+    public static <T extends SectorEntityToken> List<T> getNearbyEntitiesFromFaction(
+            SectorEntityToken token, float range, Class<T> entityType, FactionAPI faction)
+    {
+        List<T> entities = new ArrayList<>();
+
+        // Find all tokens of the given type within range
+        for (Object tmp : token.getContainingLocation().getEntities(entityType))
+        {
+            T entity = (T) tmp;
+
+            // Exclude passed in token and tokens of wrong faction
+            if (entity == token || faction != entity.getFaction())
+            {
+                continue;
+            }
+
+            // Add any token within range
+            if (MathUtils.isWithinRange(token, entity, range))
+            {
+                entities.add(entity);
+            }
+        }
+
+        return entities;
+    }
+
+    /**
+     * Find all entities of a specified type and faction within a location.
+     *
+     * @param location   The {@link LocationAPI} to search in.
+     * @param entityType The class extending {@link SectorEntityToken} we should
+     *                   be searching for; for example: {@code CampaignFleetAPI.class}
+     *                   or {@code OrbitalStationAPI.class}.
+     * @param faction    What faction entities must belong to.
+     * <p>
+     * @return All objects of faction {@code faction} and type {@code type}
+     *         within {@code location}.
+     * <p>
+     * @since 2.0
+     */
+    public static <T extends SectorEntityToken> List<T> getEntitiesFromFaction(
+            LocationAPI location, Class<T> entityType, FactionAPI faction)
+    {
+        List<T> entities = new ArrayList<>();
+
+        // Find all tokens from the given faction
+        for (Object tmp : location.getEntities(entityType))
+        {
+            T entity = (T) tmp;
+
+            if (faction == entity.getFaction())
+            {
+                entities.add(entity);
+            }
+        }
+
+        return entities;
+    }
+
+    /**
      * Find the closest entity of a specified type and reputation with a
      * {@link SectorEntityToken}, excluding itself.
      *
@@ -390,7 +509,7 @@ public class CampaignUtils
      * @since 2.0
      */
     // TODO: Test this
-    public static <T extends SectorEntityToken> T getNearestEntityByRep(
+    public static <T extends SectorEntityToken> T getNearestEntityWithRep(
             SectorEntityToken token, Class<T> entityType, IncludeRep include,
             RepLevel rep)
     {
@@ -401,7 +520,7 @@ public class CampaignUtils
         {
             T entity = (T) tmp;
 
-            if (entity == token || !areAtRep(token, entity, include, rep))
+            if (areSameFaction(entity, token) || !areAtRep(token, entity, include, rep))
             {
                 continue;
             }
@@ -436,7 +555,7 @@ public class CampaignUtils
      * @since 2.0
      */
     // TODO: Test this!
-    public static <T extends SectorEntityToken> List<T> getNearbyEntitiesByRep(
+    public static <T extends SectorEntityToken> List<T> getNearbyEntitiesWithRep(
             SectorEntityToken token, float range, Class<T> entityType,
             IncludeRep include, RepLevel rep)
     {
@@ -449,7 +568,10 @@ public class CampaignUtils
         {
             for (Object tmp : token.getContainingLocation().getEntities(entityType))
             {
-                entities.add((T) tmp);
+                if (!areSameFaction((T) tmp, token))
+                {
+                    entities.add((T) tmp);
+                }
             }
 
             return entities;
@@ -460,8 +582,8 @@ public class CampaignUtils
         {
             T entity = (T) tmp;
 
-            // Exclude passed in token
-            if (entity == token)
+            // Exclude tokens of our faction
+            if (areSameFaction(entity, token))
             {
                 continue;
             }
@@ -494,13 +616,13 @@ public class CampaignUtils
      * @since 2.0
      */
     // TODO: Test this!
-    public static <T extends SectorEntityToken> List<T> getEntitiesByRep(
+    private static <T extends SectorEntityToken> List<T> getEntitiesWithRep(
             SectorEntityToken token, Class<T> entityType, IncludeRep include,
             RepLevel rep)
     {
         // TODO: Properly implement this later if needed
         // Doing it this way is only slightly less efficient, so might not be necessary
-        return getNearbyEntitiesByRep(token, Float.MAX_VALUE, entityType, include, rep);
+        return getNearbyEntitiesWithRep(token, Float.MAX_VALUE, entityType, include, rep);
     }
 
     /**
