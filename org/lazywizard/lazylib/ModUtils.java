@@ -17,9 +17,11 @@ public class ModUtils
      *
      * Note: this does <i>not</i> initialize the class if it is present.
      *
-     * @param classCanonicalName The canonical name of the class to check for.
+     * @param classCanonicalName The canonical name of the class to check for
+     *                           (ex: {@code "data.scripts.plugins.ExamplePlugin"}).
      * <p>
      * @return {@code true} if the class is present, {@code false} otherwise.
+     * <p>
      * @since 1.9b
      */
     public static boolean isClassPresent(String classCanonicalName)
@@ -32,7 +34,7 @@ public class ModUtils
         catch (ClassNotFoundException ex)
         {
             Global.getLogger(ModUtils.class).log(Level.INFO,
-                    "Class " + classCanonicalName + " not found.");
+                    "Class " + classCanonicalName + " not found");
             return false;
         }
     }

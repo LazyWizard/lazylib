@@ -633,7 +633,7 @@ public class MathUtils
     }
 
     /**
-     * Returns a random number within a given range.
+     * Returns a random float within a given range.
      *
      * @param min The minimum value to select.
      * @param max The maximum value to select.
@@ -645,6 +645,21 @@ public class MathUtils
     public static float getRandomNumberInRange(float min, float max)
     {
         return rng.nextFloat() * (max - min) + min;
+    }
+
+    /**
+     * Returns a random integer within a given range.
+     *
+     * @param min The minimum value to select.
+     * @param max The maximum value to select (inclusive).
+     * <p>
+     * @return A random {@link Integer} between {@code min} and {@code max}, inclusive.
+     * <p>
+     * @since 2.0
+     */
+    public static int getRandomNumberInRange(int min, int max)
+    {
+        return rng.nextInt((max - min) + 1) + min;
     }
 
     /**
@@ -672,83 +687,6 @@ public class MathUtils
     public static Random getRandom()
     {
         return rng;
-    }
-
-    /**
-     * @deprecated Use {@link VectorUtils#getFacing(Vector2f)} instead.
-     * @since 1.0
-     */
-    @Deprecated
-    public static float getFacing(Vector2f vector)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        return VectorUtils.getFacing(vector);
-    }
-
-    /**
-     * @deprecated Use {@link VectorUtils#getAngle(Vector2f, Vector2f)} instead.
-     * @since 1.0
-     */
-    public static float getAngle(Vector2f from, Vector2f to)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        return VectorUtils.getAngle(from, to);
-    }
-
-    /**
-     * @deprecated Use
-     * {@link VectorUtils#getDirectionalVector(Vector2f, Vector2f)} instead.
-     * @since 1.0
-     */
-    @Deprecated
-    public static Vector2f getDirectionalVector(CombatEntityAPI source, Vector2f destination)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        return VectorUtils.getDirectionalVector(source.getLocation(), destination);
-    }
-
-    /**
-     * @deprecated Use
-     * {@link VectorUtils#getDirectionalVector(Vector2f, Vector2f)} instead.
-     * @since 1.0
-     */
-    @Deprecated
-    public static Vector2f getDirectionalVector(CombatEntityAPI source,
-            CombatEntityAPI destination)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        return VectorUtils.getDirectionalVector(source.getLocation(),
-                destination.getLocation());
-    }
-
-    /**
-     * @deprecated Use
-     * {@link VectorUtils#getDirectionalVector(Vector2f, Vector2f)} instead.
-     * @since 1.0
-     */
-    @Deprecated
-    public static Vector2f getDirectionalVector(Vector2f source, Vector2f destination)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        return VectorUtils.getDirectionalVector(source, destination);
-    }
-
-    /**
-     * @deprecated Use {@link
-     * CollisionUtils#isPointWithinBounds(Vector2f, CombatEntityAPI)} instead.
-     * @since 1.0
-     */
-    @Deprecated
-    public static boolean isPointWithinBounds(Vector2f point, CombatEntityAPI entity)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        return CollisionUtils.isPointWithinBounds(point, entity);
     }
 
     private MathUtils()

@@ -1,3 +1,144 @@
+ 2.0 (October 20, 2014)
+========================
+Updated to be compatible with Starsector .65a
+Renamed FleetUtils to CampaignUtils
+Changes to CampaignUtils:
+ - Changed all method arguments to use a SectorEntityToken instead of a
+   CampaignFleetAPI wherever applicable
+ - Removed methods that RepLevel now handles
+ - Removed methods that search for a specific subclass of SectorEntityToken
+   in favor of more generic methods
+ - Removed areAllies(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
+ - Removed areEnemies(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
+ - Removed areNeutral(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2)
+ - Removed getNearestFleet(CampaignFleetAPI fleet)
+ - Removed getNearestAlliedFleet(CampaignFleetAPI fleet)
+ - Removed getNearbyAlliedFleets(CampaignFleetAPI fleet, float range)
+ - Removed getAlliedFleetsInSystem(CampaignFleetAPI fleet)
+ - Renamed getNearestEnemyFleet() to getNearestHostileFleet(), only returns
+   fleets who will actively attack on sight
+ - Renamed getNearbyEnemyFleets() to getNearbyHostileFleets(), only returns
+   fleets who will actively attack on sight
+ - Renamed getEnemyFleetsInSystem() to getHostileFleetsInSystem(), only returns
+   fleets who will actively attack on sight
+ - Removed getNearestStation(CampaignFleetAPI fleet)
+ - Removed getEnemyFleetsInSystem(CampaignFleetAPI)
+ - Added areSameFaction(SectorEntityToken token1, SectorEntityToken token2)
+ - Added areAtRep(SectorEntityToken token1, SectorEntityToken token2,
+   IncludeRep include, RepLevel rep)
+ - Added getReputation(SectorEntityToken token1, SectorEntityToken token2)
+ - Added getNearestEntityOfType(SectorEntityToken token, Class entityType)
+ - Added getNearbyEntitiesOfType(SectorEntityToken token, float range,
+   Class entityType)
+ - Added getNearestEntityByRep(SectorEntityToken token, Class entityType,
+   IncludeRep include, RepLevel rep)
+ - Added getEntitiesByRep(SectorEntityToken token, Class entityType,
+   IncludeRep include, RepLevel rep)
+ - Added getNearbyEntitiesByRep(SectorEntityToken token, float range,
+   Class entityType, IncludeRep include, RepLevel rep)
+Changes to CargoUtils:
+ - Added isShipInMothballed(String fleetMemberId, CargoAPI cargo)
+Changes to CombatUtils:
+ - Added centerViewport(Vector2f newCenter)
+Changes to DefenseUtils:
+ - Added hasHullDamage(ShipAPI ship)
+ - Added hasArmorDamage(ShipAPI ship)
+ - Added getMostDamagedArmorCell(ShipAPI ship)
+Changes to EllipseUtils:
+ - Added Vector2f getRandomPointInEllipse(Vector2f ellipseCenter,
+   float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
+Changes to MathUtils:
+ - Added int getRandomNumberInRange(int min, int max)
+Changes to VectorUtils:
+ - Added List<Vector2f> rotate(List<Vector2f> toRotate, float angle)
+ - Added List<Vector2f> rotateAroundPivot(List<Vector2f> toRotate,
+   Vector2f pivotPoint, float angle)
+Changes to WeaponUtils:
+ - Fixed getNearestAllyInArc() returning the host ship
+ - Fixed getAlliesInArc() including the host ship
+Removed all pre-existing deprecated methods from the code
+Removed all methods with a 'sortByDistance' parameter
+ - Use Collections.sort(list, new CollectionUtils.SortXByDistance(location))
+   instead
+Removed from AIUtils:
+ - List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity, boolean sortByDistance)
+ - List<ShipAPI> getNearbyEnemies(CombatEntityAPI entity, float range,
+   boolean sortByDistance)
+ - List<ShipAPI> getAlliesOnMap(CombatEntityAPI entity, boolean sortByDistance)
+ - List<ShipAPI> getNearbyAllies(CombatEntityAPI entity, float range,
+   boolean sortByDistance)
+ - List<MissileAPI> getEnemyMissilesOnMap(CombatEntityAPI entity,
+   boolean sortByDistance)
+ - List<MissileAPI> getNearbyEnemyMissiles(CombatEntityAPI entity, float range,
+   boolean sortByDistance)
+Removed from CampaignUtils:
+ - List<CampaignFleetAPI> getEnemyFleetsInSystem(CampaignFleetAPI fleet,
+   boolean sortByDistance)
+ - List<CampaignFleetAPI> getNearbyEnemyFleets(CampaignFleetAPI fleet,
+   float range, boolean sortByDistance)
+ - List<CampaignFleetAPI> getAlliedFleetsInSystem(CampaignFleetAPI fleet,
+   boolean sortByDistance)
+ - List<CampaignFleetAPI> getNearbyAlliedFleets(CampaignFleetAPI fleet,
+   float range, boolean sortByDistance)
+Removed from CollectionUtils:
+ - Removed CollectionUtils$SortObjectivesByDistance
+   (use SortEntitiesByDistance instead)
+ - List<T> weightedRandom(Map<T, Float> pickFrom, int numToPick)
+ - T weightedRandom(Map<T, Float> pickFrom)
+Removed from CombatUtils:
+ - List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location,
+   float range, boolean sortByDistance)
+ - List<MissileAPI> getMissilesWithinRange(Vector2f location, float range,
+   boolean sortByDistance)
+ - List<ShipAPI> getShipsWithinRange(Vector2f location, float range,
+   boolean sortByDistance)
+ - List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location,
+   float range, boolean sortByDistance)
+ - List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location,
+   float range, boolean sortByDistance)
+ - List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location,
+   float range, boolean sortByDistance)
+ - CombatEngineAPI getCombatEngine()
+ - float getElapsedCombatTimeIncludingPaused()
+ - float getElapsedCombatTime()
+ - float getTimeSinceLastFrame()
+Removed from DefenseUtils:
+ - Vector2f getArmorCellAtWorldCoord(ShipAPI ship, Vector2f loc)
+Removed from DrawUtils:
+ - drawArc(float centerX, float centerY, float radius, float startAngle,
+   float arcAngle, int numSegments
+Removed from MathUtils:
+ - float getFacing(Vector2f vector)
+   (moved to VectorUtils)
+ - float getAngle(Vector2f from, Vector2f to)
+   (moved to VectorUtils)
+ - Vector2f getDirectionalVector(Vector2f source, Vector2f destination)
+   (moved to VectorUtils)
+ - Vector2f getDirectionalVector(CombatEntityAPI source, Vector2f destination)
+ - Vector2f getDirectionalVector(CombatEntityAPI source,
+   CombatEntityAPI destination)
+ - boolean isPointWithinBounds(Vector2f point, CombatEntityAPI entity)
+   (moved to CollisionUtils)
+Removed from WeaponUtils:
+ - float calculateActualDamage(float baseDamage, WeaponAPI weapon)
+ - float calculateActualDamage(float baseDamage, WeaponAPI weapon,
+   ShipAPI target, DefenseType defense)
+ - float calculateDamagePerShot(WeaponAPI weapon)
+ - float calculateDamagePerShot(WeaponAPI weapon, ShipAPI target,
+   DefenseType defense)
+ - float calculateDamagePerSecond(WeaponAPI weapon)
+ - float calculateDamagePerSecond(WeaponAPI weapon, ShipAPI target,
+   DefenseType defense)
+ - float calculateDamagePerBurst(WeaponAPI weapon)
+ - float calculateDamagePerBurst(WeaponAPI weapon, ShipAPI target,
+   DefenseType defense)
+ - List<ShipAPI> getEnemiesInArc(WeaponAPI weapon, boolean sortByDistance)
+ - List<MissileAPI> getEnemyMissilesInArc(WeaponAPI weapon,
+   boolean sortByDistance)
+
+________________________________________________________________________________
+
+
  1.9b (August 27, 2014)
 ========================
 Minor optimizations

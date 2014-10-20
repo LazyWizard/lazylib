@@ -1,5 +1,6 @@
 package org.lazywizard.lazylib;
 
+import java.util.Random;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -75,10 +76,31 @@ public class EllipseUtils
                 ellipseAngleOffset, MathUtils.getRandom().nextFloat() * 360f);
     }
 
-    // TODO: implement and make sure it's uniformly distributed
-    private static void getRandomPointInEllipse(Vector2f ellipseCenter,
+    /**
+     * Returns a random point inside of an ellipse with uniform distribution.
+     *
+     * @param ellipseCenter      The center point of the ellipse (can be null
+     *                           for a 0, 0 origin).
+     * @param ellipseWidth       The width (size on unrotated x-axis) of the
+     *                           ellipse.
+     * @param ellipseHeight      The height (size on unrotated y-axis) of the
+     *                           ellipse.
+     * @param ellipseAngleOffset How much to rotate the ellipse from its
+     *                           original axis, in degrees.
+     * <p>
+     * @return A random point inside of the given ellipse.
+     * <p>
+     * @since 2.0
+     */
+    public static Vector2f getRandomPointInEllipse(Vector2f ellipseCenter,
             float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
     {
+        final Random rng = MathUtils.getRandom();
+        final double u = rng.nextDouble() + rng.nextDouble();
+        final float r = (float) (u > 1 ? 2 - u : u);
+
+        return getRandomPointOnEllipse(ellipseCenter, ellipseWidth * r,
+                ellipseHeight * r, ellipseAngleOffset);
     }
 
     /**

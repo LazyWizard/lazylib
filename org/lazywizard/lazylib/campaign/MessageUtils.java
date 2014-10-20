@@ -24,14 +24,14 @@ public class MessageUtils
      * Formats and word-wraps the supplied text, then outputs it as a sector
      * message.
      *
-     * @param preamble The header for this message, won't be indented.
-     * @param message  The main body of text.
-     * @param indent   Whether to indent each line of the main body.
+     * @param preamble      The header for this message, won't be indented.
+     * @param message       The main body of text.
+     * @param indentMessage Whether to indent each line of the main body.
      * <p>
      * @since 1.0
      */
     public static void showMessage(String preamble,
-            String message, boolean indent)
+            String message, boolean indentMessage)
     {
         if (preamble != null)
         {
@@ -45,7 +45,7 @@ public class MessageUtils
         {
             for (String tmp : StringUtils.wrapString(message, LINE_LENGTH).split("\n"))
             {
-                if (indent)
+                if (indentMessage)
                 {
                     Global.getSector().getCampaignUI().addMessage("   " + tmp);
                 }

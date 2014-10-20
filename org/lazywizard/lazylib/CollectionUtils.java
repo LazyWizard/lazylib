@@ -1,16 +1,12 @@
 package org.lazywizard.lazylib;
 
 import com.fs.starfarer.api.campaign.SectorEntityToken;
-import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
-import com.fs.starfarer.api.util.WeightedRandomPicker;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -282,128 +278,6 @@ public class CollectionUtils
 
             return Float.compare(MathUtils.getDistanceSquared(o1.getLocation(),
                     location), MathUtils.getDistanceSquared(o2.getLocation(), location));
-        }
-    }
-
-    /**
-     * @deprecated Use {@link WeightedRandomPicker} instead (call pick()
-     * multiple times).
-     * @since 1.0
-     */
-    @Deprecated
-    public static <T> List<T> weightedRandom(Map<T, Float> pickFrom, int numToPick)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        if (pickFrom.isEmpty() || numToPick <= 0)
-        {
-            return Collections.<T>emptyList();
-        }
-
-        float totalWeight = 0.0f;
-        for (Float tmp : pickFrom.values())
-        {
-            totalWeight += tmp;
-        }
-
-        List<T> ret = new ArrayList<>(numToPick);
-        float random;
-
-        for (int x = 0; x < numToPick; x++)
-        {
-            random = MathUtils.getRandom().nextFloat() * totalWeight;
-            for (Map.Entry<T, Float> tmp : pickFrom.entrySet())
-            {
-                random -= tmp.getValue();
-
-                if (random <= 0.0f)
-                {
-                    ret.add(tmp.getKey());
-                    break;
-                }
-            }
-        }
-
-        return ret;
-    }
-
-    /**
-     * @deprecated Use {@link WeightedRandomPicker} instead.
-     * @since 1.0
-     */
-    @Deprecated
-    public static <T> T weightedRandom(Map<T, Float> pickFrom)
-    {
-        LazyLib.onDeprecatedMethodUsage();
-
-        if (pickFrom.isEmpty())
-        {
-            return null;
-        }
-
-        float totalWeight = 0.0f;
-        for (Float tmp : pickFrom.values())
-        {
-            totalWeight += tmp;
-        }
-
-        float random = MathUtils.getRandom().nextFloat() * totalWeight;
-        for (Map.Entry<T, Float> tmp : pickFrom.entrySet())
-        {
-            random -= tmp.getValue();
-
-            if (random <= 0.0f)
-            {
-                return tmp.getKey();
-            }
-        }
-
-        throw new RuntimeException("weightedRandom() failed to return a value!");
-        //return (pickFrom.isEmpty() ? null : weightedRandom(pickFrom, 1).get(0));
-    }
-
-    /**
-     * @deprecated Use {@link SortEntitiesByDistance} instead.
-     * @since 1.1
-     */
-    @Deprecated
-    public static class SortObjectivesByDistance implements Comparator<BattleObjectiveAPI>
-    {
-        private Vector2f location;
-
-        private SortObjectivesByDistance()
-        {
-            LazyLib.onDeprecatedMethodUsage();
-        }
-
-        /**
-         * @param location The central location to judge distance from.
-         * <p>
-         * @since 1.1
-         */
-        public SortObjectivesByDistance(Vector2f location)
-        {
-            this.location = location;
-        }
-
-        /**
-         * Compares the distances of two {@link BattleObjectiveAPI}s from a
-         * central location.
-         *
-         * @param o1 The first {@link BattleObjectiveAPI}.
-         * @param o2 The second {@link BattleObjectiveAPI}.
-         * <p>
-         * @return A comparison of the distances of {@code o1} and {@code o2}
-         *         from {@code location}.
-         * <p>
-         * @since 1.1
-         */
-        @Override
-        public int compare(BattleObjectiveAPI o1, BattleObjectiveAPI o2)
-        {
-            return Float.compare(MathUtils.getDistanceSquared(o1.getLocation(),
-                    location), MathUtils.getDistanceSquared(o2.getLocation(),
-                            location));
         }
     }
 
