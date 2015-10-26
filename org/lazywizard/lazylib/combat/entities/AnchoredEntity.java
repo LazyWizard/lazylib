@@ -60,7 +60,7 @@ public class AnchoredEntity extends EntityBase
     {
         if (relativeDistance == 0f)
         {
-            return anchor.getLocation();
+            return new Vector2f(anchor.getLocation());
         }
 
         return MathUtils.getPointOnCircumference(anchor.getLocation(),
@@ -68,9 +68,9 @@ public class AnchoredEntity extends EntityBase
     }
 
     /**
-     * Returns this entity's velocity.
+     * Returns the velocity of this entity's anchor (and by definition this entity's velocity as well).
      *
-     * @return The velocity of this entity (will be the same as its anchor).
+     * @return The velocity of this entity's anchor (a direct reference, so changes will propagate!).
      * <p>
      * @since 1.5
      */
