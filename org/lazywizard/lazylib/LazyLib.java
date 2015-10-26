@@ -123,8 +123,6 @@ public class LazyLib extends BaseModPlugin
     public static void setLogLevel(Level level)
     {
         Global.getLogger(LazyLib.class).setLevel(Level.ALL);
-        Global.getLogger(LazyLib.class).log(Level.INFO,
-                "Setting log level to " + level);
 
         // org.lazywizard.lazylib
         Global.getLogger(CollectionUtils.class).setLevel(level);
