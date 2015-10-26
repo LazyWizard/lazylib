@@ -30,7 +30,7 @@ public class ColorUtils
     {
         glColor4ub((byte) color.getRed(), (byte) color.getGreen(),
                 (byte) color.getBlue(), (byte) ((overrideOriginalAlpha
-                ? alphaMult : (color.getAlpha() * alphaMult))));
+                ? alphaMult * 255f : (color.getAlpha() * alphaMult))));
     }
 
     /**
