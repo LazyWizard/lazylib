@@ -45,7 +45,8 @@ There are a few goals you should keep in mind when contributing:
    shouldn't be instantiatable.
  * Use human-readable method names. If there's a proper name that describes a
    method's functionality but nobody outside of that field will know it, use a
-   more generic, descriptive name.
+   more generic, descriptive name. Many modders are still in their teens, so
+   assume that level of education.
  * Build upon the API, don't replace it - most of what this library does uses
    the existing API methods, not custom framework.
  * LazyLib is intended to sit in the background and do nothing until a mod
