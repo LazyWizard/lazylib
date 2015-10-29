@@ -2,7 +2,7 @@ package org.lazywizard.lazylib;
 
 import java.util.List;
 import com.fs.starfarer.api.Global;
-import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 /**
  * Contains methods for dealing with mod level (non-gameplay) tasks.
@@ -12,6 +12,8 @@ import org.apache.log4j.Level;
  */
 public class ModUtils
 {
+    private static final Logger Log = Global.getLogger(ModUtils.class);
+
     /**
      * Checks if a class is present within the loaded mods.
      *
@@ -33,8 +35,7 @@ public class ModUtils
         }
         catch (ClassNotFoundException ex)
         {
-            Global.getLogger(ModUtils.class).log(Level.INFO,
-                    "Class " + classCanonicalName + " not found");
+            Log.info("Class " + classCanonicalName + " not found");
             return false;
         }
     }
@@ -48,8 +49,7 @@ public class ModUtils
         {
             for (String name : classesToLoadCanonicalNames)
             {
-                Global.getLogger(ModUtils.class).log(Level.DEBUG,
-                        "Attempting to load class: " + name);
+                Log.debug("Attempting to load class: " + name);
                 Class.forName(name, initializeClasses,
                         Global.getSettings().getScriptClassLoader());
             }
