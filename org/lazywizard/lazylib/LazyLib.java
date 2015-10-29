@@ -28,8 +28,8 @@ public class LazyLib extends BaseModPlugin
 {
     private static final String SETTINGS_FILE = "lazylib_settings.json";
     private static final boolean IS_DEV_BUILD = false;
-    private static final float LIBRARY_VERSION = 2.01f;
-    private static final String GAME_VERSION = "0.65a";
+    private static final float LIBRARY_VERSION = 2.1f;
+    private static final String GAME_VERSION = "0.7a";
     private static boolean CACHE_ENABLED = false, LOG_DEPRECATED = false,
             CRASH_DEPRECATED = false;
     private static Level LOG_LEVEL;

@@ -1,3 +1,24 @@
+ 2.1 (October XX, 2015)
+========================
+Changes to AnchoredEntity:
+ - getLocation() no longer returns a direct reference to the anchor's location
+   when the anchored entity shares the same location
+Changes to CampaignUtils:
+ - Added addShipToFleet(String wingOrVariantId, FleetMemberType type,
+   CrewXPLevel level, CampaignFleetAPI fleet)
+ - Removed all getXOfType() methods, replaced with getXWithTag() (was filtering
+   using class, now uses entity tags)
+ - All methods that took a "Class entityClass" argument have had said argument
+   replaced with "String tag"
+ - getNearbyFleets(), getNearbyHostileFleets(), get NearestHostileFleet(),
+   and getHostileFleetsInSystem() only include fleets that are visible to the
+   sensors of the token passed in to the method
+ - Fixed a few getNearbyX() methods potentially including the token they are
+   searching around
+Changes to ColorUtils:
+ - Fixed: glColor() alphaMult value isn't multiplied correctly when argument
+   "overrideOriginalAlpha" is true
+
  2.0b (October 20, 2014)
 =========================
 Changes to CampaignUtils:
@@ -8,7 +29,7 @@ Changes to CampaignUtils:
  - Added getEntitiesFromFaction(LocationAPI location, Class entityType,
    FactionAPI faction)
  - Renamed getXByRep() methods to getXWithRep(), also made them no longer
-   include members of the token's faction in their results
+   include members of the passed in token's faction in their results
 
  2.0 (October 20, 2014)
 ========================

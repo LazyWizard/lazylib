@@ -1,14 +1,14 @@
 package org.lazywizard.lazylib.combat.entities;
 
-import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.CombatEntityAPI;
-import com.fs.starfarer.api.combat.WeaponAPI;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.ShipEngineControllerAPI.ShipEngineAPI;
-import org.apache.log4j.Level;
+import com.fs.starfarer.api.combat.WeaponAPI;
+import org.apache.log4j.Logger;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -22,6 +22,7 @@ import org.lwjgl.util.vector.Vector2f;
  */
 public class SimpleEntity extends EntityBase
 {
+    private static final Logger Log = Global.getLogger(SimpleEntity.class);
     // Cache for all reflection-based variants (reduces overhead on creation)
     private static final Map<Class, Method> methodCache = new HashMap<>();
     protected SimpleEntityType type;
@@ -143,9 +144,7 @@ public class SimpleEntity extends EntityBase
 
             // Cache this method so we only have to do the lookup once a session
             methodCache.put(tmp, getLocation);
-            Global.getLogger(SimpleEntity.class).log(Level.DEBUG,
-                    "SimpleEntity cached: "
-                    + tmp.getCanonicalName() + " | "
+            Log.debug(                    "SimpleEntity cached: "                    + tmp.getCanonicalName() + " | "
                     + getLocation.toGenericString() + ".");
         }
     }

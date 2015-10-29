@@ -15,8 +15,7 @@ import com.fs.starfarer.api.combat.ViewportAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.fleet.FleetMemberType;
 import com.fs.starfarer.api.mission.FleetSide;
-import org.apache.log4j.Level;
-import org.lazywizard.lazylib.LazyLib;
+import org.apache.log4j.Logger;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -31,6 +30,8 @@ import org.lwjgl.util.vector.Vector2f;
  */
 public class CombatUtils
 {
+    private static final Logger Log = Global.getLogger(CombatUtils.class);
+
     /**
      * Find a {@link ShipAPI}'s corresponding {@link FleetMemberAPI}. Due to the
      * way the game keeps tracks of ship ownership, this will be extremely slow
@@ -107,9 +108,7 @@ public class CombatUtils
         FogOfWarAPI fog = Global.getCombatEngine().getFogOfWar(side);
         if (fog == null)
         {
-            Global.getLogger(AIUtils.class).log(Level.ERROR,
-                    "Fog of war not found for side " + side
-                    + ", defaulting to visible!");
+            Log.error("Fog of war not found for side " + side + ", defaulting to visible!");
             return true;
         }
 
@@ -324,16 +323,15 @@ public class CombatUtils
             Vector2f location, float facing)
     {
         // Warn the player about the FleetEncounterContext bug in .6.2a
-        if (Global.getCombatEngine().isInCampaign()
-                && "0.6.2a".equals(LazyLib.getSupportedGameVersion()))
-        {
-            Global.getLogger(CombatUtils.class).log(Level.WARN,
-                    "spawnShipOrWingDirectly may not function correctly in the"
-                    + " campaign using the vanilla fleet encounter"
-                    + " code! A modified fleet InteractionDialogPlugin"
-                    + " using a custom FleetEncounterContextPlugin is"
-                    + " required to avoid an after-battle crash.");
-        }
+        /*if (Global.getCombatEngine().isInCampaign()
+         && "0.6.2a".equals(LazyLib.getSupportedGameVersion()))
+         {
+         Log.warn("spawnShipOrWingDirectly may not function correctly in the"
+         + " campaign using the vanilla fleet encounter"
+         + " code! A modified fleet InteractionDialogPlugin"
+         + " using a custom FleetEncounterContextPlugin is"
+         + " required to avoid an after-battle crash.");
+         }*/
 
         // Create the ship, set its stats and spawn it on the combat map
         FleetMemberAPI member = Global.getFactory().createFleetMember(type, variantId);
