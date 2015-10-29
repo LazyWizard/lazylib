@@ -2,14 +2,18 @@ package org.lazywizard.lazylib.campaign;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
+import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.campaign.LocationAPI;
 import com.fs.starfarer.api.campaign.RepLevel;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
+import com.fs.starfarer.api.fleet.FleetMemberType;
+import com.fs.starfarer.api.impl.campaign.ids.Tags;
 import org.lazywizard.lazylib.MathUtils;
 
 /**
@@ -144,31 +148,22 @@ public class CampaignUtils
     public static boolean areAtRep(SectorEntityToken token1, SectorEntityToken token2,
             IncludeRep include, RepLevel rep)
     {
-        // These parameters will always return true
-        if ((include == IncludeRep.AT_OR_HIGHER && rep.ordinal() == 0)
-                || (include == IncludeRep.AT_OR_LOWER
-                && rep.ordinal() == (RepLevel.values().length - 1)))
+        final RepLevel actualRep = getReputation(token1, token2);
+        switch (include)
         {
-            return true;
+            case LOWER:
+                return actualRep.ordinal() < rep.ordinal();
+            case AT_OR_LOWER:
+                return actualRep.ordinal() <= rep.ordinal();
+            case AT:
+                return actualRep.ordinal() == rep.ordinal();
+            case AT_OR_HIGHER:
+                return actualRep.ordinal() >= rep.ordinal();
+            case HIGHER:
+                return actualRep.ordinal() > rep.ordinal();
+            default:
+                throw new RuntimeException("Unsupported IncludeRep: " + include.name());
         }
-
-        // EQUALS_OR_X support is easier (albiet a bit hacky) this way
-        if (include == IncludeRep.AT_OR_HIGHER)
-        {
-            rep = RepLevel.values()[rep.ordinal() - 1];
-            include = IncludeRep.HIGHER;
-        }
-        else if (include == IncludeRep.AT_OR_LOWER)
-        {
-            rep = RepLevel.values()[rep.ordinal() + 1];
-            include = IncludeRep.LOWER;
-        }
-
-        // Ensure reputation is within given range
-        RepLevel actualRep = getReputation(token1, token2);
-        return ((include == IncludeRep.AT && actualRep == rep)
-                || (include == IncludeRep.HIGHER && actualRep.ordinal() > rep.ordinal())
-                || (include == IncludeRep.LOWER && actualRep.ordinal() < rep.ordinal()));
     }
 
     /**
@@ -197,13 +192,41 @@ public class CampaignUtils
 
         for (FleetMemberAPI tmp : fleet.getFleetData().getMembersListCopy())
         {
-            if (fleetMemberId.equals(tmp.getId()))
+            if (Objects.equals(fleetMemberId, tmp.getId()))
             {
                 return true;
             }
         }
 
         return false;
+    }
+
+    /**
+     * Adds a fully crewed, fully combat ready ship to the designated fleet.
+     *
+     * @param wingOrVariantId The wing or variant ID to create.
+     * @param type            Whether to add a fighter wing or a ship.
+     * @param level           The level of experience this ship's crew should be
+     *                        at.
+     * @param fleet           The fleet to add this ship to.
+     * <p>
+     * @return The {@link FleetMemberAPI} of the created ship.
+     * <p>
+     * @since 2.1
+     */
+    public static FleetMemberAPI addShipToFleet(String wingOrVariantId, FleetMemberType type,
+            CargoAPI.CrewXPLevel level, CampaignFleetAPI fleet)
+    {
+        FleetMemberAPI ship = Global.getFactory().createFleetMember(
+                type, wingOrVariantId);
+        fleet.getFleetData().addFleetMember(ship);
+
+        fleet.getCargo().addCrew(level, (int) ship.getNeededCrew());
+        ship.getStatus().repairFully();
+        ship.getRepairTracker().setCR(ship.getRepairTracker().getMaxCR());
+        ship.setStatUpdateNeeded(true);
+
+        return ship;
     }
 
     /**
@@ -222,7 +245,8 @@ public class CampaignUtils
 
         for (CampaignFleetAPI tmp : token.getContainingLocation().getFleets())
         {
-            if (!tmp.isAlive() || !tmp.getFaction().isHostileTo(token.getFaction()))
+            if (tmp == token || !tmp.isAlive()
+                    || !tmp.getFaction().isHostileTo(token.getFaction()))
             {
                 continue;
             }
@@ -239,14 +263,14 @@ public class CampaignUtils
     }
 
     /**
-     * Finds all hostile fleets within a certain range around a
+     * Finds all <i>visible</i> hostile fleets within a certain range around a
      * {@link SectorEntityToken}.
      *
      * @param token The entity to search around.
      * @param range How far around {@code token} to search.
      * <p>
      * @return A {@link List} containing all fleets within range that are
-     *         hostile towards {@code token}.
+     *         hostile towards {@code token} and can be seen by it.
      * <p>
      * @since 1.2
      */
@@ -257,8 +281,14 @@ public class CampaignUtils
 
         for (CampaignFleetAPI tmp : token.getContainingLocation().getFleets())
         {
+            if (tmp == token)
+            {
+                continue;
+            }
+
             if (tmp.isAlive() && tmp.getFaction().isHostileTo(token.getFaction())
-                    && MathUtils.isWithinRange(token, tmp, range))
+                    && MathUtils.isWithinRange(token, tmp, range)
+                    && tmp.isVisibleToSensorsOf(token))
             {
                 enemies.add(tmp);
             }
@@ -284,7 +314,12 @@ public class CampaignUtils
 
         for (CampaignFleetAPI tmp : token.getContainingLocation().getFleets())
         {
-            if (tmp.isAlive() && tmp.getFaction().isHostileTo(token.getFaction()))
+            if (tmp == token)
+            {
+                continue;
+            }
+
+            if (tmp.isAlive() && tmp.isHostileTo(token))
             {
                 enemies.add(tmp);
             }
@@ -294,25 +329,24 @@ public class CampaignUtils
     }
 
     /**
-     * Find the closest entity of a specified type to a
+     * Find the closest entity with a specifc tag to a
      * {@link SectorEntityToken}, excluding itself.
      *
-     * @param token      The {@link SectorEntityToken} to search around.
-     * @param entityType The class extending {@link SectorEntityToken} we should
-     *                   be searching for; for example: {@code CampaignFleetAPI.class}
-     *                   or {@code OrbitalStationAPI.class}.
+     * @param token     The {@link SectorEntityToken} to search around.
+     * @param entityTag The tag we should be searching for; for example:
+     *                  {@link Tags#STATION} or {@link Tags#JUMP_POINT}.
      * <p>
-     * @return The object of type {@code type} closest to {@code token}.
+     * @return The object with tag {@code entityTag} closest to {@code token}.
      * <p>
      * @since 2.0
      */
-    public static <T extends SectorEntityToken> T getNearestEntityOfType(
-            SectorEntityToken token, Class<T> entityType)
+    public static <T extends SectorEntityToken> T getNearestEntityWithTag(
+            SectorEntityToken token, String entityTag)
     {
         T closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (Object tmp : token.getContainingLocation().getEntities(entityType))
+        for (Object tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
         {
             T entity = (T) tmp;
 
@@ -334,26 +368,26 @@ public class CampaignUtils
     }
 
     /**
-     * Find nearby entities of a specified type to a {@link SectorEntityToken},
+     * Find entities with a specific tag near a {@link SectorEntityToken},
      * excluding itself.
      *
-     * @param token      The {@link SectorEntityToken} to search around.
-     * @param range      How far around {@code token} to search.
-     * @param entityType The class extending {@link SectorEntityToken} we should
-     *                   be searching for; for example: {@code CampaignFleetAPI.class}
-     *                   or {@code OrbitalStationAPI.class}.
+     * @param token     The {@link SectorEntityToken} to search around.
+     * @param range     How far around {@code token} to search.
+     * @param entityTag The tag we should be searching for; for example:
+     *                  {@link Tags#STATION} or {@link Tags#JUMP_POINT}.
      * <p>
-     * @return All objects of type {@code type} within range of {@code token}.
+     * @return All objects with tag {@code entityTag} within range of
+     *         {@code token}.
      * <p>
      * @since 2.0
      */
-    public static <T extends SectorEntityToken> List<T> getNearbyEntitiesOfType(
-            SectorEntityToken token, float range, Class<T> entityType)
+    public static <T extends SectorEntityToken> List<T> getNearbyEntitiesWithTag(
+            SectorEntityToken token, float range, String entityTag)
     {
         List<T> entities = new ArrayList<>();
 
         // Find all tokens of the given type within range
-        for (Object tmp : token.getContainingLocation().getEntities(entityType))
+        for (Object tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
         {
             T entity = (T) tmp;
 
@@ -374,27 +408,26 @@ public class CampaignUtils
     }
 
     /**
-     * Find the closest entity of a specified type and faction near a
+     * Find the closest entity with a specific tag and faction near a
      * {@link SectorEntityToken}, excluding itself.
      *
-     * @param token      The {@link SectorEntityToken} to search around.
-     * @param entityType The class extending {@link SectorEntityToken} we should
-     *                   be searching for; for example: {@code CampaignFleetAPI.class}
-     *                   or {@code OrbitalStationAPI.class}.
-     * @param faction    The faction ownership we are looking for.
+     * @param token     The {@link SectorEntityToken} to search around.
+     * @param entityTag The tag we should be searching for; for example:
+     *                  {@link Tags#STATION} or {@link Tags#JUMP_POINT}.
+     * @param faction   The faction ownership we are looking for.
      * <p>
-     * @return The object of type {@code type} closest to {@code token} owned by
-     *         {@code faction}.
+     * @return The object with tag {@code entityTag} closest to {@code token}
+     *         that is owned by {@code faction}.
      * <p>
      * @since 2.0
      */
     public static <T extends SectorEntityToken> T getNearestEntityFromFaction(
-            SectorEntityToken token, Class<T> entityType, FactionAPI faction)
+            SectorEntityToken token, String entityTag, FactionAPI faction)
     {
         T closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (Object tmp : token.getContainingLocation().getEntities(entityType))
+        for (Object tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
         {
             T entity = (T) tmp;
 
@@ -416,28 +449,27 @@ public class CampaignUtils
     }
 
     /**
-     * Find entities of a specified type from a specific faction near a
-     * {@link SectorEntityToken}.
+     * Find entities with a specific tag and from a specific faction near a
+     * {@link SectorEntityToken}, excluding itself.
      *
-     * @param token      The {@link SectorEntityToken} to search around.
-     * @param range      How far around {@code token} to search.
-     * @param entityType The class extending {@link SectorEntityToken} we should
-     *                   be searching for; for example: {@code CampaignFleetAPI.class}
-     *                   or {@code OrbitalStationAPI.class}.
-     * @param faction    What faction the entity must be owned by.
+     * @param token     The {@link SectorEntityToken} to search around.
+     * @param range     How far around {@code token} to search.
+     * @param entityTag The tag we should be searching for; for example:
+     *                  {@link Tags#STATION} or {@link Tags#JUMP_POINT}.
+     * @param faction   What faction the entity must be owned by.
      * <p>
-     * @return All objects of type {@code type} and faction {@code faction}
-     *         within range of {@code token}.
+     * @return All objects with tag {@code entityTag} and faction
+     *         {@code faction} within range of {@code token}.
      * <p>
      * @since 2.0
      */
     public static <T extends SectorEntityToken> List<T> getNearbyEntitiesFromFaction(
-            SectorEntityToken token, float range, Class<T> entityType, FactionAPI faction)
+            SectorEntityToken token, float range, String entityTag, FactionAPI faction)
     {
         List<T> entities = new ArrayList<>();
 
         // Find all tokens of the given type within range
-        for (Object tmp : token.getContainingLocation().getEntities(entityType))
+        for (Object tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
         {
             T entity = (T) tmp;
 
@@ -458,26 +490,25 @@ public class CampaignUtils
     }
 
     /**
-     * Find all entities of a specified type and faction within a location.
+     * Find all entities with a specific tag and faction within a location.
      *
-     * @param location   The {@link LocationAPI} to search in.
-     * @param entityType The class extending {@link SectorEntityToken} we should
-     *                   be searching for; for example: {@code CampaignFleetAPI.class}
-     *                   or {@code OrbitalStationAPI.class}.
-     * @param faction    What faction entities must belong to.
+     * @param location  The {@link LocationAPI} to search in.
+     * @param entityTag The tag we should be searching for; for example:
+     *                  {@link Tags#STATION} or {@link Tags#JUMP_POINT}.
+     * @param faction   What faction entities must belong to.
      * <p>
-     * @return All objects of faction {@code faction} and type {@code type}
-     *         within {@code location}.
+     * @return All objects of faction {@code faction} and with tag
+     *         {@code entityTag} within {@code location}.
      * <p>
      * @since 2.0
      */
     public static <T extends SectorEntityToken> List<T> getEntitiesFromFaction(
-            LocationAPI location, Class<T> entityType, FactionAPI faction)
+            LocationAPI location, String entityTag, FactionAPI faction)
     {
         List<T> entities = new ArrayList<>();
 
         // Find all tokens from the given faction
-        for (Object tmp : location.getEntities(entityType))
+        for (Object tmp : location.getEntitiesWithTag(entityTag))
         {
             T entity = (T) tmp;
 
@@ -491,36 +522,35 @@ public class CampaignUtils
     }
 
     /**
-     * Find the closest entity of a specified type and reputation with a
+     * Find the closest entity with a specific tag and reputation with a
      * {@link SectorEntityToken}, excluding itself.
      *
-     * @param token      The {@link SectorEntityToken} to search around.
-     * @param entityType The class extending {@link SectorEntityToken} we should
-     *                   be searching for; for example: {@code CampaignFleetAPI.class}
-     *                   or {@code OrbitalStationAPI.class}.
-     * @param include    What range of {@link RepLevel}s to accept, relative to
-     *                   {@code rep}.
-     * @param rep        The base reputation to check against.
+     * @param token     The {@link SectorEntityToken} to search around.
+     * @param entityTag The tag we should be searching for; for example:
+     *                  {@link Tags#STATION} or {@link Tags#JUMP_POINT}.
+     * @param include   What range of {@link RepLevel}s to accept, relative to
+     *                  {@code rep}.
+     * @param rep       The base reputation to check against.
      * <p>
-     * @return The object of type {@code type} closest to {@code token} within
-     *         the reputation range specified by {@code include} and
+     * @return The object with tag {@code entityTag} closest to {@code token}
+     *         within the reputation range specified by {@code include} and
      *         {@code rep}.
      * <p>
      * @since 2.0
      */
     // TODO: Test this
     public static <T extends SectorEntityToken> T getNearestEntityWithRep(
-            SectorEntityToken token, Class<T> entityType, IncludeRep include,
-            RepLevel rep)
+            SectorEntityToken token, String entityTag, IncludeRep include, RepLevel rep)
     {
         T closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (Object tmp : token.getContainingLocation().getEntities(entityType))
+        for (Object tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
         {
             T entity = (T) tmp;
 
-            if (areSameFaction(entity, token) || !areAtRep(token, entity, include, rep))
+            if (tmp == token || areSameFaction(entity, token)
+                    || !areAtRep(token, entity, include, rep))
             {
                 continue;
             }
@@ -538,25 +568,25 @@ public class CampaignUtils
     }
 
     /**
-     * Find nearby entities of a specified type and reputation with a
+     * Find nearby entities with a specific tag and reputation with a
      * {@link SectorEntityToken}, excluding itself.
      *
-     * @param token      The {@link SectorEntityToken} to search around.
-     * @param range      How far around {@code token} to search.
-     * @param entityType The class extending {@link SectorEntityToken} we should
-     *                   be searching for; for example: {@code CampaignFleetAPI.class}
-     *                   or {@code OrbitalStationAPI.class}.
-     * @param include    What range of {@link RepLevel}s to accept, relative to
-     *                   {@code rep}.
-     * @param rep        The base reputation to check against.
+     * @param token     The {@link SectorEntityToken} to search around.
+     * @param range     How far around {@code token} to search.
+     * @param entityTag The tag we should be searching for; for example:
+     *                  {@link Tags#STATION} or {@link Tags#JUMP_POINT}.
+     * @param include   What range of {@link RepLevel}s to accept, relative to
+     *                  {@code rep}.
+     * @param rep       The base reputation to check against.
      * <p>
-     * @return All objects of type {@code type} within range of {@code token}.
+     * @return All objects with tag {@code entityTag} within range of
+     *         {@code token}.
      * <p>
      * @since 2.0
      */
     // TODO: Test this!
     public static <T extends SectorEntityToken> List<T> getNearbyEntitiesWithRep(
-            SectorEntityToken token, float range, Class<T> entityType,
+            SectorEntityToken token, float range, String entityTag,
             IncludeRep include, RepLevel rep)
     {
         List<T> entities = new ArrayList<>();
@@ -566,8 +596,13 @@ public class CampaignUtils
                 || (include == IncludeRep.AT_OR_LOWER
                 && rep.ordinal() == (RepLevel.values().length - 1)))
         {
-            for (Object tmp : token.getContainingLocation().getEntities(entityType))
+            for (Object tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
             {
+                if (tmp == token)
+                {
+                    continue;
+                }
+
                 if (!areSameFaction((T) tmp, token))
                 {
                     entities.add((T) tmp);
@@ -578,8 +613,13 @@ public class CampaignUtils
         }
 
         // Find all tokens of the given type within reputation range
-        for (Object tmp : token.getContainingLocation().getEntities(entityType))
+        for (Object tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
         {
+            if (tmp == token)
+            {
+                continue;
+            }
+
             T entity = (T) tmp;
 
             // Exclude tokens of our faction
@@ -600,39 +640,40 @@ public class CampaignUtils
     }
 
     /**
-     * Find all entities of a specified type and reputation with a
+     * Find all entities with a specific tag and reputation with a
      * {@link SectorEntityToken} in that token's location, excluding itself.
      *
-     * @param token      The {@link SectorEntityToken} to search around.
-     * @param entityType The class extending {@link SectorEntityToken} we should
-     *                   be searching for; for example: {@code CampaignFleetAPI.class}
-     *                   or {@code OrbitalStationAPI.class}.
-     * @param include    What range of {@link RepLevel}s to accept, relative to
-     *                   {@code rep}.
-     * @param rep        The base reputation to check against.
+     * @param token     The {@link SectorEntityToken} to search around.
+     * @param entityTag The tag we should be searching for; for example:
+     *                  {@link Tags#STATION} or {@link Tags#JUMP_POINT}.
+     * @param include   What range of {@link RepLevel}s to accept, relative to
+     *                  {@code rep}.
+     * @param rep       The base reputation to check against.
      * <p>
-     * @return All objects of type {@code type} within range of {@code token}.
+     * @return All objects with tag {@code entityTag} within range of
+     *         {@code token}.
      * <p>
      * @since 2.0
      */
     // TODO: Test this!
     private static <T extends SectorEntityToken> List<T> getEntitiesWithRep(
-            SectorEntityToken token, Class<T> entityType, IncludeRep include,
-            RepLevel rep)
+            SectorEntityToken token, String entityTag, IncludeRep include, RepLevel rep)
     {
         // TODO: Properly implement this later if needed
         // Doing it this way is only slightly less efficient, so might not be necessary
-        return getNearbyEntitiesWithRep(token, Float.MAX_VALUE, entityType, include, rep);
+        return getNearbyEntitiesWithRep(token, Float.MAX_VALUE, entityTag, include, rep);
     }
 
     /**
-     * Finds all fleets within a certain range around a
+     * Finds all <i>visible</i> fleets within a certain range around a
      * {@link SectorEntityToken}.
      *
      * @param token The entity to search around.
      * @param range How far around {@code token} to search.
      * <p>
-     * @return A {@link List} containing all fleets within range.
+     * @return A {@link List} containing all fleets within range that
+     *         {@code token} can see, excluding itself if it is a
+     *         {@link CampaignFleetAPI}.
      * <p>
      * @since 1.7
      */
@@ -642,7 +683,13 @@ public class CampaignUtils
 
         for (CampaignFleetAPI tmp : token.getContainingLocation().getFleets())
         {
-            if (tmp.isAlive() && MathUtils.isWithinRange(token, tmp, range))
+            if (tmp == token)
+            {
+                continue;
+            }
+
+            if (tmp.isAlive() && MathUtils.isWithinRange(token, tmp, range)
+                    && tmp.isVisibleToSensorsOf(token))
             {
                 fleets.add(tmp);
             }
