@@ -286,9 +286,13 @@ public class CampaignUtils
                 continue;
             }
 
+            if (token instanceof CampaignFleetAPI && !tmp.isVisibleToSensorsOf(token))
+            {
+                continue;
+            }
+
             if (tmp.isAlive() && tmp.getFaction().isHostileTo(token.getFaction())
-                    && MathUtils.isWithinRange(token, tmp, range)
-                    && tmp.isVisibleToSensorsOf(token))
+                    && MathUtils.isWithinRange(token, tmp, range))
             {
                 enemies.add(tmp);
             }
@@ -688,8 +692,12 @@ public class CampaignUtils
                 continue;
             }
 
-            if (tmp.isAlive() && MathUtils.isWithinRange(token, tmp, range)
-                    && tmp.isVisibleToSensorsOf(token))
+            if (token instanceof CampaignFleetAPI && !tmp.isVisibleToSensorsOf(token))
+            {
+                continue;
+            }
+
+            if (tmp.isAlive() && MathUtils.isWithinRange(token, tmp, range))
             {
                 fleets.add(tmp);
             }
