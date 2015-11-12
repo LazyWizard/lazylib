@@ -73,56 +73,56 @@ public class CollectionUtils
     /**
      * Returns a combined {@link List} from several {@link Collection}s.
      *
-     * @param toConjoin The {@link Collection} of elements to combine.
+     * @param toCombine The {@link Collection} of elements to combine.
      *
      * @return A new {@link ArrayList} containing the combined contents of
-     *         {@code toConjoin}.
+     *         {@code toCombine}.
      *
      * @since 2.1
      */
-    public static <T> List<T> conjoinedList(Collection<T>... toConjoin)
+    public static <T> List<T> combinedList(Collection<T>... toCombine)
     {
         int size = 0;
-        for (Collection<T> tmp : toConjoin)
+        for (Collection<T> tmp : toCombine)
         {
             size += tmp.size();
         }
 
-        final List<T> conjoined = new ArrayList<>(size);
-        for (Collection<T> tmp : toConjoin)
+        final List<T> combined = new ArrayList<>(size);
+        for (Collection<T> tmp : toCombine)
         {
-            conjoined.addAll(tmp);
+            combined.addAll(tmp);
         }
 
-        return conjoined;
+        return combined;
     }
 
     /**
      * Returns a combined {@link Set} from several {@link Collection}s.
      *
-     * @param toConjoin The {@link Collection} of elements to combine.
+     * @param toCombine The {@link Collection} of elements to combine.
      *
      * @return A new {@link HashSet} containing the combined contents of
-     *         {@code toConjoin}. The capacity will be the total size of all
+     *         {@code toCombine}. The capacity will be the total size of all
      *         source {@link Collection}s.
      *
      * @since 2.1
      */
-    public static <T> Set<T> conjoinedSet(Collection<T>... toConjoin)
+    public static <T> Set<T> combinedSet(Collection<T>... toCombine)
     {
         int size = 0;
-        for (Collection<T> tmp : toConjoin)
+        for (Collection<T> tmp : toCombine)
         {
             size += tmp.size();
         }
 
-        final Set<T> conjoined = new HashSet<>(size);
-        for (Collection<T> tmp : toConjoin)
+        final Set<T> combined = new HashSet<>(size);
+        for (Collection<T> tmp : toCombine)
         {
-            conjoined.addAll(tmp);
+            combined.addAll(tmp);
         }
 
-        return conjoined;
+        return combined;
     }
 
     /**
