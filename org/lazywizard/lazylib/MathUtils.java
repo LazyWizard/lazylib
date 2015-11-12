@@ -653,7 +653,8 @@ public class MathUtils
      * @param min The minimum value to select.
      * @param max The maximum value to select (inclusive).
      * <p>
-     * @return A random {@link Integer} between {@code min} and {@code max}, inclusive.
+     * @return A random {@link Integer} between {@code min} and {@code max},
+     *         inclusive.
      * <p>
      * @since 2.0
      */

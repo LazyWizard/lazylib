@@ -1,12 +1,14 @@
 package org.lazywizard.lazylib;
 
-import com.fs.starfarer.api.campaign.SectorEntityToken;
-import com.fs.starfarer.api.combat.CombatEntityAPI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import com.fs.starfarer.api.campaign.SectorEntityToken;
+import com.fs.starfarer.api.combat.CombatEntityAPI;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -66,6 +68,61 @@ public class CollectionUtils
     public static String implode(Collection toImplode)
     {
         return implode(toImplode, ", ");
+    }
+
+    /**
+     * Returns a combined {@link List} from several {@link Collection}s.
+     *
+     * @param toConjoin The {@link Collection} of elements to combine.
+     *
+     * @return A new {@link ArrayList} containing the combined contents of
+     *         {@code toConjoin}.
+     *
+     * @since 2.1
+     */
+    public static <T> List<T> conjoinList(Collection<T>... toConjoin)
+    {
+        int size = 0;
+        for (Collection<T> tmp : toConjoin)
+        {
+            size += tmp.size();
+        }
+
+        final List<T> conjoined = new ArrayList<>(size);
+        for (Collection<T> tmp : toConjoin)
+        {
+            conjoined.addAll(tmp);
+        }
+
+        return conjoined;
+    }
+
+    /**
+     * Returns a combined {@link Set} from several {@link Collection}s.
+     *
+     * @param toConjoin The {@link Collection} of elements to combine.
+     *
+     * @return A new {@link HashSet} containing the combined contents of
+     *         {@code toConjoin}. The capacity will be the total size of all
+     *         source {@link Collection}s.
+     *
+     * @since 2.1
+     */
+    public static <T> Set<T> conjoinSet(Collection<T>... toConjoin)
+    {
+        int size = 0;
+        for (Collection<T> tmp : toConjoin)
+        {
+            size += tmp.size();
+        }
+
+        final Set<T> conjoined = new HashSet<>(size);
+        for (Collection<T> tmp : toConjoin)
+        {
+            conjoined.addAll(tmp);
+        }
+
+        return conjoined;
     }
 
     /**

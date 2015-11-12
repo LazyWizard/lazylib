@@ -15,6 +15,9 @@ Changes to CampaignUtils:
    sensors of the token passed in to the method
  - Fixed a few getNearbyX() methods potentially including the token they are
    searching around
+Changes to CollectionUtils:
+ - Added conjoinList() and conjoinSet() to simplify merging multiple Collections
+   into a single Collection
 Changes to ColorUtils:
  - Fixed: glColor() alphaMult value isn't multiplied correctly when argument
    "overrideOriginalAlpha" is true
