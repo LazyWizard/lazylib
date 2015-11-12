@@ -80,7 +80,7 @@ public class CollectionUtils
      *
      * @since 2.1
      */
-    public static <T> List<T> conjoinList(Collection<T>... toConjoin)
+    public static <T> List<T> conjoinedList(Collection<T>... toConjoin)
     {
         int size = 0;
         for (Collection<T> tmp : toConjoin)
@@ -108,7 +108,7 @@ public class CollectionUtils
      *
      * @since 2.1
      */
-    public static <T> Set<T> conjoinSet(Collection<T>... toConjoin)
+    public static <T> Set<T> conjoinedSet(Collection<T>... toConjoin)
     {
         int size = 0;
         for (Collection<T> tmp : toConjoin)
