@@ -1,7 +1,5 @@
 package org.lazywizard.lazylib.combat;
 
-import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.ShipAPI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
+import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.combat.ShipAPI;
 
 class CombatCache
 {

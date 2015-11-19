@@ -1,7 +1,7 @@
 package org.lazywizard.lazylib;
 
-import com.fs.starfarer.api.SettingsAPI;
 import java.awt.Color;
+import com.fs.starfarer.api.SettingsAPI;
 import org.json.JSONArray;
 import org.json.JSONException;
 
