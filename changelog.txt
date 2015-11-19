@@ -1,5 +1,5 @@
- 2.1 (October XX, 2015)
-========================
+ 2.1 (November 19, 2015)
+=========================
 Changes to AnchoredEntity:
  - getLocation() no longer returns a direct reference to the anchor's location
    when the anchored entity shares the same location
@@ -17,7 +17,7 @@ Changes to CampaignUtils:
    searching around
 Changes to CollectionUtils:
  - Added combinedList() and combinedSet() to simplify creating a List/Set from
-   multiple source Collections
+   multiple source Collections, take any number of Collections as arguments
 Changes to ColorUtils:
  - Fixed: glColor() alphaMult value isn't multiplied correctly when argument
    "overrideOriginalAlpha" is true

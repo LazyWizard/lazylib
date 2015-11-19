@@ -1,11 +1,11 @@
 package org.lazywizard.lazylib;
 
-import com.fs.starfarer.api.combat.BoundsAPI;
-import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
-import com.fs.starfarer.api.combat.CombatEntityAPI;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
+import com.fs.starfarer.api.combat.BoundsAPI;
+import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
+import com.fs.starfarer.api.combat.CombatEntityAPI;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
