@@ -1,3 +1,14 @@
+ 2.2 (April 21, 2017)
+=======================
+Updated to be compatible with Starsector 0.8a
+LazyLib Javadoc now links to LWJGL, Starsector, and JSON Javadocs
+Changes to CampaignUtils:
+ - Removed crew XP level argument from addShipToFleet()
+
+ 2.1b (March 16, 2017)
+=======================
+Switched version file hosting to Bitbucket
+
  2.1 (November 19, 2015)
 =========================
 Changes to AnchoredEntity:

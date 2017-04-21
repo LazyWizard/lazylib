@@ -9,6 +9,7 @@ import com.fs.starfarer.api.combat.FluxTrackerAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
+import com.fs.starfarer.api.combat.ShipwideAIFlags.AIFlags;
 import org.lazywizard.lazylib.LazyLib;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
@@ -464,6 +465,32 @@ public class AIUtils
         }
 
         return solution;
+    }
+
+    // TODO: Test, Javadoc, add to changelog
+    static ShipAPI getTarget(ShipAPI ship)
+    {
+        // Check for combat target first
+        final ShipAPI shipTarget = ship.getShipTarget();
+        if (shipTarget != null)
+        {
+            return shipTarget;
+        }
+
+        // If there's no combat target, check for the ship we're maneuvering around
+        final Object tmpTarget = ship.getAIFlags().getCustom(AIFlags.MANEUVER_TARGET);
+        if (tmpTarget instanceof ShipAPI)
+        {
+            // If it exists and is an enemy, return that as the current target
+            final ShipAPI maneuverTarget = (ShipAPI) tmpTarget;
+            if (maneuverTarget.getOwner() + ship.getOwner() == 1)
+            {
+                return (ShipAPI) tmpTarget;
+            }
+        }
+
+        // Not targetting anyone and not maneuvering around an enemy
+        return null;
     }
 
     /**

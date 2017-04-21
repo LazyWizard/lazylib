@@ -5,6 +5,7 @@ import com.fs.starfarer.api.campaign.OrbitAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import org.lazywizard.lazylib.FastTrig;
 import org.lazywizard.lazylib.MathUtils;
+import org.lwjgl.util.vector.Vector2f;
 
 /**
  * Represents an elliptical orbit path.
@@ -165,5 +166,23 @@ public class EllipticalOrbit implements OrbitAPI
         // Advance rotation
         setAngle(MathUtils.clampAngle(currentAngle + (orbitSpeed
                 * Global.getSector().getClock().convertToDays(amount))));
+    }
+
+    @Override
+    public OrbitAPI makeCopy()
+    {
+        return new EllipticalOrbit(focus, currentAngle, orbitWidth, orbitHeight, orbitAngle, orbitSpeed * 360f);
+    }
+
+    @Override
+    public Vector2f computeCurrentLocation()
+    {
+        return entity.getLocation();
+    }
+
+    @Override
+    public float getOrbitalPeriod()
+    {
+        return orbitSpeed * 360f;
     }
 }
