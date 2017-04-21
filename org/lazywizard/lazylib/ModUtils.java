@@ -1,7 +1,11 @@
 package org.lazywizard.lazylib;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.ModSpecAPI;
 import org.apache.log4j.Logger;
 
 /**
@@ -58,6 +62,36 @@ public class ModUtils
         }
 
         return false;
+    }
+
+    // TODO: Javadoc, add to changelog
+    static boolean isModEnabled(String modId)
+    {
+        return Global.getSettings().getModManager().isModEnabled(modId);
+    }
+
+    // TODO: Test, Javadoc, add to changelog
+    static List<String> getEnabledModIds()
+    {
+        final List<String> enabledMods = new ArrayList<>();
+        for (ModSpecAPI mod : Global.getSettings().getModManager().getEnabledModsCopy())
+        {
+            enabledMods.add(mod.getId());
+        }
+
+        return enabledMods;
+    }
+
+    // TODO: Test, Javadoc, add to changelog
+    static List<String> getOverrides()
+    {
+        final Set<String> overriddenFiles = new HashSet<>();
+        for (ModSpecAPI mod : Global.getSettings().getModManager().getEnabledModsCopy())
+        {
+            overriddenFiles.addAll(mod.getFullOverrides());
+        }
+
+        return new ArrayList<>(overriddenFiles);
     }
 
     private ModUtils()

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
-import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.campaign.LocationAPI;
 import com.fs.starfarer.api.campaign.RepLevel;
@@ -206,22 +205,20 @@ public class CampaignUtils
      *
      * @param wingOrVariantId The wing or variant ID to create.
      * @param type            Whether to add a fighter wing or a ship.
-     * @param level           The level of experience this ship's crew should be
-     *                        at.
      * @param fleet           The fleet to add this ship to.
      * <p>
      * @return The {@link FleetMemberAPI} of the created ship.
      * <p>
      * @since 2.1
      */
-    public static FleetMemberAPI addShipToFleet(String wingOrVariantId, FleetMemberType type,
-            CargoAPI.CrewXPLevel level, CampaignFleetAPI fleet)
+    public static FleetMemberAPI addShipToFleet(String wingOrVariantId,
+            FleetMemberType type, CampaignFleetAPI fleet)
     {
         FleetMemberAPI ship = Global.getFactory().createFleetMember(
                 type, wingOrVariantId);
         fleet.getFleetData().addFleetMember(ship);
 
-        fleet.getCargo().addCrew(level, (int) ship.getNeededCrew());
+        fleet.getCargo().addCrew((int) ship.getNeededCrew());
         ship.getStatus().repairFully();
         ship.getRepairTracker().setCR(ship.getRepairTracker().getMaxCR());
         ship.setStatUpdateNeeded(true);

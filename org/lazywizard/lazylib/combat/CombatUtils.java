@@ -47,24 +47,24 @@ public class CombatUtils
      */
     public static FleetMemberAPI getFleetMember(ShipAPI ship)
     {
-        CombatFleetManagerAPI fm = Global.getCombatEngine()
+        final CombatFleetManagerAPI fm = Global.getCombatEngine()
                 .getFleetManager(ship.getOriginalOwner());
-        DeployedFleetMemberAPI dfm = fm.getDeployedFleetMemberEvenIfDisabled(ship);
+        final DeployedFleetMemberAPI dfm = fm.getDeployedFleetMemberEvenIfDisabled(ship);
 
-        // Compatibility fix for main menu battles
+        // In almost all cases this method will return here
         if (dfm != null && dfm.getMember() != null)
         {
             return dfm.getMember();
         }
 
         // Directly spawned ships won't have a fleet member assigned
-        String id = ship.getFleetMemberId();
+        final String id = ship.getFleetMemberId();
         if (id == null)
         {
             return null;
         }
 
-        // Not found in fleet manager? Check reserves
+        // Not deployed? Check reserves
         for (FleetMemberAPI member : fm.getReservesCopy())
         {
             if (id.equals(member.getId()))
@@ -335,7 +335,7 @@ public class CombatUtils
 
         // Create the ship, set its stats and spawn it on the combat map
         FleetMemberAPI member = Global.getFactory().createFleetMember(type, variantId);
-        member.getCrewComposition().addRegular(member.getNeededCrew());
+        member.getCrewComposition().addCrew(member.getNeededCrew());
         ShipAPI ship = Global.getCombatEngine().getFleetManager(side)
                 .spawnFleetMember(member, location, facing, 0f);
         ship.setCRAtDeployment(combatReadiness);

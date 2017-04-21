@@ -1,11 +1,11 @@
 {
-    "masterVersionFile":"https://dl.dropboxusercontent.com/u/32722116/Version%20Files/lazylib.version",
+    "masterVersionFile":"https://bitbucket.org/LazyWizard/lazylib/downloads/lazylib.version",
     "modName":"LazyLib",
     "modThreadId":5444,
     "modVersion":
     {
         "major":2,
-        "minor":1,
+        "minor":2,
         "patch":0
     }
 }

@@ -72,7 +72,7 @@ public class MathUtils
 
     /**
      * Returns the distance between two {@link Vector2f}s.
-     *
+     * <p>
      * For comparing distances, it is <i>vastly</i> more efficient to use
      * {@link MathUtils#getDistanceSquared(org.lwjgl.util.vector.Vector2f,
      * org.lwjgl.util.vector.Vector2f)}.
@@ -90,7 +90,7 @@ public class MathUtils
     /**
      * Returns the distance squared between two {@link SectorEntityToken}s,
      * including interaction radii.
-     *
+     * <p>
      * With the addition of collision radius checking, there's no way to avoid
      * calculating the square root.
      * {@link MathUtils#getDistance(SectorEntityToken, SectorEntityToken)}
@@ -130,7 +130,7 @@ public class MathUtils
     /**
      * Returns the distance squared between two {@link CombatEntityAPI}s,
      * including collision radii.
-     *
+     * <p>
      * With the addition of collision radius checking, there's no way to avoid
      * calculating the square root.
      * {@link MathUtils#getDistance(CombatEntityAPI, CombatEntityAPI)} will be
@@ -170,7 +170,7 @@ public class MathUtils
     /**
      * Returns the distance squared between two {@link Vector2f}s (avoids a
      * costly sqrt()).
-     *
+     * <p>
      * When comparing distances, use this function instead of
      * {@link MathUtils#getDistance(Vector2f, Vector2f)}.
      *
@@ -290,6 +290,19 @@ public class MathUtils
     public static boolean isWithinRange(Vector2f loc1, Vector2f loc2, float range)
     {
         return (getDistanceSquared(loc1, loc2) <= (range * range));
+    }
+
+    // TODO: Test, rename, Javadoc, add to changelog
+    static float renormalize(float num, float min, float max,
+            float oldMin, float oldMax)
+    {
+        return ((max - min) / (oldMax - oldMin)) * (num - oldMin) + min;
+    }
+
+    // TODO: Test, rename, Javadoc, add to changelog
+    static float renormalize(float num, float min, float max)
+    {
+        return (max - min) * num + min;
     }
 
     /**
@@ -660,6 +673,16 @@ public class MathUtils
      */
     public static int getRandomNumberInRange(int min, int max)
     {
+        if (min >= max)
+        {
+            if (min == max)
+            {
+                return min;
+            }
+
+            return rng.nextInt((min - max) + 1) + max;
+        }
+
         return rng.nextInt((max - min) + 1) + min;
     }
 
