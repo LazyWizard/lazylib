@@ -1,6 +1,7 @@
 package org.lazywizard.lazylib.campaign;
 
 import com.fs.starfarer.api.Global;
+import org.jetbrains.annotations.Nullable;
 import org.lazywizard.lazylib.StringUtils;
 
 /**
@@ -24,13 +25,13 @@ public class MessageUtils
      * Formats and word-wraps the supplied text, then outputs it as a sector
      * message.
      *
-     * @param preamble      The header for this message, won't be indented.
+     * @param preamble      The header for this message, won't be indented. Can be null.
      * @param message       The main body of text.
      * @param indentMessage Whether to indent each line of the main body.
      * <p>
      * @since 1.0
      */
-    public static void showMessage(String preamble,
+    public static void showMessage(@Nullable String preamble,
             String message, boolean indentMessage)
     {
         if (preamble != null)

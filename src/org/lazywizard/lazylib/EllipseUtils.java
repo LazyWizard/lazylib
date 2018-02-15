@@ -1,6 +1,8 @@
 package org.lazywizard.lazylib;
 
 import java.util.Random;
+
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -32,7 +34,7 @@ public class EllipseUtils
      * <p>
      * @since 1.9
      */
-    public static Vector2f getPointOnEllipse(Vector2f ellipseCenter,
+    public static Vector2f getPointOnEllipse(@Nullable Vector2f ellipseCenter,
             float ellipseWidth, float ellipseHeight, float ellipseAngleOffset, float angle)
     {
         ellipseAngleOffset = (float) Math.toRadians(ellipseAngleOffset);
@@ -69,7 +71,7 @@ public class EllipseUtils
      * @see EllipseUtils#getPointOnEllipse(Vector2f, float, float, float, float)
      * @since 1.9
      */
-    public static Vector2f getRandomPointOnEllipse(Vector2f ellipseCenter,
+    public static Vector2f getRandomPointOnEllipse(@Nullable Vector2f ellipseCenter,
             float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
     {
         return getPointOnEllipse(ellipseCenter, ellipseWidth, ellipseHeight,
@@ -92,7 +94,7 @@ public class EllipseUtils
      * <p>
      * @since 2.0
      */
-    public static Vector2f getRandomPointInEllipse(Vector2f ellipseCenter,
+    public static Vector2f getRandomPointInEllipse(@Nullable Vector2f ellipseCenter,
             float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
     {
         final Random rng = MathUtils.getRandom();
@@ -121,7 +123,7 @@ public class EllipseUtils
      * <p>
      * @since 1.9
      */
-    public static boolean isPointWithinEllipse(Vector2f point, Vector2f ellipseCenter,
+    public static boolean isPointWithinEllipse(Vector2f point, @Nullable Vector2f ellipseCenter,
             float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
     {
         // Move relative to 0, 0 and rotate to match ellipse offset

@@ -8,6 +8,7 @@ import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import org.jetbrains.annotations.Nullable;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 import org.lwjgl.util.vector.Vector2f;
@@ -118,6 +119,7 @@ public class WeaponUtils
      * <p>
      * @since 1.7
      */
+    @Nullable
     public static ShipAPI getNearestAllyInArc(WeaponAPI weapon)
     {
         ShipAPI closest = null;
@@ -196,6 +198,7 @@ public class WeaponUtils
      * <p>
      * @since 1.4
      */
+    @Nullable
     public static ShipAPI getNearestEnemyInArc(WeaponAPI weapon)
     {
         ShipAPI closest = null;
@@ -262,6 +265,7 @@ public class WeaponUtils
      * <p>
      * @since 1.4
      */
+    @Nullable
     public static MissileAPI getNearestEnemyMissileInArc(WeaponAPI weapon)
     {
         MissileAPI closest = null;

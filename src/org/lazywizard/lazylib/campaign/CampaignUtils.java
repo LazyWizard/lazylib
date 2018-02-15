@@ -13,6 +13,7 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.fleet.FleetMemberType;
 import com.fs.starfarer.api.impl.campaign.ids.Tags;
+import org.jetbrains.annotations.Nullable;
 import org.lazywizard.lazylib.MathUtils;
 
 /**
@@ -34,7 +35,7 @@ public class CampaignUtils
      * <p>
      * @since 2.0
      */
-    public static enum IncludeRep
+    public enum IncludeRep
     {
         /**
          * Equivalent to {@code <}.
@@ -231,10 +232,11 @@ public class CampaignUtils
      *
      * @param token The {@link SectorEntityToken} to search around.
      * <p>
-     * @return The hostile {@link CampaignFleetAPI} closest to {@code token}.
+     * @return The hostile {@link CampaignFleetAPI} closest to {@code token}, or {@code null} if none are found.
      * <p>
      * @since 1.2
      */
+    @Nullable
     public static CampaignFleetAPI getNearestHostileFleet(SectorEntityToken token)
     {
         CampaignFleetAPI closest = null;
@@ -337,10 +339,11 @@ public class CampaignUtils
      * @param entityTag The tag we should be searching for; for example:
      *                  {@link Tags#STATION} or {@link Tags#JUMP_POINT}.
      * <p>
-     * @return The object with tag {@code entityTag} closest to {@code token}.
+     * @return The object with tag {@code entityTag} closest to {@code token}, or {@code null} if none are found.
      * <p>
      * @since 2.0
      */
+    @Nullable
     public static <T extends SectorEntityToken> T getNearestEntityWithTag(
             SectorEntityToken token, String entityTag)
     {
@@ -418,10 +421,11 @@ public class CampaignUtils
      * @param faction   The faction ownership we are looking for.
      * <p>
      * @return The object with tag {@code entityTag} closest to {@code token}
-     *         that is owned by {@code faction}.
+     *         that is owned by {@code faction}, or {@code null} if none are found.
      * <p>
      * @since 2.0
      */
+    @Nullable
     public static <T extends SectorEntityToken> T getNearestEntityFromFaction(
             SectorEntityToken token, String entityTag, FactionAPI faction)
     {
@@ -535,11 +539,12 @@ public class CampaignUtils
      * <p>
      * @return The object with tag {@code entityTag} closest to {@code token}
      *         within the reputation range specified by {@code include} and
-     *         {@code rep}.
+     *         {@code rep}, or {@code null} if none are found.
      * <p>
      * @since 2.0
      */
     // TODO: Test this
+    @Nullable
     public static <T extends SectorEntityToken> T getNearestEntityWithRep(
             SectorEntityToken token, String entityTag, IncludeRep include, RepLevel rep)
     {
