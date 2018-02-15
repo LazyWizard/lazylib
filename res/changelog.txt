@@ -1,3 +1,14 @@
+ 3.0 (February XX, 2018)
+=========================
+Bundled the Kotlin runtime library (v1.21) with LazyLib:
+ - Kotlin is an alternate JVM language that is 100% interchangeable with Java
+ - LazyLib is and always shall be written in Java, though Kotlin extension
+   method bindings are provided for ease of use in org.lazywizard.lazylib.ext
+Added @Nullable annotations where appropriate
+Removed from SimpleEntity:
+ - Removed Object constructor (it used reflection, which is now blocked;
+   remaining options are Vector2f, WeaponAPI, and ShipEngineAPI)
+
  2.2 (April 21, 2017)
 =======================
 Updated to be compatible with Starsector 0.8a
