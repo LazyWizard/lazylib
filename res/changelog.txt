@@ -2,9 +2,18 @@
 =========================
 Bundled the Kotlin runtime library (v1.21) with LazyLib:
  - Kotlin is an alternate JVM language that is 100% interchangeable with Java
- - LazyLib is and always shall be written in Java, though Kotlin extension
-   method bindings are provided for ease of use in org.lazywizard.lazylib.ext
+ - "Core" LazyLib is and always shall be written in Java, though some features
+   such as the GUI classes are written in Kotlin, and Kotlin extension method
+   bindings are provided in the org.lazywizard.lazylib.ext package
 Added @Nullable annotations where appropriate
+Added org.lazywizard.lazylib.ui.FontLoader:
+ - load bitmap fonts with loadFont(String path)
+Added org.lazywizard.lazylib.ui.LazyFont:
+ - Represents a bitmap font (the same type Starsector itself uses)
+ - Use drawText() for text that is updated every frame (not recommended!)
+ - Use createText() to create a reusable DrawableString, which can draw a
+   section of text repeatedly and very efficiently
+ - See the Console mod for example usage; more examples will be provided soon
 Removed from SimpleEntity:
  - Removed Object constructor (it used reflection, which is now blocked;
    remaining options are Vector2f, WeaponAPI, and ShipEngineAPI)
