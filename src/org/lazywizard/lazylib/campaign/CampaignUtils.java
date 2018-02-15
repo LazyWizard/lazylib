@@ -350,7 +350,7 @@ public class CampaignUtils
         T closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (Object tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
+        for (SectorEntityToken tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
         {
             T entity = (T) tmp;
 
@@ -391,7 +391,7 @@ public class CampaignUtils
         List<T> entities = new ArrayList<>();
 
         // Find all tokens of the given type within range
-        for (Object tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
+        for (SectorEntityToken tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
         {
             T entity = (T) tmp;
 
@@ -432,7 +432,7 @@ public class CampaignUtils
         T closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (Object tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
+        for (SectorEntityToken tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
         {
             T entity = (T) tmp;
 
@@ -474,7 +474,7 @@ public class CampaignUtils
         List<T> entities = new ArrayList<>();
 
         // Find all tokens of the given type within range
-        for (Object tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
+        for (SectorEntityToken tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
         {
             T entity = (T) tmp;
 
@@ -513,7 +513,7 @@ public class CampaignUtils
         List<T> entities = new ArrayList<>();
 
         // Find all tokens from the given faction
-        for (Object tmp : location.getEntitiesWithTag(entityTag))
+        for (SectorEntityToken tmp : location.getEntitiesWithTag(entityTag))
         {
             T entity = (T) tmp;
 
@@ -551,7 +551,7 @@ public class CampaignUtils
         T closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (Object tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
+        for (SectorEntityToken tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
         {
             T entity = (T) tmp;
 
@@ -602,7 +602,7 @@ public class CampaignUtils
                 || (include == IncludeRep.AT_OR_LOWER
                 && rep.ordinal() == (RepLevel.values().length - 1)))
         {
-            for (Object tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
+            for (SectorEntityToken tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
             {
                 if (tmp == token)
                 {
@@ -619,7 +619,7 @@ public class CampaignUtils
         }
 
         // Find all tokens of the given type within reputation range
-        for (Object tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
+        for (SectorEntityToken tmp : token.getContainingLocation().getEntitiesWithTag(entityTag))
         {
             if (tmp == token)
             {
