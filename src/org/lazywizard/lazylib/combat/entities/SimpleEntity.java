@@ -1,14 +1,9 @@
 package org.lazywizard.lazylib.combat.entities;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.ShipEngineControllerAPI.ShipEngineAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import org.apache.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -22,9 +17,6 @@ import org.lwjgl.util.vector.Vector2f;
  */
 public class SimpleEntity extends EntityBase
 {
-    private static final Logger Log = Global.getLogger(SimpleEntity.class);
-    // Cache for all reflection-based variants (reduces overhead on creation)
-    private static final Map<Class, Method> methodCache = new HashMap<>();
     protected SimpleEntityType type;
     // Variables for Vector2f-based variant
     protected Vector2f location = null;
@@ -32,24 +24,15 @@ public class SimpleEntity extends EntityBase
     protected WeaponAPI weapon = null;
     // Variables for ShipEngineAPI-based variant
     protected ShipEngineAPI engine = null;
-    // Variables for reflection-based variant
-    protected Object toFollow = null;
-    protected Method getLocation = null;
 
     /**
      * @since 1.7
      */
-    public static enum SimpleEntityType
+    public enum SimpleEntityType
     {
         VECTOR,
         WEAPON,
-        ENGINE,
-        REFLECTION
-    }
-
-    private SimpleEntity()
-    {
-        type = null;
+        ENGINE
     }
 
     /**
@@ -58,7 +41,7 @@ public class SimpleEntity extends EntityBase
      * and costs virtually nothing.
      *
      * @param location The {@link Vector2f} that getLocation() should return.
-     * <p>
+     *                 <p>
      * @since 1.4
      */
     public SimpleEntity(Vector2f location)
@@ -71,9 +54,10 @@ public class SimpleEntity extends EntityBase
      * Creates a {@code CombatEntityAPI} that mimics the location of a
      * {@link com.fs.starfarer.api.combat.WeaponAPI}.
      * <p>
+     *
      * @param weapon The {@link WeaponAPI} whose location getLocation() should
      *               return.
-     * <p>
+     *               <p>
      * @since 1.7
      */
     public SimpleEntity(WeaponAPI weapon)
@@ -86,9 +70,10 @@ public class SimpleEntity extends EntityBase
      * Creates a {@code CombatEntityAPI} that mimics the location of a
      * {@link com.fs.starfarer.api.combat.ShipEngineControllerAPI.ShipEngineAPI}.
      * <p>
+     *
      * @param engine The {@link ShipEngineAPI} whose location getLocation()
      *               should return.
-     * <p>
+     *               <p>
      * @since 1.9b
      */
     public SimpleEntity(ShipEngineAPI engine)
@@ -98,64 +83,12 @@ public class SimpleEntity extends EntityBase
     }
 
     /**
-     * Creates a {@code CombatEntityAPI} that mimics the location of another
-     * object that contains a getLocation() method.
-     *
-     * @param toFollow The {@link Object} to mimic the location of. This object
-     *                 MUST have the method getLocation(), which MUST return a
-     *                 {@link Vector2f}!
-     * <p>
-     * @since 1.4
-     */
-    public SimpleEntity(Object toFollow)
-    {
-        this.toFollow = toFollow;
-        Class tmp = toFollow.getClass();
-        type = SimpleEntityType.REFLECTION;
-
-        // Check if the method has already been found for this object type
-        if (methodCache.containsKey(tmp))
-        {
-            getLocation = methodCache.get(tmp);
-        }
-        // If not, we've got some reflection-heavy work ahead of us!
-        else
-        {
-            // Check if this object has a getLocation() method
-            try
-            {
-                getLocation = toFollow.getClass().getMethod("getLocation",
-                        (Class<?>[]) null);
-
-                // Check if getLocation() returns a Vector2f
-                if (getLocation.getReturnType() != Vector2f.class)
-                {
-                    throw new RuntimeException("Class "
-                            + toFollow.getClass().getSimpleName()
-                            + "'s getLocation() does not return a Vector2f!");
-                }
-            }
-            catch (NoSuchMethodException ex)
-            {
-                throw new RuntimeException("Class "
-                        + toFollow.getClass().getSimpleName()
-                        + " does not implement getLocation()!");
-            }
-
-            // Cache this method so we only have to do the lookup once a session
-            methodCache.put(tmp, getLocation);
-            Log.debug(                    "SimpleEntity cached: "                    + tmp.getCanonicalName() + " | "
-                    + getLocation.toGenericString() + ".");
-        }
-    }
-
-    /**
      * Returns the location this {@link SimpleEntity} is mimicking.
      *
      * @return The {@link Vector2f} passed in at creation or the result of
-     *         getLocation() on the followed {@link Object}, depending on which
-     *         constructor was used. Can return {@code null} if the object it
-     *         is following is no longer on the battle map.
+     * getLocation() on the followed {@link Object}, depending on which
+     * constructor was used. Can return {@code null} if the object it
+     * is following is no longer on the battle map.
      * <p>
      * @since 1.4
      */
@@ -179,20 +112,11 @@ public class SimpleEntity extends EntityBase
             {
                 return engine.getLocation();
             }
-            // Reflection-based constructor (any other Object passed in)
-            case REFLECTION:
-            {
-                try
-                {
-                    return (Vector2f) getLocation.invoke(toFollow);
-                }
-                catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
-                {
-                    throw new RuntimeException(ex);
-                }
-            }
+            // Should be impossible
             default:
-                return null;
+            {
+                throw new NullPointerException("No location bound!");
+            }
         }
     }
 
@@ -200,10 +124,11 @@ public class SimpleEntity extends EntityBase
      * Returns the {@link WeaponAPI} this entity is attached to, if any.
      *
      * @return The {@link WeaponAPI} passed into the constructor, or
-     *         {@code null} if another constructor was used.
+     * {@code null} if another constructor was used.
      * <p>
      * @since 1.7
      */
+    @Nullable
     public WeaponAPI getWeapon()
     {
         return weapon;
@@ -213,10 +138,11 @@ public class SimpleEntity extends EntityBase
      * Returns the {@link ShipEngineAPI} this entity is attached to, if any.
      *
      * @return The {@link ShipEngineAPI} passed into the constructor, or
-     *         {@code null} if another constructor was used.
+     * {@code null} if another constructor was used.
      * <p>
      * @since 1.9b
      */
+    @Nullable
     public ShipEngineAPI getEngine()
     {
         return engine;
