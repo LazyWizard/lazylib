@@ -80,6 +80,7 @@ public class CollectionUtils
      *
      * @since 2.1
      */
+    @SafeVarargs
     public static <T> List<T> combinedList(Collection<T>... toCombine)
     {
         int size = 0;
@@ -108,6 +109,7 @@ public class CollectionUtils
      *
      * @since 2.1
      */
+    @SafeVarargs
     public static <T> Set<T> combinedSet(Collection<T>... toCombine)
     {
         int size = 0;
