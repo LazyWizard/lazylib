@@ -16,6 +16,7 @@ import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.fleet.FleetMemberType;
 import com.fs.starfarer.api.mission.FleetSide;
 import org.apache.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -45,6 +46,7 @@ public class CombatUtils
      * <p>
      * @since 1.5
      */
+    @Nullable
     public static FleetMemberAPI getFleetMember(ShipAPI ship)
     {
         final CombatFleetManagerAPI fm = Global.getCombatEngine()

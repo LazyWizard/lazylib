@@ -6,6 +6,7 @@ import java.util.List;
 import com.fs.starfarer.api.combat.BoundsAPI;
 import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -28,6 +29,7 @@ public class CollisionUtils
      * <p>
      * @since 1.0
      */
+    @Nullable
     public static Vector2f getCollisionPoint(Vector2f lineStart,
             Vector2f lineEnd, CombatEntityAPI target)
     {
@@ -86,6 +88,7 @@ public class CollisionUtils
      * <p>
      * @since 1.0
      */
+    @Nullable
     public static Vector2f getCollisionPoint(Vector2f start1, Vector2f end1,
             Vector2f start2, Vector2f end2)
     {

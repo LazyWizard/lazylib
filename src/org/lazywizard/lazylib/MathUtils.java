@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -378,7 +379,7 @@ public class MathUtils
      * <p>
      * @since 1.0
      */
-    public static Vector2f getPointOnCircumference(Vector2f center, float radius, float angle)
+    public static Vector2f getPointOnCircumference(@Nullable Vector2f center, float radius, float angle)
     {
         if (radius == 0f)
         {
@@ -428,7 +429,7 @@ public class MathUtils
      * @see MathUtils#getPointOnCircumference(Vector2f, float, float)
      * @since 1.0
      */
-    public static Vector2f getRandomPointOnCircumference(Vector2f center, float radius)
+    public static Vector2f getRandomPointOnCircumference(@Nullable Vector2f center, float radius)
     {
         return getPointOnCircumference(center, radius, rng.nextFloat() * 360f);
     }
@@ -444,7 +445,7 @@ public class MathUtils
      * <p>
      * @since 1.0
      */
-    public static Vector2f getRandomPointInCircle(Vector2f center, float radius)
+    public static Vector2f getRandomPointInCircle(@Nullable Vector2f center, float radius)
     {
         final double t = 2 * Math.PI * rng.nextDouble(),
                 u = rng.nextDouble() + rng.nextDouble(),
@@ -470,7 +471,7 @@ public class MathUtils
      * <p>
      * @since 1.7
      */
-    public static Vector2f getRandomPointInCone(Vector2f center, float radius,
+    public static Vector2f getRandomPointInCone(@Nullable Vector2f center, float radius,
             float minAngle, float maxAngle)
     {
         final double t = Math.toRadians(MathUtils.getRandomNumberInRange(minAngle, maxAngle)),
@@ -515,7 +516,7 @@ public class MathUtils
      * <p>
      * @since 1.0
      */
-    public static List<Vector2f> getPointsAlongCircumference(Vector2f center,
+    public static List<Vector2f> getPointsAlongCircumference(@Nullable Vector2f center,
             float radius, int numPoints, float angleOffset)
     {
         angleOffset = (float) Math.toRadians(angleOffset);
@@ -562,7 +563,7 @@ public class MathUtils
      * <p>
      * @since 1.0
      */
-    public static boolean isPointWithinCircle(Vector2f point, Vector2f center, float radius)
+    public static boolean isPointWithinCircle(@Nullable Vector2f point, Vector2f center, float radius)
     {
         final float a = point.x - (center == null ? 0f : center.x),
                 b = point.y - (center == null ? 0f : center.y);
@@ -607,7 +608,7 @@ public class MathUtils
      * <p>
      * @since 1.4
      */
-    public static List<Vector2f> getEquidistantPointsInsideCircle(Vector2f center,
+    public static List<Vector2f> getEquidistantPointsInsideCircle(@Nullable Vector2f center,
             float radius, float spaceBetweenPoints)
     {
         // Avoid infinite loops

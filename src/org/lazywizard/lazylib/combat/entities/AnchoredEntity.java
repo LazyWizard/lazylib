@@ -6,8 +6,8 @@ import org.lazywizard.lazylib.VectorUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
- * An implementation of {@code CombatEntityAPI} that follows and rotates
- * with another anchoring {@code CombatEntityAPI}.
+ * An implementation of {@link CombatEntityAPI} that follows and rotates
+ * with another anchoring {@link CombatEntityAPI}.
  *
  * @author LazyWizard
  * @since 1.5

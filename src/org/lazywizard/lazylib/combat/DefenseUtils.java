@@ -3,6 +3,7 @@ package org.lazywizard.lazylib.combat;
 import com.fs.starfarer.api.combat.ArmorGridAPI;
 import com.fs.starfarer.api.combat.ShieldAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
+import org.jetbrains.annotations.Nullable;
 import org.lazywizard.lazylib.CollisionUtils;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.vector.Vector2f;
@@ -196,6 +197,7 @@ public class DefenseUtils
      * <p>
      * @since 2.0
      */
+    @Nullable
     public static Point getMostDamagedArmorCell(ShipAPI ship)
     {
         final float[][] grid = ship.getArmorGrid().getGrid();

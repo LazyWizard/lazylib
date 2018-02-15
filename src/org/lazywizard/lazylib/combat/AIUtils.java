@@ -10,6 +10,7 @@ import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.ShipwideAIFlags.AIFlags;
+import org.jetbrains.annotations.Nullable;
 import org.lazywizard.lazylib.LazyLib;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
@@ -29,10 +30,12 @@ public class AIUtils
      *
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
-     * @return The {@link BattleObjectiveAPI} closest to {@code entity}.
+     * @return The {@link BattleObjectiveAPI} closest to {@code entity}, or {@code
+     * null} if none are found.
      * <p>
      * @since 1.0
      */
+    @Nullable
     public static BattleObjectiveAPI getNearestObjective(CombatEntityAPI entity)
     {
         BattleObjectiveAPI closest = null;
@@ -59,10 +62,11 @@ public class AIUtils
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
      * @return The enemy closest to {@code entity} who can be seen within the
-     *         fog of war.
+     *         fog of war, or {@code null} if none are found.
      * <p>
      * @since 1.0
      */
+    @Nullable
     public static ShipAPI getNearestEnemy(CombatEntityAPI entity)
     {
         ShipAPI closest = null;
@@ -86,10 +90,11 @@ public class AIUtils
      *
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
-     * @return The ally closest to {@code entity}.
+     * @return The ally closest to {@code entity}, or {@code null} if none are found.
      * <p>
      * @since 1.0
      */
+    @Nullable
     public static ShipAPI getNearestAlly(CombatEntityAPI entity)
     {
         ShipAPI closest = null;
@@ -120,10 +125,11 @@ public class AIUtils
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
      * @return The ship closest to {@code entity} that can be seen within the
-     *         fog of war.
+     *         fog of war, or {@code null} if none are found.
      * <p>
      * @since 1.0
      */
+    @Nullable
     public static ShipAPI getNearestShip(CombatEntityAPI entity)
     {
         ShipAPI closest = null;
@@ -158,10 +164,11 @@ public class AIUtils
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
      * @return The {@link MissileAPI} closest to {@code entity} that can be seen
-     *         within the fog of war.
+     *         within the fog of war, or {@code null} if none are found.
      * <p>
      * @since 1.4
      */
+    @Nullable
     public static MissileAPI getNearestMissile(CombatEntityAPI entity)
     {
         MissileAPI closest = null;
@@ -306,10 +313,11 @@ public class AIUtils
      * @param entity The {@link CombatEntityAPI} to search around.
      * <p>
      * @return The enemy {@link MissileAPI} closest to {@code entity} that can
-     *         be seen within the fog of war.
+     *         be seen within the fog of war, or {@code null} if none are found.
      * <p>
      * @since 1.4
      */
+    @Nullable
     public static MissileAPI getNearestEnemyMissile(CombatEntityAPI entity)
     {
         MissileAPI closest = null;
@@ -409,6 +417,7 @@ public class AIUtils
      * @author Dark.Revenant (original by broofa @ stackoverflow.com)
      * @since 1.9
      */
+    @Nullable
     public static Vector2f getBestInterceptPoint(Vector2f point, float speed,
             Vector2f targetLoc, Vector2f targetVel)
     {
@@ -468,6 +477,7 @@ public class AIUtils
     }
 
     // TODO: Test, Javadoc, add to changelog
+    @Nullable
     static ShipAPI getTarget(ShipAPI ship)
     {
         // Check for combat target first
