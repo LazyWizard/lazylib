@@ -418,6 +418,25 @@ public class MathUtils
     }
 
     /**
+     * Returns a point along the circumference of a circle at the given angle. Provided as an alias for
+     * {@link MathUtils#getPointOnCircumference(Vector2f, float, float)}.
+     *
+     * @param center The center point of the circle (can be null for a 0, 0 origin).
+     * @param radius The radius of the circle.
+     * @param angle  The angle, in degrees, to get the point at.
+     *               <p>
+     * @return A {@link Vector2f} at [@code angle} degrees along the
+     * circumference of the given circle.
+     * <p>
+     * @see {@link MathUtils#getPointOnCircumference(Vector2f, float, float)}
+     * @since 2.0
+     */
+    public static Vector2f getPoint(@Nullable Vector2f center, float radius, float angle)
+    {
+        return getPointOnCircumference(center, radius, angle);
+    }
+
+    /**
      * Returns a random point along the circumference of a circle.
      *
      * @param center The center point of the circle (can be null for a 0, 0
