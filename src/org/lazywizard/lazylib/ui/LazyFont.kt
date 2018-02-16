@@ -143,6 +143,7 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
         return ch ?: getChar('?')
     }
 
+    // TODO: break string up after last whitespace character, not last fitting letter
     private fun drawText(text: String?, x: Float, y: Float, size: Float,
                          maxWidth: Float, maxHeight: Float, color: Color): Vector2f {
         if (text == null || text.isEmpty()) {
