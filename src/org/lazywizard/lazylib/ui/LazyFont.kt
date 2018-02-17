@@ -23,7 +23,7 @@ private val Log: Logger = Logger.getLogger(LazyFont::class.java)
 @Throws(FontException::class)
 fun loadFont(fontPath: String): LazyFont {
     // Load the font file contents for later parsing
-    var header: String = ""
+    var header = ""
     val charLines = ArrayList<String>()
     val kernLines = ArrayList<String>()
     try {
@@ -143,8 +143,11 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
         return ch ?: getChar('?')
     }
 
+    /**
+     * @see [createText] for efficiently drawing the same block of text multiple times
+     */
     // TODO: break string up after last whitespace character, not last fitting letter
-    private fun drawText(text: String?, x: Float, y: Float, size: Float,
+    fun drawText(text: String?, x: Float, y: Float, size: Float,
                          maxWidth: Float, maxHeight: Float, color: Color): Vector2f {
         if (text == null || text.isEmpty()) {
             return Vector2f(0f, 0f)
@@ -195,6 +198,7 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
                 sizeX = Math.max(sizeX, xOffset)
                 xOffset = -kerning
                 // TODO: Don't overwrite if set
+                // Thanks, past me. Couldn't give a more useful description of what the problem is?
                 //lastChar = null
             }
 

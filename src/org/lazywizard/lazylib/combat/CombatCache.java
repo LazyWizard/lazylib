@@ -30,7 +30,7 @@ class CombatCache
     {
         if (!visCache.containsKey(side))
         {
-            return Collections.<ShipAPI>emptyList();
+            return Collections.emptyList();
         }
 
         int numShips = Global.getCombatEngine().getShips().size();

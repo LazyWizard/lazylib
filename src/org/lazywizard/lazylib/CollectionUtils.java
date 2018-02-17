@@ -197,7 +197,7 @@ public class CollectionUtils
      * <p>
      * @since 1.7
      */
-    public static interface CollectionFilter<T>
+    public interface CollectionFilter<T>
     {
         /**
          * Checks if an object should be allowed past this filter.
@@ -209,7 +209,7 @@ public class CollectionUtils
          * <p>
          * @since 1.7
          */
-        public boolean accept(T t);
+        boolean accept(T t);
     }
 
     /**

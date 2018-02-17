@@ -22,7 +22,7 @@ public class JSONUtils
      * <p>
      * @return A {@link Color} using {@code array}'s color values.
      * <p>
-     * @throws JSONException
+     * @throws JSONException if {@code array} doesn't contain three or more {@code ints}
      * @since 1.8
      */
     public static Color toColor(JSONArray array) throws JSONException

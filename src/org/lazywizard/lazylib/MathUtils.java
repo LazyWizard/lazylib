@@ -428,7 +428,7 @@ public class MathUtils
      * @return A {@link Vector2f} at [@code angle} degrees along the
      * circumference of the given circle.
      * <p>
-     * @see {@link MathUtils#getPointOnCircumference(Vector2f, float, float)}
+     * @see MathUtils#getPointOnCircumference(Vector2f, float, float)
      * @since 2.0
      */
     public static Vector2f getPoint(@Nullable Vector2f center, float radius, float angle)
@@ -582,7 +582,7 @@ public class MathUtils
      * <p>
      * @since 1.0
      */
-    public static boolean isPointWithinCircle(@Nullable Vector2f point, Vector2f center, float radius)
+    public static boolean isPointWithinCircle(Vector2f point, @Nullable Vector2f center, float radius)
     {
         final float a = point.x - (center == null ? 0f : center.x),
                 b = point.y - (center == null ? 0f : center.y);
