@@ -25,6 +25,7 @@ import org.lazywizard.lazylib.MathUtils;
  * @since 2.0
  */
 // TODO: TEST THIS!
+@SuppressWarnings("unchecked")
 public class CampaignUtils
 {
     /**
@@ -609,7 +610,7 @@ public class CampaignUtils
                     continue;
                 }
 
-                if (!areSameFaction((T) tmp, token))
+                if (!areSameFaction(tmp, token))
                 {
                     entities.add((T) tmp);
                 }

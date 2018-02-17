@@ -59,23 +59,21 @@ public class WeaponUtils
                 weapon.getCurrAngle() + arc);
         float radSquared = entity.getCollisionRadius() * entity.getCollisionRadius();
 
-        boolean partiallyInArc = (Line2D
-                .ptSegDistSq(
-                        wep.x,
-                        wep.y,
-                        endArcLeft.x,
-                        endArcLeft.y,
-                        target.x,
-                        target.y) <= radSquared)
-                || (Line2D
-                .ptSegDistSq(
-                        wep.x,
-                        wep.y,
-                        endArcRight.x,
-                        endArcRight.y,
-                        target.x,
-                        target.y) <= radSquared);
-        return partiallyInArc;
+        // Check if target is partially in weapon arc
+        return (Line2D.ptSegDistSq(
+                wep.x,
+                wep.y,
+                endArcLeft.x,
+                endArcLeft.y,
+                target.x,
+                target.y) <= radSquared)
+                || (Line2D.ptSegDistSq(
+                wep.x,
+                wep.y,
+                endArcRight.x,
+                endArcRight.y,
+                target.x,
+                target.y) <= radSquared);
     }
 
     /**

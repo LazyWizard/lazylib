@@ -207,6 +207,7 @@ public class CollisionUtils
      * <p>
      * @since 1.0
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isPointWithinBounds(Vector2f point, CombatEntityAPI entity)
     {
         // If the entity lacks bounds, use the collision circle instead

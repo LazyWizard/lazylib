@@ -137,8 +137,8 @@ public class StringUtils
     public static String indent(String toIndent, String indentWith)
     {
         String[] lines = toIndent.split("\n", -1);
-        StringBuilder output = new StringBuilder((int) (toIndent.length()
-                + (indentWith.length() * lines.length)));
+        StringBuilder output = new StringBuilder(toIndent.length()
+                + (indentWith.length() * lines.length));
         for (int x = 0; x < lines.length; x++)
         {
             output.append(indentWith).append(lines[x]);
