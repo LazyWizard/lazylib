@@ -1,7 +1,7 @@
 # LazyLib #
 LazyLib is not a regular mod. It doesn't add any ships, weapons or factions. In fact, it doesn't change anything at all in your game! All it does is make writing code for mods easier. It contains methods to deal with otherwise complicated tasks like collision detection and formatted sector messages, among many other things.
 
-Some mods may require LazyLib to run. If you are ever running a mod and get an error along the lines of 'Imported class "org.lazywizard.lazylib.<whatever>" could not be loaded', then this mod is required. Just make sure you have the latest version installed and that it is tagged in the launcher and everything should work. Smiley
+Some mods may require LazyLib to run. If you are ever running a mod and get an error along the lines of 'Imported class "org.lazywizard.lazylib.<whatever>" could not be loaded', then this mod is required. Just make sure you have the latest version installed and that it is tagged in the launcher and everything should work.
 
 
 ### Installation ###
@@ -21,8 +21,7 @@ As a utility mod there is only one copy of the jar shared between all mods, and 
 
 
 ### A note to modders ###
-Since this is a utility mod, all you need to do is let your users know they need this mod downloaded and tagged in the launcher. Starsector will do the rest. Smiley
-For modders who use an IDE, you will want to add mods/LazyLib/jars/LazyLib.jar as a library in your project (the same as you did for starfarer.api.jar).
+Since this is a utility mod, all you need to do is let your users know they need this mod downloaded and tagged in the launcher. Starsector will do the rest. For modders who use an IDE, you will want to add mods/LazyLib/jars/LazyLib.jar as a library in your project (the same as you did for starfarer.api.jar).
 
 If your mod used the old, bundled version of this library, you should remove LazyLib.jar from your mod folder and mod_info.json, as well as delete data/scripts/plugins/LazyLibPlugin.java if you have it.
 

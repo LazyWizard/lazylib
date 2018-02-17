@@ -11,6 +11,7 @@ import java.awt.Color
 import java.io.IOException
 import java.util.*
 
+// These are used for validating read data
 private const val METADATA_LENGTH = 51
 private const val CHARDATA_LENGTH = 21
 private const val KERNDATA_LENGTH = 7
@@ -138,68 +139,166 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
     }
 
 
+    // This assumes that the font will always have a question mark character defined
     fun getChar(character: Char): LazyChar {
         val ch: LazyChar? = if (character.toInt() in 32..255) lookupTable[character.toInt() - 32] else extendedChars[character]
+        if (ch != null) return ch
+
+        System.out.println("Error: couldn't find char '$character'")
         return ch ?: getChar('?')
     }
 
+    private fun buildUntilLimit(rawLine: String, fontSize: Float, maxWidth: Float): String {
+        if (rawLine.isBlank() || maxWidth <= 0f) return ""
+
+        val scaleFactor = fontSize / baseHeight
+        var lastChar: LazyChar? = null
+        var curChar = 0
+        var curWidth = 0f
+        for (tmp in rawLine.toCharArray()) {
+            val ch = getChar(tmp)
+            val kerning = if (lastChar != null) ch.getKerning(lastChar.id).toFloat() else 0f
+            val width = (kerning + ch.advance) * scaleFactor
+
+            if (curWidth + width > maxWidth) {
+                return rawLine.take(curChar)
+            }
+
+            curWidth += width
+            curChar++
+            lastChar = ch
+        }
+
+        // Entire line fits
+        return rawLine
+    }
+
+    @JvmOverloads
+    fun wrapString(toWrap: String, fontSize: Float, maxWidth: Float, maxHeight: Float = Float.MAX_VALUE): String {
+        val maxLines = (maxHeight / fontSize).toInt()
+        val wrappedString = StringBuilder((toWrap.length * 1.1).toInt())
+        var numLines = 0
+        val split = toWrap.split('\n')
+        outer@
+        for (rawLine in split) {
+            // Can't write to loop parameters in Kotlin, so we need to do this in a separate loop
+            var line = rawLine
+
+            if (line.isBlank()) {
+                wrappedString.append('\n')
+                numLines++
+                continue@outer
+            }
+
+            inner@
+            while (!line.isBlank()) {
+                // We've reached our limit
+                if (numLines >= maxLines) break
+
+                // Calculate the longest substring that will fit maxWidth
+                val tmp = buildUntilLimit(line, fontSize, maxWidth)
+
+                // Entire line fits within maxWidth
+                if (tmp.length == line.length) {
+                    wrappedString.append(tmp).append('\n')
+                    numLines++
+                    break@inner
+                }
+                // String needs to be broken up - here's where things get complicated
+                else {
+                    // If there's whitespace, break at the last occurrence
+                    val lastSpace = tmp.lastIndexOf(' ')
+                    if (lastSpace != -1) {
+                        wrappedString.append(line.take(lastSpace)).append('\n')
+                        line = if (line.length > lastSpace) line.substring(lastSpace + 1) else ""
+                        numLines++
+                    } else
+                    // No whitespace means we need to break up the word with a dash
+                    {
+                        // TODO: Write this properly!
+                        wrappedString.append(line).append('\n')
+                        numLines++
+                        break@inner
+                    }
+                }
+            }
+        }
+
+        // Don't end with a newline if the source string didn't
+        //if (!toWrap.endsWith('\n'))
+        wrappedString.deleteCharAt(wrappedString.length - 1)
+
+        return wrappedString.toString()
+    }
+
     /**
+     * Renders a block of text. Not recommended for general usage - use [createText] instead.
+     * @return A [Vector2f] containing the width and height of the drawn text area.
      * @see [createText] for efficiently drawing the same block of text multiple times
      */
-    // TODO: break string up after last whitespace character, not last fitting letter
-    fun drawText(text: String?, x: Float, y: Float, size: Float,
-                         maxWidth: Float, maxHeight: Float, color: Color): Vector2f {
-        if (text == null || text.isEmpty()) {
+    fun drawText(text: String?, x: Float, y: Float, fontSize: Float,
+                 maxWidth: Float, maxHeight: Float, color: Color): Vector2f {
+        if (text == null || text.isBlank() || maxHeight < fontSize) {
             return Vector2f(0f, 0f)
         }
+
+        var lastChar: LazyChar? = null // For kerning purposes
+        val scaleFactor = fontSize / baseHeight
+        var xOffset = 0f
+        var yOffset = 0f
+        var sizeX = 0f
+        var sizeY = fontSize
+        val toDraw = wrapString(text, fontSize, maxWidth, maxHeight)
 
         glColor(color)
         glBindTexture(GL_TEXTURE_2D, textureId)
         glEnable(GL_TEXTURE_2D)
         glPushMatrix()
-        glTranslatef(x, y, 0f)
+        glTranslatef(x + 0.01f, y + 0.01f, 0f)
         glBegin(GL_QUADS)
 
-        var lastChar: LazyChar? = null
-        val scaleFactor = size / baseHeight
-        var xOffset = 0f
-        var yOffset = 0f
-        var sizeX = 0f
-        var sizeY = size
-
         // TODO: Colored substring support
-        for (tmp in text.toCharArray()) {
+        outer@
+        for (tmp in toDraw.toCharArray()) {
+            // Ignore tabs and carriage returns
+            if (tmp.isWhitespace() && tmp != '\n' && tmp != ' ')
+                continue
+
             if (tmp == '\n') {
-                if (-yOffset + size > maxHeight) {
-                    break
+                if (-yOffset + fontSize > maxHeight) {
+                    break@outer
                 }
 
-                yOffset -= size
-                sizeY += size
+                yOffset -= fontSize
+                sizeY += fontSize
                 sizeX = Math.max(sizeX, xOffset)
                 xOffset = 0f
                 lastChar = null
-                continue
+                continue@outer
             }
 
             val ch = getChar(tmp)
-            val kerning = ch.getKerning(lastChar) * scaleFactor
+            val kerning = if (lastChar != null) ch.getKerning(lastChar.id) * scaleFactor else 0f
             val advance = kerning + ch.advance * scaleFactor
             val chWidth = ch.width * scaleFactor
             val chHeight = ch.height * scaleFactor
 
+            // TODO: Automatically break strings at previous whitespace, if any
             if (xOffset + advance > maxWidth) {
-                if (-yOffset + size > maxHeight) {
+                // Check if we're about to exceed the max textbox height
+                if (-yOffset + fontSize > maxHeight) {
+                    glEnd()
+                    glPopMatrix()
+                    glDisable(GL_TEXTURE_2D)
+
+                    sizeX = Math.max(sizeX, xOffset)
                     return Vector2f(sizeX, sizeY)
                 }
 
-                yOffset -= size
-                sizeY += size
+                yOffset -= fontSize
+                sizeY += fontSize
                 sizeX = Math.max(sizeX, xOffset)
-                xOffset = -kerning
-                // TODO: Don't overwrite if set
-                // Thanks, past me. Couldn't give a more useful description of what the problem is?
-                //lastChar = null
+                xOffset = -kerning // Not a mistake - negates localX kerning adjustment below
             }
 
             val localX = xOffset + kerning + ch.xOffset * scaleFactor
@@ -223,6 +322,31 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
         glDisable(GL_TEXTURE_2D)
 
         sizeX = Math.max(sizeX, xOffset)
+
+        // TODO: REMOVE DEBUG CODE WHEN FINALIZED
+        glColor(Color.WHITE)
+        glLineWidth(1f)
+        glBegin(GL_LINE_LOOP)
+        glVertex2f(x - 1f, y + 1f)
+        glVertex2f(x - 1f, y - sizeY - 1f)
+        glVertex2f(x + sizeX + 1f, y - sizeY - 1f)
+        glVertex2f(x + sizeX + 1f, y + 1f)
+        glEnd()
+
+        glColor(Color.YELLOW)
+        glBegin(GL_LINES)
+        glVertex2f(x - 6f, y + 1f)
+        glVertex2f(x + 3f, y + 1f)
+        glVertex2f(x - 1f, y - 4f)
+        glVertex2f(x - 1f, y + 6f)
+        glColor(Color.RED)
+        glVertex2f(x + sizeX - 4f, y - sizeY - 1f)
+        glVertex2f(x + sizeX + 6f, y - sizeY - 1f)
+        glVertex2f(x + sizeX + 1f, y - sizeY - 6f)
+        glVertex2f(x + sizeX + 1f, y - sizeY + 4f)
+        glEnd()
+        // END DEBUG CODE
+
         return Vector2f(sizeX, sizeY)
     }
 
@@ -232,7 +356,7 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
 
     inner class LazyChar(val id: Int, tx: Int, ty: Int, val width: Int, val height: Int,
                          val xOffset: Int, val yOffset: Int, val advance: Int) {
-        val kernings = HashMap<Int, Int>()
+        val kernings: MutableMap<Int, Int> = HashMap()
         // Internal texture coordinates
         val tx1: Float = tx / textureWidth
         val tx2: Float = tx1 + (width / textureWidth)
@@ -243,11 +367,8 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
             kernings[otherChar] = kerning
         }
 
-        fun getKerning(otherChar: LazyChar?): Int {
-            if (otherChar == null)
-                return 0
-
-            return kernings.getOrElse(otherChar.id, { 0 })
+        fun getKerning(otherChar: Int): Int {
+            return kernings.getOrElse(otherChar, { 0 })
         }
     }
 
@@ -324,7 +445,8 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
             disposed = true
         }
 
-        fun finalize() {
+        @Suppress("ProtectedInFinal")
+        protected fun finalize() {
             if (!disposed) {
                 Log.warn("DrawableString was not disposed of properly!")
                 releaseResources()
