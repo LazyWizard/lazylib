@@ -27,6 +27,6 @@ fun <T: SectorEntityToken> LocationAPI.getEntitiesFromFaction(entityTag: String,
 
 fun <T: SectorEntityToken> SectorEntityToken.getNearestEntityWithRep(entityTag: String, include: IncludeRep, rep: RepLevel): T? = CampaignUtils.getNearestEntityWithRep(this, entityTag, include, rep)
 fun <T: SectorEntityToken> SectorEntityToken.getNearbyEntitiesWithRep(range: Float, entityTag: String, include: IncludeRep, rep: RepLevel): List<T> = CampaignUtils.getNearbyEntitiesWithRep(this, range, entityTag, include, rep)
-//TODO: getEntitiesWithRep
+fun <T: SectorEntityToken> SectorEntityToken.getEntitiesWithRep(entityTag: String, include: IncludeRep, rep: RepLevel): List<T> = CampaignUtils.getEntitiesWithRep(this, entityTag, include, rep)
 
 fun SectorEntityToken.getNearbyFleets(range: Float): List<CampaignFleetAPI> = CampaignUtils.getNearbyFleets(this, range)

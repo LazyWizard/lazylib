@@ -663,7 +663,7 @@ public class CampaignUtils
      * @since 2.0
      */
     // TODO: Test this!
-    private static <T extends SectorEntityToken> List<T> getEntitiesWithRep(
+    public static <T extends SectorEntityToken> List<T> getEntitiesWithRep(
             SectorEntityToken token, String entityTag, IncludeRep include, RepLevel rep)
     {
         // TODO: Properly implement this later if needed
