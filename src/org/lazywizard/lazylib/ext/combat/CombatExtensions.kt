@@ -2,9 +2,15 @@ package org.lazywizard.lazylib.ext.combat
 
 import com.fs.starfarer.api.combat.*
 import com.fs.starfarer.api.fleet.FleetMemberAPI
+import org.lazywizard.lazylib.CollisionUtils
+import org.lazywizard.lazylib.MathUtils
 import org.lazywizard.lazylib.combat.AIUtils
 import org.lazywizard.lazylib.combat.CombatUtils
 import org.lwjgl.util.vector.Vector2f
+
+operator fun BoundsAPI.SegmentAPI.contains(point: Vector2f): Boolean = MathUtils.isPointOnLine(point, this.p1, this.p2)
+operator fun CombatEntityAPI.contains(point: Vector2f): Boolean = CollisionUtils.isPointWithinBounds(point, this)
+operator fun ShieldAPI.contains(point: Vector2f): Boolean = this.isWithinArc(point)
 
 fun CombatEntityAPI.getNearestObjective(): BattleObjectiveAPI? = AIUtils.getNearestObjective(this)
 fun CombatEntityAPI.getNearbyObjectives(range: Float): List<BattleObjectiveAPI> = CombatUtils.getObjectivesWithinRange(this.location, range)
@@ -13,7 +19,7 @@ fun CombatEntityAPI.getNearestShip(): ShipAPI? = AIUtils.getNearestShip(this)
 fun CombatEntityAPI.getNearbyShips(range: Float): List<ShipAPI> = CombatUtils.getShipsWithinRange(this.location, range)
 
 fun CombatEntityAPI.getNearestMissile(): MissileAPI? = AIUtils.getNearestMissile(this)
-fun CombatEntityAPI.getNearbyMissiles(range:Float): List<MissileAPI> = CombatUtils.getMissilesWithinRange(this.location, range)
+fun CombatEntityAPI.getNearbyMissiles(range: Float): List<MissileAPI> = CombatUtils.getMissilesWithinRange(this.location, range)
 
 fun CombatEntityAPI.getNearestAlly(): ShipAPI? = AIUtils.getNearestAlly(this)
 fun CombatEntityAPI.getNearbyAllies(range: Float): List<ShipAPI> = AIUtils.getNearbyAllies(this, range)
