@@ -15,6 +15,7 @@ import java.util.*
 private const val METADATA_LENGTH = 51
 private const val CHARDATA_LENGTH = 21
 private const val KERNDATA_LENGTH = 7
+private const val DRAW_DEBUG = false
 
 // TODO: Write a proper file parser (though this works fine for now)
 private val SPLIT_REGEX = """=|\s+(?=([^"]*"[^"]*")*[^"]*$)""".toRegex()
@@ -49,9 +50,8 @@ fun loadFont(fontPath: String): LazyFont {
         // TODO: Parse and store ALL font metadata
         val metadata = header.split(SPLIT_REGEX).dropLastWhile { it.isEmpty() }.toTypedArray()
         if (metadata.size != METADATA_LENGTH) {
-            Log.error("Metadata length mismatch: " + metadata.size
-                    + " vs expected length of " + METADATA_LENGTH + ".")
-            Log.error("Input string: " + header)
+            Log.error("Metadata length mismatch: ${metadata.size} vs expected length of $METADATA_LENGTH.")
+            Log.error("Input string: $header")
             throw FontException("Metadata length mismatch")
         }
 
@@ -86,10 +86,8 @@ fun loadFont(fontPath: String): LazyFont {
         for (charLine in charLines) {
             val charData = charLine.split(SPLIT_REGEX).dropLastWhile { it.isEmpty() }.toTypedArray()
             if (charData.size != CHARDATA_LENGTH) {
-                Log.error("Character data length mismatch: "
-                        + charData.size + " vs expected length of "
-                        + CHARDATA_LENGTH + ".")
-                Log.error("Input string: " + charLine)
+                Log.error("Character data length mismatch: ${charData.size} vs expected length of $CHARDATA_LENGTH.")
+                Log.error("Input string: $charLine")
                 throw FontException("Character data length mismatch")
             }
 
@@ -109,10 +107,8 @@ fun loadFont(fontPath: String): LazyFont {
         for (kernLine in kernLines) {
             val kernData = kernLine.split(SPLIT_REGEX).dropLastWhile { it.isEmpty() }.toTypedArray()
             if (kernData.size != KERNDATA_LENGTH) {
-                Log.error("Kerning data length mismatch: "
-                        + kernData.size + " vs expected length of "
-                        + KERNDATA_LENGTH + ".")
-                Log.error("Input string: " + kernLine)
+                Log.error("Kerning data length mismatch: ${kernData.size} vs expected length of $KERNDATA_LENGTH.")
+                Log.error("Input string: $kernLine")
                 throw FontException("Kerning data length mismatch")
             }
 
@@ -178,9 +174,8 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
         val maxLines = (maxHeight / fontSize).toInt()
         val wrappedString = StringBuilder((toWrap.length * 1.1).toInt())
         var numLines = 0
-        val split = toWrap.split('\n')
         outer@
-        for (rawLine in split) {
+        for (rawLine in toWrap.split('\n')) {
             // Can't write to loop parameters in Kotlin, so we need to do this in a separate loop
             var line = rawLine
 
@@ -215,10 +210,20 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
                     } else
                     // No whitespace means we need to break up the word with a dash
                     {
-                        // TODO: Write this properly!
-                        wrappedString.append(line).append('\n')
-                        numLines++
-                        break@inner
+                        // TODO: Test this thoroughly!
+                        while (true) {
+                            val splitIndex = (buildUntilLimit("-$line", fontSize, maxWidth).length - 1).coerceAtLeast(0)
+                            if (splitIndex < line.length) {
+                                wrappedString.append(line.take(splitIndex)).append("-\n")
+                                line = line.substring(splitIndex)
+                                numLines++
+                                continue@inner
+                            } else {
+                                wrappedString.append(line).append('\n')
+                                numLines++
+                                break@inner
+                            }
+                        }
                     }
                 }
             }
@@ -323,29 +328,32 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
 
         sizeX = Math.max(sizeX, xOffset)
 
-        // TODO: REMOVE DEBUG CODE WHEN FINALIZED
-        glColor(Color.WHITE)
-        glLineWidth(1f)
-        glBegin(GL_LINE_LOOP)
-        glVertex2f(x - 1f, y + 1f)
-        glVertex2f(x - 1f, y - sizeY - 1f)
-        glVertex2f(x + sizeX + 1f, y - sizeY - 1f)
-        glVertex2f(x + sizeX + 1f, y + 1f)
-        glEnd()
+        // Debug code: shows bounds of drawn textbox
+        if (DRAW_DEBUG) {
+            // Bounds
+            glColor(Color.WHITE)
+            glLineWidth(1f)
+            glBegin(GL_LINE_LOOP)
+            glVertex2f(x - 1f, y + 1f)
+            glVertex2f(x - 1f, y - sizeY - 1f)
+            glVertex2f(x + sizeX + 1f, y - sizeY - 1f)
+            glVertex2f(x + sizeX + 1f, y + 1f)
+            glEnd()
 
-        glColor(Color.YELLOW)
-        glBegin(GL_LINES)
-        glVertex2f(x - 6f, y + 1f)
-        glVertex2f(x + 3f, y + 1f)
-        glVertex2f(x - 1f, y - 4f)
-        glVertex2f(x - 1f, y + 6f)
-        glColor(Color.RED)
-        glVertex2f(x + sizeX - 4f, y - sizeY - 1f)
-        glVertex2f(x + sizeX + 6f, y - sizeY - 1f)
-        glVertex2f(x + sizeX + 1f, y - sizeY - 6f)
-        glVertex2f(x + sizeX + 1f, y - sizeY + 4f)
-        glEnd()
-        // END DEBUG CODE
+            // Origin and end point
+            glColor(Color.YELLOW)
+            glBegin(GL_LINES)
+            glVertex2f(x - 6f, y + 1f)
+            glVertex2f(x + 3f, y + 1f)
+            glVertex2f(x - 1f, y - 4f)
+            glVertex2f(x - 1f, y + 6f)
+            glColor(Color.RED)
+            glVertex2f(x + sizeX - 4f, y - sizeY - 1f)
+            glVertex2f(x + sizeX + 6f, y - sizeY - 1f)
+            glVertex2f(x + sizeX + 1f, y - sizeY - 6f)
+            glVertex2f(x + sizeX + 1f, y - sizeY + 4f)
+            glEnd()
+        }
 
         return Vector2f(sizeX, sizeY)
     }
