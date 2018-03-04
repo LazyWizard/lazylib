@@ -29,7 +29,7 @@ public class StringUtils
             return "";
         }
 
-        // Analyse each line of the message seperately
+        // Analyze each line of the message separately
         String[] lines = toWrap.split("\n");
         // StringBuilder doesn't auto-resize down, so setting the length here
         // is an optimization even though length is reset to 0 each line
@@ -56,14 +56,14 @@ public class StringUtils
                     // break it up into multiple sub-lines separated by a dash
                     if (words[y].length() >= maxLineLength)
                     {
-                        // Make sure to post the previous line in queue, if any
+                        // Make sure to post the previous line in the queue, if any
                         if (line.length() > 0)
                         {
                             message.append(line.toString()).append("\n");
                             line.setLength(0);
                         }
 
-                        // Break up word into multiple lines separated with dash
+                        // Break up word into multiple lines separated with a dash
                         while (words[y].length() > maxLineLength)
                         {
                             message.append(words[y].substring(0, maxLineLength - 1))
@@ -112,7 +112,7 @@ public class StringUtils
             }
         }
 
-        // Don't end with a newline if the original string didn't do so
+        // Don't end with a newline if the original string didn't
         if (!toWrap.endsWith("\n"))
         {
             message.deleteCharAt(message.length() - 1);
