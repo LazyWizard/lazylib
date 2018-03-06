@@ -144,6 +144,20 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
         return ch ?: getChar('?')
     }
 
+    fun calcWidth(rawLine: String, fontSize: Float): Float {
+        val scaleFactor = fontSize / baseHeight
+        var lastChar: LazyChar? = null
+        var curWidth = 0f
+        for (tmp in rawLine) {
+            val ch = getChar(tmp)
+            val kerning = if (lastChar != null) ch.getKerning(lastChar.id).toFloat() else 0f
+            curWidth += (kerning + ch.advance) * scaleFactor
+            lastChar = ch
+        }
+
+        return curWidth
+    }
+
     private fun buildUntilLimit(rawLine: String, fontSize: Float, maxWidth: Float): String {
         if (rawLine.isBlank() || maxWidth <= 0f) return ""
 
@@ -151,7 +165,7 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
         var lastChar: LazyChar? = null
         var curChar = 0
         var curWidth = 0f
-        for (tmp in rawLine.toCharArray()) {
+        for (tmp in rawLine) {
             val ch = getChar(tmp)
             val kerning = if (lastChar != null) ch.getKerning(lastChar.id).toFloat() else 0f
             val width = (kerning + ch.advance) * scaleFactor
@@ -170,10 +184,17 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
     }
 
     @JvmOverloads
-    fun wrapString(toWrap: String, fontSize: Float, maxWidth: Float, maxHeight: Float = Float.MAX_VALUE): String {
+    // TODO: Support indent
+    fun wrapString(toWrap: String, fontSize: Float, maxWidth: Float, maxHeight: Float = Float.MAX_VALUE, indent: Int = 0): String {
         val maxLines = (maxHeight / fontSize).toInt()
         val wrappedString = StringBuilder((toWrap.length * 1.1).toInt())
         var numLines = 0
+
+        // Indentation support
+        val indentWith: String = "".padStart(indent)
+        val maxWidthWithIndent = maxWidth - calcWidth(indentWith, fontSize)
+        if (maxWidthWithIndent <= 0f) return ""
+
         outer@
         for (rawLine in toWrap.split('\n')) {
             // Can't write to loop parameters in Kotlin, so we need to do this in a separate loop
@@ -191,11 +212,11 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
                 if (numLines >= maxLines) break
 
                 // Calculate the longest substring that will fit maxWidth
-                val tmp = buildUntilLimit(line, fontSize, maxWidth)
+                val tmp = buildUntilLimit(line, fontSize, maxWidthWithIndent)
 
                 // Entire line fits within maxWidth
                 if (tmp.length == line.length) {
-                    wrappedString.append(tmp).append('\n')
+                    wrappedString.append(indentWith).append(tmp).append('\n')
                     numLines++
                     break@inner
                 }
@@ -204,7 +225,7 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
                     // If there's whitespace, break at the last occurrence
                     val lastSpace = tmp.lastIndexOf(' ')
                     if (lastSpace != -1) {
-                        wrappedString.append(line.take(lastSpace)).append('\n')
+                        wrappedString.append(indentWith).append(line.take(lastSpace)).append('\n')
                         line = if (line.length > lastSpace) line.substring(lastSpace + 1) else ""
                         numLines++
                     } else
@@ -212,14 +233,14 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
                     {
                         // TODO: Test this thoroughly!
                         while (true) {
-                            val splitIndex = (buildUntilLimit("-$line", fontSize, maxWidth).length - 1).coerceAtLeast(0)
+                            val splitIndex = (buildUntilLimit("-$line", fontSize, maxWidthWithIndent).length - 1).coerceAtLeast(0)
                             if (splitIndex < line.length) {
-                                wrappedString.append(line.take(splitIndex)).append("-\n")
+                                wrappedString.append(indentWith).append(line.take(splitIndex)).append("-\n")
                                 line = line.substring(splitIndex)
                                 numLines++
                                 continue@inner
                             } else {
-                                wrappedString.append(line).append('\n')
+                                wrappedString.append(indentWith).append(line).append('\n')
                                 numLines++
                                 break@inner
                             }
@@ -264,7 +285,7 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
 
         // TODO: Colored substring support
         outer@
-        for (tmp in toDraw.toCharArray()) {
+        for (tmp in toDraw) {
             // Ignore tabs and carriage returns
             if (tmp.isWhitespace() && tmp != '\n' && tmp != ' ')
                 continue
@@ -424,6 +445,11 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
             needsRebuild = true
         }
 
+        fun appendText(text: String, indent: Int) {
+            sb.append(wrapString(text, fontSize, maxWidth, maxHeight, indent))
+            needsRebuild = true
+        }
+
         private fun buildString() {
             glNewList(displayListId, GL_COMPILE)
             val tmp: Vector2f = drawText(text, 0.01f, 0.01f, fontSize, maxWidth, maxHeight, color)
@@ -445,6 +471,17 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
         }
 
         fun draw(location: Vector2f) = draw(location.x, location.y)
+
+        fun drawAtAngle(x: Float, y: Float, angle: Float) {
+            glPushMatrix()
+            glTranslatef(x, y, 0f)
+            glRotatef(angle, 0f, 0f, 1f)
+            glTranslatef(-x, -y, 0f)
+            draw(x, y)
+            glPopMatrix()
+        }
+
+        fun drawAtAngle(location: Vector2f, angle: Float) = drawAtAngle(location.x, location.y, angle)
 
         private fun releaseResources() = glDeleteLists(displayListId, 1)
 
