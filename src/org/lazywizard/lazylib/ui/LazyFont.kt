@@ -16,7 +16,7 @@ private const val METADATA_LENGTH = 51
 private const val CHARDATA_LENGTH = 21
 private const val KERNDATA_LENGTH = 7
 
-// TODO: Write a proper file parser (this works fine for now, but requires a borderline unmaintainable mess of magic offset numbers)
+// TODO: Write a proper file parser (this works fine for now, but requires an unmaintainable mess of magic offset numbers)
 private val SPLIT_REGEX = """=|\s+(?=([^"]*"[^"]*")*[^"]*$)""".toRegex()
 private val Log: Logger = Logger.getLogger(LazyFont::class.java)
 private val fontCache = HashMap<String, LazyFont>()
@@ -34,6 +34,8 @@ fun loadFont(fontPath: String): LazyFont {
         Scanner(Global.getSettings().openStream(fontPath)).use { reader ->
             // Store header with font metadata
             header = "${reader.nextLine()} ${reader.nextLine()} ${reader.nextLine()}"
+
+            // Read raw font data
             while (reader.hasNextLine()) {
                 val line = reader.nextLine()
                 if (line.startsWith("char ")) { // Character data
@@ -47,7 +49,7 @@ fun loadFont(fontPath: String): LazyFont {
         throw RuntimeException("Failed to load font at '$fontPath'", ex)
     }
 
-    // Finally parse the file data we retrieved at the beginning of the constructor
+    // Parse the file data we retrieved earlier and convert it into something usable
     try {
         // TODO: Parse and store ALL font metadata
         val metadata = header.split(SPLIT_REGEX).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -101,8 +103,8 @@ fun loadFont(fontPath: String): LazyFont {
                     xOffset = Integer.parseInt(charData[12]),
                     yOffset = Integer.parseInt(charData[14]),
                     advance = Integer.parseInt(charData[16]) + 1)
-            //Integer.parseInt(data[18]), // page
-            // Integer.parseInt(data[20])); // channel
+            //page = Integer.parseInt(data[18]),
+            // channel = Integer.parseInt(data[20]));
         }
 
         // Parse and add kerning data
@@ -230,9 +232,9 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
                         wrappedString.append(indentWith).append(line.take(lastSpace)).append('\n')
                         line = if (line.length > lastSpace) line.substring(lastSpace + 1) else ""
                         numLines++
-                    } else
+                    }
                     // No whitespace means we need to break up the word with a dash
-                    {
+                    else {
                         while (true) {
                             val splitIndex = (buildUntilLimit("-$line", fontSize, maxWidthWithIndent).length - 1).coerceAtLeast(0)
                             if (splitIndex < line.length) {
@@ -279,6 +281,7 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
 
         glColor(color)
         glBindTexture(GL_TEXTURE_2D, textureId)
+        glPushAttrib(GL_ENABLE_BIT)
         glEnable(GL_TEXTURE_2D)
         glPushMatrix()
         glTranslatef(x + 0.01f, y + 0.01f, 0f)
@@ -291,6 +294,7 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
             if (tmp.isWhitespace() && tmp != '\n' && tmp != ' ')
                 continue
 
+            // Newline support
             if (tmp == '\n') {
                 if (-yOffset + fontSize > maxHeight) {
                     break@outer
@@ -317,6 +321,7 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
                     glEnd()
                     glPopMatrix()
                     glDisable(GL_TEXTURE_2D)
+                    glPopAttrib()
 
                     sizeX = Math.max(sizeX, xOffset)
                     return Vector2f(sizeX, sizeY)
@@ -347,6 +352,7 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
         glEnd()
         glPopMatrix()
         glDisable(GL_TEXTURE_2D)
+        glPopAttrib()
 
         sizeX = Math.max(sizeX, xOffset)
         return Vector2f(sizeX, sizeY)
