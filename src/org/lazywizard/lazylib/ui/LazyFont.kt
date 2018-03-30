@@ -15,15 +15,17 @@ import java.util.*
 private const val METADATA_LENGTH = 51
 private const val CHARDATA_LENGTH = 21
 private const val KERNDATA_LENGTH = 7
-private const val DRAW_DEBUG = false
 
-// TODO: Write a proper file parser (though this works fine for now)
+// TODO: Write a proper file parser (this works fine for now, but requires a borderline unmaintainable mess of magic offset numbers)
 private val SPLIT_REGEX = """=|\s+(?=([^"]*"[^"]*")*[^"]*$)""".toRegex()
 private val Log: Logger = Logger.getLogger(LazyFont::class.java)
+private val fontCache = HashMap<String, LazyFont>()
 
 // File format documentation: http://www.angelcode.com/products/bmfont/doc/file_format.html
 @Throws(FontException::class)
 fun loadFont(fontPath: String): LazyFont {
+    if (fontCache.contains(fontPath)) return fontCache.getValue(fontPath)
+
     // Load the font file contents for later parsing
     var header = ""
     val charLines = ArrayList<String>()
@@ -118,6 +120,7 @@ fun loadFont(fontPath: String): LazyFont {
             font.getChar(id.toChar()).setKerning(otherId, kernAmount)
         }
 
+        fontCache[fontPath] = font
         return font
     } catch (ex: NumberFormatException) {
         throw FontException("Failed to parse font at '$fontPath'", ex)
@@ -184,7 +187,6 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
     }
 
     @JvmOverloads
-    // TODO: Support indent
     fun wrapString(toWrap: String, fontSize: Float, maxWidth: Float, maxHeight: Float = Float.MAX_VALUE, indent: Int = 0): String {
         val maxLines = (maxHeight / fontSize).toInt()
         val wrappedString = StringBuilder((toWrap.length * 1.1).toInt())
@@ -231,7 +233,6 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
                     } else
                     // No whitespace means we need to break up the word with a dash
                     {
-                        // TODO: Test this thoroughly!
                         while (true) {
                             val splitIndex = (buildUntilLimit("-$line", fontSize, maxWidthWithIndent).length - 1).coerceAtLeast(0)
                             if (splitIndex < line.length) {
@@ -309,7 +310,7 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
             val chWidth = ch.width * scaleFactor
             val chHeight = ch.height * scaleFactor
 
-            // TODO: Automatically break strings at previous whitespace, if any
+            // TODO: If we're very certain of our wrapString() method, this shouldn't be necessary anymore
             if (xOffset + advance > maxWidth) {
                 // Check if we're about to exceed the max textbox height
                 if (-yOffset + fontSize > maxHeight) {
@@ -348,34 +349,6 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
         glDisable(GL_TEXTURE_2D)
 
         sizeX = Math.max(sizeX, xOffset)
-
-        // Debug code: shows bounds of drawn textbox
-        if (DRAW_DEBUG) {
-            // Bounds
-            glColor(Color.WHITE)
-            glLineWidth(1f)
-            glBegin(GL_LINE_LOOP)
-            glVertex2f(x - 1f, y + 1f)
-            glVertex2f(x - 1f, y - sizeY - 1f)
-            glVertex2f(x + sizeX + 1f, y - sizeY - 1f)
-            glVertex2f(x + sizeX + 1f, y + 1f)
-            glEnd()
-
-            // Origin and end point
-            glColor(Color.YELLOW)
-            glBegin(GL_LINES)
-            glVertex2f(x - 6f, y + 1f)
-            glVertex2f(x + 3f, y + 1f)
-            glVertex2f(x - 1f, y - 4f)
-            glVertex2f(x - 1f, y + 6f)
-            glColor(Color.RED)
-            glVertex2f(x + sizeX - 4f, y - sizeY - 1f)
-            glVertex2f(x + sizeX + 6f, y - sizeY - 1f)
-            glVertex2f(x + sizeX + 1f, y - sizeY - 6f)
-            glVertex2f(x + sizeX + 1f, y - sizeY + 4f)
-            glEnd()
-        }
-
         return Vector2f(sizeX, sizeY)
     }
 
@@ -439,6 +412,11 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
                 sb.setLength(0)
                 appendText(value)
             }
+        var drawDebug = false
+            set(value) {
+                field = value
+                needsRebuild = true
+            }
 
         fun appendText(text: String) {
             sb.append(text)
@@ -453,6 +431,32 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
         private fun buildString() {
             glNewList(displayListId, GL_COMPILE)
             val tmp: Vector2f = drawText(text, 0.01f, 0.01f, fontSize, maxWidth, maxHeight, color)
+            // Debug code: shows bounds of drawn textbox
+            if (drawDebug) {
+                // Bounds
+                glColor(Color.WHITE)
+                glLineWidth(1f)
+                glBegin(GL_LINE_LOOP)
+                glVertex2f(-1f, 1f)
+                glVertex2f(-1f, -tmp.y - 1f)
+                glVertex2f(tmp.x + 1f, -tmp.y - 1f)
+                glVertex2f(tmp.x + 1f, 1f)
+                glEnd()
+
+                // Origin and end point
+                glColor(Color.YELLOW)
+                glBegin(GL_LINES)
+                glVertex2f(-6f, 1f)
+                glVertex2f(3f, 1f)
+                glVertex2f(-1f, -4f)
+                glVertex2f(-1f, 6f)
+                glColor(Color.RED)
+                glVertex2f(tmp.x - 4f, -tmp.y - 1f)
+                glVertex2f(tmp.x + 6f, -tmp.y - 1f)
+                glVertex2f(tmp.x + 1f, -tmp.y - 6f)
+                glVertex2f(tmp.x + 1f, -tmp.y + 4f)
+                glEnd()
+            }
             glEndList()
 
             width = tmp.x
