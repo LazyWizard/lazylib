@@ -1,20 +1,18 @@
 package org.lazywizard.lazylib.campaign;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.campaign.CampaignFleetAPI;
-import com.fs.starfarer.api.campaign.FactionAPI;
-import com.fs.starfarer.api.campaign.LocationAPI;
-import com.fs.starfarer.api.campaign.RepLevel;
-import com.fs.starfarer.api.campaign.SectorEntityToken;
+import com.fs.starfarer.api.campaign.*;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.fleet.FleetMemberType;
 import com.fs.starfarer.api.impl.campaign.ids.Tags;
+import com.fs.starfarer.api.util.Misc;
 import org.jetbrains.annotations.Nullable;
 import org.lazywizard.lazylib.MathUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Contains methods for working with campaign objects. Unless noted otherwise,
@@ -22,6 +20,7 @@ import org.lazywizard.lazylib.MathUtils;
  * specified token is located in.
  *
  * @author LazyWizard
+ * @see Misc The Misc class provided by vanilla for a large number of useful utility methods.
  * @since 2.0
  */
 // TODO: TEST THIS!

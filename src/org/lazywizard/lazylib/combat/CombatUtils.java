@@ -1,24 +1,18 @@
 package org.lazywizard.lazylib.combat;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.BattleObjectiveAPI;
-import com.fs.starfarer.api.combat.CombatEntityAPI;
-import com.fs.starfarer.api.combat.CombatFleetManagerAPI;
-import com.fs.starfarer.api.combat.DamagingProjectileAPI;
-import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
-import com.fs.starfarer.api.combat.FogOfWarAPI;
-import com.fs.starfarer.api.combat.MissileAPI;
-import com.fs.starfarer.api.combat.ShipAPI;
-import com.fs.starfarer.api.combat.ViewportAPI;
+import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.fleet.FleetMemberType;
 import com.fs.starfarer.api.mission.FleetSide;
+import com.fs.starfarer.api.util.Misc;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contains methods that deal with the battle map in general. These methods do
@@ -27,6 +21,7 @@ import org.lwjgl.util.vector.Vector2f;
  * visibility you should use the methods in {@link AIUtils}.
  *
  * @author LazyWizard
+ * @see Misc The Misc class provided by vanilla for a large number of useful utility methods.
  * @since 1.0
  */
 public class CombatUtils
