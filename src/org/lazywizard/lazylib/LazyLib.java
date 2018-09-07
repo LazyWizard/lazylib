@@ -24,13 +24,14 @@ import org.lazywizard.lazylib.opengl.DrawUtils;
  * @author LazyWizard
  * @since 1.1
  */
-// TODO: Read these values from mod_info.json
 public class LazyLib extends BaseModPlugin
 {
+    public static final String MOD_ID = "lw_lazylib";
     private static final String SETTINGS_FILE = "lazylib_settings.json";
-    private static final boolean IS_DEV_BUILD = false;
-    private static final float LIBRARY_VERSION = 3.0f;
-    private static final String GAME_VERSION = "0.8.1a";
+    // These values are read from mod_info.json at application startup
+    private static float LIBRARY_VERSION = 0f;
+    private static String GAME_VERSION = "[UNDEFINED]";
+    private static boolean IS_DEV_BUILD = false;
     private static boolean CACHE_ENABLED = false, LOG_DEPRECATED = false,
             CRASH_DEPRECATED = false;
     private static Level LOG_LEVEL;
@@ -97,7 +98,7 @@ public class LazyLib extends BaseModPlugin
      */
     public static String getInfo()
     {
-        return "LazyLib v" + LIBRARY_VERSION + (IS_DEV_BUILD ? "_dev" : "")
+        return "LazyLib v" + LIBRARY_VERSION + (IS_DEV_BUILD ? "-dev" : "")
                 + ", built for Starsector " + GAME_VERSION;
     }
 
@@ -217,13 +218,18 @@ public class LazyLib extends BaseModPlugin
     @Override
     public void onApplicationLoad() throws Exception
     {
-        Global.getLogger(LazyLib.class).log(Level.INFO, "Running " + getInfo());
-
         // Load LazyLib settings from JSON file
         JSONObject settings = Global.getSettings().loadJSON(SETTINGS_FILE);
         setLogLevel(Level.toLevel(settings.optString("logLevel", "ERROR"), Level.ERROR));
         CACHE_ENABLED = settings.optBoolean("enableCaching", false);
         LOG_DEPRECATED = settings.optBoolean("logDeprecated", false);
         CRASH_DEPRECATED = settings.optBoolean("crashOnDeprecated", false);
+
+        settings = Global.getSettings().loadJSON("mod_info.json", MOD_ID);
+        LIBRARY_VERSION = (float) settings.optDouble("version", LIBRARY_VERSION);
+        GAME_VERSION = settings.optString("gameVersion", GAME_VERSION);
+        IS_DEV_BUILD = settings.optBoolean("devBuild", IS_DEV_BUILD);
+
+        Global.getLogger(LazyLib.class).log(Level.INFO, "Running " + getInfo());
     }
 }
