@@ -9,6 +9,8 @@ import org.lwjgl.opengl.GL11.*
 import org.lwjgl.util.vector.Vector2f
 import java.awt.Color
 import java.io.IOException
+import java.net.URI
+import java.nio.file.Path
 import java.util.*
 
 // These are used for validating read data
@@ -24,14 +26,16 @@ private val fontCache = HashMap<String, LazyFont>()
 // File format documentation: http://www.angelcode.com/products/bmfont/doc/file_format.html
 @Throws(FontException::class)
 fun loadFont(fontPath: String): LazyFont {
-    if (fontCache.contains(fontPath)) return fontCache.getValue(fontPath)
+    val canonPath = URI(fontPath).normalize().path
+    Log.debug("\n\n$fontPath -> $canonPath\n\n")
+    if (fontCache.contains(canonPath)) return fontCache.getValue(canonPath)
 
     // Load the font file contents for later parsing
     var header = ""
     val charLines = ArrayList<String>()
     val kernLines = ArrayList<String>()
     try {
-        Scanner(Global.getSettings().openStream(fontPath)).use { reader ->
+        Scanner(Global.getSettings().openStream(canonPath)).use { reader ->
             // Store header with font metadata
             header = "${reader.nextLine()} ${reader.nextLine()} ${reader.nextLine()}"
 
@@ -46,7 +50,7 @@ fun loadFont(fontPath: String): LazyFont {
             }
         }
     } catch (ex: IOException) {
-        throw RuntimeException("Failed to load font at '$fontPath'", ex)
+        throw RuntimeException("Failed to load font at '$canonPath'", ex)
     }
 
     // Parse the file data we retrieved earlier and convert it into something usable
@@ -56,18 +60,18 @@ fun loadFont(fontPath: String): LazyFont {
         if (metadata.size != METADATA_LENGTH) {
             Log.error("Metadata length mismatch: ${metadata.size} vs expected length of $METADATA_LENGTH.")
             Log.error("Input string: $header")
-            throw FontException("Metadata length mismatch")
+            throw FontException("Metadata length mismatch in '$canonPath'")
         }
 
         //val fontName = metadata[2].replace("\"", "")
         val baseHeight = java.lang.Float.parseFloat(metadata[27])
 
         // Get image file path from metadata
-        val dirIndex = fontPath.lastIndexOf("/")
+        val dirIndex = canonPath.lastIndexOf("/")
         val imgFile = (if (dirIndex == -1)
-            fontPath
+            canonPath
         else
-            fontPath.substring(0, dirIndex + 1)) + metadata[50].replace("\"", "")
+            canonPath.substring(0, dirIndex + 1)) + metadata[50].replace("\"", "")
 
         // Load the font image into a texture
         // TODO: Add support for multiple image files; 'pages' in the font file
@@ -92,7 +96,7 @@ fun loadFont(fontPath: String): LazyFont {
             if (charData.size != CHARDATA_LENGTH) {
                 Log.error("Character data length mismatch: ${charData.size} vs expected length of $CHARDATA_LENGTH.")
                 Log.error("Input string: $charLine")
-                throw FontException("Character data length mismatch")
+                throw FontException("Character data length mismatch in '$canonPath'")
             }
 
             font.addChar(id = Integer.parseInt(charData[2]),
@@ -113,7 +117,7 @@ fun loadFont(fontPath: String): LazyFont {
             if (kernData.size != KERNDATA_LENGTH) {
                 Log.error("Kerning data length mismatch: ${kernData.size} vs expected length of $KERNDATA_LENGTH.")
                 Log.error("Input string: $kernLine")
-                throw FontException("Kerning data length mismatch")
+                throw FontException("Kerning data length mismatch in '$canonPath'")
             }
 
             val id = Integer.parseInt(kernData[4])
@@ -122,10 +126,10 @@ fun loadFont(fontPath: String): LazyFont {
             font.getChar(id.toChar()).setKerning(otherId, kernAmount)
         }
 
-        fontCache[fontPath] = font
+        fontCache[canonPath] = font
         return font
     } catch (ex: NumberFormatException) {
-        throw FontException("Failed to parse font at '$fontPath'", ex)
+        throw FontException("Failed to parse font at '$canonPath'", ex)
     }
 }
 
@@ -309,7 +313,7 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
             }
 
             val ch = getChar(tmp)
-            val kerning = if (lastChar != null) ch.getKerning(lastChar.id) * scaleFactor else 0f
+            val kerning = if (lastChar == null) 0f else ch.getKerning(lastChar.id) * scaleFactor
             val advance = kerning + ch.advance * scaleFactor
             val chWidth = ch.width * scaleFactor
             val chHeight = ch.height * scaleFactor
