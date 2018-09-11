@@ -1,7 +1,8 @@
 package org.lazywizard.lazylib.opengl;
 
-import java.awt.Color;
-import static org.lwjgl.opengl.GL11.*;
+import java.awt.*;
+
+import static org.lwjgl.opengl.GL11.glColor4ub;
 
 /**
  * Contains methods for working with OpenGL and AWT color objects.
@@ -13,7 +14,7 @@ public class ColorUtils
 {
     /**
      * Sets the OpenGL color using an AWT {@link Color} object.
-     * <p>
+     *
      * @param color                 The color to set.
      * @param alphaMult             Multiplies the color's alpha channel with
      *                              this, or replaces it if
@@ -22,22 +23,32 @@ public class ColorUtils
      * @param overrideOriginalAlpha Whether to completely override
      *                              {@code color}'s alpha channel with
      *                              {@code alphaMult}.
-     * <p>
      * @since 1.9
      */
-    public static void glColor(Color color, float alphaMult,
-            boolean overrideOriginalAlpha)
+    public static void glColor(Color color, float alphaMult, boolean overrideOriginalAlpha)
     {
         glColor4ub((byte) color.getRed(), (byte) color.getGreen(),
                 (byte) color.getBlue(), (byte) ((overrideOriginalAlpha
-                ? alphaMult * 255f : (color.getAlpha() * alphaMult))));
+                        ? alphaMult * 255f : (color.getAlpha() * alphaMult))));
     }
 
     /**
      * Sets the OpenGL color using an AWT {@link Color} object.
-     * <p>
+     *
      * @param color The color to set.
-     * <p>
+     * @param alpha The color's opacity, from 0 to 1.
+     * @since 3.0
+     */
+    // TODO: add to changelog
+    public static void glColor(Color color, float alpha)
+    {
+        glColor(color, alpha, true);
+    }
+
+    /**
+     * Sets the OpenGL color using an AWT {@link Color} object.
+     *
+     * @param color The color to set.
      * @since 1.9
      */
     public static void glColor(Color color)
