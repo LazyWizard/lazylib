@@ -10,7 +10,6 @@ import org.lwjgl.util.vector.Vector2f
 import java.awt.Color
 import java.io.IOException
 import java.net.URI
-import java.nio.file.Path
 import java.util.*
 
 // These are used for validating read data
@@ -24,6 +23,7 @@ private val Log: Logger = Logger.getLogger(LazyFont::class.java)
 private val fontCache = HashMap<String, LazyFont>()
 
 // File format documentation: http://www.angelcode.com/products/bmfont/doc/file_format.html
+// TODO: Javadoc, add to changelog
 @Throws(FontException::class)
 fun loadFont(fontPath: String): LazyFont {
     val canonPath = URI(fontPath).normalize().path
@@ -137,7 +137,8 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
     private val lookupTable: Array<LazyChar?> = arrayOfNulls(224)
     private val extendedChars = HashMap<Char, LazyChar>()
 
-    fun addChar(id: Int, tx: Int, ty: Int, width: Int, height: Int, xOffset: Int, yOffset: Int, advance: Int) {
+    @Suppress
+    internal fun addChar(id: Int, tx: Int, ty: Int, width: Int, height: Int, xOffset: Int, yOffset: Int, advance: Int) {
         val tmp = LazyChar(id, tx, ty, width, height, xOffset, yOffset, advance)
         if (tmp.id in 32..255) lookupTable[tmp.id - 32] = tmp
         else extendedChars[tmp.id.toChar()] = tmp
@@ -145,6 +146,7 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
 
 
     // This assumes that the font will always have a question mark character defined
+    // TODO: Javadoc, add to changelog
     fun getChar(character: Char): LazyChar {
         val ch: LazyChar? = if (character.toInt() in 32..255) lookupTable[character.toInt() - 32] else extendedChars[character]
         if (ch != null) return ch
@@ -153,6 +155,7 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
         return ch ?: getChar('?')
     }
 
+    // TODO: Javadoc, add to changelog
     fun calcWidth(rawLine: String, fontSize: Float): Float {
         val scaleFactor = fontSize / baseHeight
         var lastChar: LazyChar? = null
@@ -192,6 +195,10 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
         return rawLine
     }
 
+    /**
+     *
+     */
+    // TODO: Javadoc, add to changelog
     @JvmOverloads
     fun wrapString(toWrap: String, fontSize: Float, maxWidth: Float, maxHeight: Float = Float.MAX_VALUE, indent: Int = 0): String {
         val maxLines = (maxHeight / fontSize).toInt()
@@ -265,12 +272,13 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
     }
 
     /**
-     * Renders a block of text. Not recommended for general usage - use [createText] instead.
+     * Renders a block of text, for manually creating display lists or VBOs. **Not recommended for general usage**
+     * - use [createText] instead.
      * @return A [Vector2f] containing the width and height of the drawn text area.
      * @see [createText] for efficiently drawing the same block of text multiple times
+     * @since 3.0
      */
-    fun drawText(text: String?, x: Float, y: Float, fontSize: Float,
-                 maxWidth: Float, maxHeight: Float, color: Color): Vector2f {
+    fun drawText(text: String?, x: Float, y: Float, fontSize: Float, maxWidth: Float, maxHeight: Float): Vector2f {
         if (text == null || text.isBlank() || maxHeight < fontSize) {
             return Vector2f(0f, 0f)
         }
@@ -283,7 +291,6 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
         var sizeY = fontSize
         val toDraw = wrapString(text, fontSize, maxWidth, maxHeight)
 
-        glColor(color)
         glBindTexture(GL_TEXTURE_2D, textureId)
         glPushAttrib(GL_ENABLE_BIT)
         glEnable(GL_TEXTURE_2D)
@@ -363,6 +370,7 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
     }
 
     @JvmOverloads
+    // TODO: Javadoc, add to changelog
     fun createText(text: String, color: Color = Color.WHITE, size: Float = baseHeight, maxWidth: Float = Float.MAX_VALUE,
                    maxHeight: Float = Float.MAX_VALUE): DrawableString = DrawableString(text, size, maxWidth, maxHeight, color)
 
@@ -380,11 +388,11 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
         }
 
         fun getKerning(otherChar: Int): Int {
-            return kernings.getOrElse(otherChar, { 0 })
+            return kernings.getOrElse(otherChar) { 0 }
         }
     }
 
-    inner class DrawableString(text: String, fontSize: Float, maxWidth: Float, maxHeight: Float, color: Color) {
+    inner class DrawableString(text: String, fontSize: Float, maxWidth: Float, maxHeight: Float, var color: Color) {
         private val sb: StringBuilder = StringBuilder(text)
         private val displayListId: Int = glGenLists(1)
         private var needsRebuild = true
@@ -407,11 +415,6 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
                 needsRebuild = true
             }
         var maxHeight: Float = maxHeight
-            set(value) {
-                field = value
-                needsRebuild = true
-            }
-        var color: Color = color
             set(value) {
                 field = value
                 needsRebuild = true
@@ -440,7 +443,7 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
 
         private fun buildString() {
             glNewList(displayListId, GL_COMPILE)
-            val tmp: Vector2f = drawText(text, 0.01f, 0.01f, fontSize, maxWidth, maxHeight, color)
+            val tmp: Vector2f = drawText(text, 0.01f, 0.01f, fontSize, maxWidth, maxHeight)
             // Debug code: shows bounds of drawn textbox
             if (drawDebug) {
                 // Bounds
@@ -480,6 +483,7 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
 
             glPushMatrix()
             glTranslatef(x, y, 0f)
+            glColor(color)
             glCallList(displayListId)
             glPopMatrix()
         }
@@ -514,6 +518,7 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
     }
 }
 
+// TODO: Javadoc, add to changelog
 class FontException : Exception {
     constructor(message: String) : super(message)
     constructor(message: String, cause: Throwable) : super(message, cause)
