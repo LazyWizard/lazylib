@@ -655,6 +655,7 @@ public class MathUtils
                 b = y - centerY;
 
                 // Point is in circle
+                // TODO: Easy optimization: once in circle, no further checks should be needed
                 if ((a * a) + (b * b) < (radius * radius))
                 {
                     points.add(new Vector2f(x, y));

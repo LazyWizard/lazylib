@@ -1,5 +1,4 @@
-@file:JvmName("FontLoader")
-
+@file:JvmName("LazyFont")
 package org.lazywizard.lazylib.ui
 
 import com.fs.starfarer.api.Global
@@ -12,133 +11,135 @@ import java.io.IOException
 import java.net.URI
 import java.util.*
 
-// These are used for validating read data
-private const val METADATA_LENGTH = 51
-private const val CHARDATA_LENGTH = 21
-private const val KERNDATA_LENGTH = 7
-
-// TODO: Write a proper file parser (this works fine for now, but requires an unmaintainable mess of magic offset numbers)
-private val SPLIT_REGEX = """=|\s+(?=([^"]*"[^"]*")*[^"]*$)""".toRegex()
-private val Log: Logger = Logger.getLogger(LazyFont::class.java)
-private val fontCache = HashMap<String, LazyFont>()
-
-// File format documentation: http://www.angelcode.com/products/bmfont/doc/file_format.html
-// TODO: Javadoc, add to changelog
-@Throws(FontException::class)
-fun loadFont(fontPath: String): LazyFont {
-    val canonPath = URI(fontPath).normalize().path
-    Log.debug("\n\n$fontPath -> $canonPath\n\n")
-    if (fontCache.contains(canonPath)) return fontCache.getValue(canonPath)
-
-    // Load the font file contents for later parsing
-    var header = ""
-    val charLines = ArrayList<String>()
-    val kernLines = ArrayList<String>()
-    try {
-        Scanner(Global.getSettings().openStream(canonPath)).use { reader ->
-            // Store header with font metadata
-            header = "${reader.nextLine()} ${reader.nextLine()} ${reader.nextLine()}"
-
-            // Read raw font data
-            while (reader.hasNextLine()) {
-                val line = reader.nextLine()
-                if (line.startsWith("char ")) { // Character data
-                    charLines.add(line)
-                } else if (line.startsWith("kerning ")) { // Kerning data
-                    kernLines.add(line)
-                }
-            }
-        }
-    } catch (ex: IOException) {
-        throw RuntimeException("Failed to load font at '$canonPath'", ex)
-    }
-
-    // Parse the file data we retrieved earlier and convert it into something usable
-    try {
-        // TODO: Parse and store ALL font metadata
-        val metadata = header.split(SPLIT_REGEX).dropLastWhile { it.isEmpty() }.toTypedArray()
-        if (metadata.size != METADATA_LENGTH) {
-            Log.error("Metadata length mismatch: ${metadata.size} vs expected length of $METADATA_LENGTH.")
-            Log.error("Input string: $header")
-            throw FontException("Metadata length mismatch in '$canonPath'")
-        }
-
-        //val fontName = metadata[2].replace("\"", "")
-        val baseHeight = java.lang.Float.parseFloat(metadata[27])
-
-        // Get image file path from metadata
-        val dirIndex = canonPath.lastIndexOf("/")
-        val imgFile = (if (dirIndex == -1)
-            canonPath
-        else
-            canonPath.substring(0, dirIndex + 1)) + metadata[50].replace("\"", "")
-
-        // Load the font image into a texture
-        // TODO: Add support for multiple image files; 'pages' in the font file
-        val textureId: Int
-        val textureWidth: Float
-        val textureHeight: Float
-        try {
-            Global.getSettings().loadTexture(imgFile)
-            val texture = Global.getSettings().getSprite(imgFile)
-            textureId = texture.textureId
-            textureWidth = texture.width
-            textureHeight = texture.height
-        } catch (ex: IOException) {
-            throw RuntimeException("Failed to load texture atlas '$imgFile'", ex)
-        }
-
-        val font = LazyFont(textureId, baseHeight, textureWidth, textureHeight)
-
-        // Parse character data and place into a quick lookup table or extended character map
-        for (charLine in charLines) {
-            val charData = charLine.split(SPLIT_REGEX).dropLastWhile { it.isEmpty() }.toTypedArray()
-            if (charData.size != CHARDATA_LENGTH) {
-                Log.error("Character data length mismatch: ${charData.size} vs expected length of $CHARDATA_LENGTH.")
-                Log.error("Input string: $charLine")
-                throw FontException("Character data length mismatch in '$canonPath'")
-            }
-
-            font.addChar(id = Integer.parseInt(charData[2]),
-                    tx = Integer.parseInt(charData[4]),
-                    ty = Integer.parseInt(charData[6]),
-                    width = Integer.parseInt(charData[8]),
-                    height = Integer.parseInt(charData[10]),
-                    xOffset = Integer.parseInt(charData[12]),
-                    yOffset = Integer.parseInt(charData[14]),
-                    advance = Integer.parseInt(charData[16]) + 1)
-            //page = Integer.parseInt(data[18]),
-            // channel = Integer.parseInt(data[20]));
-        }
-
-        // Parse and add kerning data
-        for (kernLine in kernLines) {
-            val kernData = kernLine.split(SPLIT_REGEX).dropLastWhile { it.isEmpty() }.toTypedArray()
-            if (kernData.size != KERNDATA_LENGTH) {
-                Log.error("Kerning data length mismatch: ${kernData.size} vs expected length of $KERNDATA_LENGTH.")
-                Log.error("Input string: $kernLine")
-                throw FontException("Kerning data length mismatch in '$canonPath'")
-            }
-
-            val id = Integer.parseInt(kernData[4])
-            val otherId = Integer.parseInt(kernData[2])
-            val kernAmount = Integer.parseInt(kernData[6])
-            font.getChar(id.toChar()).setKerning(otherId, kernAmount)
-        }
-
-        fontCache[canonPath] = font
-        return font
-    } catch (ex: NumberFormatException) {
-        throw FontException("Failed to parse font at '$canonPath'", ex)
-    }
-}
-
-class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Float, val textureHeight: Float) {
+// TODO: Remove open modifier and add private constructor after generating javadoc stubs
+open class LazyFont (val textureId: Int, val baseHeight: Float, val textureWidth: Float, val textureHeight: Float) {
     private val lookupTable: Array<LazyChar?> = arrayOfNulls(224)
     private val extendedChars = HashMap<Char, LazyChar>()
 
-    @Suppress
-    internal fun addChar(id: Int, tx: Int, ty: Int, width: Int, height: Int, xOffset: Int, yOffset: Int, advance: Int) {
+    // File format documentation: http://www.angelcode.com/products/bmfont/doc/file_format.html
+    private companion object FontLoader {
+        // These are used for validating read data
+        private const val METADATA_LENGTH = 51
+        private const val CHARDATA_LENGTH = 21
+        private const val KERNDATA_LENGTH = 7
+
+        // TODO: Write a proper file parser (this works fine for now, but requires an unmaintainable mess of magic offset numbers)
+        private val SPLIT_REGEX = """=|\s+(?=([^"]*"[^"]*")*[^"]*$)""".toRegex()
+        private val Log: Logger = Logger.getLogger(LazyFont::class.java)
+        private val fontCache = HashMap<String, LazyFont>()
+
+        @JvmStatic
+        @Throws(FontException::class)
+        fun loadFont(fontPath: String): LazyFont {
+            val canonPath = URI(fontPath).normalize().path
+            Log.debug("\n\n$fontPath -> $canonPath\n\n")
+            if (fontCache.contains(canonPath)) return fontCache.getValue(canonPath)
+
+            // Load the font file contents for later parsing
+            var header = ""
+            val charLines = ArrayList<String>()
+            val kernLines = ArrayList<String>()
+            try {
+                Scanner(Global.getSettings().openStream(canonPath)).use { reader ->
+                    // Store header with font metadata
+                    header = "${reader.nextLine()} ${reader.nextLine()} ${reader.nextLine()}"
+
+                    // Read raw font data
+                    while (reader.hasNextLine()) {
+                        val line = reader.nextLine()
+                        if (line.startsWith("char ")) { // Character data
+                            charLines.add(line)
+                        } else if (line.startsWith("kerning ")) { // Kerning data
+                            kernLines.add(line)
+                        }
+                    }
+                }
+            } catch (ex: IOException) {
+                throw FontException("Failed to load font at '$canonPath'", ex)
+            }
+
+            // Parse the file data we retrieved earlier and convert it into something usable
+            try {
+                // TODO: Parse and store ALL font metadata
+                val metadata = header.split(SPLIT_REGEX).dropLastWhile { it.isEmpty() }.toTypedArray()
+                if (metadata.size != METADATA_LENGTH) {
+                    Log.error("Metadata length mismatch: ${metadata.size} vs expected length of $METADATA_LENGTH.")
+                    Log.error("Input string: $header")
+                    throw FontException("Metadata length mismatch in '$canonPath'")
+                }
+
+                //val fontName = metadata[2].replace("\"", "")
+                val baseHeight = java.lang.Float.parseFloat(metadata[27])
+
+                // Get image file path from metadata
+                val dirIndex = canonPath.lastIndexOf("/")
+                val imgFile = (if (dirIndex == -1)
+                    canonPath
+                else
+                    canonPath.substring(0, dirIndex + 1)) + metadata[50].replace("\"", "")
+
+                // Load the font image into a texture
+                // TODO: Add support for multiple image files; 'pages' in the font file
+                val textureId: Int
+                val textureWidth: Float
+                val textureHeight: Float
+                try {
+                    Global.getSettings().loadTexture(imgFile)
+                    val texture = Global.getSettings().getSprite(imgFile)
+                    textureId = texture.textureId
+                    textureWidth = texture.width
+                    textureHeight = texture.height
+                } catch (ex: IOException) {
+                    throw FontException("Failed to load texture atlas '$imgFile'", ex)
+                }
+
+                val font = LazyFont(textureId, baseHeight, textureWidth, textureHeight)
+
+                // Parse character data and place into a quick lookup table or extended character map
+                for (charLine in charLines) {
+                    val charData = charLine.split(SPLIT_REGEX).dropLastWhile { it.isEmpty() }.toTypedArray()
+                    if (charData.size != CHARDATA_LENGTH) {
+                        Log.error("Character data length mismatch: ${charData.size} vs expected length of $CHARDATA_LENGTH.")
+                        Log.error("Input string: $charLine")
+                        throw FontException("Character data length mismatch in '$canonPath'")
+                    }
+
+                    font.addChar(id = Integer.parseInt(charData[2]),
+                            tx = Integer.parseInt(charData[4]),
+                            ty = Integer.parseInt(charData[6]),
+                            width = Integer.parseInt(charData[8]),
+                            height = Integer.parseInt(charData[10]),
+                            xOffset = Integer.parseInt(charData[12]),
+                            yOffset = Integer.parseInt(charData[14]),
+                            advance = Integer.parseInt(charData[16]) + 1)
+                    //page = Integer.parseInt(data[18]),
+                    // channel = Integer.parseInt(data[20]));
+                }
+
+                // Parse and add kerning data
+                for (kernLine in kernLines) {
+                    val kernData = kernLine.split(SPLIT_REGEX).dropLastWhile { it.isEmpty() }.toTypedArray()
+                    if (kernData.size != KERNDATA_LENGTH) {
+                        Log.error("Kerning data length mismatch: ${kernData.size} vs expected length of $KERNDATA_LENGTH.")
+                        Log.error("Input string: $kernLine")
+                        throw FontException("Kerning data length mismatch in '$canonPath'")
+                    }
+
+                    val id = Integer.parseInt(kernData[4])
+                    val otherId = Integer.parseInt(kernData[2])
+                    val kernAmount = Integer.parseInt(kernData[6])
+                    font.getChar(id.toChar()).setKerning(otherId, kernAmount)
+                }
+
+                fontCache[canonPath] = font
+                return font
+            } catch (ex: NumberFormatException) {
+                throw FontException("Failed to parse font at '$canonPath'", ex)
+            }
+        }
+    }
+
+    private fun addChar(id: Int, tx: Int, ty: Int, width: Int, height: Int, xOffset: Int, yOffset: Int, advance: Int) {
         val tmp = LazyChar(id, tx, ty, width, height, xOffset, yOffset, advance)
         if (tmp.id in 32..255) lookupTable[tmp.id - 32] = tmp
         else extendedChars[tmp.id.toChar()] = tmp
@@ -146,7 +147,6 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
 
 
     // This assumes that the font will always have a question mark character defined
-    // TODO: Javadoc, add to changelog
     fun getChar(character: Char): LazyChar {
         val ch: LazyChar? = if (character.toInt() in 32..255) lookupTable[character.toInt() - 32] else extendedChars[character]
         if (ch != null) return ch
@@ -155,7 +155,6 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
         return ch ?: getChar('?')
     }
 
-    // TODO: Javadoc, add to changelog
     fun calcWidth(rawLine: String, fontSize: Float): Float {
         val scaleFactor = fontSize / baseHeight
         var lastChar: LazyChar? = null
@@ -195,10 +194,6 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
         return rawLine
     }
 
-    /**
-     *
-     */
-    // TODO: Javadoc, add to changelog
     @JvmOverloads
     fun wrapString(toWrap: String, fontSize: Float, maxWidth: Float, maxHeight: Float = Float.MAX_VALUE, indent: Int = 0): String {
         val maxLines = (maxHeight / fontSize).toInt()
@@ -271,13 +266,6 @@ class LazyFont(val textureId: Int, val baseHeight: Float, val textureWidth: Floa
         return wrappedString.toString()
     }
 
-    /**
-     * Renders a block of text, for manually creating display lists or VBOs. **Not recommended for general usage**
-     * - use [createText] instead.
-     * @return A [Vector2f] containing the width and height of the drawn text area.
-     * @see [createText] for efficiently drawing the same block of text multiple times
-     * @since 3.0
-     */
     fun drawText(text: String?, x: Float, y: Float, fontSize: Float, maxWidth: Float, maxHeight: Float): Vector2f {
         if (text == null || text.isBlank() || maxHeight < fontSize) {
             return Vector2f(0f, 0f)
