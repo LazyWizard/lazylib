@@ -1,6 +1,5 @@
 package org.lazywizard.lazylib;
 
-import java.util.Arrays;
 import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
 import org.apache.log4j.Level;
@@ -17,6 +16,9 @@ import org.lazywizard.lazylib.combat.entities.AnchoredEntity;
 import org.lazywizard.lazylib.combat.entities.SimpleEntity;
 import org.lazywizard.lazylib.opengl.ColorUtils;
 import org.lazywizard.lazylib.opengl.DrawUtils;
+import org.lazywizard.lazylib.ui.LazyFont;
+
+import java.util.Arrays;
 
 /**
  * Contains information on the current version of LazyLib.
@@ -54,7 +56,7 @@ public class LazyLib extends BaseModPlugin
      * Returns the Starsector release this version was coded for.
      *
      * @return The version of Starsector this library supports, as a
-     *         {@link String}.
+     * {@link String}.
      * <p>
      * @since 1.2
      */
@@ -67,7 +69,7 @@ public class LazyLib extends BaseModPlugin
      * Checks if this is a development (potentially unstable) build of LazyLib.
      *
      * @return {@code true} if this is a WIP build of LazyLib, {@code false}
-     *         otherwise.
+     * otherwise.
      * <p>
      * @since 1.4
      */
@@ -79,8 +81,9 @@ public class LazyLib extends BaseModPlugin
     /**
      * Checks if caching of the results of expensive methods is enabled.
      * <p>
+     *
      * @return {@code true} if results caching is enabled, {@code false}
-     *         otherwise.
+     * otherwise.
      * <p>
      * @since 1.8b
      */
@@ -119,7 +122,7 @@ public class LazyLib extends BaseModPlugin
      * Sets the log level used for all other LazyLib classes.
      *
      * @param level The minimum level of entries that will be logged.
-     * <p>
+     *              <p>
      * @since 1.6
      */
     public static void setLogLevel(Level level)
@@ -152,6 +155,8 @@ public class LazyLib extends BaseModPlugin
         // org.lazywizard.lazylib.opengl
         Global.getLogger(ColorUtils.class).setLevel(level);
         Global.getLogger(DrawUtils.class).setLevel(level);
+        // org.lazywizard.lazylib.ui
+        Global.getLogger(LazyFont.class).setLevel(level);
 
         LOG_LEVEL = level;
     }
@@ -164,6 +169,7 @@ public class LazyLib extends BaseModPlugin
      * using the stacktrace. You can ignore this method; there's no reason to
      * ever call it manually.
      * <p>
+     *
      * @since 1.7
      */
     public static void onDeprecatedMethodUsage()
@@ -200,8 +206,8 @@ public class LazyLib extends BaseModPlugin
                 {
                     Global.getLogger(LazyLib.class).log(Level.WARN,
                             "Called deprecated method " + caller.getClassName()
-                            + "." + caller.getMethodName() + "() from " + ste.getClassName()
-                            + "." + ste.getMethodName() + "():" + ste.getLineNumber());
+                                    + "." + caller.getMethodName() + "() from " + ste.getClassName()
+                                    + "." + ste.getMethodName() + "():" + ste.getLineNumber());
                     break;
                 }
             }

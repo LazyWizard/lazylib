@@ -1,19 +1,23 @@
- 3.0 (February XX, 2018)
-=========================
-Bundled the Kotlin runtime library (v1.21) with LazyLib:
+ 3.0 (September XX, 2018)
+==========================
+Bundled the Kotlin runtime library (v1.2.70) with LazyLib:
  - Kotlin is an alternate JVM language that is 100% interchangeable with Java
  - "Core" LazyLib is and always shall be written in Java, though some features
-   such as the GUI classes are written in Kotlin, and Kotlin extension method
+   such as the font classes are written in Kotlin, and Kotlin extension method
    bindings are provided in the org.lazywizard.lazylib.ext package
-Added @Nullable annotations where appropriate
-Added org.lazywizard.lazylib.ui.FontLoader:
- - load bitmap fonts with loadFont(String fontPath)
+Added @Nullable and @NotNull annotations where appropriate
 Added org.lazywizard.lazylib.ui.LazyFont:
  - Represents a bitmap font (the same type Starsector itself uses)
- - Use drawText() for text that is updated every frame (not recommended!)
+ - Load a font using the static method loadFont(String fontPath)
  - Use createText() to create a reusable DrawableString, which can draw a
    block of text repeatedly and very efficiently
+ - Use drawText() to manually draw text into a VBO or display list
  - See the Console mod for example usage; more examples will be provided soon
+Changes to CampaignUtils:
+ - Added getEntitiesWithRep(SectorEntityToken token, String entityTag,
+   IncludeRep include, RepLevel rep)
+Changes to ColorUtils:
+ - Added glColor(Color color, float alpha)
 Changes to MathUtils:
  - Added getPoint(Vector2f center, float radius, float angle). This acts as an
    alias for the existing getPointOnCircumference(), which is both the most
