@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.lwjgl.util.vector.Vector2f;
 
 import java.awt.*;
+import java.util.Map;
 
 /**
  * An efficiently drawable bitmap font implementation. May not be a pixel-perfect match of
@@ -15,18 +16,6 @@ import java.awt.*;
 // Javadoc stubs for LazyFont, since Dokka is a steaming pile
 public class LazyFont
 {
-    public LazyFont(int textureId, float baseHeight, float textureWidth, float textureHeight)
-    {
-        //super(textureId, baseHeight, textureWidth, textureHeight);
-        try
-        {
-            //LazyFont.DrawableString tmp = LazyFont.loadFont("test").createText("huh");
-        }
-        catch (Exception ex)
-        {
-        }
-    }
-
     /**
      * Loads a bitmap font and returns the {@link LazyFont} representation.
      * This method caches loaded fonts, so only one {@link LazyFont} will exist for each
@@ -88,7 +77,7 @@ public class LazyFont
     }
 
     @NotNull
-    public LazyChar getChar(char character)
+    public LazyFont.LazyChar getChar(char character)
     {
         return null;
     }
@@ -140,9 +129,190 @@ public class LazyFont
 
     public class LazyChar
     {
+        public Map<Integer, Integer> getKernings()
+        {
+            return null;
+        }
+
+        public float getTx1()
+        {
+            return 0f;
+        }
+
+        public float getTx2()
+        {
+            return 0f;
+        }
+
+        public float getTy1()
+        {
+            return 0f;
+        }
+
+        public float getTy2()
+        {
+            return 0f;
+        }
+
+        public void setKerning(int otherCharId, int kerning)
+        {
+        }
+
+        public int getKerning(int otherCharId)
+        {
+            return 0;
+        }
+
+        public void setKerning(char otherChar, int kerning)
+        {
+        }
+
+        public int getKerning(char otherChar)
+        {
+            return 0;
+        }
+
+        public int getId()
+        {
+            return 0;
+        }
+
+        public int getWidth()
+        {
+            return 0;
+        }
+
+        public int getHeight()
+        {
+            return 0;
+        }
+
+        public int getXOffset()
+        {
+            return 0;
+        }
+
+        public int getYOffset()
+        {
+            return 0;
+        }
+
+        public int getAdvance()
+        {
+            return 0;
+        }
+
+        private LazyChar()
+        {
+        }
     }
 
     public class DrawableString
+    {
+        public boolean isDisposed()
+        {
+            return false;
+        }
+
+        public float getWidth()
+        {
+            return 0f;
+        }
+
+        public float getHeight()
+        {
+            return 0f;
+        }
+
+        public float getFontSize()
+        {
+            return 0f;
+        }
+
+        public void setFontSize(float fontSize)
+        {
+        }
+
+        public float getMaxWidth()
+        {
+            return 0f;
+        }
+
+        public void setMaxWidth(float maxWidth)
+        {
+        }
+
+        public float getMaxHeight()
+        {
+            return 0f;
+        }
+
+        public void setMaxHeight(float maxHeight)
+        {
+        }
+
+        public Color getColor()
+        {
+            return null;
+        }
+
+        public void setColor(Color color)
+        {
+        }
+
+        public String getText()
+        {
+            return "";
+        }
+
+        public void setText(String text)
+        {
+        }
+
+        public boolean getDrawDebug()
+        {
+            return false;
+        }
+
+        public void setDrawDebug(boolean drawDebug)
+        {
+        }
+
+        public void appendText(String text)
+        {
+        }
+
+        public void appendText(String text, int indent)
+        {
+        }
+
+        public void draw(float x, float y)
+        {
+        }
+
+        public void draw(Vector2f location)
+        {
+        }
+
+        public void drawAtAngle(float x, float y, float angle)
+        {
+        }
+
+        public void drawAtAngle(Vector2f location, float angle)
+        {
+        }
+
+        public void dispose()
+        {
+        }
+
+        private DrawableString()
+        {
+        }
+    }
+
+
+    private LazyFont()
     {
     }
 }
