@@ -1,12 +1,13 @@
 package org.lazywizard.lazylib;
 
+import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.ModSpecAPI;
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.ModSpecAPI;
-import org.apache.log4j.Logger;
 
 /**
  * Contains methods for dealing with mod level (non-gameplay) tasks.
@@ -20,12 +21,12 @@ public class ModUtils
 
     /**
      * Checks if a class is present within the loaded mods.
-     *
+     * <p>
      * Note: this does <i>not</i> initialize the class if it is present.
      *
      * @param classCanonicalName The canonical name of the class to check for
      *                           (ex: {@code "data.scripts.plugins.ExamplePlugin"}).
-     * <p>
+     *                           <p>
      * @return {@code true} if the class is present, {@code false} otherwise.
      * <p>
      * @since 1.9b
@@ -46,8 +47,8 @@ public class ModUtils
 
     // TODO: Test, Javadoc, add to changelog
     static boolean loadClassesIfClassIsPresent(String classCanonicalName,
-            List<String> classesToLoadCanonicalNames,
-            boolean initializeClasses) throws ClassNotFoundException
+                                               List<String> classesToLoadCanonicalNames,
+                                               boolean initializeClasses) throws ClassNotFoundException
     {
         if (isClassPresent(classCanonicalName))
         {
@@ -64,14 +65,25 @@ public class ModUtils
         return false;
     }
 
-    // TODO: Javadoc, add to changelog
-    static boolean isModEnabled(String modId)
+    /**
+     * Check if a mod is enabled. Equivalent to {@link com.fs.starfarer.api.ModManagerAPI#isModEnabled(String)}.
+     *
+     * @param modId The ID of the mod to check.
+     * @return {@code true} if the mod with ID {@code modId} is enabled, {@code false} otherwise.
+     * @since 2.3
+     */
+    public static boolean isModEnabled(String modId)
     {
         return Global.getSettings().getModManager().isModEnabled(modId);
     }
 
-    // TODO: Test, Javadoc, add to changelog
-    static List<String> getEnabledModIds()
+    /**
+     * Returns the IDs of all currently enabled mods.
+     *
+     * @return A {@link List} containing the Ids of all enabled mods.
+     * @since 2.3
+     */
+    public static List<String> getEnabledModIds()
     {
         final List<String> enabledMods = new ArrayList<>();
         for (ModSpecAPI mod : Global.getSettings().getModManager().getEnabledModsCopy())

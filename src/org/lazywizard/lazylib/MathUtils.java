@@ -1,13 +1,14 @@
 package org.lazywizard.lazylib;
 
-import java.awt.geom.Line2D;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.util.vector.Vector2f;
+
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Contains methods for working with vectors, angles, distances, and circles.
@@ -22,7 +23,7 @@ public class MathUtils
 
     /**
      * Returns the distance between two {@link SectorEntityToken}s,
-     * including interaction radii.
+     * taking interaction radii into account.
      *
      * @see MathUtils#getDistance(Vector2f, Vector2f)
      * @since 1.0
@@ -35,7 +36,7 @@ public class MathUtils
 
     /**
      * Returns the distance between a {@link SectorEntityToken} and a
-     * {@link Vector2f}, including interaction radius.
+     * {@link Vector2f}, taking interaction radius into account.
      *
      * @see MathUtils#getDistance(Vector2f, Vector2f)
      * @since 1.1
@@ -46,8 +47,8 @@ public class MathUtils
     }
 
     /**
-     * Returns the distance between two {@link CombatEntityAPI}s, including
-     * collision radii.
+     * Returns the distance between two {@link CombatEntityAPI}s, taking
+     * collision radii into account.
      *
      * @see MathUtils#getDistance(Vector2f, Vector2f)
      * @since 1.0
@@ -60,7 +61,7 @@ public class MathUtils
 
     /**
      * Returns the distance between a {@link CombatEntityAPI} and a
-     * {@link Vector2f}, including collision radius.
+     * {@link Vector2f}, taking collision radius into account.
      *
      * @see MathUtils#getDistance(Vector2f, Vector2f)
      * @since 1.0
@@ -90,7 +91,7 @@ public class MathUtils
 
     /**
      * Returns the distance squared between two {@link SectorEntityToken}s,
-     * including interaction radii.
+     * taking interaction radii into account.
      * <p>
      * With the addition of collision radius checking, there's no way to avoid
      * calculating the square root.
@@ -110,7 +111,7 @@ public class MathUtils
 
     /**
      * Returns the distance squared between a {@link SectorEntityToken} and
-     * a {@link Vector2f}, including interaction radius.
+     * a {@link Vector2f}, taking interaction radius into account.
      * <p>
      * With the addition of collision radius checking, there's no way to avoid
      * calculating the square root.
@@ -130,7 +131,7 @@ public class MathUtils
 
     /**
      * Returns the distance squared between two {@link CombatEntityAPI}s,
-     * including collision radii.
+     * taking collision radii into account.
      * <p>
      * With the addition of collision radius checking, there's no way to avoid
      * calculating the square root.
@@ -150,7 +151,7 @@ public class MathUtils
 
     /**
      * Returns the distance squared between a {@link CombatEntityAPI} and a
-     * {@link Vector2f} (includes collision radius).
+     * {@link Vector2f}, taking collision radius into account.
      * <p>
      * With the addition of collision radius checking, there's no way to avoid
      * calculating the square root.
@@ -187,7 +188,7 @@ public class MathUtils
 
     /**
      * Check if two {@link SectorEntityToken}s are within a certain distance of
-     * each other, including interaction radii.
+     * each other, taking interaction radii into account.
      * <p>
      * This is <i>vastly</i> more efficient than comparisons using
      * {@link MathUtils#getDistance(SectorEntityToken, SectorEntityToken)},
@@ -197,9 +198,9 @@ public class MathUtils
      * @param token2 The second {@link SectorEntityToken} to check.
      * @param range  The minimum distance between {@code token1} and
      *               {@code token2}.
-     * <p>
+     *               <p>
      * @return Whether {@code token1} is within {@code range} su of
-     *         {@code token2}.
+     * {@code token2}.
      * <p>
      * @since 1.8
      */
@@ -211,7 +212,7 @@ public class MathUtils
 
     /**
      * Check if a {@link SectorEntityToken} is within a certain distance of a
-     * location, including interaction radius.
+     * location, taking interaction radius into account.
      * <p>
      * This is <i>vastly</i> more efficient than comparisons using
      * {@link MathUtils#getDistance(SectorEntityToken, Vector2f)},
@@ -220,7 +221,7 @@ public class MathUtils
      * @param token The {@link SectorEntityToken} to check.
      * @param loc   The {@link Vector2f} to check.
      * @param range The minimum distance between {@code token} and {@code loc}.
-     * <p>
+     *              <p>
      * @return Whether {@code token} is within {@code range} su of {@code loc}.
      * <p>
      * @since 1.8
@@ -232,7 +233,7 @@ public class MathUtils
 
     /**
      * Check if two {@link CombatEntityAPI}s are within a certain distance of
-     * each other, including collision radii.
+     * each other, taking collision radii into account.
      * <p>
      * This is <i>vastly</i> more efficient than comparisons using
      * {@link MathUtils#getDistance(CombatEntityAPI, CombatEntityAPI)},
@@ -242,9 +243,9 @@ public class MathUtils
      * @param entity2 The second {@link CombatEntityAPI} to check.
      * @param range   The minimum distance between {@code entity1} and
      *                {@code entity2}.
-     * <p>
+     *                <p>
      * @return Whether {@code entity1} is within {@code range} su of
-     *         {@code entity2}.
+     * {@code entity2}.
      * <p>
      * @since 1.8
      */
@@ -256,7 +257,7 @@ public class MathUtils
 
     /**
      * Check if a {@link CombatEntityAPI} is within a certain distance of a
-     * location, including collision radius.
+     * location, taking collision radius into account.
      * <p>
      * This is <i>vastly</i> more efficient than comparisons using
      * {@link MathUtils#getDistance(CombatEntityAPI, Vector2f)},
@@ -266,7 +267,7 @@ public class MathUtils
      * @param loc    The {@link Vector2f} to check.
      * @param range  The minimum distance between {@code entity} and
      *               {@code loc}.
-     * <p>
+     *               <p>
      * @return Whether {@code entity} is within {@code range} su of {@code loc}.
      * <p>
      * @since 1.8
@@ -283,7 +284,7 @@ public class MathUtils
      * @param loc1  The first {@link Vector2f}.
      * @param loc2  The second {@link Vector2f}.
      * @param range The minimum distance between {@code loc1} and {@code loc2}.
-     * <p>
+     *              <p>
      * @return Whether {@code loc1} is within {@code range} su of {@code loc2}.
      * <p>
      * @since 1.8
@@ -295,7 +296,7 @@ public class MathUtils
 
     // TODO: Test, rename, Javadoc, add to changelog
     static float renormalize(float num, float min, float max,
-            float oldMin, float oldMax)
+                             float oldMin, float oldMax)
     {
         return ((max - min) / (oldMax - oldMin)) * (num - oldMin) + min;
     }
@@ -310,7 +311,7 @@ public class MathUtils
      * Clamps an angle within 360 degrees (ex: 400 degrees becomes 40 degrees).
      *
      * @param angle The angle to be clamped.
-     * <p>
+     *              <p>
      * @return A value between 0 and 360 degrees.
      * <p>
      * @since 1.2
@@ -331,12 +332,44 @@ public class MathUtils
     }
 
     /**
+     * Clamps a {@link Float}, ensuring it falls within a given range.
+     *
+     * @param toClamp The {@link Float} to be clamped.
+     * @param min     The minimum value you wish the return value to hold.
+     * @param max     The maximum value you wish the return value to hold.
+     * @return {@code toClamp} if it falls between {@code min} and {@code max},
+     * {@code min} if it falls below, or {@code max} if it falls above.
+     * @since 2.3
+     */
+    public static float clamp(float toClamp, float min, float max)
+    {
+        if (max < min) return clamp(toClamp, max, min);
+        return Math.max(min, Math.min(max, toClamp));
+    }
+
+    /**
+     * Clamps an {@link Integer}, ensuring it falls within a given range.
+     *
+     * @param toClamp The {@link Integer} to be clamped.
+     * @param min     The minimum value you wish the return value to hold.
+     * @param max     The maximum value you wish the return value to hold.
+     * @return {@code toClamp} if it falls between {@code min} and {@code max},
+     * {@code min} if it falls below, or {@code max} if it falls above.
+     * @since 2.3
+     */
+    public static int clamp(int toClamp, int min, int max)
+    {
+        if (max < min) return clamp(toClamp, max, min);
+        return Math.max(min, Math.min(max, toClamp));
+    }
+
+    /**
      * Returns the direction and length of the quickest rotation between two
      * angles.
      *
      * @param currAngle The current facing.
      * @param destAngle The facing to rotate towards.
-     * <p>
+     *                  <p>
      * @return The shortest distance between the two angles, in degrees.
      * <p>
      * @since 1.7
@@ -352,11 +385,12 @@ public class MathUtils
     /**
      * Returns the point exactly between two other points.
      * <p>
+     *
      * @param point1 The first point.
      * @param point2 The second point.
-     * <p>
+     *               <p>
      * @return A {@link Vector2f} at the midpoint of the line between
-     *         {@code point1} and {@code point2}.
+     * {@code point1} and {@code point2}.
      * <p>
      * @since 1.9
      */
@@ -373,9 +407,9 @@ public class MathUtils
      *               origin).
      * @param radius The radius of the circle.
      * @param angle  The angle, in degrees, to get the point at.
-     * <p>
+     *               <p>
      * @return A {@link Vector2f} at [@code angle} degrees along the
-     *         circumference of the given circle.
+     * circumference of the given circle.
      * <p>
      * @since 1.0
      */
@@ -414,7 +448,7 @@ public class MathUtils
         return new Vector2f((float) FastTrig.cos(rad) * radius
                 + (center == null ? 0f : center.x),
                 (float) FastTrig.sin(rad) * radius
-                + (center == null ? 0f : center.y));
+                        + (center == null ? 0f : center.y));
     }
 
     /**
@@ -442,7 +476,7 @@ public class MathUtils
      * @param center The center point of the circle (can be null for a 0, 0
      *               origin).
      * @param radius The radius of the circle.
-     * <p>
+     *               <p>
      * @return A random point along the circumference of the given circle.
      * <p>
      * @see MathUtils#getPointOnCircumference(Vector2f, float, float)
@@ -459,7 +493,7 @@ public class MathUtils
      * @param center The center point of the circle (can be null for a 0, 0
      *               origin).
      * @param radius The radius of the circle.
-     * <p>
+     *               <p>
      * @return A random point inside of the given circle.
      * <p>
      * @since 1.0
@@ -472,7 +506,7 @@ public class MathUtils
         return new Vector2f((float) (r * FastTrig.cos(t)) * radius
                 + (center == null ? 0f : center.x),
                 (float) (r * FastTrig.sin(t)) * radius
-                + (center == null ? 0f : center.y));
+                        + (center == null ? 0f : center.y));
         //return getRandomPointOnCircumference(center, radius * rng.nextFloat());
     }
 
@@ -485,13 +519,13 @@ public class MathUtils
      * @param radius   The radius of the cone.
      * @param minAngle The minimum angular bounds.
      * @param maxAngle The maximum angular bounds.
-     * <p>
+     *                 <p>
      * @return A random point inside of the given circular sector.
      * <p>
      * @since 1.7
      */
     public static Vector2f getRandomPointInCone(@Nullable Vector2f center, float radius,
-            float minAngle, float maxAngle)
+                                                float minAngle, float maxAngle)
     {
         final double t = Math.toRadians(MathUtils.getRandomNumberInRange(minAngle, maxAngle)),
                 u = rng.nextDouble() + rng.nextDouble(),
@@ -499,7 +533,7 @@ public class MathUtils
         return new Vector2f((float) (r * FastTrig.cos(t)) * radius
                 + (center == null ? 0f : center.x),
                 (float) (r * FastTrig.sin(t)) * radius
-                + (center == null ? 0f : center.y));
+                        + (center == null ? 0f : center.y));
     }
 
     /**
@@ -507,9 +541,9 @@ public class MathUtils
      *
      * @param lineStart The starting point of the line.
      * @param lineEnd   The end point of the line.
-     * <p>
+     *                  <p>
      * @return A random {@link Vector2f} along the line between
-     *         {@code lineStart} and {@code lineEnd}.
+     * {@code lineStart} and {@code lineEnd}.
      * <p>
      * @since 1.6
      */
@@ -529,14 +563,14 @@ public class MathUtils
      * @param radius      The radius of the circle.
      * @param numPoints   How many points to generate.
      * @param angleOffset The offset angle of the initial point.
-     * <p>
+     *                    <p>
      * @return A {@link List} of {@link Vector2f}s that are evenly distributed
-     *         along the circle's circumference.
+     * along the circle's circumference.
      * <p>
      * @since 1.0
      */
     public static List<Vector2f> getPointsAlongCircumference(@Nullable Vector2f center,
-            float radius, int numPoints, float angleOffset)
+                                                             float radius, int numPoints, float angleOffset)
     {
         angleOffset = (float) Math.toRadians(angleOffset);
 
@@ -576,9 +610,9 @@ public class MathUtils
      * @param center The center point of the circle (can be null for a 0, 0
      *               origin).
      * @param radius The radius of the circle.
-     * <p>
+     *               <p>
      * @return {@code true} if {@code point} is on or within the circle,
-     *         {@code false} otherwise.
+     * {@code false} otherwise.
      * <p>
      * @since 1.0
      */
@@ -596,9 +630,9 @@ public class MathUtils
      * @param point     The point to check.
      * @param lineStart The starting point of the line.
      * @param lineEnd   The end point of the line.
-     * <p>
+     *                  <p>
      * @return {@code true} if the point is along the line, {@code false}
-     *         otherwise.
+     * otherwise.
      * <p>
      * @since 1.6
      */
@@ -609,14 +643,15 @@ public class MathUtils
     }
 
     /**
-     * @param source
-     * @param lineStart
-     * @param lineEnd
-     * @return
-     * @author Alex Mosolov
+     * Given a point and a line, returns the nearest point on said line to that point.
+     *
+     * @param source    The point to test distance from.
+     * @param lineStart The start point of the line to check.
+     * @param lineEnd   The end point of the line to check.
+     * @return The point on the line between {@code lineStart} and {@code lineEnd} nearest to {@code source}.
+     * @author Alex Mosolov (http://fractalsoftworks.com/forum/index.php?topic=5061.msg229605#msg229605)
      * @since 2.3
      */
-    // TODO: Finish javadoc
     public static Vector2f getNearestPointOnLine(Vector2f source, Vector2f lineStart, Vector2f lineEnd)
     {
         float u = (source.x - lineStart.x) * (lineEnd.x - lineStart.x)
@@ -649,14 +684,14 @@ public class MathUtils
      *                           a 0, 0 origin).
      * @param radius             The radius of the circle.
      * @param spaceBetweenPoints How much space should be between each point.
-     * <p>
+     *                           <p>
      * @return A {@link List} of evenly spaced {@link Vector2f}s inside a
-     *         circle.
+     * circle.
      * <p>
      * @since 1.4
      */
     public static List<Vector2f> getEquidistantPointsInsideCircle(@Nullable Vector2f center,
-            float radius, float spaceBetweenPoints)
+                                                                  float radius, float spaceBetweenPoints)
     {
         // Avoid infinite loops
         if (spaceBetweenPoints <= 0f)
@@ -699,7 +734,7 @@ public class MathUtils
      *
      * @param min The minimum value to select.
      * @param max The maximum value to select.
-     * <p>
+     *            <p>
      * @return A random {@link Float} between {@code min} and {@code max}.
      * <p>
      * @since 1.4
@@ -714,9 +749,9 @@ public class MathUtils
      *
      * @param min The minimum value to select.
      * @param max The maximum value to select (inclusive).
-     * <p>
+     *            <p>
      * @return A random {@link Integer} between {@code min} and {@code max},
-     *         inclusive.
+     * inclusive.
      * <p>
      * @since 2.0
      */
@@ -740,9 +775,9 @@ public class MathUtils
      *
      * @param a The first float to compare.
      * @param b The second float to compare.
-     * <p>
+     *          <p>
      * @return {@code true} if {@code a} and {@code b} are within 99.99999%
-     *         of each other, {@code false} otherwise.
+     * of each other, {@code false} otherwise.
      */
     public static boolean equals(float a, float b)
     {

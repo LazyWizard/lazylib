@@ -11,6 +11,7 @@ import java.io.IOException
 import java.net.URI
 import java.util.*
 
+// Documentation for this class is in the docstubs directory
 class LazyFont private constructor(val textureId: Int, val baseHeight: Float, val textureWidth: Float, val textureHeight: Float) {
     private val lookupTable: Array<LazyChar?> = arrayOfNulls(224)
     private val extendedChars = HashMap<Char, LazyChar>()
@@ -357,7 +358,6 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
     }
 
     @JvmOverloads
-    // TODO: Javadoc, add to changelog
     fun createText(text: String, color: Color = Color.WHITE, size: Float = baseHeight, maxWidth: Float = Float.MAX_VALUE,
                    maxHeight: Float = Float.MAX_VALUE): DrawableString = DrawableString(text, size, maxWidth, maxHeight, color)
 
@@ -513,7 +513,6 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
     }
 }
 
-// TODO: Javadoc, add to changelog
 class FontException : Exception {
     constructor(message: String) : super(message)
     constructor(message: String, cause: Throwable) : super(message, cause)
