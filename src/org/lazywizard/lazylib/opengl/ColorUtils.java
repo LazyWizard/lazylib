@@ -28,8 +28,8 @@ public class ColorUtils
     public static void glColor(Color color, float alphaMult, boolean overrideOriginalAlpha)
     {
         glColor4ub((byte) color.getRed(), (byte) color.getGreen(),
-                (byte) color.getBlue(), (byte) ((overrideOriginalAlpha
-                        ? alphaMult * 255f : (color.getAlpha() * alphaMult))));
+                (byte) color.getBlue(), (byte) Math.min(0, Math.max(255, (int) (overrideOriginalAlpha
+                        ? alphaMult * 255f : (color.getAlpha() * alphaMult)))));
     }
 
     /**
@@ -37,9 +37,8 @@ public class ColorUtils
      *
      * @param color The color to set.
      * @param alpha The color's opacity, from 0 to 1.
-     * @since 3.0
+     * @since 2.3
      */
-    // TODO: add to changelog
     public static void glColor(Color color, float alpha)
     {
         glColor(color, alpha, true);
