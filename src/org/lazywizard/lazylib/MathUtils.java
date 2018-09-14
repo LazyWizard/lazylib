@@ -609,6 +609,34 @@ public class MathUtils
     }
 
     /**
+     * @param source
+     * @param lineStart
+     * @param lineEnd
+     * @return
+     * @author Alex Mosolov
+     * @since 2.3
+     */
+    // TODO: Finish javadoc
+    public static Vector2f getNearestPointOnLine(Vector2f source, Vector2f lineStart, Vector2f lineEnd)
+    {
+        float u = (source.x - lineStart.x) * (lineEnd.x - lineStart.x)
+                + (source.y - lineStart.y) * (lineEnd.y - lineStart.y);
+        float denom = Vector2f.sub(lineEnd, lineStart, new Vector2f()).length();
+        denom *= denom;
+
+        u /= denom;
+
+        // if closest point on line is outside the segment, clamp to on the segment
+        if (u < 0) u = 0;
+        if (u > 1) u = 1;
+
+        Vector2f i = new Vector2f();
+        i.x = lineStart.x + u * (lineEnd.x - lineStart.x);
+        i.y = lineStart.y + u * (lineEnd.y - lineStart.y);
+        return i;
+    }
+
+    /**
      * Returns a {@link List} of evenly spaced {@link Vector2f}s inside a
      * circle.
      * <p>

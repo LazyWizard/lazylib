@@ -16,9 +16,13 @@ Added org.lazywizard.lazylib.ui.LazyFont:
 Changes to CampaignUtils:
  - Added getEntitiesWithRep(SectorEntityToken token, String entityTag,
    IncludeRep include, RepLevel rep)
+Changes to CollisionUtils:
+ - Added getNearestPointOnBounds(Vector2f source, CombatEntityAPI entity)
 Changes to ColorUtils:
  - Added glColor(Color color, float alpha)
 Changes to MathUtils:
+ - Added getNearestPointOnLine(Vector2f source, Vector2f lineStart,
+   Vector2f lineEnd)
  - Added getPoint(Vector2f center, float radius, float angle). This acts as an
    alias for the existing getPointOnCircumference(), which is both the most
    commonly used method in LazyLib as well as one of the most awkwardly named

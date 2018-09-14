@@ -1,13 +1,15 @@
 package org.lazywizard.lazylib;
 
-import java.awt.geom.Line2D;
-import java.util.ArrayList;
-import java.util.List;
 import com.fs.starfarer.api.combat.BoundsAPI;
 import com.fs.starfarer.api.combat.BoundsAPI.SegmentAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.util.vector.Vector2f;
+
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contains methods for line intersection, bounds and collision detection tests.
@@ -153,6 +155,41 @@ public class CollisionUtils
         return Line2D.ptSegDistSq(lineStart.x, lineStart.y, lineEnd.x,
                 lineEnd.y, circleCenter.x, circleCenter.y)
                 <= (circleRadius * circleRadius);
+    }
+
+    /**
+     * Returns the closest point on a {@link CombatEntityAPI}'s collision bounds to a point. If the entity
+     * lacks collision bounds, the closest point on its collision radius will be returned instead.
+     *
+     * @param source The point to check distance from.
+     * @param entity The entity whose bounds will be checked.
+     * @return The closest point to {@code source} on {@code entity}'s {@link BoundsAPI}, or
+     * the closest point on its collision radius if it lacks collision bounds.
+     * @since 2.3
+     */
+    @NotNull
+    public static Vector2f getNearestPointOnBounds(Vector2f source, CombatEntityAPI entity)
+    {
+        final BoundsAPI bounds = entity.getExactBounds();
+        if (bounds == null)
+        {
+            return MathUtils.getPointOnCircumference(entity.getLocation(),
+                    entity.getCollisionRadius(), VectorUtils.getAngle(entity.getLocation(), source));
+        }
+
+        final Vector2f closestPoint = new Vector2f(entity.getLocation());
+        float closestRange = Float.MAX_VALUE;
+        for (SegmentAPI segment : bounds.getSegments())
+        {
+            final Vector2f tmp = MathUtils.getNearestPointOnLine(source, segment.getP1(), segment.getP2());
+            if (MathUtils.getDistanceSquared(source, tmp) < closestRange)
+            {
+                closestPoint.set(tmp);
+                closestRange = MathUtils.getDistanceSquared(source, tmp);
+            }
+        }
+
+        return closestPoint;
     }
 
     /**
