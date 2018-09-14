@@ -11,8 +11,7 @@ import java.io.IOException
 import java.net.URI
 import java.util.*
 
-// TODO: Remove open modifier and add private constructor after generating javadoc stubs
-open class LazyFont (val textureId: Int, val baseHeight: Float, val textureWidth: Float, val textureHeight: Float) {
+class LazyFont private constructor(val textureId: Int, val baseHeight: Float, val textureWidth: Float, val textureHeight: Float) {
     private val lookupTable: Array<LazyChar?> = arrayOfNulls(224)
     private val extendedChars = HashMap<Char, LazyChar>()
 
@@ -371,12 +370,20 @@ open class LazyFont (val textureId: Int, val baseHeight: Float, val textureWidth
         val ty1: Float = (textureHeight - ty) / textureHeight
         val ty2: Float = ty1 - (height / textureHeight)
 
-        fun setKerning(otherChar: Int, kerning: Int) {
-            kernings[otherChar] = kerning
+        fun setKerning(otherCharId: Int, kerning: Int) {
+            kernings[otherCharId] = kerning
         }
 
-        fun getKerning(otherChar: Int): Int {
-            return kernings.getOrElse(otherChar) { 0 }
+        fun getKerning(otherCharId: Int): Int {
+            return kernings.getOrElse(otherCharId) { 0 }
+        }
+
+        fun setKerning(otherChar: Char, kerning: Int) {
+            kernings[otherChar.toInt()] = kerning
+        }
+
+        fun getKerning(otherChar: Char): Int {
+            return kernings.getOrElse(otherChar.toInt()) { 0 }
         }
     }
 
@@ -384,7 +391,7 @@ open class LazyFont (val textureId: Int, val baseHeight: Float, val textureWidth
         private val sb: StringBuilder = StringBuilder(text)
         private val displayListId: Int = glGenLists(1)
         private var needsRebuild = true
-        var disposed = false
+        var isDisposed = false
             private set
         var width: Float = 0f
             private set
@@ -466,7 +473,7 @@ open class LazyFont (val textureId: Int, val baseHeight: Float, val textureWidth
         }
 
         fun draw(x: Float, y: Float) {
-            if (disposed) throw RuntimeException("Tried to draw using a disposed DrawableString!")
+            if (isDisposed) throw RuntimeException("Tried to draw using a disposed DrawableString!")
             if (needsRebuild) buildString()
 
             glPushMatrix()
@@ -492,13 +499,13 @@ open class LazyFont (val textureId: Int, val baseHeight: Float, val textureWidth
         private fun releaseResources() = glDeleteLists(displayListId, 1)
 
         fun dispose() {
-            if (!disposed) releaseResources()
-            disposed = true
+            if (!isDisposed) releaseResources()
+            isDisposed = true
         }
 
         @Suppress("ProtectedInFinal")
         protected fun finalize() {
-            if (!disposed) {
+            if (!isDisposed) {
                 Log.warn("DrawableString was not disposed of properly!")
                 releaseResources()
             }
