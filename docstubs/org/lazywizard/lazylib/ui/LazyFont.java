@@ -11,9 +11,10 @@ import java.util.Map;
  * Starsector's implementation.
  *
  * @author LazyWizard
- * @since 3.0
+ * @since 2.3
  */
 // Javadoc stubs for LazyFont, since Dokka is a steaming pile
+// The actual source code can be found in LazyFont.kt
 public class LazyFont
 {
     /**
@@ -24,7 +25,7 @@ public class LazyFont
      * @param fontPath The relative path to the .fnt file (ex: {@code "graphics/fonts/insignia15LTaa.fnt"}).
      * @return A {@link LazyFont} representation of the bitmap font at {@code fontPath}.
      * @throws FontException If there's no font found at {@code fontPath} or the data in the font is malformed.
-     * @since 3.0
+     * @since 2.3
      */
     @NotNull
     public static LazyFont loadFont(String fontPath) throws FontException
@@ -89,7 +90,7 @@ public class LazyFont
      * @return A {@link Vector2f} containing the width and height of the drawn text area.
      * @see LazyFont#createText(String, Color, float, float, float) for efficiently drawing the same
      * block of text multiple times
-     * @since 3.0
+     * @since 2.3
      */
     @NotNull
     public Vector2f drawText(String text, float x, float y, float fontSize, float maxWidth, float maxHeight)
@@ -97,6 +98,17 @@ public class LazyFont
         return null;
     }
 
+    /**
+     * Creates an efficiently redrawable block of text.
+     * @param text
+     * @param color
+     * @param size
+     * @param maxWidth
+     * @param maxHeight
+     * @return
+     * @since 2.3
+     */
+    // TODO: Finish Javadoc
     @NotNull
     public DrawableString createText(String text, Color color, float size, float maxWidth, float maxHeight)
     {

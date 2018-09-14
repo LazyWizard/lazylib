@@ -1,5 +1,7 @@
 package org.lazywizard.lazylib.opengl;
 
+import org.lazywizard.lazylib.MathUtils;
+
 import java.awt.*;
 
 import static org.lwjgl.opengl.GL11.glColor4ub;
@@ -28,8 +30,8 @@ public class ColorUtils
     public static void glColor(Color color, float alphaMult, boolean overrideOriginalAlpha)
     {
         glColor4ub((byte) color.getRed(), (byte) color.getGreen(),
-                (byte) color.getBlue(), (byte) Math.min(0, Math.max(255, (int) (overrideOriginalAlpha
-                        ? alphaMult * 255f : (color.getAlpha() * alphaMult)))));
+                (byte) color.getBlue(), (byte) MathUtils.clamp((int) (overrideOriginalAlpha
+                        ? alphaMult * 255f : (color.getAlpha() * alphaMult)), 0, 255));
     }
 
     /**

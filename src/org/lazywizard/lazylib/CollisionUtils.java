@@ -25,15 +25,15 @@ public class CollisionUtils
      * @param target    The CombatEntityAPI to check collision with.
      * @param lineStart The start of the line to test collision with.
      * @param lineEnd   The end of the line to test collision with.
-     * <p>
+     *                  <p>
      * @return The {@link Vector2f} of the point the line would hit at,
-     *         or {@code null} if it doesn't hit.
+     * or {@code null} if it doesn't hit.
      * <p>
      * @since 1.0
      */
     @Nullable
     public static Vector2f getCollisionPoint(Vector2f lineStart,
-            Vector2f lineEnd, CombatEntityAPI target)
+                                             Vector2f lineEnd, CombatEntityAPI target)
     {
         BoundsAPI bounds = target.getExactBounds();
 
@@ -84,15 +84,15 @@ public class CollisionUtils
      * @param end1   The end of the first line to test collision with.
      * @param start2 The start of the second line to test collision with.
      * @param end2   The end of the second line to test collision with.
-     * <p>
+     *               <p>
      * @return The {@link Vector2f} that the two lines intersect at,
-     *         {@code null} if they don't collide.
+     * {@code null} if they don't collide.
      * <p>
      * @since 1.0
      */
     @Nullable
     public static Vector2f getCollisionPoint(Vector2f start1, Vector2f end1,
-            Vector2f start2, Vector2f end2)
+                                             Vector2f start2, Vector2f end2)
     {
         if (Line2D.Float.ptSegDistSq(start2.x, start2.y, end2.x, end2.y,
                 end1.x, end1.y) <= 0.11111f)
@@ -142,14 +142,14 @@ public class CollisionUtils
      * @param lineEnd      The end point of the line to test.
      * @param circleCenter The center point of the circle.
      * @param circleRadius The radius of the circle.
-     * <p>
+     *                     <p>
      * @return {@code true} if the line collides with the circle,
-     *         {@code false} otherwise.
+     * {@code false} otherwise.
      * <p>
      * @since 1.0
      */
     public static boolean getCollides(Vector2f lineStart, Vector2f lineEnd,
-            Vector2f circleCenter, float circleRadius)
+                                      Vector2f circleCenter, float circleRadius)
     {
         // Check if distance between line and center is within radius
         return Line2D.ptSegDistSq(lineStart.x, lineStart.y, lineEnd.x,
@@ -170,6 +170,7 @@ public class CollisionUtils
     @NotNull
     public static Vector2f getNearestPointOnBounds(Vector2f source, CombatEntityAPI entity)
     {
+        // Fall back to closest point on collision radius if entity lacks a BoundsAPI
         final BoundsAPI bounds = entity.getExactBounds();
         if (bounds == null)
         {
@@ -177,15 +178,17 @@ public class CollisionUtils
                     entity.getCollisionRadius(), VectorUtils.getAngle(entity.getLocation(), source));
         }
 
+        // Fallback in case entity somehow lacks any segments in its bounds
         final Vector2f closestPoint = new Vector2f(entity.getLocation());
-        float closestRange = Float.MAX_VALUE;
+        float closestDistanceSquared = Float.MAX_VALUE;
         for (SegmentAPI segment : bounds.getSegments())
         {
             final Vector2f tmp = MathUtils.getNearestPointOnLine(source, segment.getP1(), segment.getP2());
-            if (MathUtils.getDistanceSquared(source, tmp) < closestRange)
+            final float distanceSquared = MathUtils.getDistanceSquared(source, tmp);
+            if (distanceSquared < closestDistanceSquared)
             {
                 closestPoint.set(tmp);
-                closestRange = MathUtils.getDistanceSquared(source, tmp);
+                closestDistanceSquared = distanceSquared;
             }
         }
 
@@ -199,14 +202,14 @@ public class CollisionUtils
      * @param point  The {@link Vector2f} to check.
      * @param entity The {@link CombatEntityAPI} whose {@link BoundsAPI} we
      *               are checking against.
-     * <p>
+     *               <p>
      * @return {@code true} if {@code point} is within the collision circle
-     *         of {@code entity}, {@code false} otherwise.
+     * of {@code entity}, {@code false} otherwise.
      * <p>
      * @since 1.4
      */
     public static boolean isPointWithinCollisionCircle(Vector2f point,
-            CombatEntityAPI entity)
+                                                       CombatEntityAPI entity)
     {
         return MathUtils.isPointWithinCircle(point, entity.getLocation(),
                 entity.getCollisionRadius());
@@ -219,9 +222,9 @@ public class CollisionUtils
      *
      * @param point   The point to check.
      * @param segment The {@link SegmentAPI} to check for collision with.
-     * <p>
+     *                <p>
      * @return {@code true} if the point is along the line, {@code false}
-     *         otherwise.
+     * otherwise.
      * <p>
      * @since 1.6b
      */
@@ -238,9 +241,9 @@ public class CollisionUtils
      * @param point  The {@link Vector2f} to check.
      * @param entity The {@link CombatEntityAPI} whose {@link BoundsAPI} we
      *               are checking against.
-     * <p>
+     *               <p>
      * @return {@code true} if {@code point} is within or on the bounds of
-     *         {@code entity}, {@code false} otherwise.
+     * {@code entity}, {@code false} otherwise.
      * <p>
      * @since 1.0
      */

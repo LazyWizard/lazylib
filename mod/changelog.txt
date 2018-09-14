@@ -1,4 +1,4 @@
- 3.0 (September XX, 2018)
+ 2.3 (September XX, 2018)
 ==========================
 Bundled the Kotlin runtime library (v1.2.70) with LazyLib:
  - Kotlin is an alternate JVM language that is 100% interchangeable with Java
@@ -21,14 +21,21 @@ Changes to CollisionUtils:
 Changes to ColorUtils:
  - Added glColor(Color color, float alpha)
 Changes to MathUtils:
+ - Added clamp(float/int toClamp, float/int min, float/int max). This clamps
+   the passed value within the given range. Variants are provided for both
+   integers and floats.
  - Added getNearestPointOnLine(Vector2f source, Vector2f lineStart,
    Vector2f lineEnd)
  - Added getPoint(Vector2f center, float radius, float angle). This acts as an
    alias for the existing getPointOnCircumference(), which is both the most
    commonly used method in LazyLib as well as one of the most awkwardly named
+Changes to ModUtils:
+ - Added isModEnabled(String modId)
+ - Added getEnabledModIds()
 Removed from SimpleEntity:
  - Removed Object constructor (it used reflection, which is now blocked;
    remaining options are Vector2f, WeaponAPI, and ShipEngineAPI)
+Misc Javadoc improvements
 
  2.2 (April 21, 2017)
 =======================
