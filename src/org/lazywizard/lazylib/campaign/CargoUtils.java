@@ -20,7 +20,7 @@ public class CargoUtils
      *
      * @param stack The {@link CargoStackAPI} to be moved.
      * @param to    The destination {@link CargoAPI}.
-     * <p>
+     *
      * @since 1.0
      */
     public static void moveStack(CargoStackAPI stack, CargoAPI to)
@@ -39,7 +39,7 @@ public class CargoUtils
      *
      * @param stack The {@link CargoStackAPI} to be moved.
      * @param to    The destination {@link SectorEntityToken}.
-     * <p>
+     *
      * @since 1.2
      */
     public static void moveStack(CargoStackAPI stack, SectorEntityToken to)
@@ -53,10 +53,10 @@ public class CargoUtils
     /**
      * Moves all mothballed {@link FleetMemberAPI}s from one {@link CargoAPI} to
      * another.
-     * <p>
+     *
      * @param from The {@link CargoAPI} to be emptied.
      * @param to   The destination {@link CargoAPI}.
-     * <p>
+     *
      * @since 1.9
      */
     public static void moveMothballedShips(CargoAPI from, CargoAPI to)
@@ -74,9 +74,9 @@ public class CargoUtils
      *
      * @param from The {@link CargoAPI} to be emptied.
      * @param to   The destination {@link CargoAPI}.
-     * <p>
+     *
      * @see CargoUtils#moveStack(com.fs.starfarer.api.campaign.CargoStackAPI,
-     * com.fs.starfarer.api.campaign.CargoAPI)
+     *         com.fs.starfarer.api.campaign.CargoAPI)
      * @since 1.0
      */
     public static void moveCargo(CargoAPI from, CargoAPI to)
@@ -94,15 +94,15 @@ public class CargoUtils
 
     /**
      * Checks if a cargo contains a specific mothballed ship.
-     * <p>
+     *
      * @param fleetMemberId The fleet member ID of the ship to check. This can
      *                      be retrieved with {@link ShipAPI#getFleetMemberId()}
      *                      or {@link FleetMemberAPI#getId()}.
      * @param cargo         The cargo to check for the presence of this ship in.
-     * <p>
+     *
      * @return {@code true} if {@code cargo} contains a ship with this ID,
      *         {@code false} otherwise.
-     * <p>
+     *
      * @since 2.0
      */
     public static boolean isShipInMothballed(String fleetMemberId, CargoAPI cargo)
@@ -127,9 +127,9 @@ public class CargoUtils
      * Returns the amount of space taken by weapons in a {@link CargoAPI}.
      *
      * @param cargo The {@link CargoAPI} to analyze.
-     * <p>
+     *
      * @return The amount of space taken by weapons in {@code cargo}.
-     * <p>
+     *
      * @since 1.0
      */
     public static float getSpaceTakenByWeapons(CargoAPI cargo)
@@ -151,9 +151,9 @@ public class CargoUtils
      * Returns the amount of space taken by crew in a {@link CargoAPI}.
      *
      * @param cargo The {@link CargoAPI} to analyze.
-     * <p>
+     *
      * @return The amount of space taken by crew in {@code cargo}.
-     * <p>
+     *
      * @since 1.0
      */
     public static float getSpaceTakenByCrew(CargoAPI cargo)
@@ -175,9 +175,9 @@ public class CargoUtils
      * Returns the amount of space taken by supplies in a {@link CargoAPI}.
      *
      * @param cargo The {@link CargoAPI} to analyze.
-     * <p>
+     *
      * @return The amount of space taken by supplies in {@code cargo}.
-     * <p>
+     *
      * @since 1.0
      */
     public static float getSpaceTakenBySupplies(CargoAPI cargo)
@@ -199,9 +199,9 @@ public class CargoUtils
      * Returns the amount of space taken by fuel in a {@link CargoAPI}.
      *
      * @param cargo The {@link CargoAPI} to analyze.
-     * <p>
+     *
      * @return The amount of space taken by fuel in {@code cargo}.
-     * <p>
+     *
      * @since 1.0
      */
     public static float getSpaceTakenByFuel(CargoAPI cargo)
@@ -223,9 +223,9 @@ public class CargoUtils
      * Returns the amount of space taken by all commodities in a {@link CargoAPI}.
      *
      * @param cargo The {@link CargoAPI} to analyze.
-     * <p>
+     *
      * @return The amount of space taken by commodity stacks in {@code cargo}.
-     * <p>
+     *
      * @since 1.0
      */
     public static float getSpaceTakenByCommodities(CargoAPI cargo)
@@ -248,9 +248,9 @@ public class CargoUtils
      * {@link CargoAPI}.
      *
      * @param cargo The {@link CargoAPI} to analyze.
-     * <p>
+     *
      * @return The amount of space used in {@code cargo}.
-     * <p>
+     *
      * @since 1.2
      */
     public static float getSpaceTakenByCargo(CargoAPI cargo)

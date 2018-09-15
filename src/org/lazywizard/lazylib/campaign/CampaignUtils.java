@@ -32,7 +32,7 @@ public class CampaignUtils
      * reputation relative to the {@link RepLevel} passed in. For example,
      * {@link RepLevel#FAVORABLE} is {@link IncludeRep#AT_OR_HIGHER}
      * {@link RepLevel#NEUTRAL}.
-     * <p>
+     *
      * @since 2.0
      */
     public enum IncludeRep
@@ -63,10 +63,10 @@ public class CampaignUtils
      * Checks if a fleet is the player fleet.
      *
      * @param fleet The {@link CampaignFleetAPI} to be checked.
-     * <p>
+     *
      * @return {@code true} if {@code fleet} is the player fleet, {@code false}
      *         otherwise.
-     * <p>
+     *
      * @since 1.0
      */
     public static boolean isPlayer(CampaignFleetAPI fleet)
@@ -83,10 +83,10 @@ public class CampaignUtils
      * @param token1 A {@link SectorEntityToken} whose faction relationship will
      *               be tested.
      * @param token2 The {@link SectorEntityToken} to test relationship with.
-     * <p>
+     *
      * @return The faction relationship between {@code token1} and
      *         {@code token2}.
-     * <p>
+     *
      * @since 1.7
      */
     public static float getRelation(SectorEntityToken token1, SectorEntityToken token2)
@@ -102,9 +102,9 @@ public class CampaignUtils
      * @param token1 A {@link SectorEntityToken} whose faction reputation will
      *               be tested.
      * @param token2 The {@link SectorEntityToken} to test reputation with.
-     * <p>
+     *
      * @return The faction reputation between {@code token1} and {@code token2}.
-     * <p>
+     *
      * @since 2.0
      */
     public static RepLevel getReputation(SectorEntityToken token1, SectorEntityToken token2)
@@ -117,10 +117,10 @@ public class CampaignUtils
      *
      * @param token1 The first {@link SectorEntityToken} to check.
      * @param token2 The second {@link SectorEntityToken} to check.
-     * <p>
+     *
      * @return {@code true} if both tokens share a faction, {@code false}
      *         otherwise.
-     * <p>
+     *
      * @since 2.0
      */
     public static boolean areSameFaction(SectorEntityToken token1, SectorEntityToken token2)
@@ -138,15 +138,15 @@ public class CampaignUtils
      * @param rep     The base reputation level {@code token1} and {token2} must
      *                be at with each other for this to return {@code true},
      *                modified by {@code include}.
-     * <p>
+     *
      * @return {@code true} if both tokens share a faction, {@code false}
      *         otherwise.
-     * <p>
+     *
      * @since 2.0
      */
     // TODO: Test this!
     public static boolean areAtRep(SectorEntityToken token1, SectorEntityToken token2,
-            IncludeRep include, RepLevel rep)
+                                   IncludeRep include, RepLevel rep)
     {
         final RepLevel actualRep = getReputation(token1, token2);
         switch (include)
@@ -171,15 +171,15 @@ public class CampaignUtils
      * check mothballed ships - call
      * {@link CargoUtils#isShipInMothballed(java.lang.String,
      * com.fs.starfarer.api.campaign.CargoAPI)} for that.
-     * <p>
+     *
      * @param fleetMemberId The fleet member ID of the ship to check. This can
      *                      be retrieved with {@link ShipAPI#getFleetMemberId()}
      *                      or {@link FleetMemberAPI#getId()}.
      * @param fleet         The fleet to check for the presence of this ship in.
-     * <p>
+     *
      * @return {@code true} if {@code fleet} contains a ship with this ID,
      *         {@code false} otherwise.
-     * <p>
+     *
      * @since 1.8
      */
     public static boolean isShipInFleet(String fleetMemberId, CampaignFleetAPI fleet)
@@ -207,13 +207,13 @@ public class CampaignUtils
      * @param wingOrVariantId The wing or variant ID to create.
      * @param type            Whether to add a fighter wing or a ship.
      * @param fleet           The fleet to add this ship to.
-     * <p>
+     *
      * @return The {@link FleetMemberAPI} of the created ship.
-     * <p>
+     *
      * @since 2.1
      */
     public static FleetMemberAPI addShipToFleet(String wingOrVariantId,
-            FleetMemberType type, CampaignFleetAPI fleet)
+                                                FleetMemberType type, CampaignFleetAPI fleet)
     {
         FleetMemberAPI ship = Global.getFactory().createFleetMember(
                 type, wingOrVariantId);
@@ -231,9 +231,9 @@ public class CampaignUtils
      * Find the closest hostile fleet to a {@link SectorEntityToken}.
      *
      * @param token The {@link SectorEntityToken} to search around.
-     * <p>
+     *
      * @return The hostile {@link CampaignFleetAPI} closest to {@code token}, or {@code null} if none are found.
-     * <p>
+     *
      * @since 1.2
      */
     @Nullable
@@ -267,10 +267,10 @@ public class CampaignUtils
      *
      * @param token The entity to search around.
      * @param range How far around {@code token} to search.
-     * <p>
+     *
      * @return A {@link List} containing all fleets within range that are
      *         hostile towards {@code token} and can be seen by it.
-     * <p>
+     *
      * @since 1.2
      */
     public static List<CampaignFleetAPI> getNearbyHostileFleets(
@@ -305,10 +305,10 @@ public class CampaignUtils
      * that token's location.
      *
      * @param token The {@link SectorEntityToken} to find enemies of.
-     * <p>
+     *
      * @return All enemies of {@code token} in the system that are actively
      *         hostile.
-     * <p>
+     *
      * @since 1.2
      */
     public static List<CampaignFleetAPI> getHostileFleetsInSystem(SectorEntityToken token)
@@ -338,9 +338,9 @@ public class CampaignUtils
      * @param token     The {@link SectorEntityToken} to search around.
      * @param entityTag The tag we should be searching for; for example:
      *                  {@link Tags#STATION} or {@link Tags#JUMP_POINT}.
-     * <p>
+     *
      * @return The object with tag {@code entityTag} closest to {@code token}, or {@code null} if none are found.
-     * <p>
+     *
      * @since 2.0
      */
     @Nullable
@@ -379,10 +379,10 @@ public class CampaignUtils
      * @param range     How far around {@code token} to search.
      * @param entityTag The tag we should be searching for; for example:
      *                  {@link Tags#STATION} or {@link Tags#JUMP_POINT}.
-     * <p>
+     *
      * @return All objects with tag {@code entityTag} within range of
      *         {@code token}.
-     * <p>
+     *
      * @since 2.0
      */
     public static <T extends SectorEntityToken> List<T> getNearbyEntitiesWithTag(
@@ -419,10 +419,10 @@ public class CampaignUtils
      * @param entityTag The tag we should be searching for; for example:
      *                  {@link Tags#STATION} or {@link Tags#JUMP_POINT}.
      * @param faction   The faction ownership we are looking for.
-     * <p>
+     *
      * @return The object with tag {@code entityTag} closest to {@code token}
      *         that is owned by {@code faction}, or {@code null} if none are found.
-     * <p>
+     *
      * @since 2.0
      */
     @Nullable
@@ -462,10 +462,10 @@ public class CampaignUtils
      * @param entityTag The tag we should be searching for; for example:
      *                  {@link Tags#STATION} or {@link Tags#JUMP_POINT}.
      * @param faction   What faction the entity must be owned by.
-     * <p>
+     *
      * @return All objects with tag {@code entityTag} and faction
      *         {@code faction} within range of {@code token}.
-     * <p>
+     *
      * @since 2.0
      */
     public static <T extends SectorEntityToken> List<T> getNearbyEntitiesFromFaction(
@@ -501,10 +501,10 @@ public class CampaignUtils
      * @param entityTag The tag we should be searching for; for example:
      *                  {@link Tags#STATION} or {@link Tags#JUMP_POINT}.
      * @param faction   What faction entities must belong to.
-     * <p>
+     *
      * @return All objects of faction {@code faction} and with tag
      *         {@code entityTag} within {@code location}.
-     * <p>
+     *
      * @since 2.0
      */
     public static <T extends SectorEntityToken> List<T> getEntitiesFromFaction(
@@ -536,11 +536,11 @@ public class CampaignUtils
      * @param include   What range of {@link RepLevel}s to accept, relative to
      *                  {@code rep}.
      * @param rep       The base reputation to check against.
-     * <p>
+     *
      * @return The object with tag {@code entityTag} closest to {@code token}
      *         within the reputation range specified by {@code include} and
      *         {@code rep}, or {@code null} if none are found.
-     * <p>
+     *
      * @since 2.0
      */
     // TODO: Test this
@@ -584,10 +584,10 @@ public class CampaignUtils
      * @param include   What range of {@link RepLevel}s to accept, relative to
      *                  {@code rep}.
      * @param rep       The base reputation to check against.
-     * <p>
+     *
      * @return All objects with tag {@code entityTag} within range of
      *         {@code token}.
-     * <p>
+     *
      * @since 2.0
      */
     // TODO: Test this!
@@ -655,10 +655,10 @@ public class CampaignUtils
      * @param include   What range of {@link RepLevel}s to accept, relative to
      *                  {@code rep}.
      * @param rep       The base reputation to check against.
-     * <p>
+     *
      * @return All objects with tag {@code entityTag} within range of
      *         {@code token}.
-     * <p>
+     *
      * @since 2.0
      */
     // TODO: Test this!
@@ -676,11 +676,11 @@ public class CampaignUtils
      *
      * @param token The entity to search around.
      * @param range How far around {@code token} to search.
-     * <p>
+     *
      * @return A {@link List} containing all fleets within range that
      *         {@code token} can see, excluding itself if it is a
      *         {@link CampaignFleetAPI}.
-     * <p>
+     *
      * @since 1.7
      */
     public static List<CampaignFleetAPI> getNearbyFleets(SectorEntityToken token, float range)

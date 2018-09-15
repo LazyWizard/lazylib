@@ -25,10 +25,10 @@ public class CollisionUtils
      * @param target    The CombatEntityAPI to check collision with.
      * @param lineStart The start of the line to test collision with.
      * @param lineEnd   The end of the line to test collision with.
-     *                  <p>
+     *
      * @return The {@link Vector2f} of the point the line would hit at,
-     * or {@code null} if it doesn't hit.
-     * <p>
+     *         or {@code null} if it doesn't hit.
+     *
      * @since 1.0
      */
     @Nullable
@@ -84,10 +84,10 @@ public class CollisionUtils
      * @param end1   The end of the first line to test collision with.
      * @param start2 The start of the second line to test collision with.
      * @param end2   The end of the second line to test collision with.
-     *               <p>
+     *
      * @return The {@link Vector2f} that the two lines intersect at,
-     * {@code null} if they don't collide.
-     * <p>
+     *         {@code null} if they don't collide.
+     *
      * @since 1.0
      */
     @Nullable
@@ -142,10 +142,10 @@ public class CollisionUtils
      * @param lineEnd      The end point of the line to test.
      * @param circleCenter The center point of the circle.
      * @param circleRadius The radius of the circle.
-     *                     <p>
+     *
      * @return {@code true} if the line collides with the circle,
-     * {@code false} otherwise.
-     * <p>
+     *         {@code false} otherwise.
+     *
      * @since 1.0
      */
     public static boolean getCollides(Vector2f lineStart, Vector2f lineEnd,
@@ -163,8 +163,10 @@ public class CollisionUtils
      *
      * @param source The point to check distance from.
      * @param entity The entity whose bounds will be checked.
+     *
      * @return The closest point to {@code source} on {@code entity}'s {@link BoundsAPI}, or
-     * the closest point on its collision radius if it lacks collision bounds.
+     *         the closest point on its collision radius if it lacks collision bounds.
+     *
      * @since 2.3
      */
     @NotNull
@@ -202,10 +204,10 @@ public class CollisionUtils
      * @param point  The {@link Vector2f} to check.
      * @param entity The {@link CombatEntityAPI} whose {@link BoundsAPI} we
      *               are checking against.
-     *               <p>
+     *
      * @return {@code true} if {@code point} is within the collision circle
-     * of {@code entity}, {@code false} otherwise.
-     * <p>
+     *         of {@code entity}, {@code false} otherwise.
+     *
      * @since 1.4
      */
     public static boolean isPointWithinCollisionCircle(Vector2f point,
@@ -222,10 +224,10 @@ public class CollisionUtils
      *
      * @param point   The point to check.
      * @param segment The {@link SegmentAPI} to check for collision with.
-     *                <p>
+     *
      * @return {@code true} if the point is along the line, {@code false}
-     * otherwise.
-     * <p>
+     *         otherwise.
+     *
      * @since 1.6b
      */
     public static boolean isPointOnSegment(Vector2f point, SegmentAPI segment)
@@ -241,10 +243,10 @@ public class CollisionUtils
      * @param point  The {@link Vector2f} to check.
      * @param entity The {@link CombatEntityAPI} whose {@link BoundsAPI} we
      *               are checking against.
-     *               <p>
+     *
      * @return {@code true} if {@code point} is within or on the bounds of
-     * {@code entity}, {@code false} otherwise.
-     * <p>
+     *         {@code entity}, {@code false} otherwise.
+     *
      * @since 1.0
      */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")

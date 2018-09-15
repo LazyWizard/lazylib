@@ -35,10 +35,10 @@ public class CombatUtils
      *
      * @param ship The {@link ShipAPI} whose corresponding
      *             {@link FleetMemberAPI} we are trying to find.
-     * <p>
+     *
      * @return The {@link FleetMemberAPI} that represents this {@link ShipAPI}
      *         in the campaign, or {@code null} if no match is found.
-     * <p>
+     *
      * @since 1.5
      */
     @Nullable
@@ -82,10 +82,10 @@ public class CombatUtils
      *
      * @param entity The {@link CombatEntityAPI} to check visibility of.
      * @param side   The side whose fog of war will be tested.
-     * <p>
+     *
      * @return {@code true} if {@code entity} is visible to {@code side},
      *         {@code false} otherwise.
-     * <p>
+     *
      * @since 1.7
      */
     public static boolean isVisibleToSide(CombatEntityAPI entity, int side)
@@ -117,10 +117,10 @@ public class CombatUtils
      *
      * @param location The location to search around.
      * @param range    How far around {@code location} to search.
-     * <p>
+     *
      * @return A {@link List} of {@link DamagingProjectileAPI}s within range of
      *         {@code location}.
-     * <p>
+     *
      * @since 1.0
      */
     public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location, float range)
@@ -148,10 +148,10 @@ public class CombatUtils
      *
      * @param location The location to search around.
      * @param range    How far around {@code location} to search.
-     * <p>
+     *
      * @return A {@link List} of {@link MissileAPI}s within range of
      *         {@code location}.
-     * <p>
+     *
      * @since 1.0
      */
     public static List<MissileAPI> getMissilesWithinRange(Vector2f location, float range)
@@ -175,10 +175,10 @@ public class CombatUtils
      *
      * @param location The location to search around.
      * @param range    How far around {@code location} to search.
-     * <p>
+     *
      * @return A {@link List} of {@link ShipAPI}s within range of
      *         {@code location}.
-     * <p>
+     *
      * @since 1.0
      */
     public static List<ShipAPI> getShipsWithinRange(Vector2f location, float range)
@@ -206,9 +206,9 @@ public class CombatUtils
      *
      * @param location The location to search around.
      * @param range    How far around {@code location} to search.
-     * <p>
+     *
      * @return A {@link List} of asteroids within range of {@code location}.
-     * <p>
+     *
      * @since 1.0
      */
     public static List<CombatEntityAPI> getAsteroidsWithinRange(Vector2f location, float range)
@@ -231,14 +231,14 @@ public class CombatUtils
      *
      * @param location The location to search around.
      * @param range    How far around {@code location} to search.
-     * <p>
+     *
      * @return A {@link List} of {@link BattleObjectiveAPI}s within range of
      *         {@code location}.
-     * <p>
+     *
      * @since 1.0
      */
     public static List<BattleObjectiveAPI> getObjectivesWithinRange(Vector2f location,
-            float range)
+                                                                    float range)
     {
         List<BattleObjectiveAPI> objectives = new ArrayList<>();
 
@@ -258,10 +258,10 @@ public class CombatUtils
      *
      * @param location The location to search around.
      * @param range    How far around {@code location} to search.
-     * <p>
+     *
      * @return A {@link List} of {@link CombatEntityAPI}s within range of
      *         {@code location}.
-     * <p>
+     *
      * @since 1.0
      */
     public static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location, float range)
@@ -298,11 +298,11 @@ public class CombatUtils
 
     /**
      * Spawns a ship directly onto the battle map, bypassing the fleet reserves.
-     * <p>
+     *
      * <b>NOTE: this method will not work out of the box in the campaign (.6.2a)
      * due to an after-battle crash in the default FleetEncounterContextPlugin
      * caused by spawned ships not being registered with the fleet.</b>
-     * <p>
+     *
      * @param variantId       The ID of the ship variant to spawn.
      * @param type            Whether this is a ship or a fighter wing.
      * @param side            What side of the battle this ship should fight on.
@@ -310,14 +310,14 @@ public class CombatUtils
      * @param location        The location on the battle map the ship should
      *                        spawn at.
      * @param facing          The initial facing of the ship on the battle map.
-     * <p>
+     *
      * @return The {@link ShipAPI} that was spawned by this method.
-     * <p>
+     *
      * @since 1.9
      */
     public static ShipAPI spawnShipOrWingDirectly(String variantId,
-            FleetMemberType type, FleetSide side, float combatReadiness,
-            Vector2f location, float facing)
+                                                  FleetMemberType type, FleetSide side, float combatReadiness,
+                                                  Vector2f location, float facing)
     {
         // Warn the player about the FleetEncounterContext bug in .6.2a
         /*if (Global.getCombatEngine().isInCampaign()
@@ -344,9 +344,9 @@ public class CombatUtils
 
     /**
      * Recenters the viewport at a specific point.
-     * <p>
+     *
      * @param newCenter The new center point of the {@link ViewportAPI}.
-     * <p>
+     *
      * @since 2.0
      */
     public static void centerViewport(Vector2f newCenter)
@@ -358,7 +358,7 @@ public class CombatUtils
 
     /**
      * Apply force to an object. Remember Newton's Second Law.
-     *
+     * <p>
      * Force is multiplied by 100 to avoid requiring ridiculous force amounts.
      *
      * @param entity    The {@link CombatEntityAPI} to apply the force to.
@@ -366,7 +366,7 @@ public class CombatUtils
      *                  automatically be normalized).
      * @param force     How much force to apply. Unit is how much it takes
      *                  to modify a 100 weight object's velocity by 1 su/sec.
-     * <p>
+     *
      * @since 1.2
      */
     public static void applyForce(CombatEntityAPI entity, Vector2f direction, float force)
@@ -394,14 +394,14 @@ public class CombatUtils
 
     /**
      * Apply force to an object. Remember Newton's Second Law.
-     *
+     * <p>
      * Force is multiplied by 100 to avoid requiring ridiculous force amounts.
      *
      * @param entity    The {@link CombatEntityAPI} to apply the force to.
      * @param direction The angle the force will be applied towards.
      * @param force     How much force to apply. Unit is how much it takes
      *                  to modify a 100 weight object's velocity by 1 su/sec.
-     * <p>
+     *
      * @since 1.2
      */
     public static void applyForce(CombatEntityAPI entity, float direction, float force)

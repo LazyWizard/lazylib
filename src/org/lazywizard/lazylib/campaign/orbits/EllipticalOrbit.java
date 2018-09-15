@@ -36,11 +36,11 @@ public class EllipticalOrbit implements OrbitAPI
      *                     orbital path.
      * @param daysPerOrbit How long it should take for us to make one orbit
      *                     around {@code focus}.
-     * <p>
+     *
      * @since 1.9
      */
     public EllipticalOrbit(SectorEntityToken focus, float startAngle,
-            float orbitWidth, float orbitHeight, float orbitAngle, float daysPerOrbit)
+                           float orbitWidth, float orbitHeight, float orbitAngle, float daysPerOrbit)
     {
         this.focus = focus;
         this.orbitWidth = orbitWidth;
@@ -56,9 +56,9 @@ public class EllipticalOrbit implements OrbitAPI
 
     /**
      * Returns the current angle along the orbital path of the orbiting entity.
-     * <p>
+     *
      * @return The angle of the current position along the elliptical path.
-     * <p>
+     *
      * @since 1.9
      */
     public float getAngle()
@@ -68,9 +68,9 @@ public class EllipticalOrbit implements OrbitAPI
 
     /**
      * Returns the width of the ellipsis used as a path.
-     * <p>
+     *
      * @return The width of the ellipsis in su.
-     * <p>
+     *
      * @since 1.9
      */
     public float getOrbitWidth()
@@ -80,9 +80,9 @@ public class EllipticalOrbit implements OrbitAPI
 
     /**
      * Returns the height of the ellipsis used as a path.
-     * <p>
+     *
      * @return The height of the ellipsis in su.
-     * <p>
+     *
      * @since 1.9
      */
     public float getOrbitHeight()
@@ -92,9 +92,9 @@ public class EllipticalOrbit implements OrbitAPI
 
     /**
      * Returns the offset angle of the ellipsis used as a path.
-     * <p>
+     *
      * @return The offset of the ellipsis used as a path, in degrees.
-     * <p>
+     *
      * @since 1.9
      */
     public float getOrbitAngle()
@@ -104,10 +104,10 @@ public class EllipticalOrbit implements OrbitAPI
 
     /**
      * Explicitly sets where along our orbital path we should be.
-     * <p>
+     *
      * @param angle The angle (in degrees) along the orbital path we should be
      *              moved to.
-     * <p>
+     *
      * @since 1.9
      */
     public void setAngle(float angle)

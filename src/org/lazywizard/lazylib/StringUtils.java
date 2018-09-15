@@ -17,9 +17,9 @@ public class StringUtils
      * @param maxLineLength How long a line can reach before it's split in two.
      *                      Must be at least 2, otherwise it will return an
      *                      empty String.
-     * <p>
+     *
      * @return {@code toWrap} wrapped to {@code maxLineLength} width.
-     * <p>
+     *
      * @since 1.8
      */
     public static String wrapString(String toWrap, int maxLineLength)
@@ -123,15 +123,15 @@ public class StringUtils
 
     /**
      * Prepends every line of a {@link String} with another {@link String}.
-     * <p>
+     *
      * @param toIndent   The {@link String} to be indented.
      * @param indentWith The {@link String} to prefix each line with. For
      *                   example, a bulleted list could be created by passing in
      *                   {@code " * "}.
-     * <p>
+     *
      * @return {@code toIndent} with every line prepended with
      *         {@code indentWith}.
-     * <p>
+     *
      * @since 1.8
      */
     public static String indent(String toIndent, String indentWith)

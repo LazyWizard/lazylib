@@ -29,11 +29,11 @@ public class DefenseUtils
      *
      * @param ship The {@link ShipAPI} whose {@link ArmorGridAPI} we will use.
      * @param loc  The world location we will be checking the armor value at.
-     * <p>
+     *
      * @return The armor value at {@code loc}, or
      *         {@link DefenseUtils#NOT_IN_GRID}
      *         if the point isn't within {@code ship}'s {@link ArmorGridAPI}.
-     * <p>
+     *
      * @since 1.5
      */
     public static float getArmorValue(ShipAPI ship, Vector2f loc)
@@ -53,11 +53,11 @@ public class DefenseUtils
      *
      * @param ship The {@link ShipAPI} whose {@link ArmorGridAPI} we will use.
      * @param loc  The world location we will be checking the armor damage at.
-     * <p>
+     *
      * @return The armor damage taken at {@code loc}, or
      *         {@link DefenseUtils#NOT_IN_GRID} if the point isn't within
      *         {@code ship}'s {@link ArmorGridAPI}.
-     * <p>
+     *
      * @since 1.5
      */
     public static float getArmorDamage(ShipAPI ship, Vector2f loc)
@@ -80,11 +80,11 @@ public class DefenseUtils
      *
      * @param ship The {@link ShipAPI} whose {@link ArmorGridAPI} we will use.
      * @param loc  The world location we will be checking the armor level at.
-     * <p>
+     *
      * @return The armor level at {@code loc}, or
      *         {@link DefenseUtils#NOT_IN_GRID}
      *         if the point isn't within {@code ship}'s {@link ArmorGridAPI}.
-     * <p>
+     *
      * @since 1.5
      */
     public static float getArmorLevel(ShipAPI ship, Vector2f loc)
@@ -107,9 +107,9 @@ public class DefenseUtils
      *
      * @param ship The {@link ShipAPI} to examine.
      * @param loc  The location to check at.
-     * <p>
+     *
      * @return The {@link DefenseType} present at {@code loc}.
-     * <p>
+     *
      * @since 1.5
      */
     public static DefenseType getDefenseAtPoint(ShipAPI ship, Vector2f loc)
@@ -142,10 +142,10 @@ public class DefenseUtils
      * Checks if a ship has taken any armor damage.
      *
      * @param ship The {@link ShipAPI} to check for armor damage on.
-     * <p>
+     *
      * @return {@code true} if {@code ship} has armor damage, {@code false}
      *         otherwise.
-     * <p>
+     *
      * @since 2.0
      */
     public static boolean hasArmorDamage(ShipAPI ship)
@@ -172,10 +172,10 @@ public class DefenseUtils
      * Checks if a ship has taken any hull damage.
      *
      * @param ship The {@link ShipAPI} to check for hull damage on.
-     * <p>
+     *
      * @return {@code true} if {@code ship} has hull damage, {@code false}
      *         otherwise.
-     * <p>
+     *
      * @since 2.0
      */
     public static boolean hasHullDamage(ShipAPI ship)
@@ -184,17 +184,18 @@ public class DefenseUtils
     }
 
     // TODO: Test this
+
     /**
      * Returns the most damaged armor cell on a {@link ShipAPI}, or {@code null}
      * if the ship hasn't taken any armor damage.
-     * <p>
+     *
      * @param ship The {@link ShipAPI} to check for armor damage on.
-     * <p>
+     *
      * @return A {@link Point} containing the armor grid coordinates of the most
      *         damaged armor cell, or {@code null} if no armor damage was found.
      *         If multiple cells are at 0 armor, the first found will be
      *         returned.
-     * <p>
+     *
      * @since 2.0
      */
     @Nullable

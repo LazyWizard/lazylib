@@ -1,8 +1,9 @@
 package org.lazywizard.lazylib;
 
+import org.lwjgl.util.vector.Vector2f;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.lwjgl.util.vector.Vector2f;
 
 /**
  * Contains methods for manipulating {@link Vector2f}s.
@@ -18,10 +19,10 @@ public class VectorUtils
      * Returns the facing (angle) of a {@link Vector2f}.
      *
      * @param vector The vector to get the facing of.
-     * <p>
+     *
      * @return The facing (angle) of {@code vector} in degrees, or 0 if the
      *         vector has no length.
-     * <p>
+     *
      * @since 1.7
      */
     public static float getFacing(Vector2f vector)
@@ -39,9 +40,9 @@ public class VectorUtils
      *
      * @param from The source {@link Vector2f}.
      * @param to   The {@link Vector2f} to get the angle to.
-     * <p>
+     *
      * @return The angle pointing from {@code from} to {@code to}.
-     * <p>
+     *
      * @since 1.7
      */
     public static float getAngle(Vector2f from, Vector2f to)
@@ -55,9 +56,9 @@ public class VectorUtils
      *
      * @param source      The origin of the vector.
      * @param destination The location to point at.
-     * <p>
+     *
      * @return A normalized {@link Vector2f} pointing at {@code destination}.
-     * <p>
+     *
      * @since 1.8
      */
     public static Vector2f getDirectionalVector(Vector2f source, Vector2f destination)
@@ -78,9 +79,9 @@ public class VectorUtils
      *
      * @param vector1 The first {@link Vector2f}.
      * @param vector2 The second {@link Vector2f}.
-     * <p>
+     *
      * @return The cross product of the two vectors.
-     * <p>
+     *
      * @since 1.7
      */
     public static float getCrossProduct(Vector2f vector1, Vector2f vector2)
@@ -95,9 +96,9 @@ public class VectorUtils
      * @param angle    How much to rotate {@code toRotate}, in degrees.
      * @param dest     The destination {@link Vector2f}. Can be
      *                 {@code toRotate}.
-     * <p>
+     *
      * @return A rotated version of {@code toRotate} placed in {@code dest}.
-     * <p>
+     *
      * @since 1.7
      */
     public static Vector2f rotate(Vector2f toRotate, float angle, Vector2f dest)
@@ -120,9 +121,9 @@ public class VectorUtils
      *
      * @param toRotate The {@link List} of {@link Vector2f}s to rotate.
      * @param angle    How much to rotate {@code toRotate}, in degrees.
-     * <p>
+     *
      * @return A {@link List} of {@link Vector2f}s that have been rotated.
-     * <p>
+     *
      * @since 2.0
      */
     public static List<Vector2f> rotate(List<Vector2f> toRotate, float angle)
@@ -152,13 +153,13 @@ public class VectorUtils
      * @param angle      How much to rotate {@code toRotate}, in degrees.
      * @param dest       The destination {@link Vector2f}. Can be
      *                   {@code toRotate}.
-     * <p>
+     *
      * @return A rotated version of {@code toRotate} placed in {@code dest}.
-     * <p>
+     *
      * @since 1.7
      */
     public static Vector2f rotateAroundPivot(Vector2f toRotate, Vector2f pivotPoint,
-            float angle, Vector2f dest)
+                                             float angle, Vector2f dest)
     {
         if (angle == 0f)
         {
@@ -174,18 +175,18 @@ public class VectorUtils
     /**
      * Rotates a {@link List} of {@link Vector2f}s by a specified amount around
      * a pivot point. Much more efficient than rotating each point individually.
-     * <p>
+     *
      * @param toRotate   The {@link List} of {@link Vector2f}s to rotate.
      * @param pivotPoint The central point to pivot around.
      * @param angle      How much to rotate {@code toRotate}, in degrees.
-     * <p>
+     *
      * @return A {@link List} of {@link Vector2f}s that have been rotated around
      *         {@code pivotPoint}.
-     * <p>
+     *
      * @since 2.0
      */
     public static List<Vector2f> rotateAroundPivot(List<Vector2f> toRotate,
-            Vector2f pivotPoint, float angle)
+                                                   Vector2f pivotPoint, float angle)
     {
         List<Vector2f> rotated = new ArrayList<>(toRotate.size());
         if (angle == 0f)

@@ -25,6 +25,7 @@ public class ColorUtils
      * @param overrideOriginalAlpha Whether to completely override
      *                              {@code color}'s alpha channel with
      *                              {@code alphaMult}.
+     *
      * @since 1.9
      */
     public static void glColor(Color color, float alphaMult, boolean overrideOriginalAlpha)
@@ -39,6 +40,7 @@ public class ColorUtils
      *
      * @param color The color to set.
      * @param alpha The color's opacity, from 0 to 1.
+     *
      * @since 2.3
      */
     public static void glColor(Color color, float alpha)
@@ -50,6 +52,7 @@ public class ColorUtils
      * Sets the OpenGL color using an AWT {@link Color} object.
      *
      * @param color The color to set.
+     *
      * @since 1.9
      */
     public static void glColor(Color color)

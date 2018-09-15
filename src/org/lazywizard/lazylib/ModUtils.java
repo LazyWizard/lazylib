@@ -26,9 +26,9 @@ public class ModUtils
      *
      * @param classCanonicalName The canonical name of the class to check for
      *                           (ex: {@code "data.scripts.plugins.ExamplePlugin"}).
-     *                           <p>
+     *
      * @return {@code true} if the class is present, {@code false} otherwise.
-     * <p>
+     *
      * @since 1.9b
      */
     public static boolean isClassPresent(String classCanonicalName)
@@ -69,7 +69,9 @@ public class ModUtils
      * Check if a mod is enabled. Equivalent to {@link com.fs.starfarer.api.ModManagerAPI#isModEnabled(String)}.
      *
      * @param modId The ID of the mod to check.
+     *
      * @return {@code true} if the mod with ID {@code modId} is enabled, {@code false} otherwise.
+     *
      * @since 2.3
      */
     public static boolean isModEnabled(String modId)
@@ -81,6 +83,7 @@ public class ModUtils
      * Returns the IDs of all currently enabled mods.
      *
      * @return A {@link List} containing the Ids of all enabled mods.
+     *
      * @since 2.3
      */
     public static List<String> getEnabledModIds()

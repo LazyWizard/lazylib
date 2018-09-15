@@ -44,7 +44,7 @@ public class LazyLib extends BaseModPlugin
      * their version is out of date.
      *
      * @return The current version of LazyLib, as a {@link Float}.
-     * <p>
+     *
      * @since 1.1
      */
     public static float getVersion()
@@ -56,8 +56,8 @@ public class LazyLib extends BaseModPlugin
      * Returns the Starsector release this version was coded for.
      *
      * @return The version of Starsector this library supports, as a
-     * {@link String}.
-     * <p>
+     *         {@link String}.
+     *
      * @since 1.2
      */
     public static String getSupportedGameVersion()
@@ -69,8 +69,8 @@ public class LazyLib extends BaseModPlugin
      * Checks if this is a development (potentially unstable) build of LazyLib.
      *
      * @return {@code true} if this is a WIP build of LazyLib, {@code false}
-     * otherwise.
-     * <p>
+     *         otherwise.
+     *
      * @since 1.4
      */
     public static boolean isDevBuild()
@@ -80,11 +80,10 @@ public class LazyLib extends BaseModPlugin
 
     /**
      * Checks if caching of the results of expensive methods is enabled.
-     * <p>
      *
      * @return {@code true} if results caching is enabled, {@code false}
-     * otherwise.
-     * <p>
+     *         otherwise.
+     *
      * @since 1.8b
      */
     public static boolean isCachingEnabled()
@@ -96,7 +95,7 @@ public class LazyLib extends BaseModPlugin
      * Gets the library information (for startup messages, etc).
      *
      * @return A {@link String} containing information on the library.
-     * <p>
+     *
      * @since 1.2
      */
     public static String getInfo()
@@ -110,7 +109,7 @@ public class LazyLib extends BaseModPlugin
      * itself will always use log level {@link Level#ALL}.
      *
      * @return The current log level for all LazyLib classes.
-     * <p>
+     *
      * @since 1.6b
      */
     public static Level getLogLevel()
@@ -122,7 +121,7 @@ public class LazyLib extends BaseModPlugin
      * Sets the log level used for all other LazyLib classes.
      *
      * @param level The minimum level of entries that will be logged.
-     *              <p>
+     *
      * @since 1.6
      */
     public static void setLogLevel(Level level)
@@ -168,7 +167,6 @@ public class LazyLib extends BaseModPlugin
      * {@link RuntimeException} so modders can track down the problematic code
      * using the stacktrace. You can ignore this method; there's no reason to
      * ever call it manually.
-     * <p>
      *
      * @since 1.7
      */
