@@ -9,6 +9,23 @@ import java.util.Map;
 /**
  * An efficiently drawable bitmap font implementation. May not be a pixel-perfect match of
  * Starsector's implementation.
+ * <p>
+ * Usage:
+ * <pre>><ul>
+ *     <li>Load a font with {@link LazyFont#loadFont(String)}. This can be kept around safely without worrying about
+ *     memory - the underlying texture makes up the bulk of the size, and that is only loaded once per unique font.
+ *     {@link LazyFont} itself only contains font metadata used for rendering, and is relatively lightweight.</li>
+ *     <li>Using said font, create a {@link DrawableString} with
+ *     {@link LazyFont#createText(String, Color, float, float, float)}. This methods arguments determine how the
+ *     text will appear and any size restrictions the block of text should be given. These can all be changed later
+ *     by calling methods on the returned {@link DrawableString} directly.</li>
+ *     <li>Draw the text where you need it with {@link DrawableString#draw(float, float)}.</li>
+ *     <li>That's it! So long as you keep a reference to the {@link DrawableString}, you can re-draw the text
+ *     extremely efficiently, or edit/append the text at will.</li>
+ *     <li>When finished using the {@link DrawableString}, call {@link DrawableString#dispose()} to ensure
+ *     its underlying OpenGL resources are cleaned up. Ensure you don't call {@link DrawableString#draw(float, float)}
+ *     after calling {@link DrawableString#dispose()} or your game will crash!</li>
+ * </ul></pre>
  *
  * @author LazyWizard
  * @since 2.3
@@ -23,7 +40,9 @@ public class LazyFont
      * font file loaded, and subsequent calls will be near instantaneous.
      *
      * @param fontPath The relative path to the .fnt file (ex: {@code "graphics/fonts/insignia15LTaa.fnt"}).
+     *
      * @return A {@link LazyFont} representation of the bitmap font at {@code fontPath}.
+     *
      * @throws FontException If there's no font found at {@code fontPath} or the data in the font is malformed.
      * @since 2.3
      */
@@ -84,12 +103,13 @@ public class LazyFont
     }
 
     /**
-     * Renders a block of text, for manually creating display lists or VBOs. <b>Not recommended for general usage</b>
-     * - use {@link LazyFont#createText(String, Color, float, float, float)} instead.
+     * Renders a block of text, for manually creating display lists or VBOs - <b>not recommended for general usage</b>.
+     * Use {@link LazyFont#createText(String, Color, float, float, float)} instead.
      *
      * @return A {@link Vector2f} containing the width and height of the drawn text area.
+     *
      * @see LazyFont#createText(String, Color, float, float, float) for efficiently drawing the same
-     * block of text multiple times
+     *         block of text multiple times
      * @since 2.3
      */
     @NotNull
@@ -99,42 +119,91 @@ public class LazyFont
     }
 
     /**
-     * Creates an efficiently redrawable block of text.
-     * @param text
-     * @param color
-     * @param size
-     * @param maxWidth
-     * @param maxHeight
-     * @return
+     * Create a {@link DrawableString} with the specified initial text, color, and font size, with text wrapping and
+     * a max height - any appended text past that limit will be discarded.
+     *
+     * @return A {@link DrawableString} with the specified text, color, and font size, with text wrapping
+     *         at {@code maxWidth}, and a max height of {@code maxHeight}.
+     *
      * @since 2.3
      */
-    // TODO: Finish Javadoc
+    // TODO: Finish Javadoc (add params)
     @NotNull
     public DrawableString createText(String text, Color color, float size, float maxWidth, float maxHeight)
     {
         return null;
     }
 
+    /**
+     * Create a {@link DrawableString} with the specified initial text, color, and font size, with text wrapping.
+     *
+     * @return A {@link DrawableString} with the specified text, color, and font size, with text wrapping
+     *         at {@code maxWidth}.
+     *
+     * @see LazyFont#createText(String, Color, float, float, float)
+     * @since 2.3
+     */
     @NotNull
     public DrawableString createText(String text, Color color, float size, float maxWidth)
     {
         return null;
     }
 
+    /**
+     * Create a {@link DrawableString} with the specified initial text, color, and font size, with no text wrapping.
+     *
+     * @return A {@link DrawableString} with the specified text, color, and font size, with no text wrapping.
+     *
+     * @see LazyFont#createText(String, Color, float, float, float)
+     * @since 2.3
+     */
     @NotNull
     public DrawableString createText(String text, Color color, float size)
     {
         return null;
     }
 
+    /**
+     * Create a {@link DrawableString} with the specified initial text and color. Defaults to the base
+     * font size, and no text wrapping.
+     *
+     * @return A {@link DrawableString} with the specified text and color, the base font size, and no text wrapping.
+     *
+     * @see LazyFont#createText(String, Color, float, float, float)
+     * @since 2.3
+     */
     @NotNull
     public DrawableString createText(String text, Color color)
     {
         return null;
     }
 
+    /**
+     * Create a {@link DrawableString} with the specified initial text. Defaults to white text, the base
+     * font size, and no text wrapping.
+     *
+     * @return A {@link DrawableString} with the specified text, white color, the base font size, and no text wrapping.
+     *
+     * @see LazyFont#createText(String, Color, float, float, float)
+     * @since 2.3
+     */
     @NotNull
     public DrawableString createText(String text)
+    {
+        return null;
+    }
+
+    /**
+     * Create a {@link DrawableString} with no text, ready for appending. Defaults to white text, the base
+     * font size, and no text wrapping.
+     *
+     * @return An empty {@link DrawableString} with white text, the base font size, and no text wrapping.
+     *
+     * @see LazyFont#createText(String, Color, float, float, float)
+     * @since 2.3
+     */
+    @NotNull
+    public DrawableString createText()
     {
         return null;
     }
