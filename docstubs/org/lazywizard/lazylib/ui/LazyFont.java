@@ -11,21 +11,21 @@ import java.util.Map;
  * Starsector's implementation.
  * <p>
  * Usage:
- * <pre>><ul>
- *     <li>Load a font with {@link LazyFont#loadFont(String)}. This can be kept around safely without worrying about
- *     memory - the underlying texture makes up the bulk of the size, and that is only loaded once per unique font.
- *     {@link LazyFont} itself only contains font metadata used for rendering, and is relatively lightweight.</li>
- *     <li>Using said font, create a {@link DrawableString} with
- *     {@link LazyFont#createText(String, Color, float, float, float)}. This methods arguments determine how the
- *     text will appear and any size restrictions the block of text should be given. These can all be changed later
- *     by calling methods on the returned {@link DrawableString} directly.</li>
- *     <li>Draw the text where you need it with {@link DrawableString#draw(float, float)}.</li>
- *     <li>That's it! So long as you keep a reference to the {@link DrawableString}, you can re-draw the text
- *     extremely efficiently, or edit/append the text at will.</li>
- *     <li>When finished using the {@link DrawableString}, call {@link DrawableString#dispose()} to ensure
- *     its underlying OpenGL resources are cleaned up. Ensure you don't call {@link DrawableString#draw(float, float)}
- *     after calling {@link DrawableString#dispose()} or your game will crash!</li>
- * </ul></pre>
+ * <ol>
+ * <li>Load a font with {@link LazyFont#loadFont(String)}. This can be kept around safely without worrying about
+ * memory - the underlying texture makes up the bulk of the size, and that is only loaded once per unique font.
+ * {@link LazyFont} itself only contains font metadata used for rendering, and is relatively lightweight.</li>
+ * <li>Using said font, create a {@link DrawableString} with
+ * {@link LazyFont#createText(String, Color, float, float, float)}. This methods arguments determine how the
+ * text will appear and any size restrictions the block of text should be given. These can all be changed later
+ * by calling methods on the returned {@link DrawableString} directly.</li>
+ * <li>Draw the text where you need it with {@link DrawableString#draw(float, float)}.</li>
+ * <li>That's it! So long as you keep a reference to the {@link DrawableString}, you can re-draw the text
+ * extremely efficiently, or edit/append the text at will.</li>
+ * <li>When finished using the {@link DrawableString}, call {@link DrawableString#dispose()} to ensure
+ * its underlying OpenGL resources are cleaned up. Ensure you don't call {@link DrawableString#draw(float, float)}
+ * after calling {@link DrawableString#dispose()} or your game will crash!</li>
+ * </ol>
  *
  * @author LazyWizard
  * @since 2.3
