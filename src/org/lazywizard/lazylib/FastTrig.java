@@ -1,7 +1,7 @@
 package org.lazywizard.lazylib;
 
 /**
- * Utility class taken from the <a href="http://slick.ninjacave.com/>Slick2D</a> game library to
+ * Utility class taken from the <a href="http://slick.ninjacave.com/">Slick2D</a> game library to
  * handle Java's odd trig performance issues.
  *
  * @author JeffK
