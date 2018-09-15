@@ -12,6 +12,9 @@ operator fun BoundsAPI.SegmentAPI.contains(point: Vector2f): Boolean = MathUtils
 operator fun CombatEntityAPI.contains(point: Vector2f): Boolean = CollisionUtils.isPointWithinBounds(point, this)
 operator fun ShieldAPI.contains(point: Vector2f): Boolean = this.isWithinArc(point)
 
+fun CombatEntityAPI.getNearestPointOnBounds(source: Vector2f): Vector2f = CollisionUtils.getNearestPointOnBounds(source, this)
+fun CombatEntityAPI.getCollisionPoint(lineStart: Vector2f, lineEnd: Vector2f): Vector2f? = CollisionUtils.getCollisionPoint(lineStart, lineEnd, this)
+
 fun CombatEntityAPI.getNearestObjective(): BattleObjectiveAPI? = AIUtils.getNearestObjective(this)
 fun CombatEntityAPI.getNearbyObjectives(range: Float): List<BattleObjectiveAPI> = CombatUtils.getObjectivesWithinRange(this.location, range)
 
