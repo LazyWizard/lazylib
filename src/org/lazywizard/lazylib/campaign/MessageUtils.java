@@ -28,11 +28,11 @@ public class MessageUtils
      * @param preamble      The header for this message, won't be indented. Can be null.
      * @param message       The main body of text.
      * @param indentMessage Whether to indent each line of the main body.
-     * <p>
+     *
      * @since 1.0
      */
     public static void showMessage(@Nullable String preamble,
-            String message, boolean indentMessage)
+                                   String message, boolean indentMessage)
     {
         if (preamble != null)
         {
@@ -63,7 +63,7 @@ public class MessageUtils
      * message.
      *
      * @param message The message to output.
-     * <p>
+     *
      * @since 1.0
      */
     public static void showMessage(String message)

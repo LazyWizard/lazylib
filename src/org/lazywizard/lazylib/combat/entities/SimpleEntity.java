@@ -41,7 +41,7 @@ public class SimpleEntity extends EntityBase
      * and costs virtually nothing.
      *
      * @param location The {@link Vector2f} that getLocation() should return.
-     *                 <p>
+     *
      * @since 1.4
      */
     public SimpleEntity(Vector2f location)
@@ -53,11 +53,10 @@ public class SimpleEntity extends EntityBase
     /**
      * Creates a {@code CombatEntityAPI} that mimics the location of a
      * {@link com.fs.starfarer.api.combat.WeaponAPI}.
-     * <p>
      *
      * @param weapon The {@link WeaponAPI} whose location getLocation() should
      *               return.
-     *               <p>
+     *
      * @since 1.7
      */
     public SimpleEntity(WeaponAPI weapon)
@@ -69,11 +68,10 @@ public class SimpleEntity extends EntityBase
     /**
      * Creates a {@code CombatEntityAPI} that mimics the location of a
      * {@link com.fs.starfarer.api.combat.ShipEngineControllerAPI.ShipEngineAPI}.
-     * <p>
      *
      * @param engine The {@link ShipEngineAPI} whose location getLocation()
      *               should return.
-     *               <p>
+     *
      * @since 1.9b
      */
     public SimpleEntity(ShipEngineAPI engine)
@@ -86,10 +84,10 @@ public class SimpleEntity extends EntityBase
      * Returns the location this {@link SimpleEntity} is mimicking.
      *
      * @return The {@link Vector2f} passed in at creation or the result of
-     * getLocation() on the followed {@link Object}, depending on which
-     * constructor was used. Can return {@code null} if the object it
-     * is following is no longer on the battle map.
-     * <p>
+     *         getLocation() on the followed {@link Object}, depending on which
+     *         constructor was used. Can return {@code null} if the object it
+     *         is following is no longer on the battle map.
+     *
      * @since 1.4
      */
     @Override
@@ -124,8 +122,8 @@ public class SimpleEntity extends EntityBase
      * Returns the {@link WeaponAPI} this entity is attached to, if any.
      *
      * @return The {@link WeaponAPI} passed into the constructor, or
-     * {@code null} if another constructor was used.
-     * <p>
+     *         {@code null} if another constructor was used.
+     *
      * @since 1.7
      */
     @Nullable
@@ -138,8 +136,8 @@ public class SimpleEntity extends EntityBase
      * Returns the {@link ShipEngineAPI} this entity is attached to, if any.
      *
      * @return The {@link ShipEngineAPI} passed into the constructor, or
-     * {@code null} if another constructor was used.
-     * <p>
+     *         {@code null} if another constructor was used.
+     *
      * @since 1.9b
      */
     @Nullable
@@ -153,7 +151,7 @@ public class SimpleEntity extends EntityBase
      * used to create this object.
      *
      * @return The type of constructor used to create this entity.
-     * <p>
+     *
      * @since 1.7
      */
     public SimpleEntityType getType()

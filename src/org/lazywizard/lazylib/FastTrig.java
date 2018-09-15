@@ -1,9 +1,11 @@
 package org.lazywizard.lazylib;
 
 /**
- * Utility to handle Java's odd trig performance issues
+ * Utility class taken from the <a href="http://slick.ninjacave.com/>Slick2D</a> game library to
+ * handle Java's odd trig performance issues.
  *
  * @author JeffK
+ * @since 1.0
  */
 public class FastTrig
 {
@@ -16,7 +18,7 @@ public class FastTrig
      * rounding in the angle reduction but it will be very very close.
      *
      * @param radians The original angle
-     * <p>
+     *
      * @return The reduced Sin angle
      */
     private static double reduceSinAngle(double radians)
@@ -38,7 +40,7 @@ public class FastTrig
      * Get the sine of an angle
      *
      * @param radians The angle
-     * <p>
+     *
      * @return The sine of the angle
      */
     public static double sin(double radians)
@@ -58,7 +60,7 @@ public class FastTrig
      * Get the cosine of an angle
      *
      * @param radians The angle
-     * <p>
+     *
      * @return The cosine of the angle
      */
     public static double cos(double radians)

@@ -1,8 +1,10 @@
 package org.lazywizard.lazylib.opengl;
 
-import java.nio.FloatBuffer;
 import org.lazywizard.lazylib.FastTrig;
 import org.lwjgl.BufferUtils;
+
+import java.nio.FloatBuffer;
+
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -33,11 +35,11 @@ public class DrawUtils
      *                    of (higher number = smoother circle, but higher GPU
      *                    cost).
      * @param drawFilled  Whether the circle should be hollow or filled.
-     * <p>
+     *
      * @since 1.7
      */
     public static void drawCircle(float centerX, float centerY,
-            float radius, int numSegments, boolean drawFilled)
+                                  float radius, int numSegments, boolean drawFilled)
     {
         if (numSegments < 3)
         {
@@ -101,11 +103,11 @@ public class DrawUtils
      *                    of (higher number = smoother ellipse, but higher GPU
      *                    cost).
      * @param drawFilled  Whether the ellipse should be hollow or filled.
-     * <p>
+     *
      * @since 1.9
      */
     public static void drawEllipse(float centerX, float centerY, float width,
-            float height, float angleOffset, int numSegments, boolean drawFilled)
+                                   float height, float angleOffset, int numSegments, boolean drawFilled)
     {
         if (numSegments < 3)
         {
@@ -177,11 +179,11 @@ public class DrawUtils
      *                    of (higher number = smoother arc, but higher GPU
      *                    cost).
      * @param drawFilled  Whether to draw the arc filled.
-     * <p>
+     *
      * @since 1.8
      */
     public static void drawArc(float centerX, float centerY, float radius,
-            float startAngle, float arcAngle, int numSegments, boolean drawFilled)
+                               float startAngle, float arcAngle, int numSegments, boolean drawFilled)
     {
         if (numSegments < 1)
         {

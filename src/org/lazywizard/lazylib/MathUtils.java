@@ -80,7 +80,7 @@ public class MathUtils
      * org.lwjgl.util.vector.Vector2f)}.
      *
      * @return The distance between the two vectors.
-     * <p>
+     *
      * @since 1.0
      */
     public static float getDistance(Vector2f loc1, Vector2f loc2)
@@ -177,7 +177,7 @@ public class MathUtils
      * {@link MathUtils#getDistance(Vector2f, Vector2f)}.
      *
      * @return The distance squared between the two vectors.
-     * <p>
+     *
      * @since 1.0
      */
     public static float getDistanceSquared(Vector2f loc1, Vector2f loc2)
@@ -198,10 +198,10 @@ public class MathUtils
      * @param token2 The second {@link SectorEntityToken} to check.
      * @param range  The minimum distance between {@code token1} and
      *               {@code token2}.
-     *               <p>
+     *
      * @return Whether {@code token1} is within {@code range} su of
-     * {@code token2}.
-     * <p>
+     *         {@code token2}.
+     *
      * @since 1.8
      */
     public static boolean isWithinRange(SectorEntityToken token1, SectorEntityToken token2, float range)
@@ -221,9 +221,9 @@ public class MathUtils
      * @param token The {@link SectorEntityToken} to check.
      * @param loc   The {@link Vector2f} to check.
      * @param range The minimum distance between {@code token} and {@code loc}.
-     *              <p>
+     *
      * @return Whether {@code token} is within {@code range} su of {@code loc}.
-     * <p>
+     *
      * @since 1.8
      */
     public static boolean isWithinRange(SectorEntityToken token, Vector2f loc, float range)
@@ -243,10 +243,10 @@ public class MathUtils
      * @param entity2 The second {@link CombatEntityAPI} to check.
      * @param range   The minimum distance between {@code entity1} and
      *                {@code entity2}.
-     *                <p>
+     *
      * @return Whether {@code entity1} is within {@code range} su of
-     * {@code entity2}.
-     * <p>
+     *         {@code entity2}.
+     *
      * @since 1.8
      */
     public static boolean isWithinRange(CombatEntityAPI entity1, CombatEntityAPI entity2, float range)
@@ -267,9 +267,9 @@ public class MathUtils
      * @param loc    The {@link Vector2f} to check.
      * @param range  The minimum distance between {@code entity} and
      *               {@code loc}.
-     *               <p>
+     *
      * @return Whether {@code entity} is within {@code range} su of {@code loc}.
-     * <p>
+     *
      * @since 1.8
      */
     public static boolean isWithinRange(CombatEntityAPI entity, Vector2f loc, float range)
@@ -284,9 +284,9 @@ public class MathUtils
      * @param loc1  The first {@link Vector2f}.
      * @param loc2  The second {@link Vector2f}.
      * @param range The minimum distance between {@code loc1} and {@code loc2}.
-     *              <p>
+     *
      * @return Whether {@code loc1} is within {@code range} su of {@code loc2}.
-     * <p>
+     *
      * @since 1.8
      */
     public static boolean isWithinRange(Vector2f loc1, Vector2f loc2, float range)
@@ -311,9 +311,9 @@ public class MathUtils
      * Clamps an angle within 360 degrees (ex: 400 degrees becomes 40 degrees).
      *
      * @param angle The angle to be clamped.
-     *              <p>
+     *
      * @return A value between 0 and 360 degrees.
-     * <p>
+     *
      * @since 1.2
      */
     public static float clampAngle(float angle)
@@ -337,8 +337,10 @@ public class MathUtils
      * @param toClamp The {@link Float} to be clamped.
      * @param min     The minimum value you wish the return value to hold.
      * @param max     The maximum value you wish the return value to hold.
+     *
      * @return {@code toClamp} if it falls between {@code min} and {@code max},
-     * {@code min} if it falls below, or {@code max} if it falls above.
+     *         {@code min} if it falls below, or {@code max} if it falls above.
+     *
      * @since 2.3
      */
     public static float clamp(float toClamp, float min, float max)
@@ -353,8 +355,10 @@ public class MathUtils
      * @param toClamp The {@link Integer} to be clamped.
      * @param min     The minimum value you wish the return value to hold.
      * @param max     The maximum value you wish the return value to hold.
+     *
      * @return {@code toClamp} if it falls between {@code min} and {@code max},
-     * {@code min} if it falls below, or {@code max} if it falls above.
+     *         {@code min} if it falls below, or {@code max} if it falls above.
+     *
      * @since 2.3
      */
     public static int clamp(int toClamp, int min, int max)
@@ -369,9 +373,9 @@ public class MathUtils
      *
      * @param currAngle The current facing.
      * @param destAngle The facing to rotate towards.
-     *                  <p>
+     *
      * @return The shortest distance between the two angles, in degrees.
-     * <p>
+     *
      * @since 1.7
      */
     public static float getShortestRotation(float currAngle, float destAngle)
@@ -384,14 +388,13 @@ public class MathUtils
 
     /**
      * Returns the point exactly between two other points.
-     * <p>
      *
      * @param point1 The first point.
      * @param point2 The second point.
-     *               <p>
+     *
      * @return A {@link Vector2f} at the midpoint of the line between
-     * {@code point1} and {@code point2}.
-     * <p>
+     *         {@code point1} and {@code point2}.
+     *
      * @since 1.9
      */
     public static Vector2f getMidpoint(Vector2f point1, Vector2f point2)
@@ -407,10 +410,10 @@ public class MathUtils
      *               origin).
      * @param radius The radius of the circle.
      * @param angle  The angle, in degrees, to get the point at.
-     *               <p>
+     *
      * @return A {@link Vector2f} at [@code angle} degrees along the
-     * circumference of the given circle.
-     * <p>
+     *         circumference of the given circle.
+     *
      * @since 1.0
      */
     public static Vector2f getPointOnCircumference(@Nullable Vector2f center, float radius, float angle)
@@ -458,10 +461,10 @@ public class MathUtils
      * @param center The center point of the circle (can be null for a 0, 0 origin).
      * @param radius The radius of the circle.
      * @param angle  The angle, in degrees, to get the point at.
-     *               <p>
+     *
      * @return A {@link Vector2f} at [@code angle} degrees along the
-     * circumference of the given circle.
-     * <p>
+     *         circumference of the given circle.
+     *
      * @see MathUtils#getPointOnCircumference(Vector2f, float, float)
      * @since 2.0
      */
@@ -476,9 +479,9 @@ public class MathUtils
      * @param center The center point of the circle (can be null for a 0, 0
      *               origin).
      * @param radius The radius of the circle.
-     *               <p>
+     *
      * @return A random point along the circumference of the given circle.
-     * <p>
+     *
      * @see MathUtils#getPointOnCircumference(Vector2f, float, float)
      * @since 1.0
      */
@@ -493,9 +496,9 @@ public class MathUtils
      * @param center The center point of the circle (can be null for a 0, 0
      *               origin).
      * @param radius The radius of the circle.
-     *               <p>
+     *
      * @return A random point inside of the given circle.
-     * <p>
+     *
      * @since 1.0
      */
     public static Vector2f getRandomPointInCircle(@Nullable Vector2f center, float radius)
@@ -519,9 +522,9 @@ public class MathUtils
      * @param radius   The radius of the cone.
      * @param minAngle The minimum angular bounds.
      * @param maxAngle The maximum angular bounds.
-     *                 <p>
+     *
      * @return A random point inside of the given circular sector.
-     * <p>
+     *
      * @since 1.7
      */
     public static Vector2f getRandomPointInCone(@Nullable Vector2f center, float radius,
@@ -541,10 +544,10 @@ public class MathUtils
      *
      * @param lineStart The starting point of the line.
      * @param lineEnd   The end point of the line.
-     *                  <p>
+     *
      * @return A random {@link Vector2f} along the line between
-     * {@code lineStart} and {@code lineEnd}.
-     * <p>
+     *         {@code lineStart} and {@code lineEnd}.
+     *
      * @since 1.6
      */
     public static Vector2f getRandomPointOnLine(Vector2f lineStart, Vector2f lineEnd)
@@ -563,10 +566,10 @@ public class MathUtils
      * @param radius      The radius of the circle.
      * @param numPoints   How many points to generate.
      * @param angleOffset The offset angle of the initial point.
-     *                    <p>
+     *
      * @return A {@link List} of {@link Vector2f}s that are evenly distributed
-     * along the circle's circumference.
-     * <p>
+     *         along the circle's circumference.
+     *
      * @since 1.0
      */
     public static List<Vector2f> getPointsAlongCircumference(@Nullable Vector2f center,
@@ -610,10 +613,10 @@ public class MathUtils
      * @param center The center point of the circle (can be null for a 0, 0
      *               origin).
      * @param radius The radius of the circle.
-     *               <p>
+     *
      * @return {@code true} if {@code point} is on or within the circle,
-     * {@code false} otherwise.
-     * <p>
+     *         {@code false} otherwise.
+     *
      * @since 1.0
      */
     public static boolean isPointWithinCircle(Vector2f point, @Nullable Vector2f center, float radius)
@@ -630,10 +633,10 @@ public class MathUtils
      * @param point     The point to check.
      * @param lineStart The starting point of the line.
      * @param lineEnd   The end point of the line.
-     *                  <p>
+     *
      * @return {@code true} if the point is along the line, {@code false}
-     * otherwise.
-     * <p>
+     *         otherwise.
+     *
      * @since 1.6
      */
     public static boolean isPointOnLine(Vector2f point, Vector2f lineStart, Vector2f lineEnd)
@@ -648,7 +651,9 @@ public class MathUtils
      * @param source    The point to test distance from.
      * @param lineStart The start point of the line to check.
      * @param lineEnd   The end point of the line to check.
+     *
      * @return The point on the line between {@code lineStart} and {@code lineEnd} nearest to {@code source}.
+     *
      * @author Alex Mosolov (http://fractalsoftworks.com/forum/index.php?topic=5061.msg229605#msg229605)
      * @since 2.3
      */
@@ -684,10 +689,10 @@ public class MathUtils
      *                           a 0, 0 origin).
      * @param radius             The radius of the circle.
      * @param spaceBetweenPoints How much space should be between each point.
-     *                           <p>
+     *
      * @return A {@link List} of evenly spaced {@link Vector2f}s inside a
-     * circle.
-     * <p>
+     *         circle.
+     *
      * @since 1.4
      */
     public static List<Vector2f> getEquidistantPointsInsideCircle(@Nullable Vector2f center,
@@ -734,9 +739,9 @@ public class MathUtils
      *
      * @param min The minimum value to select.
      * @param max The maximum value to select.
-     *            <p>
+     *
      * @return A random {@link Float} between {@code min} and {@code max}.
-     * <p>
+     *
      * @since 1.4
      */
     public static float getRandomNumberInRange(float min, float max)
@@ -749,10 +754,10 @@ public class MathUtils
      *
      * @param min The minimum value to select.
      * @param max The maximum value to select (inclusive).
-     *            <p>
+     *
      * @return A random {@link Integer} between {@code min} and {@code max},
-     * inclusive.
-     * <p>
+     *         inclusive.
+     *
      * @since 2.0
      */
     public static int getRandomNumberInRange(int min, int max)
@@ -775,9 +780,9 @@ public class MathUtils
      *
      * @param a The first float to compare.
      * @param b The second float to compare.
-     *          <p>
+     *
      * @return {@code true} if {@code a} and {@code b} are within 99.99999%
-     * of each other, {@code false} otherwise.
+     *         of each other, {@code false} otherwise.
      */
     public static boolean equals(float a, float b)
     {
@@ -789,7 +794,7 @@ public class MathUtils
      * for seed manipulation or to avoid instantiating your own.
      *
      * @return The {@link Random} instance used by LazyLib.
-     * <p>
+     *
      * @since 1.5
      */
     public static Random getRandom()

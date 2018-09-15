@@ -1,19 +1,15 @@
 package org.lazywizard.lazylib.combat;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.BattleObjectiveAPI;
-import com.fs.starfarer.api.combat.CombatEntityAPI;
-import com.fs.starfarer.api.combat.FluxTrackerAPI;
-import com.fs.starfarer.api.combat.MissileAPI;
-import com.fs.starfarer.api.combat.ShipAPI;
-import com.fs.starfarer.api.combat.ShipSystemAPI;
+import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.combat.ShipwideAIFlags.AIFlags;
 import org.jetbrains.annotations.Nullable;
 import org.lazywizard.lazylib.LazyLib;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contains methods that deal with a single combat entity and how it views the
@@ -29,10 +25,10 @@ public class AIUtils
      * Find the closest {@link BattleObjectiveAPI} to an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
-     * <p>
+     *
      * @return The {@link BattleObjectiveAPI} closest to {@code entity}, or {@code
-     * null} if none are found.
-     * <p>
+     *         null} if none are found.
+     *
      * @since 1.0
      */
     @Nullable
@@ -60,10 +56,10 @@ public class AIUtils
      * Find the closest visible enemy of an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
-     * <p>
+     *
      * @return The enemy closest to {@code entity} who can be seen within the
      *         fog of war, or {@code null} if none are found.
-     * <p>
+     *
      * @since 1.0
      */
     @Nullable
@@ -89,9 +85,9 @@ public class AIUtils
      * Find the closest ally of an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
-     * <p>
+     *
      * @return The ally closest to {@code entity}, or {@code null} if none are found.
-     * <p>
+     *
      * @since 1.0
      */
     @Nullable
@@ -123,10 +119,10 @@ public class AIUtils
      * Find the closest visible ship near an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
-     * <p>
+     *
      * @return The ship closest to {@code entity} that can be seen within the
      *         fog of war, or {@code null} if none are found.
-     * <p>
+     *
      * @since 1.0
      */
     @Nullable
@@ -162,10 +158,10 @@ public class AIUtils
      * Find the closest visible missile near entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
-     * <p>
+     *
      * @return The {@link MissileAPI} closest to {@code entity} that can be seen
      *         within the fog of war, or {@code null} if none are found.
-     * <p>
+     *
      * @since 1.4
      */
     @Nullable
@@ -203,10 +199,10 @@ public class AIUtils
      * Find all present and visible enemies of an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
-     * <p>
+     *
      * @return All enemies of {@code entity} on the battle map that can be seen
      *         within the fog of war.
-     * <p>
+     *
      * @since 1.0
      */
     public static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity)
@@ -237,10 +233,10 @@ public class AIUtils
      *
      * @param entity The entity to search around.
      * @param range  How far around {@code entity} to search.
-     * <p>
+     *
      * @return A {@link List} containing all enemy ships within range that can
      *         be seen within the fog of war.
-     * <p>
+     *
      * @since 1.0
      */
     public static List<ShipAPI> getNearbyEnemies(CombatEntityAPI entity, float range)
@@ -262,9 +258,9 @@ public class AIUtils
      * Find all present allies of an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
-     * <p>
+     *
      * @return All allies of {@code entity} on the battle map.
-     * <p>
+     *
      * @since 1.0
      */
     public static List<ShipAPI> getAlliesOnMap(CombatEntityAPI entity)
@@ -288,9 +284,9 @@ public class AIUtils
      *
      * @param entity The entity to search around.
      * @param range  How far around {@code entity} to search.
-     * <p>
+     *
      * @return A {@link List} containing all allied ships within range.
-     * <p>
+     *
      * @since 1.0
      */
     public static List<ShipAPI> getNearbyAllies(CombatEntityAPI entity, float range)
@@ -311,10 +307,10 @@ public class AIUtils
      * Find the closest visible enemy missile near an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
-     * <p>
+     *
      * @return The enemy {@link MissileAPI} closest to {@code entity} that can
      *         be seen within the fog of war, or {@code null} if none are found.
-     * <p>
+     *
      * @since 1.4
      */
     @Nullable
@@ -352,10 +348,10 @@ public class AIUtils
      * Find all present visible enemy missiles of an entity.
      *
      * @param entity The {@link CombatEntityAPI} to search around.
-     * <p>
+     *
      * @return All enemy {@link MissileAPI}s of {@code entity} on the battle
      *         map that can be seen within the fog of war.
-     * <p>
+     *
      * @since 1.4
      */
     public static List<MissileAPI> getEnemyMissilesOnMap(CombatEntityAPI entity)
@@ -378,10 +374,10 @@ public class AIUtils
      *
      * @param entity The entity to search around.
      * @param range  How far around {@code entity} to search.
-     * <p>
+     *
      * @return A {@link List} containing all enemy missiles within range that
      *         can be seen within the fog of war.
-     * <p>
+     *
      * @since 1.4
      */
     public static List<MissileAPI> getNearbyEnemyMissiles(CombatEntityAPI entity, float range)
@@ -402,7 +398,7 @@ public class AIUtils
     /**
      * Returns the best place to aim to hit a target, given its current location
      * and velocity. This method does not take acceleration into account.
-     * <p>
+     *
      * @param point     The origin point of the object that will attempt to
      *                  collide with the target (usually a weapon's projectile
      *                  spawn point).
@@ -410,16 +406,16 @@ public class AIUtils
      *                  with the target (usually a projectile's travel speed).
      * @param targetLoc The location of the target.
      * @param targetVel The current velocity of the target.
-     * <p>
+     *
      * @return The best point to aim towards to hit {@code target} given current
      *         velocities, or {@code null} if a collision is not possible.
-     * <p>
+     *
      * @author Dark.Revenant (original by broofa @ stackoverflow.com)
      * @since 1.9
      */
     @Nullable
     public static Vector2f getBestInterceptPoint(Vector2f point, float speed,
-            Vector2f targetLoc, Vector2f targetVel)
+                                                 Vector2f targetLoc, Vector2f targetVel)
     {
         Vector2f difference = new Vector2f(targetLoc.x - point.x, targetLoc.y - point.y);
 
@@ -509,10 +505,10 @@ public class AIUtils
      * This still returns true if the shipsystem is already on!
      *
      * @param ship The ship to check the system of.
-     * <p>
+     *
      * @return {@code true} if {@code ship} can use its system, {@code false}
      *         otherwise.
-     * <p>
+     *
      * @since 1.0
      */
     public static boolean canUseSystemThisFrame(ShipAPI ship)

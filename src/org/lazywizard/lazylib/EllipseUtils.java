@@ -1,9 +1,9 @@
 package org.lazywizard.lazylib;
 
-import java.util.Random;
-
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.util.vector.Vector2f;
+
+import java.util.Random;
 
 /**
  * Contains methods for dealing with ellipses. Since these methods are only
@@ -28,14 +28,14 @@ public class EllipseUtils
      * @param ellipseAngleOffset How much to rotate the ellipse from its
      *                           original axis, in degrees.
      * @param angle              The angle, in degrees, to get the point at.
-     * <p>
+     *
      * @return A {@link Vector2f} at [@code angle} degrees along the
      *         circumference of the given ellipse.
-     * <p>
+     *
      * @since 1.9
      */
     public static Vector2f getPointOnEllipse(@Nullable Vector2f ellipseCenter,
-            float ellipseWidth, float ellipseHeight, float ellipseAngleOffset, float angle)
+                                             float ellipseWidth, float ellipseHeight, float ellipseAngleOffset, float angle)
     {
         ellipseAngleOffset = (float) Math.toRadians(ellipseAngleOffset);
         angle = (float) Math.toRadians(angle);
@@ -65,14 +65,14 @@ public class EllipseUtils
      *                           ellipse.
      * @param ellipseAngleOffset How much to rotate the ellipse from its
      *                           original axis, in degrees.
-     * <p>
+     *
      * @return A random point along the circumference of the given ellipse.
-     * <p>
+     *
      * @see EllipseUtils#getPointOnEllipse(Vector2f, float, float, float, float)
      * @since 1.9
      */
     public static Vector2f getRandomPointOnEllipse(@Nullable Vector2f ellipseCenter,
-            float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
+                                                   float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
     {
         return getPointOnEllipse(ellipseCenter, ellipseWidth, ellipseHeight,
                 ellipseAngleOffset, MathUtils.getRandom().nextFloat() * 360f);
@@ -89,13 +89,13 @@ public class EllipseUtils
      *                           ellipse.
      * @param ellipseAngleOffset How much to rotate the ellipse from its
      *                           original axis, in degrees.
-     * <p>
+     *
      * @return A random point inside of the given ellipse.
-     * <p>
+     *
      * @since 2.0
      */
     public static Vector2f getRandomPointInEllipse(@Nullable Vector2f ellipseCenter,
-            float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
+                                                   float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
     {
         final Random rng = MathUtils.getRandom();
         final double u = rng.nextDouble() + rng.nextDouble();
@@ -117,14 +117,14 @@ public class EllipseUtils
      *                           ellipse.
      * @param ellipseAngleOffset How much to rotate the ellipse from its
      *                           original axis, in degrees.
-     * <p>
+     *
      * @return {@code true} if {@code point} is on or within the ellipse,
      *         {@code false} otherwise.
-     * <p>
+     *
      * @since 1.9
      */
     public static boolean isPointWithinEllipse(Vector2f point, @Nullable Vector2f ellipseCenter,
-            float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
+                                               float ellipseWidth, float ellipseHeight, float ellipseAngleOffset)
     {
         // Move relative to 0, 0 and rotate to match ellipse offset
         Vector2f origin = (ellipseCenter == null ? new Vector2f(point)

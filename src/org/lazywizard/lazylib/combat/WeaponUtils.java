@@ -1,8 +1,5 @@
 package org.lazywizard.lazylib.combat;
 
-import java.awt.geom.Line2D;
-import java.util.ArrayList;
-import java.util.List;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
@@ -12,6 +9,10 @@ import org.jetbrains.annotations.Nullable;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 import org.lwjgl.util.vector.Vector2f;
+
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contains methods that deal with weapons and weapon arcs.
@@ -30,9 +31,9 @@ public class WeaponUtils
      * @param entity The {@link CombatEntityAPI} to check if {@code weapon} is
      *               aimed at.
      * @param weapon The {@link WeaponAPI} to test against.
-     * <p>
+     *
      * @return {@code true} if in arc and in range, {@code false} otherwise.
-     * <p>
+     *
      * @since 1.0
      */
     public static boolean isWithinArc(CombatEntityAPI entity, WeaponAPI weapon)
@@ -82,9 +83,9 @@ public class WeaponUtils
      *
      * @param weapon The {@link WeaponAPI} to turn.
      * @param aimAt  The {@link Vector2f} to aim at.
-     * <p>
+     *
      * @return The time in seconds it would take to aim {@code weapon}.
-     * <p>
+     *
      * @since 1.0
      */
     public static float getTimeToAim(WeaponAPI weapon, Vector2f aimAt)
@@ -111,10 +112,10 @@ public class WeaponUtils
      * Find the closest ally in range of a {@link WeaponAPI}.
      *
      * @param weapon The {@link WeaponAPI} to search around.
-     * <p>
+     *
      * @return The allied {@link ShipAPI} closest to {@code weapon}, or
      *         {@code null} if none are in range.
-     * <p>
+     *
      * @since 1.7
      */
     @Nullable
@@ -158,9 +159,9 @@ public class WeaponUtils
      * Finds all allied ships within range of a {@link WeaponAPI}.
      *
      * @param weapon The weapon to detect allies in range of.
-     * <p>
+     *
      * @return A {@link List} containing all allied ships within range.
-     * <p>
+     *
      * @since 1.7
      */
     public static List<ShipAPI> getAlliesInArc(WeaponAPI weapon)
@@ -190,10 +191,10 @@ public class WeaponUtils
      * Find the closest enemy in range of a {@link WeaponAPI}.
      *
      * @param weapon The {@link WeaponAPI} to search around.
-     * <p>
+     *
      * @return The enemy {@link ShipAPI} closest to {@code weapon}, or
      *         {@code null} if none are in range.
-     * <p>
+     *
      * @since 1.4
      */
     @Nullable
@@ -231,9 +232,9 @@ public class WeaponUtils
      * Finds all enemy ships within range of a {@link WeaponAPI}.
      *
      * @param weapon The weapon to detect enemies in range of.
-     * <p>
+     *
      * @return A {@link List} containing all enemy ships within range.
-     * <p>
+     *
      * @since 1.4
      */
     public static List<ShipAPI> getEnemiesInArc(WeaponAPI weapon)
@@ -257,10 +258,10 @@ public class WeaponUtils
      * Find the closest enemy missile in range of a {@link WeaponAPI}.
      *
      * @param weapon The {@link WeaponAPI} to search around.
-     * <p>
+     *
      * @return The enemy {@link MissileAPI} closest to {@code weapon}, or
      *         {@code null} if none are in range.
-     * <p>
+     *
      * @since 1.4
      */
     @Nullable
@@ -300,9 +301,9 @@ public class WeaponUtils
      * Finds all enemy missiles within range of a {@link WeaponAPI}.
      *
      * @param weapon The weapon to detect enemies in range of.
-     * <p>
+     *
      * @return A {@link List} containing all enemy missiles within range.
-     * <p>
+     *
      * @since 1.4
      */
     public static List<MissileAPI> getEnemyMissilesInArc(WeaponAPI weapon)
@@ -328,7 +329,7 @@ public class WeaponUtils
      * @param weapon The weapon to aim.
      * @param point  The point this weapon should try to aim at.
      * @param time   How long since the last frame (for turn rate calculations).
-     * <p>
+     *
      * @since 1.4
      */
     public static void aimTowardsPoint(WeaponAPI weapon, Vector2f point, float time)
