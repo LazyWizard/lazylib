@@ -5,6 +5,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/docstubs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/annotations" />
       <excludeFolder url="file://$MODULE_DIR$/doc" />
@@ -13,5 +14,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
     <orderEntry type="library" name="Starsector API" level="application" />
+    <orderEntry type="library" name="Console Commands" level="application" />
   </component>
 </module>
