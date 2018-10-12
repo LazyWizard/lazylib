@@ -1,6 +1,6 @@
  2.3 (September XX, 2018)
 ==========================
-Bundled the Kotlin runtime library (v1.2.70) with LazyLib:
+Bundled the Kotlin runtime library (v1.2.71) with LazyLib:
  - Kotlin is an alternate JVM language that is 100% interchangeable with Java
  - "Core" LazyLib is and always shall be written in Java, though some features
    such as the font classes are written in Kotlin, and Kotlin extension method
@@ -32,6 +32,9 @@ Changes to MathUtils:
 Changes to ModUtils:
  - Added isModEnabled(String modId)
  - Added getEnabledModIds()
+Changes to VectorUtils:
+ - Added setLength(Vector2f vector, float length)
+ - Added clampLenth(Vector2f vector, float maxLength)
 Removed from SimpleEntity:
  - Removed Object constructor (it used reflection, which is now blocked;
    remaining options are Vector2f, WeaponAPI, and ShipEngineAPI)
