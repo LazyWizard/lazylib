@@ -2,6 +2,7 @@ package org.lazywizard.lazylib.ui;
 
 /**
  * Thrown if {@link LazyFont#loadFont(String)} encounters an error loading or parsing a bitmap font.
+ *
  * @author LazyWizard
  * @since 2.3
  */

@@ -105,7 +105,7 @@ public class VectorUtils
     {
         if (vector.lengthSquared() == 0f) return vector;
 
-        vector.normalise().scale(length);
+        vector.scale(length / vector.length());
         return vector;
     }
 
@@ -122,9 +122,7 @@ public class VectorUtils
      */
     public static Vector2f clampLength(Vector2f vector, float maxLength)
     {
-        if (maxLength <= 0) return vector;
-
-        if (vector.lengthSquared() > maxLength * maxLength)
+        if (maxLength > 0f && vector.lengthSquared() > (maxLength * maxLength))
         {
             setLength(vector, maxLength);
         }
