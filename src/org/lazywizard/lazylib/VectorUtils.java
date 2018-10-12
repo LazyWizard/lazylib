@@ -90,6 +90,49 @@ public class VectorUtils
     }
 
     /**
+     * Scales a vector to the requested length.
+     *
+     * <b>Note:</b> <i>if a vector's length is 0, no scaling will be done.</i>
+     *
+     * @param vector The vector to be modified.
+     * @param length The new total length of {@code vector}.
+     *
+     * @return The modified {@code vector}, returned for easier chaining of methods.
+     *
+     * @since 2.3
+     */
+    public static Vector2f setLength(Vector2f vector, float length)
+    {
+        if (vector.lengthSquared() == 0f) return vector;
+
+        vector.normalise().scale(length);
+        return vector;
+    }
+
+    /**
+     * Reduces a vector's length if it is higher than the passed in argument.
+     *
+     * @param vector    The vector to be clamped.
+     * @param maxLength The maximum length of {@code vector}. If its current length is higher, it will be reduced to
+     *                  this amount.
+     *
+     * @return The modified {@code vector}, returned for easier chaining of methods.
+     *
+     * @since 2.3
+     */
+    public static Vector2f clampLength(Vector2f vector, float maxLength)
+    {
+        if (maxLength <= 0) return vector;
+
+        if (vector.lengthSquared() > maxLength * maxLength)
+        {
+            setLength(vector, maxLength);
+        }
+
+        return vector;
+    }
+
+    /**
      * Rotates a {@link Vector2f} by a specified amount.
      *
      * @param toRotate The {@link Vector2f} to rotate.
