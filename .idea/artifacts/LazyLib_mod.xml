@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="LazyLib:mod">
+    <output-path>C:/Program Files (x86)/Fractal Softworks/Starsector/mods/LazyLib</output-path>
+    <root id="root">
+      <element id="dir-copy" path="$PROJECT_DIR$/mod" />
+    </root>
+  </artifact>
+</component>
