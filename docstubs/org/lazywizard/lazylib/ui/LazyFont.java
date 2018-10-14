@@ -159,6 +159,16 @@ public class LazyFont
         return 0;
     }
 
+    /**
+     * Returns the raw width of a {@link String} at a specific font size, without taking into account word wrapping.
+     *
+     * @param rawLine  The {@link String} to measure.
+     * @param fontSize The font size the {@link String} would be rendered at.
+     *
+     * @return The width of {@code rawLine} if drawn with size {@code fontSize}, not taking word wrapping into account.
+     *
+     * @since 2.3
+     */
     public float calcWidth(String rawLine, float fontSize)
     {
         return 0f;
@@ -171,13 +181,21 @@ public class LazyFont
     }
 
     /**
-     * Renders a block of text, for manually creating display lists or VBOs - <b>not recommended for general usage</b>.
-     * Use {@link LazyFont#createText(String, Color, float, float, float)} instead.
+     * Renders a block of text, used to manually create display lists or VBOs - <b>not recommended for general
+     * usage</b>. Use {@link LazyFont#createText(String, Color, float, float, float)} instead.
+     *
+     * @param text      The text to be drawn.
+     * @param x         The x coordinate of the starting point for rendering (top left corner of text).
+     * @param y         The y coordinate of the starting point for rendering (top left corner of text).
+     * @param fontSize  The size of the text to be drawn. For best results, this should be evenly divisible by {@link
+     *                  LazyFont#getBaseHeight()}.
+     * @param maxWidth  The maximum width of the drawn text before further text will be wrapped to a new line.
+     * @param maxHeight The maximum height of the drawn text. All further text past this point will be discarded.
      *
      * @return A {@link Vector2f} containing the width and height of the drawn text area.
      *
-     * @see LazyFont#createText(String, Color, float, float, float) for efficiently drawing the same
-     *         block of text multiple times
+     * @see LazyFont#createText(String, Color, float, float, float) for when you need to draw the same
+     *         block of text multiple times (99% of use cases).
      * @since 2.3
      */
     @NotNull
@@ -189,6 +207,13 @@ public class LazyFont
     /**
      * Create a {@link DrawableString} with the specified initial text, color, and font size, with text wrapping and
      * a max height - any appended text past that limit will be discarded.
+     *
+     * @param text      The initial text to be drawn. You can modify it later using the returned {@link DrawableString}.
+     * @param color     The color of the drawn text.
+     * @param size      The font size of the drawn text. For best results, this should be evenly divisible by {@link
+     *                  LazyFont#getBaseHeight()}.
+     * @param maxWidth  The maximum width of the drawn text before further text will be wrapped to a new line.
+     * @param maxHeight The maximum height of the drawn text. All further text past this point will be discarded.
      *
      * @return A {@link DrawableString} with the specified text, color, and font size, with text wrapping
      *         at {@code maxWidth}, and a max height of {@code maxHeight}.
@@ -276,6 +301,13 @@ public class LazyFont
         return null;
     }
 
+    /**
+     * Keeps track of the metadata for each supported character in a font. This is used internally to render and wrap
+     * text, and it is unlikely that end users will ever need to use this class or any of its methods in their code.
+     *
+     * @author LazyWizard
+     * @since 2.3
+     */
     public class LazyChar
     {
         public Map<Integer, Integer> getKernings()
@@ -356,18 +388,48 @@ public class LazyFont
         }
     }
 
+    /**
+     * Represents an efficiently redrawable block of text. See the documentation for {@link LazyFont} for example usage.
+     *
+     * @author LazyWizard
+     * @since 2.3
+     */
     public class DrawableString
     {
+        /**
+         * Whether this object's underlying data has been cleaned up - attempting to render after disposal will cause a
+         * {@link RuntimeException}!
+         *
+         * @return {@code true} if {@link DrawableString#dispose()} has been called; {@code false} otherwise.
+         *
+         * @since 2.3
+         */
         public boolean isDisposed()
         {
             return false;
         }
 
+        /**
+         * Returns the width of the rendered text area. This is not the same as {@link DrawableString#getMaxWidth()} -
+         * this only considers the area used by the text.
+         *
+         * @return The width of the text area to be rendered.
+         *
+         * @since 2.3
+         */
         public float getWidth()
         {
             return 0f;
         }
 
+        /**
+         * Returns the height of the rendered text area. This is not the same as {@link DrawableString#getMaxHeight()} -
+         * this only considers the area used by the text.
+         *
+         * @return The height of the text area to be rendered.
+         *
+         * @since 2.3
+         */
         public float getHeight()
         {
             return 0f;
