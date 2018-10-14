@@ -146,14 +146,13 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
         else extendedChars[tmp.id.toChar()] = tmp
     }
 
-
-    // This assumes that the font will always have a question mark character defined
     fun getChar(character: Char): LazyChar {
         val ch: LazyChar? = if (character.toInt() in 32..255) lookupTable[character.toInt() - 32] else extendedChars[character]
         if (ch != null) return ch
 
+        // This assumes that the font will always have a question mark character defined
         System.out.println("Error: couldn't find char '$character'")
-        return ch ?: getChar('?')
+        return getChar('?')
     }
 
     fun calcWidth(rawLine: String, fontSize: Float): Float {
