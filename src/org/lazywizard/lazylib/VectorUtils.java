@@ -92,7 +92,7 @@ public class VectorUtils
     /**
      * Scales a vector to the requested length.
      *
-     * <b>Note:</b> <i>if a vector's length is 0, no scaling will be done.</i>
+     * <b>Note:</b> <i>if the vector's length is 0, no scaling will be done.</i>
      *
      * @param vector The vector to be modified.
      * @param length The new total length of {@code vector}.
@@ -112,7 +112,7 @@ public class VectorUtils
     /**
      * Reduces a vector's length if it is higher than the passed in argument.
      *
-     * @param vector    The vector to be clamped.
+     * @param vector    The vector whose length should be clamped.
      * @param maxLength The maximum length of {@code vector}. If its current length is higher, it will be reduced to
      *                  this amount.
      *
