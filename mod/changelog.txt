@@ -33,8 +33,10 @@ Changes to ModUtils:
  - Added isModEnabled(String modId)
  - Added getEnabledModIds()
 Changes to VectorUtils:
+ - Added isZeroVector(Vector2f vector)
  - Added setLength(Vector2f vector, float length)
- - Added clampLenth(Vector2f vector, float maxLength)
+ - Added clampLength(Vector2f vector, float maxLength)
+ - Added clampLength(Vector2f vector, float minLength, float maxLength)
 Removed from SimpleEntity:
  - Removed Object constructor (it used reflection, which is now blocked;
    remaining options are Vector2f, WeaponAPI, and ShipEngineAPI)
