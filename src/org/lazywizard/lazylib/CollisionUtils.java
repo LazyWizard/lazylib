@@ -22,6 +22,9 @@ public class CollisionUtils
     /**
      * Finds the part of the ship that would be intersected by a given path.
      *
+     * <b>Important note:</b> if the line is completely within {@code target}'s bounds,
+     * no collision will be detected!
+     *
      * @param target    The CombatEntityAPI to check collision with.
      * @param lineStart The start of the line to test collision with.
      * @param lineEnd   The end of the line to test collision with.
@@ -73,6 +76,7 @@ public class CollisionUtils
         }
 
         // Null if no segment was hit
+        // FIXME: Lines completely within bounds return null (would affect custom fighter weapons)
         return closestIntersection;
     }
 

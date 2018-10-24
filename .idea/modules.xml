@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LazyLib.iml" filepath="$PROJECT_DIR$/LazyLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ext/LazyLib-Extensions.iml" filepath="$PROJECT_DIR$/ext/LazyLib-Extensions.iml" />
     </modules>
   </component>
 </project>

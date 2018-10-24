@@ -14,7 +14,9 @@ import java.util.*
 
 // Documentation for this class is in the docstubs directory
 class LazyFont private constructor(val textureId: Int, val baseHeight: Float, val textureWidth: Float, val textureHeight: Float) {
+    // Quick array lookup for characters 32-255 (standard ASCII range)
     private val lookupTable: Array<LazyChar?> = arrayOfNulls(224)
+    // Much slower map-based lookup for international characters (256+ in Unicode)
     private val extendedChars = HashMap<Char, LazyChar>()
 
     // File format documentation: http://www.angelcode.com/products/bmfont/doc/file_format.html
@@ -438,7 +440,10 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
             needsRebuild = true
         }
 
-        private fun buildString() {
+        private fun checkRebuild() {
+            if (isDisposed) throw RuntimeException("Tried to draw using a disposed DrawableString!")
+            if (!needsRebuild) return
+
             glNewList(displayListId, GL_COMPILE)
             val tmp: Vector2f = drawText(text, 0.01f, 0.01f, fontSize, maxWidth, maxHeight)
             // Debug code: shows bounds of drawn textbox
@@ -475,11 +480,10 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
         }
 
         fun draw(x: Float, y: Float) {
-            if (isDisposed) throw RuntimeException("Tried to draw using a disposed DrawableString!")
-            if (needsRebuild) buildString()
+            checkRebuild()
 
             glPushMatrix()
-            glTranslatef(x, y, 0f)
+            glTranslatef(x, y, 0.01f)
             glColor(color)
             glCallList(displayListId)
             glPopMatrix()
@@ -488,28 +492,28 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
         fun draw(location: Vector2f) = draw(location.x, location.y)
 
         fun drawAtAngle(x: Float, y: Float, angle: Float) {
+            checkRebuild()
+
             glPushMatrix()
             glTranslatef(x, y, 0f)
             glRotatef(angle, 0f, 0f, 1f)
-            glTranslatef(-x, -y, 0f)
-            draw(x, y)
+            glColor(color)
+            glCallList(displayListId)
             glPopMatrix()
         }
 
         fun drawAtAngle(location: Vector2f, angle: Float) = drawAtAngle(location.x, location.y, angle)
 
-        private fun releaseResources() = glDeleteLists(displayListId, 1)
-
         fun dispose() {
-            if (!isDisposed) releaseResources()
+            if (!isDisposed) glDeleteLists(displayListId, 1)
             isDisposed = true
         }
 
         @Suppress("ProtectedInFinal")
         protected fun finalize() {
             if (!isDisposed) {
-                Log.warn("DrawableString was not disposed of properly!")
-                releaseResources()
+                Log.debug("DrawableString cleaned up in finalizer (not disposed of before discarded)")
+                dispose()
             }
         }
     }

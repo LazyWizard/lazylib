@@ -220,7 +220,6 @@ public class LazyFont
      *
      * @since 2.3
      */
-    // TODO: Finish Javadoc (add params)
     @NotNull
     public DrawableString createText(String text, Color color, float size, float maxWidth, float maxHeight)
     {
@@ -229,6 +228,12 @@ public class LazyFont
 
     /**
      * Create a {@link DrawableString} with the specified initial text, color, and font size, with text wrapping.
+     *
+     * @param text     The initial text to be drawn. You can modify it later using the returned {@link DrawableString}.
+     * @param color    The color of the drawn text.
+     * @param size     The font size of the drawn text. For best results, this should be evenly divisible by {@link
+     *                 LazyFont#getBaseHeight()}.
+     * @param maxWidth The maximum width of the drawn text before further text will be wrapped to a new line.
      *
      * @return A {@link DrawableString} with the specified text, color, and font size, with text wrapping
      *         at {@code maxWidth}.
@@ -245,6 +250,11 @@ public class LazyFont
     /**
      * Create a {@link DrawableString} with the specified initial text, color, and font size, with no text wrapping.
      *
+     * @param text  The initial text to be drawn. You can modify it later using the returned {@link DrawableString}.
+     * @param color The color of the drawn text.
+     * @param size  The font size of the drawn text. For best results, this should be evenly divisible by {@link
+     *              LazyFont#getBaseHeight()}.
+     *
      * @return A {@link DrawableString} with the specified text, color, and font size, with no text wrapping.
      *
      * @see LazyFont#createText(String, Color, float, float, float)
@@ -260,6 +270,9 @@ public class LazyFont
      * Create a {@link DrawableString} with the specified initial text and color. Defaults to the base
      * font size, and no text wrapping.
      *
+     * @param text  The initial text to be drawn. You can modify it later using the returned {@link DrawableString}.
+     * @param color The color of the drawn text.
+     *
      * @return A {@link DrawableString} with the specified text and color, the base font size, and no text wrapping.
      *
      * @see LazyFont#createText(String, Color, float, float, float)
@@ -274,6 +287,8 @@ public class LazyFont
     /**
      * Create a {@link DrawableString} with the specified initial text. Defaults to white text, the base
      * font size, and no text wrapping.
+     *
+     * @param text The initial text to be drawn. You can modify it later using the returned {@link DrawableString}.
      *
      * @return A {@link DrawableString} with the specified text, white color, the base font size, and no text wrapping.
      *
