@@ -55,6 +55,8 @@ Changes to VectorUtils:
    stores the result in toRotate
  - Added rotateAroundPivot(Vector2f toRotate, Vector2f pivotPoint,
    float angle), convenience method that stores the result in toRotate
+Removed from LazyLib:
+ - Removed isDevBuild()
 Removed from SimpleEntity:
  - Removed Object constructor (it used reflection, which is now blocked;
    remaining options are Vector2f, WeaponAPI, and ShipEngineAPI)
