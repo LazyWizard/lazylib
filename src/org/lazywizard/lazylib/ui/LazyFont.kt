@@ -400,8 +400,16 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
         var isDisposed = false
             private set
         var width: Float = 0f
+            get() {
+                checkRebuild()
+                return field
+            }
             private set
         var height: Float = 0f
+            get() {
+                checkRebuild()
+                return field
+            }
             private set
         var fontSize: Float = fontSize
             set(value) {
