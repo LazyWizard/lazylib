@@ -27,7 +27,7 @@ public class VectorUtils
      */
     public static float getFacing(Vector2f vector)
     {
-        if (vector.lengthSquared() == 0f)
+        if (isZeroVector(vector))
         {
             return 0f;
         }
@@ -66,7 +66,7 @@ public class VectorUtils
         Vector2f dir = Vector2f.sub(destination, source, null);
 
         // Avoid crash with identical vectors
-        if (dir.x == 0f && dir.y == 0f)
+        if (isZeroVector(dir))
         {
             return dir;
         }
@@ -87,6 +87,20 @@ public class VectorUtils
     public static float getCrossProduct(Vector2f vector1, Vector2f vector2)
     {
         return (vector1.x * vector2.y) - (vector1.y * vector2.x);
+    }
+
+    /**
+     * Tests whether a vector is a zero vector (coordinates of {0, 0}).
+     *
+     * @param vector The vector to test.
+     *
+     * @return {@code true} if both of {@code vector}'s coordinates are 0, {@code false} otherwise.
+     *
+     * @since 2.3
+     */
+    public static boolean isZeroVector(Vector2f vector)
+    {
+        return (vector.x == 0 && vector.y == 0);
     }
 
     /**

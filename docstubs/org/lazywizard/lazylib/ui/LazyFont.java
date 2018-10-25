@@ -48,36 +48,38 @@ import java.util.Map;
  *
  * public class LazyFontExample extends BaseEveryFrameCombatPlugin
  * {
- *     private LazyFont font;
  *     private LazyFont.DrawableString toDraw;
  *
+ *     // Set up the font and the DrawableString; only has to be done once
  *     &#064;Override
  *     public void init(CombatEngineAPI engine)
  *     {
- *         // Set up the font and the DrawableString; only has to be done once
+ *         // Load the chosen .fnt file
+ *         // Fonts are cached globally, so it's acceptable for each class using the same
+ *         // font to request their own copy of it - they will all share the underlying data
+ *         final LazyFont font;
  *         try
  *         {
- *             // Load the chosen .fnt file
- *             // Fonts are globally cached, so it's acceptable for each class using the same
- *             // font to have their own copy of it - they will all share the underlying data
  *             font = LazyFont.loadFont("graphics/fonts/insignia15LTaa.fnt");
- *             // Create a renderable block of text (in this case, will be yellow with font size 15)
- *             toDraw = font.createText("This is some sample text.", Color.YELLOW, 15f);
- *
- *             // Enable line wrapping when text reaches 400 pixels wide
- *             toDraw.setMaxWidth(400f);
- *
- *             // If you need to add text to the DrawableString, do so like this:
- *             toDraw.appendText("\nThis is a second line of sample text.");
- *             toDraw.appendText("\nThis is a third line of sample text that shows off the automatic" +
- *                     " word wrapping when a line of text reaches the maximum width you've chosen.");
  *         }
  *         // FontException is thrown if the .fnt file does not exist or has malformed data
  *         catch (FontException ex)
  *         {
  *             Global.getLogger(this.getClass()).error("Failed to load font", ex);
  *             engine.removePlugin(this);
+ *             return;
  *         }
+ *
+ *         // Create a renderable block of text (in this case, will be yellow with font size 15)
+ *         toDraw = font.createText("This is some sample text.", Color.YELLOW, 15f);
+ *
+ *         // Enable line wrapping when text reaches 400 pixels wide
+ *         toDraw.setMaxWidth(400f);
+ *
+ *         // If you need to add text to the DrawableString, do so like this:
+ *         toDraw.appendText("\nThis is a second line of sample text.");
+ *         toDraw.appendText("\nThis is a third line of sample text that shows off the automatic" +
+ *                 " word wrapping when a line of text reaches the maximum width you've chosen.");
  *     }
  *
  *     &#064;Override
@@ -412,6 +414,18 @@ public class LazyFont
     public class DrawableString
     {
         /**
+         * Returns a reference to the {@link LazyFont} used to create this {@link DrawableString}.
+         *
+         * @return The font used to create this {@link DrawableString}.
+         *
+         * @since 2.3
+         */
+        public LazyFont getFont()
+        {
+            return null;
+        }
+
+        /**
          * Whether this object's underlying data has been cleaned up - attempting to render after disposal will cause a
          * {@link RuntimeException}!
          *
@@ -484,11 +498,6 @@ public class LazyFont
 
         public void setColor(Color color)
         {
-        }
-
-        public LazyFont getFont()
-        {
-            return null;
         }
 
         // Note: returns a new String each time it's called
