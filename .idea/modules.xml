@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LazyLib.iml" filepath="$PROJECT_DIR$/LazyLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/ext/LazyLib-Extensions.iml" filepath="$PROJECT_DIR$/ext/LazyLib-Extensions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/LazyLib-Tests.iml" filepath="$PROJECT_DIR$/tests/LazyLib-Tests.iml" />
     </modules>
   </component>
 </project>

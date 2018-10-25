@@ -1,2 +1,0 @@
-command,class,tags,syntax,help
-#TestCollisionChecks,org.lazywizard.lazylib.tests.commands.TestCollisionChecks,"lazylib",testcollisionchecks (no arguments),"A quick script to help visually debug CollisionUtils' methods."
