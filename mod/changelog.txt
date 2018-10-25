@@ -13,7 +13,7 @@ Added org.lazywizard.lazylib.ui.LazyFont:
  - Use createText() to create a reusable DrawableString, which can draw a
    block of text repeatedly and very efficiently
  - Use drawText() to manually draw text into a VBO or display list
- - See the Console mod for example usage; more examples will be provided soon
+ - See LazyFont's javadoc for example usage
 Changes to CampaignUtils:
  - Added getEntitiesWithRep(SectorEntityToken token, String entityTag,
    IncludeRep include, RepLevel rep)
@@ -44,9 +44,17 @@ Changes to ModUtils:
    mod (ie: in that mod's mod_info.sjon 'replace' section)
 Changes to VectorUtils:
  - Added isZeroVector(Vector2f vector)
- - Added setLength(Vector2f vector, float length)
+ - Added resize(Vector2f vector, float length)
+ - Added resize(Vector2f vector, float length, Vector2f dest)
  - Added clampLength(Vector2f vector, float maxLength)
+ - Added clampLength(Vector2f vector, float maxLength, Vector2f dest)
  - Added clampLength(Vector2f vector, float minLength, float maxLength)
+ - Added clampLength(Vector2f toClamp, float minLength, float maxLength,
+   Vector2f dest)
+ - Added rotate(Vector2f toRotate, float angle), convenience method that
+   stores the result in toRotate
+ - Added rotateAroundPivot(Vector2f toRotate, Vector2f pivotPoint,
+   float angle), convenience method that stores the result in toRotate
 Removed from SimpleEntity:
  - Removed Object constructor (it used reflection, which is now blocked;
    remaining options are Vector2f, WeaponAPI, and ShipEngineAPI)
