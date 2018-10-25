@@ -486,6 +486,11 @@ public class LazyFont
         {
         }
 
+        public LazyFont getFont()
+        {
+            return null;
+        }
+
         // Note: returns a new String each time it's called
         public String getText()
         {

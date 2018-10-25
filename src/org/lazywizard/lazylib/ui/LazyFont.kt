@@ -395,6 +395,8 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
         private val sb: StringBuilder = StringBuilder(text)
         private val displayListId: Int = glGenLists(1)
         private var needsRebuild = true
+        val font: LazyFont
+            get() = this@LazyFont
         var isDisposed = false
             private set
         var width: Float = 0f
