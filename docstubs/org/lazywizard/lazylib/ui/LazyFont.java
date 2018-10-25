@@ -89,7 +89,7 @@ import java.util.Map;
  *         // In this case, draw the text slightly below the mouse cursor
  *         // The draw point is the top left corner of the textbox, so we adjust the X
  *         // position to center the text horizontally below the mouse cursor
- *         if (Global.getCombatEngine() != null)
+ *         if (toDraw != null) // Needed to work around a vanilla bug when loading the campaign
  *         {
  *             toDraw.draw(Mouse.getX() - (toDraw.getWidth() / 2f), Mouse.getY() - 30f);
  *         }
