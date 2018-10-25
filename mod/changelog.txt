@@ -1,10 +1,11 @@
- 2.3 (September XX, 2018)
-==========================
+ 2.3 (October XX, 2018)
+========================
 Bundled the Kotlin runtime library (v1.2.71) with LazyLib:
- - Kotlin is an alternate JVM language that is 100% interchangeable with Java
+ - Kotlin is an alternate JVM language that is 100% interoperable with Java
  - "Core" LazyLib is and always shall be written in Java, though some features
-   such as the font classes are written in Kotlin, and Kotlin extension method
-   bindings are provided in the org.lazywizard.lazylib.ext package
+   such as the font classes are written in Kotlin for convenience's sake
+ - Kotlin extension methods can be found within the org.lazywizard.lazylib.ext
+   package in jars/LazyLib-Kotlin.jar (Java users can safely ignore this jar)
 Added @Nullable and @NotNull annotations where appropriate
 Added org.lazywizard.lazylib.ui.LazyFont:
  - Represents a bitmap font (the same type Starsector itself uses)
@@ -40,7 +41,7 @@ Changes to VectorUtils:
 Removed from SimpleEntity:
  - Removed Object constructor (it used reflection, which is now blocked;
    remaining options are Vector2f, WeaponAPI, and ShipEngineAPI)
-Misc Javadoc improvements
+Miscellaneous Javadoc improvements
 
  2.2 (April 21, 2017)
 =======================
