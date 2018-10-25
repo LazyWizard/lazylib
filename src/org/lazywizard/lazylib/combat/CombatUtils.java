@@ -357,6 +357,38 @@ public class CombatUtils
     }
 
     /**
+     * Converts screenspace coordinates to world coordinates.
+     *
+     * @param screenCoordinates The screenspace coordinates to convert.
+     *
+     * @return {@code screenCoordinates} converted to world coordinates.
+     *
+     * @since 2.3
+     */
+    public static Vector2f toWorldCoordinates(Vector2f screenCoordinates)
+    {
+        final ViewportAPI view = Global.getCombatEngine().getViewport();
+        return new Vector2f(view.convertScreenXToWorldX(screenCoordinates.x),
+                view.convertScreenYToWorldY(screenCoordinates.y));
+    }
+
+    /**
+     * Converts worldspace coordinates to screen coordinates.
+     *
+     * @param worldCoordinates The worldspace coordinates to convert.
+     *
+     * @return {@code worldCoordinates} converted to screen coordinates.
+     *
+     * @since 2.3
+     */
+    public static Vector2f toScreenCoordinates(Vector2f worldCoordinates)
+    {
+        final ViewportAPI view = Global.getCombatEngine().getViewport();
+        return new Vector2f(view.convertWorldXtoScreenX(worldCoordinates.x),
+                view.convertWorldYtoScreenY(worldCoordinates.y));
+    }
+
+    /**
      * Apply force to an object. Remember Newton's Second Law.
      * <p>
      * Force is multiplied by 100 to avoid requiring ridiculous force amounts.

@@ -17,10 +17,15 @@ Added org.lazywizard.lazylib.ui.LazyFont:
 Changes to CampaignUtils:
  - Added getEntitiesWithRep(SectorEntityToken token, String entityTag,
    IncludeRep include, RepLevel rep)
+ - Added toWorldCoordinates(Vector2f screenCoordinates)
+ - Added toScreenCoordinates(Vector2f worldCoordinates)
 Changes to CollisionUtils:
  - Added getNearestPointOnBounds(Vector2f source, CombatEntityAPI entity)
 Changes to ColorUtils:
  - Added glColor(Color color, float alpha)
+Changes to CombatUtils:
+ - Added toWorldCoordinates(Vector2f screenCoordinates)
+ - Added toScreenCoordinates(Vector2f worldCoordinates)
 Changes to MathUtils:
  - Added clamp(float/int toClamp, float/int min, float/int max). This clamps
    the passed value within the given range. Variants are provided for both
