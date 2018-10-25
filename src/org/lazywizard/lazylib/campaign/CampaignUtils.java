@@ -3,12 +3,14 @@ package org.lazywizard.lazylib.campaign;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.*;
 import com.fs.starfarer.api.combat.ShipAPI;
+import com.fs.starfarer.api.combat.ViewportAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.fleet.FleetMemberType;
 import com.fs.starfarer.api.impl.campaign.ids.Tags;
 import com.fs.starfarer.api.util.Misc;
 import org.jetbrains.annotations.Nullable;
 import org.lazywizard.lazylib.MathUtils;
+import org.lwjgl.util.vector.Vector2f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +74,38 @@ public class CampaignUtils
     public static boolean isPlayer(CampaignFleetAPI fleet)
     {
         return (fleet == Global.getSector().getPlayerFleet());
+    }
+
+    /**
+     * Converts screenspace coordinates to world coordinates.
+     *
+     * @param screenCoordinates The screenspace coordinates to convert.
+     *
+     * @return {@code screenCoordinates} converted to world coordinates.
+     *
+     * @since 2.3
+     */
+    public static Vector2f toWorldCoordinates(Vector2f screenCoordinates)
+    {
+        final ViewportAPI view = Global.getSector().getViewport();
+        return new Vector2f(view.convertScreenXToWorldX(screenCoordinates.x),
+                view.convertScreenYToWorldY(screenCoordinates.y));
+    }
+
+    /**
+     * Converts worldspace coordinates to screen coordinates.
+     *
+     * @param worldCoordinates The worldspace coordinates to convert.
+     *
+     * @return {@code worldCoordinates} converted to screen coordinates.
+     *
+     * @since 2.3
+     */
+    public static Vector2f toScreenCoordinates(Vector2f worldCoordinates)
+    {
+        final ViewportAPI view = Global.getSector().getViewport();
+        return new Vector2f(view.convertWorldXtoScreenX(worldCoordinates.x),
+                view.convertWorldYtoScreenY(worldCoordinates.y));
     }
 
     /**
