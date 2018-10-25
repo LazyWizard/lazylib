@@ -104,55 +104,135 @@ public class VectorUtils
     }
 
     /**
+     * Scales a vector to the requested length and stores the result in a destination vector.
+     *
+     * <b>Note:</b> <i>if the vector's length is 0, no scaling will be performed.</i>
+     *
+     * @param vector The vector to be resized. Will not be modified; instead the result will be placed in {@code dest}.
+     * @param length The new total length of the destination vector.
+     * @param dest   The destination {@link Vector2f}. Can be {@code vector}.
+     *
+     * @return {@code dest}, scaled based on {@code vector}, returned for easier chaining of methods.
+     *
+     * @since 2.3
+     */
+    public static Vector2f resize(Vector2f vector, float length, Vector2f dest)
+    {
+        if (dest != vector) dest.set(vector);
+        if (!isZeroVector(dest)) dest.scale(length / dest.length());
+        return dest;
+    }
+
+    /**
      * Scales a vector to the requested length.
      *
-     * <b>Note:</b> <i>if the vector's length is 0, no scaling will be done.</i>
+     * <b>Note:</b> <i>if the vector's length is 0, no scaling will be performed.</i>
      *
      * @param vector The vector to be modified.
      * @param length The new total length of {@code vector}.
      *
      * @return The modified {@code vector}, returned for easier chaining of methods.
      *
+     * @see VectorUtils#resize(Vector2f, float, Vector2f)
      * @since 2.3
      */
-    public static Vector2f setLength(Vector2f vector, float length)
+    public static Vector2f resize(Vector2f vector, float length)
     {
-        if (vector.lengthSquared() == 0f) return vector;
+        return resize(vector, length, vector);
+    }
 
-        vector.scale(length / vector.length());
-        return vector;
+    /**
+     * Reduces a vector's length if it is higher than the passed in argument and stores the result in a destination
+     * vector.
+     *
+     * @param toClamp   The vector whose length should be clamped. Will not be modified; instead the result will be
+     *                  placed in {@code dest}.
+     * @param maxLength The maximum length of the destination vector. If its current length is higher, it will be
+     *                  reduced to this amount.
+     * @param dest      The destination {@link Vector2f}. Can be {@code toClamp}.
+     *
+     * @return {@code dest}, clamped based on {@code toClamp}, returned for easier chaining of methods.
+     *
+     * @since 2.3
+     */
+    public static Vector2f clampLength(Vector2f toClamp, float maxLength, Vector2f dest)
+    {
+        if (dest != toClamp) dest.set(toClamp);
+        if (dest.lengthSquared() > (maxLength * maxLength))
+        {
+            resize(toClamp, maxLength, dest);
+        }
+
+        return dest;
     }
 
     /**
      * Reduces a vector's length if it is higher than the passed in argument.
      *
-     * @param vector    The vector whose length should be clamped.
-     * @param maxLength The maximum length of {@code vector}. If its current length is higher, it will be reduced to
+     * @param toClamp   The vector whose length should be clamped.
+     * @param maxLength The maximum length of {@code toClamp}. If its current length is higher, it will be reduced to
      *                  this amount.
      *
-     * @return The modified {@code vector}, returned for easier chaining of methods.
+     * @return The modified {@code toClamp}, returned for easier chaining of methods.
      *
+     * @see VectorUtils#clampLength(Vector2f, float, Vector2f)
      * @since 2.3
      */
-    public static Vector2f clampLength(Vector2f vector, float maxLength)
+    public static Vector2f clampLength(Vector2f toClamp, float maxLength)
     {
-        if (maxLength > 0f && vector.lengthSquared() > (maxLength * maxLength))
-        {
-            setLength(vector, maxLength);
-        }
-
-        return vector;
+        return clampLength(toClamp, maxLength, toClamp);
     }
 
     /**
-     * Rotates a {@link Vector2f} by a specified amount.
+     * Ensures a vector's length is within the given parameters and stores the result in a destination vector.
      *
-     * @param toRotate The {@link Vector2f} to rotate.
-     * @param angle    How much to rotate {@code toRotate}, in degrees.
-     * @param dest     The destination {@link Vector2f}. Can be
-     *                 {@code toRotate}.
+     * @param toClamp   The vector whose length should be clamped. Will not be modified; instead the result will be
+     *                  placed in {@code dest}.
+     * @param minLength The minimum length of the destination vector. If its current length is lower, it will be
+     *                  increased to this amount.
+     * @param maxLength The maximum length of the destination vector. If its current length is higher, it will be
+     *                  reduced to this amount.
+     * @param dest      The destination {@link Vector2f}. Can be {@code toClamp}.
      *
-     * @return A rotated version of {@code toRotate} placed in {@code dest}.
+     * @return {@code dest}, clamped based on {@code toClamp}, returned for easier chaining of methods.
+     *
+     * @since 2.3
+     */
+    public static Vector2f clampLength(Vector2f toClamp, float minLength, float maxLength, Vector2f dest)
+    {
+        resize(toClamp, MathUtils.clamp(toClamp.length(), minLength, maxLength), dest);
+        return dest;
+    }
+
+    /**
+     * Ensures a vector's length is within the given parameters and stores the result in a destination vector.
+     *
+     * @param toClamp   The vector whose length should be clamped. Will not be modified; instead the result will be
+     *                  placed in {@code dest}.
+     * @param minLength The minimum length of {@code toClamp}. If its current length is lower, it will be increased to
+     *                  this amount.
+     * @param maxLength The maximum length of {@code toClamp}. If its current length is higher, it will be reduced to
+     *                  this amount.
+     *
+     * @return The modified {@code toClamp}, returned for easier chaining of methods.
+     *
+     * @see VectorUtils#clampLength(Vector2f, float, float, Vector2f)
+     * @since 2.3
+     */
+    public static Vector2f clampLength(Vector2f toClamp, float minLength, float maxLength)
+    {
+        return clampLength(toClamp, minLength, maxLength, toClamp);
+    }
+
+    /**
+     * Rotates a {@link Vector2f} by a specified amount and stores the result in a destination vector.
+     *
+     * @param toRotate The {@link Vector2f} to rotate. Will not be modified; instead the result will be placed in {@code
+     *                 dest}.
+     * @param angle    How much to rotate the destination vector, in degrees.
+     * @param dest     The destination {@link Vector2f}. Can be {@code toRotate}.
+     *
+     * @return {@code dest}, rotated based on {@code toRotate}, returned for easier chaining of methods.
      *
      * @since 1.7
      */
@@ -168,6 +248,22 @@ public class VectorUtils
         dest.set((toRotate.x * cos) - (toRotate.y * sin),
                 (toRotate.x * sin) + (toRotate.y * cos));
         return dest;
+    }
+
+    /**
+     * Rotates a {@link Vector2f} by a specified amount.
+     *
+     * @param toRotate The {@link Vector2f} to rotate.
+     * @param angle    How much to rotate {@code toRotate}, in degrees.
+     *
+     * @return The modified {@code toRotate}, returned for easier chaining of methods.
+     *
+     * @see VectorUtils#rotate(Vector2f, float, Vector2f)
+     * @since 2.3
+     */
+    public static Vector2f rotate(Vector2f toRotate, float angle)
+    {
+        return rotate(toRotate, angle, toRotate);
     }
 
     /**
@@ -201,20 +297,21 @@ public class VectorUtils
     }
 
     /**
-     * Rotates a {@link Vector2f} by a specified amount around a pivot point.
+     * Rotates a {@link Vector2f} by a specified amount around a pivot point and stores the result in a destination
+     * vector.
      *
-     * @param toRotate   The {@link Vector2f} to rotate.
+     * @param toRotate   The {@link Vector2f} to rotate. Will not be modified; instead the result will be placed in
+     *                   {@code dest}.
      * @param pivotPoint The central point to pivot around.
-     * @param angle      How much to rotate {@code toRotate}, in degrees.
-     * @param dest       The destination {@link Vector2f}. Can be
-     *                   {@code toRotate}.
+     * @param angle      How much to rotate the destination vector, in degrees.
+     * @param dest       The destination {@link Vector2f}. Can be {@code toRotate}.
      *
-     * @return A rotated version of {@code toRotate} placed in {@code dest}.
+     * @return {@code dest}, rotated based on {@code toRotate} around {@code pivotPoint}, returned for easier chaining
+     *         of methods.
      *
      * @since 1.7
      */
-    public static Vector2f rotateAroundPivot(Vector2f toRotate, Vector2f pivotPoint,
-                                             float angle, Vector2f dest)
+    public static Vector2f rotateAroundPivot(Vector2f toRotate, Vector2f pivotPoint, float angle, Vector2f dest)
     {
         if (angle == 0f)
         {
@@ -225,6 +322,23 @@ public class VectorUtils
         rotate(TEMP_VECTOR, angle, TEMP_VECTOR);
         Vector2f.add(TEMP_VECTOR, pivotPoint, dest);
         return dest;
+    }
+
+    /**
+     * Rotates a {@link Vector2f} by a specified amount around a pivot point.
+     *
+     * @param toRotate   The {@link Vector2f} to rotate.
+     * @param pivotPoint The central point to pivot around.
+     * @param angle      How much to rotate {@code toRotate}, in degrees.
+     *
+     * @return The modified {@code toRotate}, returned for easier chaining of methods.
+     *
+     * @see VectorUtils#rotateAroundPivot(Vector2f, Vector2f, float, Vector2f)
+     * @since 2.3
+     */
+    public static Vector2f rotateAroundPivot(Vector2f toRotate, Vector2f pivotPoint, float angle)
+    {
+        return rotateAroundPivot(toRotate, pivotPoint, angle, toRotate);
     }
 
     /**
@@ -240,8 +354,7 @@ public class VectorUtils
      *
      * @since 2.0
      */
-    public static List<Vector2f> rotateAroundPivot(List<Vector2f> toRotate,
-                                                   Vector2f pivotPoint, float angle)
+    public static List<Vector2f> rotateAroundPivot(List<Vector2f> toRotate, Vector2f pivotPoint, float angle)
     {
         List<Vector2f> rotated = new ArrayList<>(toRotate.size());
         if (angle == 0f)
