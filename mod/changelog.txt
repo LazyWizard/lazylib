@@ -37,7 +37,11 @@ Changes to MathUtils:
    commonly used method in LazyLib as well as one of the most awkwardly named
 Changes to ModUtils:
  - Added isModEnabled(String modId)
+ - Added loadClassesIfClassIsPresent(String classCanonicalName,
+   List<String> classesToLoadCanonicalNames, boolean initializeClasses)
  - Added getEnabledModIds()
+ - Added getOverrides(), returns vanilla files explicitly overridden by any
+   mod (ie: in that mod's mod_info.sjon 'replace' section)
 Changes to VectorUtils:
  - Added isZeroVector(Vector2f vector)
  - Added setLength(Vector2f vector, float length)

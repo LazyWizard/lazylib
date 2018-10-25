@@ -45,8 +45,22 @@ public class ModUtils
         }
     }
 
-    // TODO: Test, Javadoc, add to changelog
-    static boolean loadClassesIfClassIsPresent(String classCanonicalName,
+    /**
+     * Loads a {@link List} of classes if a specific class is present, optionally initializing them in the process.
+     *
+     * @param classCanonicalName          The canonical name of the class to test for the presence of. If it is not
+     *                                    present, no other classes will be loaded.
+     * @param classesToLoadCanonicalNames The other classes to load if {@code classCanonicalName} is present.
+     * @param initializeClasses           Whether to initialize all newly loaded classes - used if they have static
+     *                                    initializers you want to run.
+     *
+     * @return {@code true} if {@code classCanonicalName} was present and {@code classesToLoadCanonicalNames} were
+     *         loaded, {@code false} otherwise.
+     *
+     * @throws ClassNotFoundException If any of the classes in {@code classesToLoadCanonicalNames} do not exist.
+     * @since 2.3
+     */
+    public static boolean loadClassesIfClassIsPresent(String classCanonicalName,
                                                List<String> classesToLoadCanonicalNames,
                                                boolean initializeClasses) throws ClassNotFoundException
     {
@@ -97,8 +111,14 @@ public class ModUtils
         return enabledMods;
     }
 
-    // TODO: Test, Javadoc, add to changelog
-    static List<String> getOverrides()
+    /**
+     * Returns all vanilla files that have been explicitly overridden in a mod's mod_info.json.
+     *
+     * @return All vanilla files overridden by mods.
+     *
+     * @since 2.3
+     */
+    public static List<String> getOverrides()
     {
         final Set<String> overriddenFiles = new HashSet<>();
         for (ModSpecAPI mod : Global.getSettings().getModManager().getEnabledModsCopy())
