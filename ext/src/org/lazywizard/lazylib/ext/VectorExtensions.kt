@@ -3,6 +3,7 @@ package org.lazywizard.lazylib.ext
 import org.lazywizard.lazylib.VectorUtils
 import org.lwjgl.util.vector.Vector2f
 
+// TODO: Add new 2.3 methods
 operator fun Vector2f.plus(other: Vector2f): Vector2f = Vector2f.add(this, other, Vector2f())
 operator fun Vector2f.plusAssign(other: Vector2f) { Vector2f.add(this, other, this) }
 operator fun Vector2f.minus(other: Vector2f): Vector2f = Vector2f.sub(this, other, Vector2f())

@@ -33,7 +33,6 @@ public class LazyLib extends BaseModPlugin
     // These values are read from mod_info.json at application startup
     private static float LIBRARY_VERSION = 0f;
     private static String GAME_VERSION = "[UNDEFINED]";
-    private static boolean IS_DEV_BUILD = false;
     private static boolean CACHE_ENABLED = false, LOG_DEPRECATED = false,
             CRASH_DEPRECATED = false;
     private static Level LOG_LEVEL;
@@ -66,19 +65,6 @@ public class LazyLib extends BaseModPlugin
     }
 
     /**
-     * Checks if this is a development (potentially unstable) build of LazyLib.
-     *
-     * @return {@code true} if this is a WIP build of LazyLib, {@code false}
-     *         otherwise.
-     *
-     * @since 1.4
-     */
-    public static boolean isDevBuild()
-    {
-        return IS_DEV_BUILD;
-    }
-
-    /**
      * Checks if caching of the results of expensive methods is enabled.
      *
      * @return {@code true} if results caching is enabled, {@code false}
@@ -100,8 +86,7 @@ public class LazyLib extends BaseModPlugin
      */
     public static String getInfo()
     {
-        return "LazyLib v" + LIBRARY_VERSION + (IS_DEV_BUILD ? "-dev" : "")
-                + ", built for Starsector " + GAME_VERSION;
+        return "LazyLib v" + LIBRARY_VERSION + ", built for Starsector " + GAME_VERSION;
     }
 
     /**
@@ -232,7 +217,6 @@ public class LazyLib extends BaseModPlugin
         settings = Global.getSettings().loadJSON("mod_info.json", MOD_ID);
         LIBRARY_VERSION = (float) settings.optDouble("version", LIBRARY_VERSION);
         GAME_VERSION = settings.optString("gameVersion", GAME_VERSION);
-        IS_DEV_BUILD = settings.optBoolean("devBuild", IS_DEV_BUILD);
 
         Global.getLogger(LazyLib.class).log(Level.INFO, "Running " + getInfo());
     }
