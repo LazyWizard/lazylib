@@ -1,5 +1,5 @@
 {
-    "id": "lw_lazylib",
+    "id": "lw_lazylib", #// If changed, update MOD_ID in org.lazywizard.lazylib.LazyLib to avoid a crash!
     "name": "LazyLib",
     "author": "LazyWizard",
     "utility": "true",
