@@ -5,6 +5,7 @@
       <element id="module-output" name="LazyLib" />
       <element id="dir-copy" path="$PROJECT_DIR$/src" />
       <element id="dir-copy" path="$PROJECT_DIR$/docstubs" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations-java5/16.0.2/annotations-java5-16.0.2.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

@@ -1,6 +1,6 @@
  2.3 (October XX, 2018)
 ========================
-Bundled the Kotlin runtime library (v1.2.71) with LazyLib:
+Bundled the Kotlin runtime library (v1.3.0) with LazyLib:
  - Kotlin is an alternate JVM language that is 100% interoperable with Java
  - "Core" LazyLib is and always shall be written in Java, though some features
    such as the font classes are written in Kotlin for convenience's sake
