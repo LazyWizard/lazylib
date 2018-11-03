@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="LazyLib-Kotlin:jar">
+    <output-path>$STARSECTOR_INSTALL_DIR$/mods/LazyLib/jars</output-path>
+    <root id="archive" name="LazyLib-Kotlin.jar">
+      <element id="module-output" name="LazyLib-Extensions" />
+      <element id="dir-copy" path="$PROJECT_DIR$/ext/src" />
+    </root>
+  </artifact>
+</component>
