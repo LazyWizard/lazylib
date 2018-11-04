@@ -65,6 +65,22 @@ public class CollectionUtils
         return implode(toImplode, ", ");
     }
 
+    // TODO: Javadoc, add to changelog
+    public static <T> String implode(Class<? extends Enum> toImplode, String separator)
+    {
+        final ArrayList<String> tmp = new ArrayList<>();
+        for (Enum value : toImplode.getEnumConstants()) {
+            tmp.add(value.name());
+        }
+
+        return implode(tmp, separator);
+    }
+
+    // TODO: Javadoc, add to changelog
+    public static <T> String implode(Class<? extends Enum> toImplode) {
+        return implode(toImplode, ", ");
+    }
+
     /**
      * Returns a combined {@link List} from several {@link Collection}s.
      *
