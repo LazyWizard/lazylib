@@ -8,6 +8,7 @@ package org.lazywizard.lazylib.ui;
  */
 // Javadoc stubs for FontException, since Dokka is a steaming pile
 // The actual source code can be found in LazyFont.kt
+@SuppressWarnings("ALL")
 public class FontException extends Exception
 {
     public FontException(String message)

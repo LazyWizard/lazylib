@@ -84,7 +84,7 @@ public class FastTrig
     }
 
     /**
-     * Returns the arc tangent of a value. Accurate to within 0.005 radians, or 0.29 degrees.
+     * Returns the arc tangent of a value. Accurate to within 0.005 radians, or ~0.29 degrees.
      * <p>
      * Originally written by Nic Taylor, and taken from <a href="https://www.dsprelated.com/showarticle/1052.php">this
      * page</a>.
@@ -103,7 +103,7 @@ public class FastTrig
 
     /**
      * Returns the angle theta from the conversion of rectangular coordinates (x, y) to polar coordinates (r, theta).
-     * Accurate to within 0.005 radians, or 0.29 degrees.
+     * Accurate to within 0.005 radians, or ~0.29 degrees.
      * <p>
      * Originally written by Nic Taylor, further modified by imuli, and taken from <a
      * href="https://www.dsprelated.com/showarticle/1052.php">this page</a>.
@@ -126,7 +126,7 @@ public class FastTrig
         double th = atan(z);                            // [0,π/4]
         if (invert) th = Math.PI / 2f - th;             // [0,π/2]
         if (x < 0) th = Math.PI - th;                   // [0,π]
-        return (float) Math.copySign(th, y);            // [-π,π]
+        return Math.copySign(th, y);                    // [-π,π]
     }
 
     private FastTrig()

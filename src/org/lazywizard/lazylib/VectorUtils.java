@@ -16,8 +16,8 @@ public class VectorUtils
     private static final Vector2f TEMP_VECTOR = new Vector2f();
 
     /**
-     * Returns the facing (angle) of a {@link Vector2f} in degrees. Accurate to within 0.29 degrees. If you need more
-     * accuracy, use {@link VectorUtils#getFacingStrict(Vector2f)}.
+     * Returns the facing (angle) of a {@link Vector2f} in degrees. Accurate to within ~0.29 degrees. If you need
+     * more accuracy, use {@link VectorUtils#getFacingStrict(Vector2f)}.
      *
      * @param vector The vector to get the facing of.
      *
@@ -58,8 +58,8 @@ public class VectorUtils
     }
 
     /**
-     * Returns the angle between two {@link Vector2f}s in degrees. Accurate to within 0.29 degrees. If you need more
-     * accuracy, use {@link VectorUtils#getAngleStrict(Vector2f, Vector2f)}.
+     * Returns the angle between two {@link Vector2f}s in degrees. Accurate to within ~0.29 degrees. If you need
+     * more accuracy, use {@link VectorUtils#getAngleStrict(Vector2f, Vector2f)}.
      *
      * @param from The source {@link Vector2f}.
      * @param to   The {@link Vector2f} to get the angle to.

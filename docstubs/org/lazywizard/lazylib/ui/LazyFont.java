@@ -102,6 +102,7 @@ import java.util.Map;
  */
 // Javadoc stubs for LazyFont, since Dokka is a steaming pile
 // The actual source code can be found in LazyFont.kt
+@SuppressWarnings("ALL")
 public class LazyFont
 {
     /**
