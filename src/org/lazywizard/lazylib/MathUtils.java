@@ -20,6 +20,8 @@ public class MathUtils
 {
     // This is the internal RNG used by all randomized LazyLib methods
     private static final Random rng = new Random();
+    public static final float FPI = (float) Math.PI;
+    public static final float FTAU = (float) (Math.PI * 2.0);
 
     /**
      * Returns the distance between two {@link SectorEntityToken}s,
@@ -723,7 +725,6 @@ public class MathUtils
                 b = y - centerY;
 
                 // Point is in circle
-                // TODO: Easy optimization: once in circle, no further checks should be needed
                 if ((a * a) + (b * b) < (radius * radius))
                 {
                     points.add(new Vector2f(x, y));

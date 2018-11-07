@@ -16,16 +16,38 @@ public class VectorUtils
     private static final Vector2f TEMP_VECTOR = new Vector2f();
 
     /**
-     * Returns the facing (angle) of a {@link Vector2f}.
+     * Returns the facing (angle) of a {@link Vector2f} in degrees. Accurate to within 0.29 degrees. If you need more
+     * accuracy, use {@link VectorUtils#getFacingStrict(Vector2f)}.
      *
      * @param vector The vector to get the facing of.
      *
      * @return The facing (angle) of {@code vector} in degrees, or 0 if the
      *         vector has no length.
      *
+     * @see VectorUtils#getFacingStrict(Vector2f)
      * @since 1.7
      */
     public static float getFacing(Vector2f vector)
+    {
+        if (isZeroVector(vector))
+        {
+            return 0f;
+        }
+
+        return MathUtils.clampAngle((float) Math.toDegrees(FastTrig.atan2(vector.y, vector.x)));
+    }
+
+    /**
+     * Returns the facing (angle) of a {@link Vector2f} in degrees. This method uses the slower but more accurate
+     * behavior of pre-2.3 {@link VectorUtils#getFacing(Vector2f)}.
+     *
+     * @param vector The vector to get the facing of.
+     *
+     * @return The facing (angle) of {@code vector} in degrees, or 0 if the vector has no length.
+     *
+     * @since 2.3
+     */
+    public static float getFacingStrict(Vector2f vector)
     {
         if (isZeroVector(vector))
         {
@@ -36,18 +58,36 @@ public class VectorUtils
     }
 
     /**
-     * Returns the angle between two {@link Vector2f}s.
+     * Returns the angle between two {@link Vector2f}s in degrees. Accurate to within 0.29 degrees. If you need more
+     * accuracy, use {@link VectorUtils#getAngleStrict(Vector2f, Vector2f)}.
+     *
+     * @param from The source {@link Vector2f}.
+     * @param to   The {@link Vector2f} to get the angle to.
+     *
+     * @return The angle pointing from {@code from} to {@code to}, in degrees.
+     *
+     * @see VectorUtils#getAngleStrict(Vector2f, Vector2f)
+     * @since 1.7
+     */
+    public static float getAngle(Vector2f from, Vector2f to)
+    {
+        return getFacing(Vector2f.sub(to, from, null));
+    }
+
+    /**
+     * Returns the angle between two {@link Vector2f}s in degrees. This method uses the slower but more accurate
+     * behavior of pre-2.3 {@link VectorUtils#getAngle(Vector2f, Vector2f)}.
      *
      * @param from The source {@link Vector2f}.
      * @param to   The {@link Vector2f} to get the angle to.
      *
      * @return The angle pointing from {@code from} to {@code to}.
      *
-     * @since 1.7
+     * @since 2.3
      */
-    public static float getAngle(Vector2f from, Vector2f to)
+    public static float getAngleStrict(Vector2f from, Vector2f to)
     {
-        return getFacing(Vector2f.sub(to, from, null));
+        return getFacingStrict(Vector2f.sub(to, from, null));
     }
 
     /**
