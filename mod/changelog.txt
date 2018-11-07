@@ -26,7 +26,11 @@ Changes to ColorUtils:
 Changes to CombatUtils:
  - Added toWorldCoordinates(Vector2f screenCoordinates)
  - Added toScreenCoordinates(Vector2f worldCoordinates)
+Changes to FastTrig:
+ - Added atan() and atan2() that are much faster (though less accurate)
+   than the implementations in Java's core Math class
 Changes to MathUtils:
+ - Added FPI and FTAU constants, contain Math.PI and Math.PI * 2 as floats
  - Added clamp(float/int toClamp, float/int min, float/int max). This clamps
    the passed value within the given range. Variants are provided for both
    integers and floats.
@@ -43,6 +47,9 @@ Changes to ModUtils:
  - Added getOverrides(), returns vanilla files explicitly overridden by any
    mod (ie: in that mod's mod_info.sjon 'replace' section)
 Changes to VectorUtils:
+ - getFacing() and getAngle() now use FastTrig's new atan2() implementation
+ - Added getFacingStrict() and getAngleStrict(), which are slower but more
+   accurate (these use the old pre-2.3 implementations)
  - Added isZeroVector(Vector2f vector)
  - Added resize(Vector2f vector, float length)
  - Added resize(Vector2f vector, float length, Vector2f dest)
