@@ -17,7 +17,7 @@ import org.lwjgl.util.vector.Vector2f;
  */
 public class SimpleEntity extends EntityBase
 {
-    protected SimpleEntityType type;
+    protected final SimpleEntityType type;
     // Variables for Vector2f-based variant
     protected Vector2f location = null;
     // Variables for WeaponAPI-based variant

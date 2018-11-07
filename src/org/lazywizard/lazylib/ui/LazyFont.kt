@@ -284,8 +284,8 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
         glBindTexture(GL_TEXTURE_2D, textureId)
         glPushAttrib(GL_ENABLE_BIT or GL_COLOR_BUFFER_BIT)
         glEnable(GL_TEXTURE_2D)
-        glBlendFunc(GL_ONE, GL_ONE); // TODO: Proper blending
-        glEnable(GL_BLEND);
+        glBlendFunc(GL_ONE, GL_ONE) // TODO: Proper blending
+        glEnable(GL_BLEND)
         glPushMatrix()
         glTranslatef(x + 0.01f, y + 0.01f, 0f)
         glBegin(GL_QUADS)
