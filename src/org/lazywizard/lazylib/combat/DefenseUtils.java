@@ -183,8 +183,6 @@ public class DefenseUtils
         return (ship.getHitpoints() < ship.getMaxHitpoints());
     }
 
-    // TODO: Test this
-
     /**
      * Returns the most damaged armor cell on a {@link ShipAPI}, or {@code null}
      * if the ship hasn't taken any armor damage.
@@ -198,6 +196,7 @@ public class DefenseUtils
      *
      * @since 2.0
      */
+    // TODO: Test this
     @Nullable
     public static Point getMostDamagedArmorCell(ShipAPI ship)
     {

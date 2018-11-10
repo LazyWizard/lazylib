@@ -19,6 +19,9 @@ Changes to CampaignUtils:
    IncludeRep include, RepLevel rep)
  - Added toWorldCoordinates(Vector2f screenCoordinates)
  - Added toScreenCoordinates(Vector2f worldCoordinates)
+Changes to CollectionUtils:
+ - Added implode(Enum toImplode)
+ - Added implode(Enum toImplode, String separator)
 Changes to CollisionUtils:
  - Added getNearestPointOnBounds(Vector2f source, CombatEntityAPI entity)
 Changes to ColorUtils:

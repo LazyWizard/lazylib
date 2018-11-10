@@ -3,6 +3,7 @@ package org.lazywizard.lazylib;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import org.jetbrains.annotations.Nullable;
+import org.lazywizard.lazylib.ui.LazyFont;
 import org.lwjgl.util.vector.Vector2f;
 
 import java.awt.geom.Line2D;
@@ -297,8 +298,7 @@ public class MathUtils
     }
 
     // TODO: Test, rename, Javadoc, add to changelog
-    static float renormalize(float num, float min, float max,
-                             float oldMin, float oldMax)
+    static float renormalize(float num, float min, float max, float oldMin, float oldMax)
     {
         return ((max - min) / (oldMax - oldMin)) * (num - oldMin) + min;
     }
@@ -697,8 +697,7 @@ public class MathUtils
      *
      * @since 1.4
      */
-    public static List<Vector2f> getEquidistantPointsInsideCircle(@Nullable Vector2f center,
-                                                                  float radius, float spaceBetweenPoints)
+    public static List<Vector2f> getEquidistantPointsInsideCircle(@Nullable Vector2f center, float radius, float spaceBetweenPoints)
     {
         // Avoid infinite loops
         if (spaceBetweenPoints <= 0f)

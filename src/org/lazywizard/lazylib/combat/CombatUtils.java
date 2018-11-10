@@ -12,7 +12,9 @@ import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Contains methods that deal with the battle map in general. These methods do
@@ -72,6 +74,60 @@ public class CombatUtils
 
         // No match was found
         return null;
+    }
+
+    // TODO: Test, Javadoc, add to changelog
+    static List<ShipAPI> getShipsOfSide(FleetSide side, boolean includeAllies)
+    {
+        final List<ShipAPI> ships = new ArrayList<>();
+        for (ShipAPI ship : Global.getCombatEngine().getShips())
+        {
+            if (ship.getOwner() == side.ordinal())
+            {
+                if (ship.isShuttlePod() || (!includeAllies && ship.isAlly()))
+                {
+                    continue;
+                }
+
+                ships.add(ship);
+            }
+        }
+
+        return ships;
+    }
+
+    // TODO: Test, Javadoc, add to changelog
+    static List<ShipAPI> filterModules(List<ShipAPI> ships)
+    {
+        final Set<ShipAPI> tmp = new HashSet<>(ships.size());
+        for (ShipAPI ship : ships)
+        {
+            if (ship.isShipWithModules())
+            {
+                tmp.add(ship.getParentStation());
+            }
+            else
+            {
+                tmp.add(ship);
+            }
+        }
+
+        return new ArrayList<>(tmp);
+    }
+
+    // TODO: Test, Javadoc, add to changelog
+    static List<ShipAPI> filterHulks(List<ShipAPI> ships)
+    {
+        final List<ShipAPI> tmp = new ArrayList<>(ships.size());
+        for (ShipAPI ship : ships)
+        {
+            if (ship.isShuttlePod() || ship.isHulk())
+                continue;
+
+            tmp.add(ship);
+        }
+
+        return tmp;
     }
 
     /**

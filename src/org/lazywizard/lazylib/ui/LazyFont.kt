@@ -433,11 +433,6 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
                 sb.setLength(0)
                 appendText(value)
             }
-        var drawDebug = false
-            set(value) {
-                field = value
-                needsRebuild = true
-            }
 
         fun appendText(text: String) {
             sb.append(text)
@@ -456,37 +451,6 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
             glPushAttrib(GL_ENABLE_BIT)
             glNewList(displayListId, GL_COMPILE)
             val tmp: Vector2f = drawText(text, 0.01f, 0.01f, fontSize, maxWidth, maxHeight)
-            // Debug code: shows bounds of drawn textbox
-            if (drawDebug) {
-                // Draw bounds of rendered text
-                glDisable(GL_TEXTURE_2D)
-                glColor(Color.WHITE)
-                glLineWidth(1f)
-                glBegin(GL_LINE_LOOP)
-                glVertex2f(0f, 0f)
-                glVertex2f(0f, -tmp.y)
-                glVertex2f(tmp.x, -tmp.y)
-                glVertex2f(tmp.x, 0f)
-                glEnd()
-
-                // Draw text box origin and end point
-                glColor(Color.GREEN)
-                glBegin(GL_LINES)
-                // Top left horizontal
-                glVertex2f(-5f, 0f)
-                glVertex2f(5f, 0f)
-                // Top left vertical
-                glVertex2f(0f, -5f)
-                glVertex2f(0f, 5f)
-                glColor(Color.RED)
-                // Bottom right horizontal
-                glVertex2f(tmp.x - 5f, -tmp.y)
-                glVertex2f(tmp.x + 5f, -tmp.y)
-                // Bottom right vertical
-                glVertex2f(tmp.x, -tmp.y - 5f)
-                glVertex2f(tmp.x, -tmp.y + 5f)
-                glEnd()
-            }
             glEndList()
             glPopAttrib()
 
