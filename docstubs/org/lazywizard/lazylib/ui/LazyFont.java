@@ -89,7 +89,7 @@ import java.util.Map;
  *         // In this case, draw the text slightly below the mouse cursor
  *         // The draw point is the top left corner of the textbox, so we adjust the X
  *         // position to center the text horizontally below the mouse cursor
- *         if (toDraw != null) // Needed to work around a vanilla bug when loading the campaign
+ *         if (toDraw != null) // Needed to work around a vanilla combat plugin bug when loading the campaign
  *         {
  *             toDraw.draw(Mouse.getX() - (toDraw.getWidth() / 2f), Mouse.getY() - 30f);
  *         }
@@ -214,7 +214,7 @@ public class LazyFont
      * @param text      The initial text to be drawn. You can modify it later using the returned {@link DrawableString}.
      * @param color     The color of the drawn text.
      * @param size      The font size of the drawn text. For best results, this should be evenly divisible by {@link
-     *                  LazyFont#getBaseHeight()}.
+     *                  LazyFont#getBaseHeight()}. Other values may cause slight blurriness or jaggedness.
      * @param maxWidth  The maximum width of the drawn text before further text will be wrapped to a new line.
      * @param maxHeight The maximum height of the drawn text. All further text past this point will be discarded.
      *
@@ -322,6 +322,10 @@ public class LazyFont
     /**
      * Keeps track of the metadata for each supported character in a font. This is used internally to render and wrap
      * text, and it is unlikely that end users will ever need to use this class or any of its methods in their code.
+     * <p>
+     * In the rare case that these methods are needed, their names should match the bitmap font file format found <a
+     * href="http://www.angelcode.com/products/bmfont/doc/file_format.html">here</a> under the {@code char} and
+     * {@code kerning} headings.
      *
      * @author LazyWizard
      * @since 2.3
@@ -501,22 +505,13 @@ public class LazyFont
         {
         }
 
-        // Note: returns a new String each time it's called
+        // Performance note: underlying StringBuilder will create a new String each time this is called
         public String getText()
         {
             return "";
         }
 
         public void setText(String text)
-        {
-        }
-
-        public boolean getDrawDebug()
-        {
-            return false;
-        }
-
-        public void setDrawDebug(boolean drawDebug)
         {
         }
 
@@ -552,7 +547,6 @@ public class LazyFont
         {
         }
     }
-
 
     private LazyFont()
     {

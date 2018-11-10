@@ -51,8 +51,7 @@ public class CollectionUtils
      * Creates a comma-separated {@link String} from a {@link Collection}'s
      * entries.
      *
-     * @param toImplode A {@link Collection} to be combined (using each
-     *                  entry's {@code toString} method).
+     * @param toImplode A {@link Collection} to be combined (using each entry's {@code toString} method).
      *
      * @return A single {@link String} consisting of {@code toImplode}'s values
      *         separated with commas.
@@ -65,19 +64,40 @@ public class CollectionUtils
         return implode(toImplode, ", ");
     }
 
-    // TODO: Javadoc, add to changelog
+    /**
+     * Creates a {@link String} containing the names of an {@link Enum}'s entries.
+     *
+     * @param toImplode An {@link Enum} whose contents should be combined into one {@link String}.
+     * @param separator The separator character to split {@code toImplode} with.
+     *
+     * @return A single {@link String} consisting of {@code toImplode}'s values
+     *         separated with {@code separator}.
+     *
+     * @since 2.3
+     */
     public static <T> String implode(Class<? extends Enum> toImplode, String separator)
     {
         final ArrayList<String> tmp = new ArrayList<>();
-        for (Enum value : toImplode.getEnumConstants()) {
+        for (Enum value : toImplode.getEnumConstants())
+        {
             tmp.add(value.name());
         }
 
         return implode(tmp, separator);
     }
 
-    // TODO: Javadoc, add to changelog
-    public static <T> String implode(Class<? extends Enum> toImplode) {
+    /**
+     * Creates a comma-separated {@link String} containing the names of an {@link Enum}'s entries.
+     *
+     * @param toImplode An {@link Enum} to be combined (using each entry's {@code name()} method).
+     *
+     * @return A single {@link String} consisting of {@code toImplode}'s values separated with commas.
+     *
+     * @see CollectionUtils#implode(Class, String)
+     * @since 2.3
+     */
+    public static <T> String implode(Class<? extends Enum> toImplode)
+    {
         return implode(toImplode, ", ");
     }
 
@@ -86,8 +106,7 @@ public class CollectionUtils
      *
      * @param toCombine The {@link Collection} of elements to combine.
      *
-     * @return A new {@link ArrayList} containing the combined contents of
-     *         {@code toCombine}.
+     * @return A new {@link ArrayList} containing the combined contents of {@code toCombine}.
      *
      * @since 2.1
      */
