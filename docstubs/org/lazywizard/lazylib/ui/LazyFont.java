@@ -1,5 +1,6 @@
 package org.lazywizard.lazylib.ui;
 
+import com.fs.starfarer.api.graphics.SpriteAPI;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -7,8 +8,7 @@ import java.awt.*;
 import java.util.Map;
 
 /**
- * An efficiently drawable bitmap font implementation. May not be a pixel-perfect match of
- * Starsector's implementation.
+ * An efficiently drawable bitmap font implementation. May not be a pixel-perfect match to Starsector's implementation.
  * <p>
  * <h3>Basic Usage:</h3>
  * <ul>
@@ -123,40 +123,114 @@ public class LazyFont
         return null;
     }
 
-
+    /**
+     * Returns the word-wrapping that would be done to a block of text to fit it within a specific area at a specific
+     * font size. Can be used alongside {@link LazyFont#calcWidth(String, float)} to determine the size of a block of
+     * rendered text without needing the expense of building a {@link DrawableString} first.
+     *
+     * @param toWrap    The text to be word-wrapped.
+     * @param fontSize  The font size the text would be rendered at.
+     * @param maxWidth  The max width of the text area. Text will be wrapped at the last word that fit within this
+     *                  width.
+     * @param maxHeight The max height of the text area. Text beyond this will be discarded.
+     * @param indent    The number of empty spaces at the start of each line. Used by {@link
+     *                  DrawableString#appendText(String, int)}.
+     *
+     * @return {@code toWrap}, wrapped to fit within the area specified by {@code maxWidth} and {@code maxHeight}.
+     *
+     * @since 2.3
+     */
     @NotNull
     public String wrapString(String toWrap, float fontSize, float maxWidth, float maxHeight, int indent)
     {
         return "";
     }
 
+    /**
+     * Returns the word-wrapping that would be done to a block of text to fit it within a specific area at a specific
+     * font size. Can be used alongside {@link LazyFont#calcWidth(String, float)} to determine the size of a block of
+     * rendered text without needing the expense of building a {@link DrawableString} first.
+     *
+     * @param toWrap    The text to be word-wrapped.
+     * @param fontSize  The font size the text would be rendered at.
+     * @param maxWidth  The max width of the text area. Text will be wrapped at the last word that fit within this
+     *                  width.
+     * @param maxHeight The max height of the text area. Text beyond this will be discarded.
+     *
+     * @return {@code toWrap}, wrapped to fit within the area specified by {@code maxWidth} and {@code maxHeight}.
+     *
+     * @since 2.3
+     */
     @NotNull
     public String wrapString(String toWrap, float fontSize, float maxWidth, float maxHeight)
     {
         return "";
     }
 
+    /**
+     * Returns the word-wrapping that would be done to a block of text to fit it within a specific area at a specific
+     * font size. Can be used alongside {@link LazyFont#calcWidth(String, float)} to determine the size of a block of
+     * rendered text without needing the expense of building a {@link DrawableString} first.
+     *
+     * @param toWrap   The text to be word-wrapped.
+     * @param fontSize The font size the text would be rendered at.
+     * @param maxWidth The max width of the text area. Text will be wrapped at the last word that fit within this
+     *                 width.
+     *
+     * @return {@code toWrap}, wrapped to fit within the area specified by {@code maxWidth}.
+     *
+     * @since 2.3
+     */
     @NotNull
     public String wrapString(String toWrap, float fontSize, float maxWidth)
     {
         return "";
     }
 
+    /**
+     * Returns the base height of the underlying font. Rendered text will look best when drawn at an evenly divisible
+     * ratio of this value.
+     *
+     * @return The base height of the font, in pixels.
+     *
+     * @since 2.3
+     */
     public float getBaseHeight()
     {
         return 0f;
     }
 
+    /**
+     * Returns the height of the font's underlying texture atlas.
+     *
+     * @return The height of the underlying texture atlas, in pixels.
+     *
+     * @since 2.3
+     */
     public float getTextureHeight()
     {
         return 0f;
     }
 
+    /**
+     * Returns the width of the font's underlying texture atlas.
+     *
+     * @return The width of the underlying texture atlas, in pixels.
+     *
+     * @since 2.3
+     */
     public float getTextureWidth()
     {
         return 0f;
     }
 
+    /**
+     * Returns the ID of the font's underlying texture atlas. Equivalent to calling {@link SpriteAPI#getTextureId()}.
+     *
+     * @return The ID of the underlying texture atlas.
+     *
+     * @since 2.3
+     */
     public int getTextureId()
     {
         return 0;
@@ -177,6 +251,17 @@ public class LazyFont
         return 0f;
     }
 
+    /**
+     * Returns font metadata for a specific character. If the font does not support the character, data for '?' is
+     * returned instead.
+     *
+     * @param character The character to look up.
+     *
+     * @return A {@link LazyChar} containing metadata for how the font handles {@code character}, or metadata for '?' if
+     *         that character is not supported by the font.
+     *
+     * @since 2.3
+     */
     @NotNull
     public LazyFont.LazyChar getChar(char character)
     {
@@ -191,7 +276,7 @@ public class LazyFont
      * @param x         The x coordinate of the starting point for rendering (top left corner of text).
      * @param y         The y coordinate of the starting point for rendering (top left corner of text).
      * @param fontSize  The size of the text to be drawn. For best results, this should be evenly divisible by {@link
-     *                  LazyFont#getBaseHeight()}.
+     *                  LazyFont#getBaseHeight()}. Other values may cause slight blurriness or jaggedness.
      * @param maxWidth  The maximum width of the drawn text before further text will be wrapped to a new line.
      * @param maxHeight The maximum height of the drawn text. All further text past this point will be discarded.
      *
@@ -235,7 +320,7 @@ public class LazyFont
      * @param text     The initial text to be drawn. You can modify it later using the returned {@link DrawableString}.
      * @param color    The color of the drawn text.
      * @param size     The font size of the drawn text. For best results, this should be evenly divisible by {@link
-     *                 LazyFont#getBaseHeight()}.
+     *                 LazyFont#getBaseHeight()}. Other values may cause slight blurriness or jaggedness.
      * @param maxWidth The maximum width of the drawn text before further text will be wrapped to a new line.
      *
      * @return A {@link DrawableString} with the specified text, color, and font size, with text wrapping
@@ -256,7 +341,7 @@ public class LazyFont
      * @param text  The initial text to be drawn. You can modify it later using the returned {@link DrawableString}.
      * @param color The color of the drawn text.
      * @param size  The font size of the drawn text. For best results, this should be evenly divisible by {@link
-     *              LazyFont#getBaseHeight()}.
+     *              LazyFont#getBaseHeight()}. Other values may cause slight blurriness or jaggedness.
      *
      * @return A {@link DrawableString} with the specified text, color, and font size, with no text wrapping.
      *
@@ -318,6 +403,8 @@ public class LazyFont
     {
         return null;
     }
+
+    //<editor-fold desc="LazyChar" defaultstate="collapsed">
 
     /**
      * Keeps track of the metadata for each supported character in a font. This is used internally to render and wrap
@@ -409,6 +496,9 @@ public class LazyFont
         {
         }
     }
+    //</editor-fold>
+
+    //<editor-fold desc="DrawableString">
 
     /**
      * Represents an efficiently redrawable block of text. See the documentation for {@link LazyFont} for example usage.
@@ -428,19 +518,6 @@ public class LazyFont
         public LazyFont getFont()
         {
             return null;
-        }
-
-        /**
-         * Whether this object's underlying data has been cleaned up - attempting to render after disposal will cause a
-         * {@link RuntimeException}!
-         *
-         * @return {@code true} if {@link DrawableString#dispose()} has been called; {@code false} otherwise.
-         *
-         * @since 2.3
-         */
-        public boolean isDisposed()
-        {
-            return false;
         }
 
         /**
@@ -469,76 +546,257 @@ public class LazyFont
             return 0f;
         }
 
+        /**
+         * Returns the font size text will be drawn at.
+         *
+         * @return The font size of this {@link DrawableString}.
+         *
+         * @since 2.3
+         */
         public float getFontSize()
         {
             return 0f;
         }
 
+        /**
+         * Changes the font size that this text will be rendered at.
+         * <p>
+         * Changing the font size will necessitate a full rebuild of the {@link DrawableString} the next time you
+         * attempt to draw or measure the text.
+         *
+         * @param fontSize The new font size to render at.
+         *
+         * @since 2.3
+         */
         public void setFontSize(float fontSize)
         {
         }
 
+        /**
+         * Returns the maximum width of the area that this text will be rendered within.
+         *
+         * @return The maximum width of the text area. Text will wrapped at the last word that fit within this area.
+         *
+         * @since 2.3
+         */
         public float getMaxWidth()
         {
             return 0f;
         }
 
+        /**
+         * Changes the maximum width of the area that this text will be rendered within.
+         * <p>
+         * Changing the text area constraints will necessitate a full rebuild of the {@link DrawableString} the next
+         * time you attempt to draw or measure the text.
+         *
+         * @param maxWidth The nex maximum width of the text area. Text will be wrapped at the last word that fit
+         *                 within this area.
+         *
+         * @since 2.3
+         */
         public void setMaxWidth(float maxWidth)
         {
         }
 
+        /**
+         * Returns the maximum height of the area that this text will be rendered within.
+         *
+         * @return The maximum height of the text area. Further text will be discarded once this limit is reached.
+         *
+         * @since 2.3
+         */
         public float getMaxHeight()
         {
             return 0f;
         }
 
+        /**
+         * Changes the maximum height of the area that this text will be rendered within.
+         * <p>
+         * Changing the text area constraints will necessitate a full rebuild of the {@link DrawableString} the next
+         * time you attempt to draw or measure the text.
+         *
+         * @param maxHeight The nex maximum height of the text area. Further text will be discarded once this limit is
+         *                  reached.
+         *
+         * @since 2.3
+         */
         public void setMaxHeight(float maxHeight)
         {
         }
 
+        /**
+         * Returns the current color text will be drawn as.
+         *
+         * @return The color text will be drawn as.
+         *
+         * @since 2.3
+         */
         public Color getColor()
         {
             return null;
         }
 
+        /**
+         * Sets the color text will be drawn as.
+         * <p>
+         * Unlike most setX() methods in this class, calling this will <i>not</i> trigger a rebuild of the entire {@link
+         * DrawableString}.
+         *
+         * @param color The color to draw the text as.
+         *
+         * @since 2.3
+         */
         public void setColor(Color color)
         {
         }
 
-        // Performance note: underlying StringBuilder will create a new String each time this is called
+        /**
+         * Returns the raw text of this {@link DrawableString}, before any word-wrapping is applied.
+         *
+         * <b>Performance note:</b> due to the underlying text being stored in a {@link StringBuilder}, a new {@link
+         * String} will be built every time this method is called.
+         *
+         * @return The raw text of this {@link DrawableString} (without word-wrapping applied).
+         *
+         * @see LazyFont#wrapString(String, float, float, float) to calculate the text after wrapping is applied.
+         * @since 2.3
+         */
         public String getText()
         {
             return "";
         }
 
+        /**
+         * Replaces all text in the {@link DrawableString} with the entered {@link String}.
+         * <p>
+         * Changing a {@link DrawableString}'s text will necessitate a full rebuild of its contents the next time you
+         * attempt to draw or measure the text.
+         *
+         * @param text The {@link String} to set this {@link DrawableString}'s contents to.
+         *
+         * @since 2.3
+         */
         public void setText(String text)
         {
         }
 
+        /**
+         * Adds additional text to the end of the current text.
+         * <p>
+         * Changing a {@link DrawableString}'s text will necessitate a full rebuild of its contents the next time you
+         * attempt to draw or measure the text.
+         *
+         * @param text The text to add to the {@link DrawableString}.
+         *
+         * @since 2.3
+         */
         public void appendText(String text)
         {
         }
 
+        /**
+         * Adds additional text to the end of the current text.
+         * <p>
+         * Changing a {@link DrawableString}'s text will necessitate a full rebuild of its contents the next time you
+         * attempt to draw or measure the text.
+         *
+         * @param text   The text to add to the {@link DrawableString}.
+         * @param indent All lines will be prepended with this number of blank spaces.
+         *
+         * @since 2.3
+         */
         public void appendText(String text, int indent)
         {
         }
 
+        /**
+         * Renders the text area at the specified coordinates. This method must be called once per frame.
+         * <p>
+         * You can render the same block of text in multiple places. The OpenGL commands are cached in a display list,
+         * so performance should not be an issue (provided the underlying data isn't changed, necessitating a rebuild).
+         *
+         * @param x The X coordinate to draw at.
+         * @param y The Y coordinate to draw at.
+         *
+         * @since 2.3
+         */
         public void draw(float x, float y)
         {
         }
 
+        /**
+         * Renders the text area at the specified coordinates. This method must be called once per frame.
+         * <p>
+         * You can render the same block of text in multiple places. The OpenGL commands are cached in a display list,
+         * so performance should not be an issue (provided the underlying data isn't changed, necessitating a rebuild).
+         *
+         * @param location The coordinates to draw at.
+         *
+         * @since 2.3
+         */
         public void draw(Vector2f location)
         {
         }
 
+        /**
+         * Renders the text area at the specified coordinates with the specified angle. This method must be called once
+         * per frame.
+         * <p>
+         * You can render the same block of text in multiple places. The OpenGL commands are cached in a display list,
+         * so performance should not be an issue (provided the underlying data isn't changed, necessitating a rebuild).
+         *
+         * @param x     The X coordinate to draw at.
+         * @param y     The Y coordinate to draw at.
+         * @param angle The angle to draw at.
+         *
+         * @since 2.3
+         */
         public void drawAtAngle(float x, float y, float angle)
         {
         }
 
+        /**
+         * Renders the text area at the specified coordinates with the specified angle. This method must be called once
+         * per frame.
+         * <p>
+         * You can render the same block of text in multiple places. The OpenGL commands are cached in a display list,
+         * so performance should not be an issue (provided the underlying data isn't changed, necessitating a rebuild).
+         *
+         * @param location The coordinates to draw at.
+         * @param angle    The angle to draw at.
+         *
+         * @since 2.3
+         */
         public void drawAtAngle(Vector2f location, float angle)
         {
         }
 
+        /**
+         * Whether this object's underlying OpenGL resources have been cleaned up - attempting to render after disposal
+         * will cause a {@link RuntimeException}!
+         *
+         * @return {@code true} if {@link DrawableString#dispose()} has been called; {@code false} otherwise.
+         *
+         * @since 2.3
+         */
+        public boolean isDisposed()
+        {
+            return false;
+        }
+
+        /**
+         * Cleans up the underlying OpenGL resources of this {@link DrawableString}. Calling any draw() method after
+         * this will cause a {@link RuntimeException}.
+         * <p>
+         * Calling this method is optional, and rarely required. However, there are a limited number of display lists
+         * available, so if you are creating many thousands of {@link DrawableString}s, you will need to call this when
+         * done with each to prevent the pool from being exhausted before the garbage collector can get around to
+         * cleaning them up for you.
+         *
+         * @since 2.3
+         */
         public void dispose()
         {
         }
@@ -547,6 +805,7 @@ public class LazyFont
         {
         }
     }
+    //</editor-fold>
 
     private LazyFont()
     {

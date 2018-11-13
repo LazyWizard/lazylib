@@ -28,8 +28,8 @@ class CombatCache
             return Collections.emptyList();
         }
 
-        int numShips = Global.getCombatEngine().getShips().size();
-        float time = Global.getCombatEngine().getTotalElapsedTime(true);
+        final int numShips = Global.getCombatEngine().getShips().size();
+        final float time = Global.getCombatEngine().getTotalElapsedTime(true);
         if ((numShips != lastNumShips) || (time != lastTime))
         {
             cacheMapVisible();
@@ -42,14 +42,12 @@ class CombatCache
 
     private static void cacheMapVisible()
     {
-        List<ShipAPI> ships = Global.getCombatEngine().getShips();
-
         for (Map.Entry<Integer, Set<ShipAPI>> entry : visCache.entrySet())
         {
-            int owner = entry.getKey();
-            Set<ShipAPI> visible = entry.getValue();
+            final int owner = entry.getKey();
+            final Set<ShipAPI> visible = entry.getValue();
             visible.clear();
-            for (ShipAPI tmp : ships)
+            for (ShipAPI tmp : Global.getCombatEngine().getShips())
             {
                 if (tmp.getOwner() != owner && !tmp.isHulk() && !tmp.isShuttlePod()
                         && CombatUtils.isVisibleToSide(tmp, owner))
