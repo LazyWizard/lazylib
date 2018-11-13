@@ -1,4 +1,4 @@
- 2.3 (November XX, 2018)
+ 2.3 (November 12, 2018)
 =========================
 Bundled the Kotlin runtime library (v1.3.0) with LazyLib:
  - Kotlin is an alternate JVM language that is 100% interoperable with Java
@@ -32,6 +32,7 @@ Changes to CombatUtils:
 Changes to FastTrig:
  - Added atan() and atan2() that are much faster (though less accurate)
    than the implementations in Java's core Math class
+   (roughly 5-20x faster; accurate to within 0.005 radians/~0.29 degrees)
 Changes to MathUtils:
  - Added FPI and FTAU constants, contain Math.PI and Math.PI * 2 as floats
  - Added clamp(float/int toClamp, float/int min, float/int max). This clamps
@@ -52,7 +53,7 @@ Changes to ModUtils:
 Changes to VectorUtils:
  - getFacing() and getAngle() now use FastTrig's new atan2() implementation
  - Added getFacingStrict() and getAngleStrict(), which are slower but more
-   accurate (these use the old pre-2.3 implementations)
+   accurate (these use the old pre-2.3 atan2() implementations)
  - Added isZeroVector(Vector2f vector)
  - Added resize(Vector2f vector, float length)
  - Added resize(Vector2f vector, float length, Vector2f dest)

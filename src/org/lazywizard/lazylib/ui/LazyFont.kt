@@ -419,13 +419,17 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
             }
         var maxWidth: Float = maxWidth
             set(value) {
-                field = value
-                needsRebuild = true
+                if (value != field) {
+                    field = value
+                    needsRebuild = true
+                }
             }
         var maxHeight: Float = maxHeight
             set(value) {
-                field = value
-                needsRebuild = true
+                if (value != field) {
+                    field = value
+                    needsRebuild = true
+                }
             }
         var text: String
             get() = sb.toString()

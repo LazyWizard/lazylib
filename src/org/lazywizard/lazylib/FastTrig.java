@@ -33,7 +33,7 @@ public class FastTrig
         { // put us in -PI to +PI space
             radians -= (Math.PI * 2.0);
         }
-        if (Math.abs(radians) > Math.PI / 2)
+        if (Math.abs(radians) > Math.PI / 2.0)
         {// put us in -PI/2 to +PI/2 space
             radians = Math.PI - radians;
         }
@@ -56,13 +56,13 @@ public class FastTrig
     public static double sin(double radians)
     {
         radians = reduceSinAngle(radians); // limits angle to between -PI/2 and +PI/2
-        if (Math.abs(radians) <= Math.PI / 4)
+        if (Math.abs(radians) <= Math.PI / 4.0)
         {
             return Math.sin(radians);
         }
         else
         {
-            return Math.cos(Math.PI / 2 - radians);
+            return Math.cos(Math.PI / 2.0 - radians);
         }
     }
 
@@ -80,7 +80,7 @@ public class FastTrig
      */
     public static double cos(double radians)
     {
-        return sin(radians + Math.PI / 2);
+        return sin(radians + Math.PI / 2.0);
     }
 
     /**
@@ -124,8 +124,8 @@ public class FastTrig
         final boolean invert = ay > ax;
         final double z = invert ? ax / ay : ay / ax;    // [0,1]
         double th = atan(z);                            // [0,π/4]
-        if (invert) th = Math.PI / 2f - th;             // [0,π/2]
-        if (x < 0) th = Math.PI - th;                   // [0,π]
+        if (invert) th = Math.PI / 2.0 - th;            // [0,π/2]
+        if (x < 0.0) th = Math.PI - th;                 // [0,π]
         return Math.copySign(th, y);                    // [-π,π]
     }
 
