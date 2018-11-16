@@ -1,3 +1,19 @@
+ 2.4 (November 16, 2018)
+=========================
+Updated to be compatible with Starsector 0.9a
+Updated bundled Kotlin runtime library to v1.3.10
+Added org.lazywizard.lazylib.JSONUtils.CommonDataJSONObject:
+ - Provides a wrapper around a standard JSONObject
+ - save() method saves JSON to common data folder (saves/common), which will
+   persist between saves (and presumably survive Starsector updates)
+ - Constructor takes the filename under saves/common to save the data to
+Changes to JSONUtils:
+ - Added clear(JSONObject toClear)
+ - Added loadCommonJSON(String filename)
+   (if file does not exist, returns an empty CommonDataJSONObject)
+ - Added loadCommonJSON(String filename, String defaultJSONPath)
+   (if file does not exist, copies existing data from defaultJSONPath)
+
  2.3 (November 12, 2018)
 =========================
 Bundled the Kotlin runtime library (v1.3.0) with LazyLib:
