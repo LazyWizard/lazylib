@@ -179,4 +179,13 @@ class EntityBase implements CombatEntityAPI
     public void setCollisionRadius(float arg0)
     {
     }
+
+    /**
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
+     */
+    @Override
+    public Object getAI()
+    {
+        return null;
+    }
 }
