@@ -204,6 +204,25 @@ public class LazyLib extends BaseModPlugin
         }
     }
 
+    private static float parseVersion(String version)
+    {
+        final StringBuilder sb = new StringBuilder(version.length());
+        for (char ch : version.toCharArray())
+        {
+            if (ch >= 'A' && ch <= 'z')
+            {
+                ch = Character.toLowerCase(ch);
+                sb.append((char) (ch - ('a' - '0')));
+            }
+            else if (Character.isDigit(ch) || ch == '.')
+            {
+                sb.append(ch);
+            }
+        }
+
+        return Float.parseFloat(sb.toString());
+    }
+
     @Override
     public void onApplicationLoad() throws Exception
     {
@@ -215,7 +234,7 @@ public class LazyLib extends BaseModPlugin
         CRASH_DEPRECATED = settings.optBoolean("crashOnDeprecated", false);
 
         settings = Global.getSettings().loadJSON("mod_info.json", MOD_ID);
-        LIBRARY_VERSION = (float) settings.optDouble("version", LIBRARY_VERSION);
+        LIBRARY_VERSION = parseVersion(settings.optString("version", "" + LIBRARY_VERSION));
         GAME_VERSION = settings.optString("gameVersion", GAME_VERSION);
 
         Global.getLogger(LazyLib.class).log(Level.INFO, "Running " + getInfo());
