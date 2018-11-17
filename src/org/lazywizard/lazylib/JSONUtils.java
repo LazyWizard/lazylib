@@ -55,8 +55,8 @@ public class JSONUtils
     }
 
     /**
-     * Loads a JSON file from common data, or creates it and populates it with default values if it does not already
-     * exist.
+     * Loads a JSON file from common data, or creates it, populates it with default values, and saves it to disk
+     * if it does not already exist.
      *
      * @param filename        The filename to load (or create) in common data.
      * @param defaultJSONPath The path to a default JSON in a mod folder. If {@code filename} does not already exist in
@@ -119,10 +119,11 @@ public class JSONUtils
     {
         private final String filename;
 
-        private CommonDataJSONObject(String filename, JSONObject data)
+        private CommonDataJSONObject(String filename, JSONObject data) throws IOException, JSONException
         {
             super(data, JSONObject.getNames(data));
             this.filename = filename;
+            save();
         }
 
         /**

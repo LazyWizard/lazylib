@@ -1,3 +1,10 @@
+ 2.4b (November 16, 2018)
+==========================
+Changes to JSONUtils:
+ - loadCommonJSON(String filename, String defaultJSONPath) will save the newly
+   created CommonDataJSONObject to disk immediately if defaultJSONPath exists
+   and filename does not
+
  2.4 (November 16, 2018)
 =========================
 Updated to be compatible with Starsector 0.9a
