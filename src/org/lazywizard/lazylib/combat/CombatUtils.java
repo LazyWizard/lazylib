@@ -9,12 +9,10 @@ import com.fs.starfarer.api.util.Misc;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import org.lazywizard.lazylib.MathUtils;
+import org.lazywizard.lazylib.VectorUtils;
 import org.lwjgl.util.vector.Vector2f;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Contains methods that deal with the battle map in general. These methods do
@@ -122,7 +120,9 @@ public class CombatUtils
         for (ShipAPI ship : ships)
         {
             if (ship.isShuttlePod() || ship.isHulk())
+            {
                 continue;
+            }
 
             tmp.add(ship);
         }
@@ -214,8 +214,9 @@ public class CombatUtils
     {
         List<MissileAPI> missiles = new ArrayList<>();
 
-        for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
+        for (Iterator iter = Global.getCombatEngine().getMissileGrid().getCheckIterator(location, range, range); iter.hasNext(); )
         {
+            final MissileAPI tmp = (MissileAPI) iter.next();
             if (MathUtils.isWithinRange(tmp.getLocation(), location, range))
             {
                 missiles.add(tmp);
@@ -241,8 +242,9 @@ public class CombatUtils
     {
         List<ShipAPI> ships = new ArrayList<>();
 
-        for (ShipAPI tmp : Global.getCombatEngine().getShips())
+        for (Iterator iter = Global.getCombatEngine().getShipGrid().getCheckIterator(location, range, range); iter.hasNext(); )
         {
+            final ShipAPI tmp = (ShipAPI) iter.next();
             if (tmp.isShuttlePod())
             {
                 continue;
@@ -271,8 +273,9 @@ public class CombatUtils
     {
         List<CombatEntityAPI> asteroids = new ArrayList<>();
 
-        for (CombatEntityAPI tmp : Global.getCombatEngine().getAsteroids())
+        for (Iterator iter = Global.getCombatEngine().getAsteroidGrid().getCheckIterator(location, range, range); iter.hasNext(); )
         {
+            final CombatEntityAPI tmp = (CombatEntityAPI) iter.next();
             if (MathUtils.isWithinRange(tmp, location, range))
             {
                 asteroids.add(tmp);
@@ -324,25 +327,9 @@ public class CombatUtils
     {
         List<CombatEntityAPI> entities = new ArrayList<>();
 
-        for (CombatEntityAPI tmp : Global.getCombatEngine().getShips())
+        for (Iterator iter = Global.getCombatEngine().getAllObjectGrid().getCheckIterator(location, range, range); iter.hasNext(); )
         {
-            if (MathUtils.isWithinRange(tmp, location, range))
-            {
-                entities.add(tmp);
-            }
-        }
-
-        // This also includes missiles
-        for (CombatEntityAPI tmp : Global.getCombatEngine().getProjectiles())
-        {
-            if (MathUtils.isWithinRange(tmp, location, range))
-            {
-                entities.add(tmp);
-            }
-        }
-
-        for (CombatEntityAPI tmp : Global.getCombatEngine().getAsteroids())
-        {
+            final CombatEntityAPI tmp = (CombatEntityAPI) iter.next();
             if (MathUtils.isWithinRange(tmp, location, range))
             {
                 entities.add(tmp);
@@ -375,17 +362,6 @@ public class CombatUtils
                                                   FleetMemberType type, FleetSide side, float combatReadiness,
                                                   Vector2f location, float facing)
     {
-        // Warn the player about the FleetEncounterContext bug in .6.2a
-        /*if (Global.getCombatEngine().isInCampaign()
-         && "0.6.2a".equals(LazyLib.getSupportedGameVersion()))
-         {
-         Log.warn("spawnShipOrWingDirectly may not function correctly in the"
-         + " campaign using the vanilla fleet encounter"
-         + " code! A modified fleet InteractionDialogPlugin"
-         + " using a custom FleetEncounterContextPlugin is"
-         + " required to avoid an after-battle crash.");
-         }*/
-
         // Create the ship, set its stats and spawn it on the combat map
         FleetMemberAPI member = Global.getFactory().createFleetMember(type, variantId);
         member.getCrewComposition().addCrew(member.getNeededCrew());
@@ -460,7 +436,7 @@ public class CombatUtils
     public static void applyForce(CombatEntityAPI entity, Vector2f direction, float force)
     {
         // Filter out forces without a direction
-        if (direction.lengthSquared() == 0)
+        if (VectorUtils.isZeroVector(direction))
         {
             return;
         }

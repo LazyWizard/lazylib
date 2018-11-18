@@ -1,3 +1,10 @@
+ 2.4c (November XX, 2018)
+==========================
+Changes to CombatUtils:
+ - All getXWithinRange() methods have been updated to use 0.9a's new
+   CollisionGridAPI, which should improve performance
+ - getEntitiesWithinRange() now includes BattleObjectiveAPIs
+
  2.4b (November 16, 2018)
 ==========================
 Changes to JSONUtils:
