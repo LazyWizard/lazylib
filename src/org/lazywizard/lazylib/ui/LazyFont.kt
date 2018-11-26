@@ -196,8 +196,8 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
         return rawLine
     }
 
-    @JvmOverloads
-    fun wrapString(toWrap: String, fontSize: Float, maxWidth: Float, maxHeight: Float = Float.MAX_VALUE, indent: Int = 0): String {
+    private fun wrapString(toWrap: String, fontSize: Float, maxWidth: Float, maxHeight: Float = Float.MAX_VALUE,
+                           indent: Int = 0, colorData: List<Int>? = null): String {
         val maxLines = (maxHeight / fontSize).toInt()
         val wrappedString = StringBuilder((toWrap.length * 1.1).toInt())
         var numLines = 0
@@ -268,7 +268,12 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
         return wrappedString.toString()
     }
 
-    fun drawText(text: String?, x: Float, y: Float, fontSize: Float, maxWidth: Float, maxHeight: Float): Vector2f {
+    @JvmOverloads
+    fun wrapString(toWrap: String, fontSize: Float, maxWidth: Float, maxHeight: Float = Float.MAX_VALUE, indent: Int = 0): String =
+            wrapString(toWrap, fontSize, maxWidth, maxHeight, indent, null)
+
+    private fun drawText(text: String?, x: Float, y: Float, fontSize: Float, maxWidth: Float, maxHeight: Float,
+                         colorData: List<Int>?): Vector2f {
         if (text == null || text.isBlank() || maxHeight < fontSize) {
             return Vector2f(0f, 0f)
         }
@@ -279,10 +284,10 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
         var yOffset = 0f
         var sizeX = 0f
         var sizeY = fontSize
-        val toDraw = wrapString(text, fontSize, maxWidth, maxHeight)
+        val toDraw = wrapString(text, fontSize, maxWidth, maxHeight, 0, colorData)
 
         glBindTexture(GL_TEXTURE_2D, textureId)
-        glPushAttrib(GL_ENABLE_BIT or GL_COLOR_BUFFER_BIT)
+        glPushAttrib(GL_ALL_ATTRIB_BITS)
         glEnable(GL_TEXTURE_2D)
         glBlendFunc(GL_ONE, GL_ONE) // TODO: Proper blending
         glEnable(GL_BLEND)
@@ -291,8 +296,9 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
         glBegin(GL_QUADS)
 
         // TODO: Colored substring support
+        val nextColorIndex = if (colorData.isNullOrEmpty()) -1 else colorData[0]
         outer@
-        for (tmp in toDraw) {
+        for ((i, tmp) in toDraw.withIndex()) {
             // Ignore tabs and carriage returns
             if (tmp.isWhitespace() && tmp != '\n' && tmp != ' ')
                 continue
@@ -361,6 +367,9 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
         return Vector2f(sizeX, sizeY)
     }
 
+    fun drawText(text: String?, x: Float, y: Float, fontSize: Float, maxWidth: Float, maxHeight: Float): Vector2f =
+            drawText(text, x, y, fontSize, maxWidth, maxHeight, null)
+
     @JvmOverloads
     fun createText(text: String = "", color: Color = Color.WHITE, size: Float = baseHeight, maxWidth: Float = Float.MAX_VALUE,
                    maxHeight: Float = Float.MAX_VALUE): DrawableString = DrawableString(text, size, maxWidth, maxHeight, color)
@@ -391,9 +400,10 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
         }
     }
 
-    inner class DrawableString(text: String, fontSize: Float, maxWidth: Float, maxHeight: Float, var color: Color) {
+    inner class DrawableString(text: String, fontSize: Float, maxWidth: Float, maxHeight: Float, color: Color) {
         private val sb: StringBuilder = StringBuilder(text)
         private val displayListId: Int = glGenLists(1)
+        private var colorData = ArrayList<Int>()
         private var needsRebuild = true
         val font: LazyFont get() = this@LazyFont
         var isDisposed = false
@@ -417,6 +427,13 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
                     needsRebuild = true
                 }
             }
+        var color: Color = color
+            set(value) {
+                if (value != field) {
+                    field = value
+                    if (!colorData.isEmpty()) needsRebuild = true
+                }
+            }
         var maxWidth: Float = maxWidth
             set(value) {
                 if (value != field) {
@@ -435,28 +452,48 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
             get() = sb.toString()
             set(value) {
                 sb.setLength(0)
-                appendText(value)
+                colorData.clear()
+                append(value)
             }
 
-        fun appendText(text: String) {
+        fun append(text: String): DrawableString {
             sb.append(text)
             needsRebuild = true
+            return this
         }
 
-        fun appendText(text: String, indent: Int) {
+        fun append(text: String, indent: Int): DrawableString {
             sb.append(wrapString(text, fontSize, maxWidth, maxHeight, indent))
             needsRebuild = true
+            return this
+        }
+
+        fun append(text: String, color: Color): DrawableString {
+            colorData.addAll(listOf(sb.length, text.length, color.red, color.green, color.blue, color.alpha))
+            return append(text)
+        }
+
+        @Deprecated(message = "This has been replaced with append(text).",
+                replaceWith = ReplaceWith("append(text)"),
+                level = DeprecationLevel.WARNING)
+        fun appendText(text: String) {
+            append(text)
+        }
+
+        @Deprecated(message = "This has been replaced with append(text, indent).",
+                replaceWith = ReplaceWith("append(text, indent)"),
+                level = DeprecationLevel.WARNING)
+        fun appendText(text: String, indent: Int) {
+            append(text, indent)
         }
 
         private fun checkRebuild() {
             if (isDisposed) throw RuntimeException("Tried to draw using a disposed of DrawableString!")
             if (!needsRebuild) return
 
-            glPushAttrib(GL_ENABLE_BIT)
             glNewList(displayListId, GL_COMPILE)
-            val tmp: Vector2f = drawText(text, 0.01f, 0.01f, fontSize, maxWidth, maxHeight)
+            val tmp: Vector2f = drawText(text, 0.01f, 0.01f, fontSize, maxWidth, maxHeight, colorData)
             glEndList()
-            glPopAttrib()
 
             width = tmp.x
             height = tmp.y
