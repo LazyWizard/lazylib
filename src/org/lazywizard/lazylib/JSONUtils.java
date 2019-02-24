@@ -115,6 +115,7 @@ public class JSONUtils
      *
      * @since 2.4
      */
+    // TODO: Add comment support
     public static class CommonDataJSONObject extends JSONObject implements AutoCloseable
     {
         private final String filename;
