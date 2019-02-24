@@ -1,9 +1,14 @@
- 2.4c (November XX, 2018)
+ 2.4c (February 24, 2019)
 ==========================
+Updated bundled Kotlin runtime library to v1.3.21
 Changes to CombatUtils:
  - All getXWithinRange() methods have been updated to use 0.9a's new
    CollisionGridAPI, which should improve performance
  - getEntitiesWithinRange() now includes BattleObjectiveAPIs
+Changes to LazyFont:
+ - Fixed text blending issue
+ - Blend mode is no longer automatically enabled during rendering - if you want
+   your text to be drawn blended, you must ensure GL_BLEND is enabled!
 
  2.4b (November 16, 2018)
 ==========================
