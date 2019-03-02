@@ -14,9 +14,9 @@ fun JSONArray.getFloat(index: Int): Float = this.getDouble(index).toFloat()
 fun JSONArray.optFloat(index: Int): Float = this.optDouble(index).toFloat()
 fun JSONArray.optFloat(index: Int, defaultValue: Float): Float = this.optDouble(index, defaultValue.toDouble()).toFloat()
 
-operator fun JSONArray.iterator() : Iterator<JSONObject> = JSONIterator(this)
+operator fun JSONArray.iterator(): Iterator<JSONObject> = JSONIterator(this)
 
-private class JSONIterator(val src: JSONArray) : Iterator<JSONObject>{
+private class JSONIterator(val src: JSONArray) : Iterator<JSONObject> {
     var index = 0
 
     override fun next(): JSONObject {
