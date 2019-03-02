@@ -269,7 +269,7 @@ public class LazyFont
     }
 
     /**
-     * Renders a block of text, used to manually create display lists or VBOs - <b>not recommended for general
+     * Renders a block of text, used to manually create display lists - <b>not recommended for general
      * usage</b>. Use {@link LazyFont#createText(String, Color, float, float, float)} instead.
      *
      * @param text      The text to be drawn.
