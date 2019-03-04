@@ -313,13 +313,12 @@ public class CombatUtils
     }
 
     /**
-     * Returns all entities in range of a given location.
+     * Returns all entities in range of a given location. This includes ships, projectiles, missiles, and asteroids.
      *
      * @param location The location to search around.
      * @param range    How far around {@code location} to search.
      *
-     * @return A {@link List} of {@link CombatEntityAPI}s within range of
-     *         {@code location}.
+     * @return A {@link List} of {@link CombatEntityAPI}s within range of {@code location}.
      *
      * @since 1.0
      */
@@ -330,7 +329,8 @@ public class CombatUtils
         for (Iterator iter = Global.getCombatEngine().getAllObjectGrid().getCheckIterator(location, range, range); iter.hasNext(); )
         {
             final CombatEntityAPI tmp = (CombatEntityAPI) iter.next();
-            if (MathUtils.isWithinRange(tmp, location, range))
+            if ((tmp instanceof DamagingProjectileAPI || tmp instanceof CombatAsteroidAPI || tmp instanceof ShipAPI)
+                    && MathUtils.isWithinRange(tmp, location, range))
             {
                 entities.add(tmp);
             }

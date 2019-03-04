@@ -1,3 +1,9 @@
+ 2.4d (March 03, 2018)
+=======================
+Changes to CombatUtils:
+ - Reverted changes to getEntitiesWithinRange() (it now only returns ships,
+   projectiles, missiles and asteroids as it did pre-2.4c)
+
  2.4c (March 01, 2019)
 =======================
 Updated bundled Kotlin runtime library to v1.3.21
