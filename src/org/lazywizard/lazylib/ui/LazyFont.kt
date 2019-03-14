@@ -20,7 +20,7 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
     private val extendedChars = HashMap<Char, LazyChar>()
 
     // File format documentation: http://www.angelcode.com/products/bmfont/doc/file_format.html
-    private companion object FontLoader {
+    companion object FontLoader {
         // These are used for validating read data
         private const val METADATA_LENGTH = 51
         private const val CHARDATA_LENGTH = 21
