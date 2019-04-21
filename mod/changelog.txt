@@ -1,4 +1,11 @@
- 2.4d (March 03, 2018)
+ 2.4e (April 21, 2019)
+=======================
+Updated bundled Kotlin runtime library to v1.3.30
+Bundled Kotlin coroutines library v1.2.0
+Changes to CombatUtils:
+ - Reverted 2.4c changes due to bugs
+
+ 2.4d (March 03, 2019)
 =======================
 Changes to CombatUtils:
  - Reverted changes to getEntitiesWithinRange() (it now only returns ships,
