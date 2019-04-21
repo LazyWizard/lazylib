@@ -12,7 +12,10 @@ import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 import org.lwjgl.util.vector.Vector2f;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Contains methods that deal with the battle map in general. These methods do
@@ -214,9 +217,8 @@ public class CombatUtils
     {
         List<MissileAPI> missiles = new ArrayList<>();
 
-        for (Iterator iter = Global.getCombatEngine().getMissileGrid().getCheckIterator(location, range, range); iter.hasNext(); )
+        for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
         {
-            final MissileAPI tmp = (MissileAPI) iter.next();
             if (MathUtils.isWithinRange(tmp.getLocation(), location, range))
             {
                 missiles.add(tmp);
@@ -242,9 +244,8 @@ public class CombatUtils
     {
         List<ShipAPI> ships = new ArrayList<>();
 
-        for (Iterator iter = Global.getCombatEngine().getShipGrid().getCheckIterator(location, range, range); iter.hasNext(); )
+        for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
-            final ShipAPI tmp = (ShipAPI) iter.next();
             if (tmp.isShuttlePod())
             {
                 continue;
@@ -273,9 +274,8 @@ public class CombatUtils
     {
         List<CombatEntityAPI> asteroids = new ArrayList<>();
 
-        for (Iterator iter = Global.getCombatEngine().getAsteroidGrid().getCheckIterator(location, range, range); iter.hasNext(); )
+        for (CombatEntityAPI tmp : Global.getCombatEngine().getAsteroids())
         {
-            final CombatEntityAPI tmp = (CombatEntityAPI) iter.next();
             if (MathUtils.isWithinRange(tmp, location, range))
             {
                 asteroids.add(tmp);
@@ -326,11 +326,26 @@ public class CombatUtils
     {
         List<CombatEntityAPI> entities = new ArrayList<>();
 
-        for (Iterator iter = Global.getCombatEngine().getAllObjectGrid().getCheckIterator(location, range, range); iter.hasNext(); )
+        for (CombatEntityAPI tmp : Global.getCombatEngine().getShips())
         {
-            final CombatEntityAPI tmp = (CombatEntityAPI) iter.next();
-            if ((tmp instanceof DamagingProjectileAPI || tmp instanceof CombatAsteroidAPI || tmp instanceof ShipAPI)
-                    && MathUtils.isWithinRange(tmp, location, range))
+            if (MathUtils.isWithinRange(tmp, location, range))
+            {
+                entities.add(tmp);
+            }
+        }
+
+        // This also includes missiles
+        for (CombatEntityAPI tmp : Global.getCombatEngine().getProjectiles())
+        {
+            if (MathUtils.isWithinRange(tmp, location, range))
+            {
+                entities.add(tmp);
+            }
+        }
+
+        for (CombatEntityAPI tmp : Global.getCombatEngine().getAsteroids())
+        {
+            if (MathUtils.isWithinRange(tmp, location, range))
             {
                 entities.add(tmp);
             }
