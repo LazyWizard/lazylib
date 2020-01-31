@@ -1,3 +1,9 @@
+ 2.4f (January 31, 2020)
+=========================
+Updated bundled Kotlin runtime library to v1.3.61
+Javadoc is now available online at https://lazywizard.github.io/
+Moved .version file hosting to GitHub
+
  2.4e (April 21, 2019)
 =======================
 Updated bundled Kotlin runtime library to v1.3.30
