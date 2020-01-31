@@ -5,7 +5,7 @@
     <option name="OPTION_DOCUMENT_TAG_USE" value="true" />
     <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
     <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
-    <option name="OTHER_OPTIONS" value="-Xdoclint:all -header &quot;LazyLib&quot; -noqualifier all  -exclude org.lazywizard.lazylib.tests:org.lazywizard.lazylib.ext -link https://docs.oracle.com/javase/7/docs/api/ -link http://fractalsoftworks.com/starfarer.api/ -link https://stleary.github.io/JSON-java/ -linkoffline http://legacy.lwjgl.org/javadoc/ &quot;D:\\Data\\Desktop\\Starfarer Mods\\zzzOld\\NotMyCode\\Library Sources\\LWJGL\\javadoc&quot;" />
+    <option name="OTHER_OPTIONS" value="-Xdoclint:all -header &quot;LazyLib&quot; -notimestamp -noqualifier all  -exclude org.lazywizard.lazylib.tests:org.lazywizard.lazylib.ext -link https://docs.oracle.com/javase/7/docs/api/ -link http://fractalsoftworks.com/starfarer.api/ -link https://stleary.github.io/JSON-java/ -linkoffline http://legacy.lwjgl.org/javadoc/ &quot;D:\\Data\\Desktop\\Starfarer Mods\\zzzOld\\NotMyCode\\Library Sources\\LWJGL\\javadoc&quot;" />
     <option name="HEAP_SIZE" value="1024" />
     <option name="OPTION_INCLUDE_LIBS" value="true" />
   </component>
