@@ -4,6 +4,7 @@ package org.lazywizard.lazylib.ui
 
 import com.fs.starfarer.api.Global
 import org.apache.log4j.Logger
+import org.lazywizard.lazylib.MathUtils
 import org.lazywizard.lazylib.opengl.ColorUtils.glColor
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11.*
@@ -164,9 +165,10 @@ class LazyFont private constructor(
             if (character.toInt() in 32..255) lookupTable[character.toInt() - 32] else extendedChars[character]
         if (ch != null) return ch
 
-        // This assumes that the font will always have a question mark character defined
-        System.out.println("Error: couldn't find char '$character'")
-        return getChar('?')
+        // If the character isn't in the defined set, return a question mark (or a
+        // blank space if the font doesn't define a question mark, either)
+        //System.out.println("Error: character '$character' is not defined in font data")
+        return if (character == '?') getChar(' ') else getChar('?')
     }
 
     fun calcWidth(rawLine: String, fontSize: Float): Float {
@@ -587,7 +589,7 @@ class LazyFont private constructor(
             needsRebuild = false
         }
 
-        fun draw(x: Float, y: Float) {
+        private fun drawInternal(x: Float, y: Float, angle: Float = 0f) {
             checkRebuild()
 
             glPushAttrib(GL_ALL_ATTRIB_BITS)
@@ -604,37 +606,24 @@ class LazyFont private constructor(
 
             glPushMatrix()
             glTranslatef(x + 0.01f, y + 0.01f, 0.01f)
+            if (angle != 0f) glRotatef(MathUtils.clampAngle(angle), 0f, 0f, 1f)
+
             glColor(color)
-            System.out.println("Drawing buffer with id $bufferId")
             glBindBuffer(GL_ARRAY_BUFFER, 0)
             glDrawArrays(GL_QUADS, 0, len * 8)
             glPopMatrix()
             glPopClientAttrib()
             glPopAttrib()
+
         }
 
-        fun draw(location: Vector2f) = draw(location.x, location.y)
+        fun draw(x: Float, y: Float) = drawInternal(x, y)
 
-        // FIXME: Reimplement)
-        fun drawAtAngle(x: Float, y: Float, angle: Float) {
-            TODO("FIXME")
-        }/*{
-            checkRebuild()
+        fun draw(location: Vector2f) = drawInternal(location.x, location.y)
 
-            glPushAttrib(GL_ALL_ATTRIB_BITS)
-            glPushMatrix()
-            glTranslatef(x, y, 0.01f)
-            glRotatef(angle, 0f, 0f, 1f)
-            glColor(color)
-            glCallList(displayListId)
-            glPopMatrix()
-            glPopAttrib()
-        }*/
+        fun drawAtAngle(x: Float, y: Float, angle: Float) = drawInternal(x, y, angle)
 
-        // FIXME
-        fun drawAtAngle(location: Vector2f, angle: Float) {
-            TODO("FIXME")
-        }//drawAtAngle(location.x, location.y, angle)
+        fun drawAtAngle(location: Vector2f, angle: Float) = drawInternal(location.x, location.y, angle)
 
         fun dispose() {
             if (!isDisposed) glDeleteBuffers(bufferId)
