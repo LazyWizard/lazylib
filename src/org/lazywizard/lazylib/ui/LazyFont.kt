@@ -5,17 +5,26 @@ package org.lazywizard.lazylib.ui
 import com.fs.starfarer.api.Global
 import org.apache.log4j.Logger
 import org.lazywizard.lazylib.opengl.ColorUtils.glColor
+import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11.*
+import org.lwjgl.opengl.GL15.*
 import org.lwjgl.util.vector.Vector2f
 import java.awt.Color
 import java.io.IOException
 import java.net.URI
 import java.util.*
 
+
 // Documentation for this class is in the docstubs directory
-class LazyFont private constructor(val textureId: Int, val baseHeight: Float, val textureWidth: Float, val textureHeight: Float) {
+class LazyFont private constructor(
+    val textureId: Int,
+    val baseHeight: Float,
+    val textureWidth: Float,
+    val textureHeight: Float
+) {
     // Quick array lookup for characters 32-255 (standard ASCII range)
     private val lookupTable: Array<LazyChar?> = arrayOfNulls(224)
+
     // Much slower map-based lookup for international characters (256+ in Unicode)
     private val extendedChars = HashMap<Char, LazyChar>()
 
@@ -107,14 +116,16 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
                         throw FontException("Character data length mismatch in '$canonPath'")
                     }
 
-                    font.addChar(id = Integer.parseInt(charData[2]),
-                            tx = Integer.parseInt(charData[4]),
-                            ty = Integer.parseInt(charData[6]),
-                            width = Integer.parseInt(charData[8]),
-                            height = Integer.parseInt(charData[10]),
-                            xOffset = Integer.parseInt(charData[12]),
-                            yOffset = Integer.parseInt(charData[14]),
-                            advance = Integer.parseInt(charData[16]) + 1)
+                    font.addChar(
+                        id = Integer.parseInt(charData[2]),
+                        tx = Integer.parseInt(charData[4]),
+                        ty = Integer.parseInt(charData[6]),
+                        width = Integer.parseInt(charData[8]),
+                        height = Integer.parseInt(charData[10]),
+                        xOffset = Integer.parseInt(charData[12]),
+                        yOffset = Integer.parseInt(charData[14]),
+                        advance = Integer.parseInt(charData[16]) + 1
+                    )
                     //page = Integer.parseInt(data[18]),
                     // channel = Integer.parseInt(data[20]));
                 }
@@ -149,7 +160,8 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
     }
 
     fun getChar(character: Char): LazyChar {
-        val ch: LazyChar? = if (character.toInt() in 32..255) lookupTable[character.toInt() - 32] else extendedChars[character]
+        val ch: LazyChar? =
+            if (character.toInt() in 32..255) lookupTable[character.toInt() - 32] else extendedChars[character]
         if (ch != null) return ch
 
         // This assumes that the font will always have a question mark character defined
@@ -197,7 +209,13 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
     }
 
     @JvmOverloads
-    fun wrapString(toWrap: String, fontSize: Float, maxWidth: Float, maxHeight: Float = Float.MAX_VALUE, indent: Int = 0): String {
+    fun wrapString(
+        toWrap: String,
+        fontSize: Float,
+        maxWidth: Float,
+        maxHeight: Float = Float.MAX_VALUE,
+        indent: Int = 0
+    ): String {
         val maxLines = (maxHeight / fontSize).toInt()
         val wrappedString = StringBuilder((toWrap.length * 1.1).toInt())
         var numLines = 0
@@ -244,7 +262,8 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
                     // No whitespace means we need to break up the word with a dash
                     else {
                         while (true) {
-                            val splitIndex = (buildUntilLimit("-$line", fontSize, maxWidthWithIndent).length - 1).coerceAtLeast(0)
+                            val splitIndex =
+                                (buildUntilLimit("-$line", fontSize, maxWidthWithIndent).length - 1).coerceAtLeast(0)
                             if (splitIndex < line.length) {
                                 wrappedString.append(indentWith).append(line.take(splitIndex)).append("-\n")
                                 line = line.substring(splitIndex)
@@ -268,6 +287,7 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
         return wrappedString.toString()
     }
 
+    @Deprecated("Use createText() instead! This method will be removed soon.")
     fun drawText(text: String?, x: Float, y: Float, fontSize: Float, maxWidth: Float, maxHeight: Float): Vector2f {
         if (text == null || text.isBlank() || maxHeight < fontSize) {
             return Vector2f(0f, 0f)
@@ -282,8 +302,10 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
         val toDraw = wrapString(text, fontSize, maxWidth, maxHeight)
 
         glBindTexture(GL_TEXTURE_2D, textureId)
-        glPushAttrib(GL_ENABLE_BIT or GL_COLOR_BUFFER_BIT)
+        //glPushAttrib(GL_ENABLE_BIT or GL_COLOR_BUFFER_BIT)
+        glPushAttrib(GL_ALL_ATTRIB_BITS)
         glEnable(GL_TEXTURE_2D)
+        glEnable(GL_BLEND)
         glPushMatrix()
         glTranslatef(x + 0.01f, y + 0.01f, 0f)
         glBegin(GL_QUADS)
@@ -352,7 +374,6 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
 
         glEnd()
         glPopMatrix()
-        glDisable(GL_TEXTURE_2D)
         glPopAttrib()
 
         sizeX = Math.max(sizeX, xOffset)
@@ -360,12 +381,17 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
     }
 
     @JvmOverloads
-    fun createText(text: String = "", color: Color = Color.WHITE, size: Float = baseHeight, maxWidth: Float = Float.MAX_VALUE,
-                   maxHeight: Float = Float.MAX_VALUE): DrawableString = DrawableString(text, size, maxWidth, maxHeight, color)
+    fun createText(
+        text: String = "", color: Color = Color.WHITE, size: Float = baseHeight, maxWidth: Float = Float.MAX_VALUE,
+        maxHeight: Float = Float.MAX_VALUE
+    ): DrawableString = DrawableString(text, size, maxWidth, maxHeight, color)
 
-    inner class LazyChar(val id: Int, tx: Int, ty: Int, val width: Int, val height: Int,
-                         val xOffset: Int, val yOffset: Int, val advance: Int) {
+    inner class LazyChar(
+        val id: Int, tx: Int, ty: Int, val width: Int, val height: Int,
+        val xOffset: Int, val yOffset: Int, val advance: Int
+    ) {
         val kernings: MutableMap<Int, Int> = HashMap()
+
         // Internal texture coordinates
         val tx1: Float = tx / textureWidth
         val tx2: Float = tx1 + (width / textureWidth)
@@ -391,7 +417,8 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
 
     inner class DrawableString(text: String, fontSize: Float, maxWidth: Float, maxHeight: Float, var color: Color) {
         private val sb: StringBuilder = StringBuilder(text)
-        private val displayListId: Int = glGenLists(1)
+        private val bufferId = glGenBuffers()
+        private var len = 0
         private var needsRebuild = true
         val font: LazyFont get() = this@LazyFont
         var isDisposed = false
@@ -450,44 +477,167 @@ class LazyFont private constructor(val textureId: Int, val baseHeight: Float, va
             if (isDisposed) throw RuntimeException("Tried to draw using a disposed of DrawableString!")
             if (!needsRebuild) return
 
-            glPushAttrib(GL_ENABLE_BIT)
-            glNewList(displayListId, GL_COMPILE)
-            val tmp: Vector2f = drawText(text, 0.01f, 0.01f, fontSize, maxWidth, maxHeight)
-            glEndList()
-            glPopAttrib()
+            width = 0f
+            height = 0f
+            if (text == null || text.isBlank() || maxHeight < fontSize) {
+                needsRebuild = false
+                return
+            }
 
-            width = tmp.x
-            height = tmp.y
+            // TODO
+            /*val color: Color? = null
+            val colBytes: IntArray = if (color == null) intArrayOf(200, 200, 200, 200) else intArrayOf(
+                color.red,
+                color.green,
+                color.blue,
+                color.alpha
+            )*/
+
+            var lastChar: LazyFont.LazyChar? = null // For kerning purposes
+            val scaleFactor = fontSize / baseHeight
+            var xOffset = 0f
+            var yOffset = 0f
+            var sizeX = 0f
+            var sizeY = fontSize
+            val toDraw = wrapString(text, fontSize, maxWidth, maxHeight)
+
+            val buffer = BufferUtils.createFloatBuffer(sb.length * 16)
+            //val colBuffer = BufferUtils.createIntBuffer(sb.length * 4) TODO
+            len = 0
+
+            // TODO: Colored substring support
+            outer@
+            for (tmp in toDraw) {
+                // Ignore tabs and carriage returns
+                if (tmp.isWhitespace() && tmp != '\n' && tmp != ' ')
+                    continue
+
+                // Newline support
+                if (tmp == '\n') {
+                    if (-yOffset + fontSize > maxHeight) {
+                        break@outer
+                    }
+
+                    yOffset -= fontSize
+                    sizeY += fontSize
+                    sizeX = Math.max(sizeX, xOffset)
+                    xOffset = 0f
+                    lastChar = null
+                    continue@outer
+                }
+
+                val ch = getChar(tmp)
+                val kerning = if (lastChar == null) 0f else ch.getKerning(lastChar.id) * scaleFactor
+                val advance = kerning + ch.advance * scaleFactor
+                val chWidth = ch.width * scaleFactor
+                val chHeight = ch.height * scaleFactor
+
+                // TODO: If we're very certain of our wrapString() method, this shouldn't be necessary anymore
+                /*if (xOffset + advance > maxWidth) {
+                    // Check if we're about to exceed the max textbox height
+                    if (-yOffset + fontSize > maxHeight) {
+                        sizeX = Math.max(sizeX, xOffset)
+                        break@outer
+                    }
+
+                    yOffset -= fontSize
+                    sizeY += fontSize
+                    sizeX = Math.max(sizeX, xOffset)
+                    xOffset = -kerning // Not a mistake - negates localX kerning adjustment below
+                }*/
+
+                val localX = xOffset + kerning + ch.xOffset * scaleFactor
+                val localY = yOffset - ch.yOffset * scaleFactor
+
+                // Individual puts are faster, but lack bounds checking
+                buffer.put(ch.tx1).put(ch.ty1)
+                buffer.put(localX).put(localY)
+                buffer.put(ch.tx1).put(ch.ty2)
+                buffer.put(localX).put(localY - chHeight)
+                buffer.put(ch.tx2).put(ch.ty2)
+                buffer.put(localX + chWidth).put(localY - chHeight)
+                buffer.put(ch.tx2).put(ch.ty1)
+                buffer.put(localX + chWidth).put(localY)
+
+                // TODO: Color data
+                //colBuffer.put(colBytes[0]).put(colBytes[1]).put(colBytes[2]).put(colBytes[3])
+
+                xOffset += advance
+                lastChar = ch
+                len++
+            }
+
+            // Send vertex and texture coordinate data to GPU
+            buffer.flip()
+            glBindBuffer(GL_ARRAY_BUFFER, bufferId)
+            glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW)
+
+            // TODO: Send color data to GPU
+            // TODO: Interleave with main buffer
+            //colBuffer.flip()
+            //glBindBuffer(GL_ARRAY_BUFFER, colId)
+            //glBufferData(GL_ARRAY_BUFFER, colBuffer, GL_STATIC_DRAW)
+
+            // Release buffer binding
+            glBindBuffer(GL_ARRAY_BUFFER, 0)
+
+            sizeX = Math.max(sizeX, xOffset)
+            width = sizeX
+            height = sizeY
             needsRebuild = false
         }
 
         fun draw(x: Float, y: Float) {
             checkRebuild()
 
+            glPushAttrib(GL_ALL_ATTRIB_BITS)
+            glPushClientAttrib(GL_ALL_CLIENT_ATTRIB_BITS)
+            glEnable(GL_TEXTURE_2D)
+            glEnable(GL_BLEND)
+            glEnableClientState(GL_VERTEX_ARRAY)
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY)
+
+            glBindTexture(GL_TEXTURE_2D, textureId)
+            glBindBuffer(GL_ARRAY_BUFFER, bufferId)
+            glTexCoordPointer(2, GL_FLOAT, 16, 0)
+            glVertexPointer(2, GL_FLOAT, 16, 8)
+
             glPushMatrix()
-            glTranslatef(x, y, 0.01f)
+            glTranslatef(x + 0.01f, y + 0.01f, 0.01f)
             glColor(color)
-            glCallList(displayListId)
+            System.out.println("Drawing buffer with id $bufferId")
+            glBindBuffer(GL_ARRAY_BUFFER, 0)
+            glDrawArrays(GL_QUADS, 0, len * 8)
             glPopMatrix()
+            glPopClientAttrib()
+            glPopAttrib()
         }
 
         fun draw(location: Vector2f) = draw(location.x, location.y)
 
+        // FIXME: Reimplement)
         fun drawAtAngle(x: Float, y: Float, angle: Float) {
+            TODO("FIXME")
+        }/*{
             checkRebuild()
 
+            glPushAttrib(GL_ALL_ATTRIB_BITS)
             glPushMatrix()
             glTranslatef(x, y, 0.01f)
             glRotatef(angle, 0f, 0f, 1f)
             glColor(color)
             glCallList(displayListId)
             glPopMatrix()
-        }
+            glPopAttrib()
+        }*/
 
-        fun drawAtAngle(location: Vector2f, angle: Float) = drawAtAngle(location.x, location.y, angle)
+        // FIXME
+        fun drawAtAngle(location: Vector2f, angle: Float) {
+            TODO("FIXME")
+        }//drawAtAngle(location.x, location.y, angle)
 
         fun dispose() {
-            if (!isDisposed) glDeleteLists(displayListId, 1)
+            if (!isDisposed) glDeleteBuffers(bufferId)
             isDisposed = true
         }
 
