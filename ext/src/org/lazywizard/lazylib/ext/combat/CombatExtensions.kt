@@ -37,7 +37,6 @@ fun CombatEntityAPI.getNearbyEnemies(range: Float): List<ShipAPI> = AIUtils.getN
 fun CombatEntityAPI.getEnemiesOnMap(): List<ShipAPI> = AIUtils.getEnemiesOnMap(this)
 
 fun ShipAPI.canUseSystemThisFrame(): Boolean = AIUtils.canUseSystemThisFrame(this)
-fun ShipAPI.getFleetMember(): FleetMemberAPI? = CombatUtils.getFleetMember(this)
 fun ShipAPI.isVisibleToSide(side: Int): Boolean = CombatUtils.isVisibleToSide(this, side)
 
 fun CombatEntityAPI.applyForce(direction: Vector2f, force: Float) = CombatUtils.applyForce(this, direction, force)

@@ -13,8 +13,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Starsector API" level="application" />
     <orderEntry type="library" name="Console Commands" level="application" />
-    <orderEntry type="library" name="org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.0" level="application" />
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
-    <orderEntry type="library" name="org.jetbrains:annotations:18.0.0" level="project" />
+    <orderEntry type="library" name="org.jetbrains:annotations:20.1.0" level="project" />
+    <orderEntry type="library" name="org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2" level="application" />
   </component>
 </module>

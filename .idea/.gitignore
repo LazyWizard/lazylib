@@ -2,11 +2,4 @@
 /workspace.xml
 # Project exclude paths
 /.
-
-
-
-
-# Project exclude paths
-/.
-# Project exclude paths
-/.
+/sonarlint/issuestore

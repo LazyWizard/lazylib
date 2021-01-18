@@ -24,12 +24,28 @@ its methods are called, there is no harm in leaving it tagged in the launcher
 at all times even if your currently active mods don't require it.
 
 
+ Using this library as a modder:
+---------------------
+For modders who wish to use LazyLib's methods, all you need to do is add
+_mods/LazyLib/jars/LazyLib.jar_ as a dependency in your project.
+
+If you use Kotlin, you'll also want to include
+_mods/LazyLib/jars/LazyLib-Kotlin.jar_, which includes extension methods for
+the base LazyLib classes as well as bundles the kotlinx.coroutines library.
+
+**Do not include the Kotlin runtime or the kotlinx.coroutines library in your
+mod's jar, as they will conflict with the versions included with LazyLib.**
+
+
  Compiling from source:
 ------------------------
 If you want to compile LazyLib yourself, the source can be found inside
-jars/LazyLib.jar (most modern archive programs can open jars).
+jars/LazyLib.jar (most modern archive programs can open jars). The repo
+provides an IntelliJ IDEA project that can be used to compile the project.
+
 LazyLib will require starfarer.api.jar, lwjgl.jar, lwjgl_util.jar, json.jar
-and log4j-1.2.9.jar in the classpath to compile.
+and log4j-1.2.9.jar in the classpath to compile. LazyLib-Kotlin will require
+the Kotlin standard library as well as kotlinx.coroutines.
 
 
  Contributing to this mod:

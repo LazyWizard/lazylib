@@ -1,7 +1,23 @@
+ 2.4g (January 18, 2021)
+=========================
+Updated bundled libraries:
+ - kotlin-stdlib: v1.3.61 -> v1.4.21
+ - kotlinx-coroutines: v1.2.0 -> v1.4.2
+ - jetbrains-annotations: v13.0 -> v20.1.0
+ - removed kotlinx-atomicfu (this was an erroneous dependency added by
+   an earlier version of kotlinx-coroutines and wasn't used for anything)
+Changes to LazyFont:
+ - Rewrote DrawableString to use vertex buffers instead of display lists.
+   This should fix a bug that caused text corruption and visual glitches
+   when DrawableStrings were rendered in the campaign layer
+Deprecated in LazyFont:
+ - Deprecated drawText(String text, float x, float y, float fontSize,
+   float maxWidth, float maxHeight), use createText() instead
+
  2.4f (January 31, 2020)
 =========================
 Updated bundled Kotlin runtime library to v1.3.61
-Javadoc is now available online at https://lazywizard.github.io/
+Javadoc is now available online at https://lazywizard.github.io/lazylib
 Moved .version file hosting to GitHub
 
  2.4e (April 21, 2019)

@@ -31,11 +31,12 @@ public class LazyLib extends BaseModPlugin
     public static final String MOD_ID = "lw_lazylib";
     private static final String SETTINGS_FILE = "lazylib_settings.json";
     // These values are read from mod_info.json at application startup
-    private static float LIBRARY_VERSION = 0f;
-    private static String GAME_VERSION = "[UNDEFINED]";
-    private static boolean CACHE_ENABLED = false, LOG_DEPRECATED = false,
-            CRASH_DEPRECATED = false;
-    private static Level LOG_LEVEL;
+    private static float libVersion = 0f;
+    private static String gameVersion = "[UNDEFINED]";
+    private static boolean cacheEnabled = false;
+    private static boolean logDeprecated = false;
+    private static boolean crashOnDeprecated = false;
+    private static Level logLevel;
 
     /**
      * Returns the running version of LazyLib. If your mod requires features
@@ -48,7 +49,7 @@ public class LazyLib extends BaseModPlugin
      */
     public static float getVersion()
     {
-        return LIBRARY_VERSION;
+        return libVersion;
     }
 
     /**
@@ -61,7 +62,7 @@ public class LazyLib extends BaseModPlugin
      */
     public static String getSupportedGameVersion()
     {
-        return GAME_VERSION;
+        return gameVersion;
     }
 
     /**
@@ -74,7 +75,7 @@ public class LazyLib extends BaseModPlugin
      */
     public static boolean isCachingEnabled()
     {
-        return CACHE_ENABLED;
+        return cacheEnabled;
     }
 
     /**
@@ -86,7 +87,7 @@ public class LazyLib extends BaseModPlugin
      */
     public static String getInfo()
     {
-        return "LazyLib v" + LIBRARY_VERSION + ", built for Starsector " + GAME_VERSION;
+        return "LazyLib v" + libVersion + ", built for Starsector " + gameVersion;
     }
 
     /**
@@ -99,7 +100,7 @@ public class LazyLib extends BaseModPlugin
      */
     public static Level getLogLevel()
     {
-        return LOG_LEVEL;
+        return logLevel;
     }
 
     /**
@@ -142,7 +143,7 @@ public class LazyLib extends BaseModPlugin
         // org.lazywizard.lazylib.ui
         Global.getLogger(LazyFont.class).setLevel(level);
 
-        LOG_LEVEL = level;
+        logLevel = level;
     }
 
     /**
@@ -158,7 +159,7 @@ public class LazyLib extends BaseModPlugin
     public static void onDeprecatedMethodUsage()
     {
         // Don't do something as expensive as dumping a stack trace if we don't need to!
-        if (!LOG_DEPRECATED && !CRASH_DEPRECATED)
+        if (!logDeprecated && !crashOnDeprecated)
         {
             return;
         }
@@ -178,7 +179,7 @@ public class LazyLib extends BaseModPlugin
             return;
         }
 
-        if (LOG_DEPRECATED)
+        if (logDeprecated)
         {
             // Search stack trace for last non-LazyLib class and log the
             // method/line number of whatever called the deprecated method
@@ -196,7 +197,7 @@ public class LazyLib extends BaseModPlugin
             }
         }
 
-        if (CRASH_DEPRECATED)
+        if (crashOnDeprecated)
         {
             throw new RuntimeException("Deprecated method "
                     + caller.getClassName() + "." + caller.getMethodName()
@@ -229,13 +230,22 @@ public class LazyLib extends BaseModPlugin
         // Load LazyLib settings from JSON file
         JSONObject settings = Global.getSettings().loadJSON(SETTINGS_FILE);
         setLogLevel(Level.toLevel(settings.optString("logLevel", "ERROR"), Level.ERROR));
-        CACHE_ENABLED = settings.optBoolean("enableCaching", false);
-        LOG_DEPRECATED = settings.optBoolean("logDeprecated", false);
-        CRASH_DEPRECATED = settings.optBoolean("crashOnDeprecated", false);
+        cacheEnabled = settings.optBoolean("enableCaching", false);
+        logDeprecated = settings.optBoolean("logDeprecated", false);
+        crashOnDeprecated = settings.optBoolean("crashOnDeprecated", false);
 
-        settings = Global.getSettings().loadJSON("mod_info.json", MOD_ID);
-        LIBRARY_VERSION = parseVersion(settings.optString("version", "" + LIBRARY_VERSION));
-        GAME_VERSION = settings.optString("gameVersion", GAME_VERSION);
+        try
+        {
+            settings = Global.getSettings().loadJSON("mod_info.json", MOD_ID);
+            libVersion = parseVersion(settings.optString("version", "" + libVersion));
+            gameVersion = settings.optString("gameVersion", gameVersion);
+        }
+        catch (Exception ex)
+        {
+            Global.getLogger(LazyLib.class).log(Level.ERROR,
+                    "Failed to open LazyLib's mod_info.json! Mod id must match LazyLib.MOD_ID ('" +
+                            MOD_ID + "').\nUsing fallback values...");
+        }
 
         Global.getLogger(LazyLib.class).log(Level.INFO, "Running " + getInfo());
     }

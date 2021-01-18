@@ -269,6 +269,8 @@ public class LazyFont
     }
 
     /**
+     * <b>DEPRECATED AND SLATED FOR REMOVAL - DO NOT USE!</b>
+     * <br>
      * Renders a block of text, used to manually create display lists - <b>not recommended for general
      * usage</b>. Use {@link LazyFont#createText(String, Color, float, float, float)} instead.
      *
@@ -285,8 +287,10 @@ public class LazyFont
      * @see LazyFont#createText(String, Color, float, float, float) for when you need to draw the same
      *         block of text multiple times (99% of use cases).
      * @since 2.3
+     * @deprecated Use {@link #createText(String, Color, float, float, float)} instead! This will be removed soon.
      */
     @NotNull
+    @Deprecated
     public Vector2f drawText(String text, float x, float y, float fontSize, float maxWidth, float maxHeight)
     {
         return null;

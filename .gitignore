@@ -1,1 +1,5 @@
 out/
+tests/
+.scannerwork/
+*.lnk
+/docs/javadoc.zip

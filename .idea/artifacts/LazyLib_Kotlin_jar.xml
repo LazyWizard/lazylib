@@ -4,9 +4,7 @@
     <root id="archive" name="LazyLib-Kotlin.jar">
       <element id="module-output" name="LazyLib-Extensions" />
       <element id="dir-copy" path="$PROJECT_DIR$/ext/src" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.2.0/kotlinx-coroutines-core-1.2.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/atomicfu/0.12.3/atomicfu-0.12.3.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/atomicfu-common/0.12.3/atomicfu-common-0.12.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.4.2/kotlinx-coroutines-core-1.4.2.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

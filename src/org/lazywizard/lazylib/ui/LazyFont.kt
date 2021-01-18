@@ -4,6 +4,7 @@ package org.lazywizard.lazylib.ui
 
 import com.fs.starfarer.api.Global
 import org.apache.log4j.Logger
+import org.lazywizard.lazylib.LazyLib
 import org.lazywizard.lazylib.MathUtils
 import org.lazywizard.lazylib.opengl.ColorUtils.glColor
 import org.lwjgl.BufferUtils
@@ -291,9 +292,10 @@ class LazyFont private constructor(
 
     @Deprecated("Use createText() instead! This method will be removed soon.")
     fun drawText(text: String?, x: Float, y: Float, fontSize: Float, maxWidth: Float, maxHeight: Float): Vector2f {
-        if (text == null || text.isBlank() || maxHeight < fontSize) {
+        LazyLib.onDeprecatedMethodUsage()
+
+        if (text == null || text.isBlank() || maxHeight < fontSize)
             return Vector2f(0f, 0f)
-        }
 
         var lastChar: LazyChar? = null // For kerning purposes
         val scaleFactor = fontSize / baseHeight
@@ -481,7 +483,7 @@ class LazyFont private constructor(
 
             width = 0f
             height = 0f
-            if (text == null || text.isBlank() || maxHeight < fontSize) {
+            if (text.isBlank() || maxHeight < fontSize) {
                 needsRebuild = false
                 return
             }
@@ -533,21 +535,6 @@ class LazyFont private constructor(
                 val advance = kerning + ch.advance * scaleFactor
                 val chWidth = ch.width * scaleFactor
                 val chHeight = ch.height * scaleFactor
-
-                // TODO: If we're very certain of our wrapString() method, this shouldn't be necessary anymore
-                /*if (xOffset + advance > maxWidth) {
-                    // Check if we're about to exceed the max textbox height
-                    if (-yOffset + fontSize > maxHeight) {
-                        sizeX = Math.max(sizeX, xOffset)
-                        break@outer
-                    }
-
-                    yOffset -= fontSize
-                    sizeY += fontSize
-                    sizeX = Math.max(sizeX, xOffset)
-                    xOffset = -kerning // Not a mistake - negates localX kerning adjustment below
-                }*/
-
                 val localX = xOffset + kerning + ch.xOffset * scaleFactor
                 val localY = yOffset - ch.yOffset * scaleFactor
 

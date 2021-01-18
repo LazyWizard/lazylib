@@ -3,7 +3,6 @@ package org.lazywizard.lazylib;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import org.jetbrains.annotations.Nullable;
-import org.lazywizard.lazylib.ui.LazyFont;
 import org.lwjgl.util.vector.Vector2f;
 
 import java.awt.geom.Line2D;
