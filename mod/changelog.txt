@@ -1,5 +1,16 @@
- 2.4g (January 18, 2021)
+ 2.5b (January 20, 2021)
 =========================
+Retroactively renamed v2.4g to v2.5
+Changes to LazyFont:
+ - Added getFontName()
+Changes to LazyFont.DrawableString:
+ - Fixed a crash with word-wrapped text that includes a hyphenated line break
+ - Added setRenderDebugBounds(), which draws a box showing the text's width,
+   height, and position.
+
+ 2.5 (January 18, 2021)
+========================
+(originally released as v2.4g)
 Updated bundled libraries:
  - kotlin-stdlib: v1.3.61 -> v1.4.21
  - kotlinx-coroutines: v1.2.0 -> v1.4.2

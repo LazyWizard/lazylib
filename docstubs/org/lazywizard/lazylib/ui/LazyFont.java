@@ -4,7 +4,7 @@ import com.fs.starfarer.api.graphics.SpriteAPI;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.util.vector.Vector2f;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Map;
 
 /**
@@ -249,6 +249,19 @@ public class LazyFont
     public float calcWidth(String rawLine, float fontSize)
     {
         return 0f;
+    }
+
+    /***
+     * Returns the name of the font, as defined in its .fnt file.
+     *
+     * @return The name of the loaded font.
+     *
+     * @since 2.5b
+     */
+    @NotNull
+    public String getFontName()
+    {
+        return "";
     }
 
     /**

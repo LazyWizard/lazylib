@@ -172,7 +172,7 @@ class LazyFont private constructor(
 
         // If the character isn't in the defined set, return a question mark (or a
         // blank space if the font doesn't define a question mark, either)
-        //System.out.println("Error: character '$character' is not defined in font data")
+        Log.warn("Character '$character' is not defined in font data")
         return if (character == '?') getChar(' ') else getChar('?')
     }
 
@@ -546,6 +546,7 @@ class LazyFont private constructor(
                     // Check if we're about to exceed the max textbox height
                     if (-yOffset + fontSize > maxHeight) {
                         sizeX = Math.max(sizeX, xOffset)
+                        Log.debug("\n\nBroke line\n\n")
                         break@outer
                     }
 
@@ -553,6 +554,7 @@ class LazyFont private constructor(
                     sizeY += fontSize
                     sizeX = Math.max(sizeX, xOffset)
                     xOffset = -kerning // Not a mistake - negates localX kerning adjustment below
+                    Log.debug("\n\nAdjusted kerning\n\n")
                 }
 
                 val localX = xOffset + kerning + ch.xOffset * scaleFactor
@@ -618,7 +620,7 @@ class LazyFont private constructor(
             glColor(color)
             glDrawArrays(GL_QUADS, 0, len * 8)
 
-            // Render bounds when debug flag is set
+            // Render visual bounds if the debug flag is set
             if (renderDebugBounds) {
                 glDisable(GL_TEXTURE_2D)
                 glLineWidth(1f)
