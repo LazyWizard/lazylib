@@ -429,6 +429,7 @@ class LazyFont private constructor(
         private var len = 0
         private var needsRebuild = true
         val font: LazyFont get() = this@LazyFont
+        var renderDebugBounds = false
         var isDisposed = false
             private set
         var width: Float = 0f
@@ -616,10 +617,23 @@ class LazyFont private constructor(
             if (angle != 0f) glRotatef(MathUtils.clampAngle(angle), 0f, 0f, 1f)
             glColor(color)
             glDrawArrays(GL_QUADS, 0, len * 8)
+
+            // Render bounds when debug flag is set
+            if (renderDebugBounds) {
+                glDisable(GL_TEXTURE_2D)
+                glLineWidth(1f)
+                glColor(color, 0.3f)
+                glBegin(GL_LINE_LOOP)
+                glVertex2f(0f, 0f)
+                glVertex2f(width, 0f)
+                glVertex2f(width, -height)
+                glVertex2f(0f, -height)
+                glEnd()
+            }
+
             glPopMatrix()
             glPopClientAttrib()
             glPopAttrib()
-
         }
 
         fun draw(x: Float, y: Float) = drawInternal(x, y)
