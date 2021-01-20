@@ -509,7 +509,7 @@ class LazyFont private constructor(
             var sizeY = fontSize
             val toDraw = wrapString(text, fontSize, maxWidth, maxHeight)
 
-            val buffer = BufferUtils.createFloatBuffer(sb.length * 16)
+            val buffer = BufferUtils.createFloatBuffer(toDraw.length * 16)
             //val colBuffer = BufferUtils.createIntBuffer(sb.length * 4) TODO
             len = 0
 
