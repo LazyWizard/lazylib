@@ -16,9 +16,9 @@ import java.io.IOException
 import java.net.URI
 import java.util.*
 
-
-// Documentation for this class is in the docstubs directory
+// Javadoc for this class is in the docstubs directory
 class LazyFont private constructor(
+    val fontName: String,
     val textureId: Int,
     val baseHeight: Float,
     val textureWidth: Float,
@@ -46,7 +46,7 @@ class LazyFont private constructor(
         @Throws(FontException::class)
         fun loadFont(fontPath: String): LazyFont {
             val canonPath = URI(fontPath).normalize().path
-            Log.debug("\n\n$fontPath -> $canonPath\n\n")
+            Log.debug("\n\nConverted font path: $fontPath -> $canonPath\n\n")
             if (fontCache.contains(canonPath)) return fontCache.getValue(canonPath)
 
             // Load the font file contents for later parsing
@@ -82,7 +82,7 @@ class LazyFont private constructor(
                     throw FontException("Metadata length mismatch in '$canonPath'")
                 }
 
-                //val fontName = metadata[2].replace("\"", "")
+                val fontName = metadata[2].replace("\"", "")
                 val baseHeight = java.lang.Float.parseFloat(metadata[27])
 
                 // Get image file path from metadata
@@ -94,6 +94,7 @@ class LazyFont private constructor(
 
                 // Load the font image into a texture
                 // TODO: Add support for multiple image files; 'pages' in the font file
+                // (this is a low priority as no vanilla font uses multiple pages)
                 val textureId: Int
                 val textureWidth: Float
                 val textureHeight: Float
@@ -107,7 +108,8 @@ class LazyFont private constructor(
                     throw FontException("Failed to load texture atlas '$imgFile'", ex)
                 }
 
-                val font = LazyFont(textureId, baseHeight, textureWidth, textureHeight)
+                val font = LazyFont(fontName, textureId, baseHeight, textureWidth, textureHeight)
+                Log.debug("Created empty font ${font.fontName} from $fontPath, preparing to add character data")
 
                 // Parse character data and place into a quick lookup table or extended character map
                 for (charLine in charLines) {
@@ -127,9 +129,9 @@ class LazyFont private constructor(
                         xOffset = Integer.parseInt(charData[12]),
                         yOffset = Integer.parseInt(charData[14]),
                         advance = Integer.parseInt(charData[16]) + 1
+                        //page = Integer.parseInt(data[18]),
+                        // channel = Integer.parseInt(data[20]));
                     )
-                    //page = Integer.parseInt(data[18]),
-                    // channel = Integer.parseInt(data[20]));
                 }
 
                 // Parse and add kerning data
@@ -146,6 +148,8 @@ class LazyFont private constructor(
                     val kernAmount = Integer.parseInt(kernData[6])
                     font.getChar(id.toChar()).setKerning(otherId, kernAmount)
                 }
+
+                Log.debug("Finished initializing character data for font ${font.fontName}")
 
                 fontCache[canonPath] = font
                 return font
@@ -535,6 +539,21 @@ class LazyFont private constructor(
                 val advance = kerning + ch.advance * scaleFactor
                 val chWidth = ch.width * scaleFactor
                 val chHeight = ch.height * scaleFactor
+
+                // TODO: If we're very certain of our wrapString() method, this shouldn't be necessary anymore
+                if (xOffset + advance > maxWidth) {
+                    // Check if we're about to exceed the max textbox height
+                    if (-yOffset + fontSize > maxHeight) {
+                        sizeX = Math.max(sizeX, xOffset)
+                        break@outer
+                    }
+
+                    yOffset -= fontSize
+                    sizeY += fontSize
+                    sizeX = Math.max(sizeX, xOffset)
+                    xOffset = -kerning // Not a mistake - negates localX kerning adjustment below
+                }
+
                 val localX = xOffset + kerning + ch.xOffset * scaleFactor
                 val localY = yOffset - ch.yOffset * scaleFactor
 
@@ -590,13 +609,12 @@ class LazyFont private constructor(
             glBindBuffer(GL_ARRAY_BUFFER, bufferId)
             glTexCoordPointer(2, GL_FLOAT, 16, 0)
             glVertexPointer(2, GL_FLOAT, 16, 8)
+            glBindBuffer(GL_ARRAY_BUFFER, 0)
 
             glPushMatrix()
             glTranslatef(x + 0.01f, y + 0.01f, 0.01f)
             if (angle != 0f) glRotatef(MathUtils.clampAngle(angle), 0f, 0f, 1f)
-
             glColor(color)
-            glBindBuffer(GL_ARRAY_BUFFER, 0)
             glDrawArrays(GL_QUADS, 0, len * 8)
             glPopMatrix()
             glPopClientAttrib()
