@@ -427,8 +427,6 @@ class LazyFont private constructor(
     // FIXME: wrapped strings with a hyphen will offset colored substrings by one
     inner class DrawableString(text: String, fontSize: Float, maxWidth: Float, maxHeight: Float, color: Color) {
         private val sb: StringBuilder = StringBuilder(text)
-        private var baseColorBytes = color.getRGBComponents(null)
-        private var colorBytes = color.getRGBComponents(null)
         private val substringColorData = HashMap<Int, FloatArray>()
         private val bufferId = glGenBuffers()
         private var len = 0
@@ -480,8 +478,7 @@ class LazyFont private constructor(
         var color: Color = color
             set(value) {
                 field = value
-                baseColorBytes = value.getRGBComponents(null)
-                needsRebuild = true
+                if (substringColorData.isNotEmpty()) needsRebuild = true
             }
 
         fun appendText(text: String) {
@@ -492,7 +489,7 @@ class LazyFont private constructor(
         fun appendText(text: String, color: Color) {
             substringColorData[sb.length] = color.getRGBComponents(null)
             appendText(text)
-            substringColorData[sb.length] = baseColorBytes
+            substringColorData[sb.length] = this.color.getRGBComponents(null)
         }
 
         fun appendText(text: String, indent: Int) =
@@ -529,6 +526,7 @@ class LazyFont private constructor(
 
             len = 0 // Length ignoring whitespace; used for vertex data
             var colLen = 0 // Length including whitespace; used for coloring substrings
+            var colorBytes = color.getRGBComponents(null)
 
             outer@
             for (tmp in toDraw) {
