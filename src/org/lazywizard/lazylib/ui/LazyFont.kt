@@ -14,6 +14,7 @@ import org.lwjgl.util.vector.Vector2f
 import java.awt.Color
 import java.io.IOException
 import java.net.URI
+import java.nio.FloatBuffer
 import java.util.*
 
 // Javadoc for this class is in the docstubs directory
@@ -423,8 +424,12 @@ class LazyFont private constructor(
         }
     }
 
-    inner class DrawableString(text: String, fontSize: Float, maxWidth: Float, maxHeight: Float, var color: Color) {
+    // FIXME: wrapped strings with a hyphen will offset colored substrings by one
+    inner class DrawableString(text: String, fontSize: Float, maxWidth: Float, maxHeight: Float, color: Color) {
         private val sb: StringBuilder = StringBuilder(text)
+        private var baseColorBytes = color.getRGBComponents(null)
+        private var colorBytes = color.getRGBComponents(null)
+        private val substringColorData = HashMap<Int, FloatArray>()
         private val bufferId = glGenBuffers()
         private var len = 0
         private var needsRebuild = true
@@ -469,7 +474,14 @@ class LazyFont private constructor(
             get() = sb.toString()
             set(value) {
                 sb.setLength(0)
+                substringColorData.clear()
                 appendText(value)
+            }
+        var color: Color = color
+            set(value) {
+                field = value
+                baseColorBytes = value.getRGBComponents(null)
+                needsRebuild = true
             }
 
         fun appendText(text: String) {
@@ -477,10 +489,17 @@ class LazyFont private constructor(
             needsRebuild = true
         }
 
-        fun appendText(text: String, indent: Int) {
-            sb.append(wrapString(text, fontSize, maxWidth, maxHeight, indent))
-            needsRebuild = true
+        fun appendText(text: String, color: Color) {
+            substringColorData[sb.length] = color.getRGBComponents(null)
+            appendText(text)
+            substringColorData[sb.length] = baseColorBytes
         }
+
+        fun appendText(text: String, indent: Int) =
+            appendText(wrapString(text, fontSize, maxWidth, maxHeight, indent))
+
+        fun appendText(text: String, indent: Int, color: Color) =
+            appendText(wrapString(text, fontSize, maxWidth, maxHeight, indent), color)
 
         private fun checkRebuild() {
             if (isDisposed) throw RuntimeException("Tried to draw using a disposed of DrawableString!")
@@ -493,15 +512,6 @@ class LazyFont private constructor(
                 return
             }
 
-            // TODO
-            /*val color: Color? = null
-            val colBytes: IntArray = if (color == null) intArrayOf(200, 200, 200, 200) else intArrayOf(
-                color.red,
-                color.green,
-                color.blue,
-                color.alpha
-            )*/
-
             var lastChar: LazyFont.LazyChar? = null // For kerning purposes
             val scaleFactor = fontSize / baseHeight
             var xOffset = 0f
@@ -510,11 +520,16 @@ class LazyFont private constructor(
             var sizeY = fontSize
             val toDraw = wrapString(text, fontSize, maxWidth, maxHeight)
 
-            val buffer = BufferUtils.createFloatBuffer(toDraw.length * 16)
-            //val colBuffer = BufferUtils.createIntBuffer(sb.length * 4) TODO
-            len = 0
+            // Don't store per-vertex color data if the entire string is the same color!
+            val useColorData = substringColorData.isNotEmpty()
+            val buffer: FloatBuffer = if (useColorData) {
+                BufferUtils.createFloatBuffer(toDraw.length * 32)
+            } else
+                BufferUtils.createFloatBuffer(toDraw.length * 16)
 
-            // TODO: Colored substring support
+            len = 0 // Length ignoring whitespace; used for vertex data
+            var colLen = 0 // Length including whitespace; used for coloring substrings
+
             outer@
             for (tmp in toDraw) {
                 // Ignore tabs and carriage returns
@@ -532,6 +547,7 @@ class LazyFont private constructor(
                     sizeX = Math.max(sizeX, xOffset)
                     xOffset = 0f
                     lastChar = null
+                    colLen++
                     continue@outer
                 }
 
@@ -560,34 +576,34 @@ class LazyFont private constructor(
                 val localX = xOffset + kerning + ch.xOffset * scaleFactor
                 val localY = yOffset - ch.yOffset * scaleFactor
 
+                // Colored substring support
+                if (useColorData && substringColorData.containsKey(colLen))
+                    colorBytes = substringColorData[colLen]
+
                 // Individual puts are faster, but lack bounds checking
                 buffer.put(ch.tx1).put(ch.ty1)
                 buffer.put(localX).put(localY)
+                if (useColorData) buffer.put(colorBytes)
                 buffer.put(ch.tx1).put(ch.ty2)
                 buffer.put(localX).put(localY - chHeight)
+                if (useColorData) buffer.put(colorBytes)
                 buffer.put(ch.tx2).put(ch.ty2)
                 buffer.put(localX + chWidth).put(localY - chHeight)
+                if (useColorData) buffer.put(colorBytes)
                 buffer.put(ch.tx2).put(ch.ty1)
                 buffer.put(localX + chWidth).put(localY)
-
-                // TODO: Color data
-                //colBuffer.put(colBytes[0]).put(colBytes[1]).put(colBytes[2]).put(colBytes[3])
+                if (useColorData) buffer.put(colorBytes)
 
                 xOffset += advance
                 lastChar = ch
                 len++
+                colLen++
             }
 
-            // Send vertex and texture coordinate data to GPU
+            // Send vertex, texture coordinate and color data to GPU
             buffer.flip()
             glBindBuffer(GL_ARRAY_BUFFER, bufferId)
             glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW)
-
-            // TODO: Send color data to GPU
-            // TODO: Interleave with main buffer
-            //colBuffer.flip()
-            //glBindBuffer(GL_ARRAY_BUFFER, colId)
-            //glBufferData(GL_ARRAY_BUFFER, colBuffer, GL_STATIC_DRAW)
 
             // Release buffer binding
             glBindBuffer(GL_ARRAY_BUFFER, 0)
@@ -601,23 +617,36 @@ class LazyFont private constructor(
         private fun drawInternal(x: Float, y: Float, angle: Float = 0f) {
             checkRebuild()
 
+            val useColorData = substringColorData.isNotEmpty()
+
             glPushAttrib(GL_ALL_ATTRIB_BITS)
             glPushClientAttrib(GL_ALL_CLIENT_ATTRIB_BITS)
             glEnable(GL_TEXTURE_2D)
             glEnable(GL_BLEND)
             glEnableClientState(GL_VERTEX_ARRAY)
             glEnableClientState(GL_TEXTURE_COORD_ARRAY)
+            if (useColorData) glEnableClientState(GL_COLOR_ARRAY)
 
             glBindTexture(GL_TEXTURE_2D, textureId)
             glBindBuffer(GL_ARRAY_BUFFER, bufferId)
-            glTexCoordPointer(2, GL_FLOAT, 16, 0)
-            glVertexPointer(2, GL_FLOAT, 16, 8)
+
+            // Color data doubles the size of the buffer, so we don't store it
+            // unless absolutely necessary (string contains colored substrings)
+            if (useColorData) {
+                glTexCoordPointer(2, GL_FLOAT, 32, 0)
+                glVertexPointer(2, GL_FLOAT, 32, 8)
+                glColorPointer(4, GL_FLOAT, 32, 16)
+            } else {
+                glColor(color)
+                glTexCoordPointer(2, GL_FLOAT, 16, 0)
+                glVertexPointer(2, GL_FLOAT, 16, 8)
+            }
+
             glBindBuffer(GL_ARRAY_BUFFER, 0)
 
             glPushMatrix()
             glTranslatef(x + 0.01f, y + 0.01f, 0.01f)
             if (angle != 0f) glRotatef(MathUtils.clampAngle(angle), 0f, 0f, 1f)
-            glColor(color)
             glDrawArrays(GL_QUADS, 0, len * 8)
 
             // Render visual bounds if the debug flag is set

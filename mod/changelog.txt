@@ -6,7 +6,7 @@ Changes to LazyFont:
 Changes to LazyFont.DrawableString:
  - Fixed a crash with word-wrapped text that includes a hyphenated line break
  - Added setRenderDebugBounds(), which draws a box showing the text's width,
-   height, and position.
+   height, and position
 
  2.5 (January 18, 2021)
 ========================

@@ -134,7 +134,8 @@ public class LazyFont
      *                  width.
      * @param maxHeight The max height of the text area. Text beyond this will be discarded.
      * @param indent    The number of empty spaces at the start of each line. Used by {@link
-     *                  DrawableString#appendText(String, int)}.
+     *                  DrawableString#appendText(String, int)} and {@link
+     *                  DrawableString#appendText(String, int, Color)}.
      *
      * @return {@code toWrap}, wrapped to fit within the area specified by {@code maxWidth} and {@code maxHeight}.
      *
@@ -714,6 +715,23 @@ public class LazyFont
         }
 
         /**
+         * Adds a colored substring to the end of the current text. Only this substring
+         * will use the given color, and all further normally appended text will use
+         * the color returned by {@link DrawableString#getColor()}.
+         * <p>
+         * Changing a {@link DrawableString}'s text will necessitate a full rebuild of its contents the next time you
+         * attempt to draw or measure the text.
+         *
+         * @param text  The text to add to the {@link DrawableString}.
+         * @param color The color this text should appear as.
+         *
+         * @since 2.5c
+         */
+        public void appendText(String text, Color color)
+        {
+        }
+
+        /**
          * Adds additional text to the end of the current text.
          * <p>
          * Changing a {@link DrawableString}'s text will necessitate a full rebuild of its contents the next time you
@@ -725,6 +743,24 @@ public class LazyFont
          * @since 2.3
          */
         public void appendText(String text, int indent)
+        {
+        }
+
+        /**
+         * Adds a colored substring to the end of the current text. Only this substring
+         * will use the given color, and all further normally appended text will use
+         * the color returned by {@link DrawableString#getColor()}.
+         * <p>
+         * Changing a {@link DrawableString}'s text will necessitate a full rebuild of its contents the next time you
+         * attempt to draw or measure the text.
+         *
+         * @param text   The text to add to the {@link DrawableString}.
+         * @param indent All lines will be prepended with this number of blank spaces.
+         * @param color  The color this text should appear as.
+         *
+         * @since 2.5c
+         */
+        public void appendText(String text, int indent, Color color)
         {
         }
 
