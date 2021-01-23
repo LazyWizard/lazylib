@@ -148,6 +148,7 @@ public class DefenseUtils
      *
      * @since 2.0
      */
+    @SuppressWarnings("ForLoopReplaceableByForEach")
     public static boolean hasArmorDamage(ShipAPI ship)
     {
         final float[][] grid = ship.getArmorGrid().getGrid();

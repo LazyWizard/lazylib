@@ -1,3 +1,15 @@
+ 2.5c (January 23, 2021)
+=========================
+Changes to LazyFont.DrawableString:
+ - Fixed rendering issues on some computers (thanks to Dream from the
+   Discord server for reporting the bug and testing the fix)
+ - Added colored substring support
+ - Added appendText(String text, Color color)
+ - Added appendText(String text, Color color, int indent)
+ - Appending colored text only colors that substring, and all subsequent
+   text will return to the base color chosen at DrawableString creation.
+   To change the base color, call DrawableString.setColor()
+
  2.5b (January 20, 2021)
 =========================
 Retroactively renamed v2.4g to v2.5

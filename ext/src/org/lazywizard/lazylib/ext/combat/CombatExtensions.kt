@@ -1,7 +1,6 @@
 package org.lazywizard.lazylib.ext.combat
 
 import com.fs.starfarer.api.combat.*
-import com.fs.starfarer.api.fleet.FleetMemberAPI
 import org.lazywizard.lazylib.CollisionUtils
 import org.lazywizard.lazylib.MathUtils
 import org.lazywizard.lazylib.combat.AIUtils

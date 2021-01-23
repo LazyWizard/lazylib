@@ -135,7 +135,7 @@ public class LazyFont
      * @param maxHeight The max height of the text area. Text beyond this will be discarded.
      * @param indent    The number of empty spaces at the start of each line. Used by {@link
      *                  DrawableString#appendText(String, int)} and {@link
-     *                  DrawableString#appendText(String, int, Color)}.
+     *                  DrawableString#appendText(String, Color, int)}.
      *
      * @return {@code toWrap}, wrapped to fit within the area specified by {@code maxWidth} and {@code maxHeight}.
      *
@@ -760,7 +760,7 @@ public class LazyFont
          *
          * @since 2.5c
          */
-        public void appendText(String text, int indent, Color color)
+        public void appendText(String text, Color color, int indent)
         {
         }
 

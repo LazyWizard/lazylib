@@ -12,6 +12,7 @@ import java.util.*;
  * @author LazyWizard
  * @since 1.0
  */
+@SuppressWarnings("rawtypes")
 public class CollectionUtils
 {
     /**

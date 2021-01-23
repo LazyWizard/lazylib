@@ -66,8 +66,7 @@ public class StringUtils
                         // Break up word into multiple lines separated with a dash
                         while (words[y].length() > maxLineLength)
                         {
-                            message.append(words[y].substring(0, maxLineLength - 1))
-                                    .append("-\n");
+                            message.append(words[y], 0, maxLineLength - 1).append("-\n");
                             words[y] = words[y].substring(maxLineLength - 1);
                         }
 

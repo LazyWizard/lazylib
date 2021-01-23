@@ -245,7 +245,7 @@ class LazyFont private constructor(
             }
 
             inner@
-            while (!line.isBlank()) {
+            while (line.isNotBlank()) {
                 // We've reached our limit
                 if (numLines >= maxLines) break
 
@@ -271,7 +271,8 @@ class LazyFont private constructor(
                     else {
                         while (true) {
                             val splitIndex =
-                                (buildUntilLimit("-$line", fontSize, maxWidthWithIndent).length - 1).coerceAtLeast(0)
+                                (buildUntilLimit("-$line", fontSize, maxWidthWithIndent).length - 1)
+                                    .coerceAtLeast(0)
                             if (splitIndex < line.length) {
                                 wrappedString.append(indentWith).append(line.take(splitIndex)).append("-\n")
                                 line = line.substring(splitIndex)
@@ -288,11 +289,8 @@ class LazyFont private constructor(
             }
         }
 
-        // Don't end with a newline if the source string didn't
-        //if (!toWrap.endsWith('\n'))
-        wrappedString.deleteCharAt(wrappedString.length - 1)
-
-        return wrappedString.toString()
+        // Return the wrapped string, minus the extra newline we added at the end
+        return wrappedString.substring(0, wrappedString.length - 1)
     }
 
     @Deprecated("Use createText() instead! This method will be removed soon.")
@@ -311,7 +309,6 @@ class LazyFont private constructor(
         val toDraw = wrapString(text, fontSize, maxWidth, maxHeight)
 
         glBindTexture(GL_TEXTURE_2D, textureId)
-        //glPushAttrib(GL_ENABLE_BIT or GL_COLOR_BUFFER_BIT)
         glPushAttrib(GL_ALL_ATTRIB_BITS)
         glEnable(GL_TEXTURE_2D)
         glEnable(GL_BLEND)
@@ -495,7 +492,7 @@ class LazyFont private constructor(
         fun appendText(text: String, indent: Int) =
             appendText(wrapString(text, fontSize, maxWidth, maxHeight, indent))
 
-        fun appendText(text: String, indent: Int, color: Color) =
+        fun appendText(text: String, color: Color, indent: Int) =
             appendText(wrapString(text, fontSize, maxWidth, maxHeight, indent), color)
 
         private fun checkRebuild() {
@@ -645,7 +642,7 @@ class LazyFont private constructor(
             glPushMatrix()
             glTranslatef(x + 0.01f, y + 0.01f, 0.01f)
             if (angle != 0f) glRotatef(MathUtils.clampAngle(angle), 0f, 0f, 1f)
-            glDrawArrays(GL_QUADS, 0, len * 8)
+            glDrawArrays(GL_QUADS, 0, len * 4)
 
             // Render visual bounds if the debug flag is set
             if (renderDebugBounds) {

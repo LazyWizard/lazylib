@@ -3,3 +3,4 @@
 # Project exclude paths
 /.
 /sonarlint/issuestore
+sonarlint*

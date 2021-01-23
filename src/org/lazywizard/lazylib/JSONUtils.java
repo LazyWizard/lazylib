@@ -26,6 +26,7 @@ public class JSONUtils
      *
      * @since 2.4
      */
+    @SuppressWarnings("rawtypes")
     public static void clear(JSONObject toClear)
     {
         final Iterator keys = toClear.keys();
