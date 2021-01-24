@@ -14,7 +14,6 @@ import org.lwjgl.util.vector.Vector2f
 import java.awt.Color
 import java.io.IOException
 import java.net.URI
-import java.nio.FloatBuffer
 import java.util.*
 
 // Javadoc for this class is in the docstubs directory
@@ -516,7 +515,7 @@ class LazyFont private constructor(
 
             // Don't store per-vertex color data if the entire string is the same color!
             val useColorData = substringColorData.isNotEmpty()
-            val buffer: FloatBuffer = if (useColorData) {
+            val buffer = if (useColorData) {
                 BufferUtils.createFloatBuffer(toDraw.length * 32)
             } else
                 BufferUtils.createFloatBuffer(toDraw.length * 16)

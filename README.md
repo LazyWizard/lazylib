@@ -1,4 +1,6 @@
 # LazyLib #
+![GitHub all releases](https://img.shields.io/github/downloads/LazyWizard/lazylib/total) ![GitHub release (latest by date)](https://img.shields.io/github/downloads/LazyWizard/lazylib/latest/total)
+
 LazyLib is not a regular mod. It doesn't add any ships, weapons or factions. In fact, it doesn't change anything at all in your game! All it does is make writing code for mods easier. It contains methods to deal with otherwise complicated tasks like collision detection and formatted sector messages, among many other things.
 
 Some mods may require LazyLib to run. If you are ever running a mod and get an error along the lines of 'Imported class "org.lazywizard.lazylib.<whatever>" could not be loaded', then this mod is required. Just make sure you have the latest version installed and that it is tagged in the launcher and everything should work.
