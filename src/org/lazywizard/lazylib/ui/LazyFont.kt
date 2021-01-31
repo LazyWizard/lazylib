@@ -495,7 +495,7 @@ class LazyFont private constructor(
             set(value) {
                 sb.setLength(0)
                 substringColorData.clear()
-                appendText(value)
+                append(value)
             }
         var color: Color = color
             set(value) {
@@ -503,22 +503,51 @@ class LazyFont private constructor(
                 if (substringColorData.isNotEmpty()) needsRebuild = true
             }
 
-        fun appendText(text: String) {
+        fun append(text: Any): DrawableString {
             sb.append(text)
             needsRebuild = true
+            return this
         }
 
-        fun appendText(text: String, color: Color) {
+        // TODO: Add to Javadoc
+        fun append(text: Any, color: Color): DrawableString {
             substringColorData[sb.length] = color.getRGBComponents(null)
-            appendText(text)
+            append(text)
             substringColorData[sb.length] = this.color.getRGBComponents(null)
+            return this
         }
 
-        fun appendText(text: String, indent: Int) =
-            appendText(wrapString(text, fontSize, maxWidth, maxHeight, indent))
+        fun append(text: Any, indent: Int): DrawableString =
+            append(wrapString(text.toString(), fontSize, maxWidth, maxHeight, indent))
 
-        fun appendText(text: String, color: Color, indent: Int) =
-            appendText(wrapString(text, fontSize, maxWidth, maxHeight, indent), color)
+        fun append(text: Any, color: Color, indent: Int): DrawableString =
+            append(wrapString(text.toString(), fontSize, maxWidth, maxHeight, indent), color)
+
+        //<editor-fold defaultstate="collapsed" desc="Deprecated appendText() functions">
+        @Deprecated("Use append() instead", ReplaceWith("append(text)"), DeprecationLevel.WARNING)
+        fun appendText(text: String) {
+            LazyLib.onDeprecatedMethodUsage()
+            append(text)
+        }
+
+        @Deprecated("Use append() instead", ReplaceWith("append(text, color)"), DeprecationLevel.WARNING)
+        fun appendText(text: String, color: Color) {
+            LazyLib.onDeprecatedMethodUsage()
+            append(text, color)
+        }
+
+        @Deprecated("Use append() instead", ReplaceWith("append(text, indent)"), DeprecationLevel.WARNING)
+        fun appendText(text: String, indent: Int) {
+            LazyLib.onDeprecatedMethodUsage()
+            append(text, indent)
+        }
+
+        @Deprecated("Use append() instead", ReplaceWith("append(text, color, indent)"), DeprecationLevel.WARNING)
+        fun appendText(text: String, color: Color, indent: Int) {
+            LazyLib.onDeprecatedMethodUsage()
+            append(wrapString(text, fontSize, maxWidth, maxHeight, indent), color)
+        }
+        //</editor-fold>
 
         // TODO: add to changelog and javadoc
         fun checkRebuild(): Boolean {
