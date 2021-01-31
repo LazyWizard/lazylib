@@ -15,6 +15,8 @@ import java.awt.Color
 import java.io.IOException
 import java.net.URI
 import java.util.*
+import kotlin.math.ceil
+import kotlin.math.max
 
 // Javadoc for this class is in the docstubs directory
 class LazyFont private constructor(
@@ -176,11 +178,20 @@ class LazyFont private constructor(
         return if (character == '?') getChar(' ') else getChar('?')
     }
 
+    private fun calcTabWidth(curWidth: Float, fontSize: Float) =
+        (ceil((curWidth + 0.01f) / (fontSize * 1.5f)) * (fontSize * 1.5f)) - curWidth
+
     fun calcWidth(rawLine: String, fontSize: Float): Float {
         val scaleFactor = fontSize / baseHeight
         var lastChar: LazyChar? = null
         var curWidth = 0f
         for (tmp in rawLine) {
+            if (tmp == '\t') {
+                curWidth += calcTabWidth(curWidth, fontSize)
+                lastChar = null
+                continue
+            }
+
             val ch = getChar(tmp)
             val kerning = if (lastChar != null) ch.getKerning(lastChar.id).toFloat() else 0f
             curWidth += (kerning + ch.advance) * scaleFactor
@@ -198,6 +209,12 @@ class LazyFont private constructor(
         var curChar = 0
         var curWidth = 0f
         for (tmp in rawLine) {
+            if (tmp == '\t') {
+                curWidth += calcTabWidth(curWidth, fontSize)
+                lastChar = null
+                continue
+            }
+
             val ch = getChar(tmp)
             val kerning = if (lastChar != null) ch.getKerning(lastChar.id).toFloat() else 0f
             val width = (kerning + ch.advance) * scaleFactor
@@ -318,8 +335,8 @@ class LazyFont private constructor(
         // TODO: Colored substring support
         outer@
         for (tmp in toDraw) {
-            // Ignore tabs and carriage returns
-            if (tmp.isWhitespace() && tmp != '\n' && tmp != ' ')
+            // Ignore carriage returns and other unsupported whitespace
+            if (tmp.isWhitespace() && tmp != '\n' && tmp != ' ' && tmp != '\t')
                 continue
 
             // Newline support
@@ -330,8 +347,15 @@ class LazyFont private constructor(
 
                 yOffset -= fontSize
                 sizeY += fontSize
-                sizeX = Math.max(sizeX, xOffset)
+                sizeX = max(sizeX, xOffset)
                 xOffset = 0f
+                lastChar = null
+                continue@outer
+            }
+
+            // Tab support
+            if (tmp == '\t') {
+                xOffset += calcTabWidth(xOffset, fontSize)
                 lastChar = null
                 continue@outer
             }
@@ -351,13 +375,13 @@ class LazyFont private constructor(
                     glDisable(GL_TEXTURE_2D)
                     glPopAttrib()
 
-                    sizeX = Math.max(sizeX, xOffset)
+                    sizeX = max(sizeX, xOffset)
                     return Vector2f(sizeX, sizeY)
                 }
 
                 yOffset -= fontSize
                 sizeY += fontSize
-                sizeX = Math.max(sizeX, xOffset)
+                sizeX = max(sizeX, xOffset)
                 xOffset = -kerning // Not a mistake - negates localX kerning adjustment below
             }
 
@@ -381,7 +405,7 @@ class LazyFont private constructor(
         glPopMatrix()
         glPopAttrib()
 
-        sizeX = Math.max(sizeX, xOffset)
+        sizeX = max(sizeX, xOffset)
         return Vector2f(sizeX, sizeY)
     }
 
@@ -525,27 +549,34 @@ class LazyFont private constructor(
             var colorBytes = color.getRGBComponents(null)
 
             outer@
-            for (tmp in toDraw) {
-                // Ignore tabs and carriage returns
-                if (tmp.isWhitespace() && tmp != '\n' && tmp != ' ')
+            for (char in toDraw) {
+                // Ignore carriage returns and other unsupported whitespace
+                if (char.isWhitespace() && char != '\n' && char != ' ' && char != '\t')
                     continue
 
                 // Newline support
-                if (tmp == '\n') {
+                if (char == '\n') {
                     if (-yOffset + fontSize > maxHeight) {
                         break@outer
                     }
 
                     yOffset -= fontSize
                     sizeY += fontSize
-                    sizeX = Math.max(sizeX, xOffset)
+                    sizeX = max(sizeX, xOffset)
                     xOffset = 0f
                     lastChar = null
                     colLen++
                     continue@outer
                 }
 
-                val ch = getChar(tmp)
+                // Tab support
+                if (char == '\t') {
+                    val oldOffset = xOffset
+                    xOffset += calcTabWidth(xOffset, fontSize)
+                    continue@outer
+                }
+
+                val ch = getChar(char)
                 val kerning = if (lastChar == null) 0f else ch.getKerning(lastChar.id) * scaleFactor
                 val advance = kerning + ch.advance * scaleFactor
                 val chWidth = ch.width * scaleFactor
@@ -555,14 +586,14 @@ class LazyFont private constructor(
                 if (xOffset + advance > maxWidth) {
                     // Check if we're about to exceed the max textbox height
                     if (-yOffset + fontSize > maxHeight) {
-                        sizeX = Math.max(sizeX, xOffset)
+                        sizeX = max(sizeX, xOffset)
                         Log.debug("\n\nBroke line\n\n")
                         break@outer
                     }
 
                     yOffset -= fontSize
                     sizeY += fontSize
-                    sizeX = Math.max(sizeX, xOffset)
+                    sizeX = max(sizeX, xOffset)
                     xOffset = -kerning // Not a mistake - negates localX kerning adjustment below
                     Log.debug("\n\nAdjusted kerning\n\n")
                 }
@@ -602,7 +633,7 @@ class LazyFont private constructor(
             // Release buffer binding
             glBindBuffer(GL_ARRAY_BUFFER, 0)
 
-            sizeX = Math.max(sizeX, xOffset)
+            sizeX = max(sizeX, xOffset)
             width = sizeX
             height = sizeY
             needsRebuild = false
