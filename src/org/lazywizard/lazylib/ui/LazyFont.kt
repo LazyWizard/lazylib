@@ -518,15 +518,16 @@ class LazyFont private constructor(
         fun appendText(text: String, color: Color, indent: Int) =
             appendText(wrapString(text, fontSize, maxWidth, maxHeight, indent), color)
 
-        private fun checkRebuild() {
+        // TODO: add to changelog and javadoc
+        fun checkRebuild(): Boolean {
             if (isDisposed) throw RuntimeException("Tried to draw using a disposed of DrawableString!")
-            if (!needsRebuild) return
+            if (!needsRebuild) return false
 
             width = 0f
             height = 0f
             if (text.isBlank() || maxHeight < fontSize) {
                 needsRebuild = false
-                return
+                return true
             }
 
             var lastChar: LazyFont.LazyChar? = null // For kerning purposes
@@ -637,6 +638,7 @@ class LazyFont private constructor(
             width = sizeX
             height = sizeY
             needsRebuild = false
+            return true
         }
 
         private fun drawInternal(x: Float, y: Float, angle: Float = 0f) {
