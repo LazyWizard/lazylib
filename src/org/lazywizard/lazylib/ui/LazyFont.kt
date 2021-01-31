@@ -453,6 +453,8 @@ class LazyFont private constructor(
         private var needsRebuild = true
         val font: LazyFont get() = this@LazyFont
         var renderDebugBounds = false
+        var blendSrc = GL_ONE // TODO: Add to Javadoc
+        var blendDest = GL_ONE_MINUS_SRC_ALPHA // TODO: Add to Javadoc
         var isDisposed = false
             private set
         var width: Float = 0f
@@ -650,6 +652,7 @@ class LazyFont private constructor(
             glPushClientAttrib(GL_ALL_CLIENT_ATTRIB_BITS)
             glEnable(GL_TEXTURE_2D)
             glEnable(GL_BLEND)
+            glBlendFunc(blendSrc, blendDest)
             glEnableClientState(GL_VERTEX_ARRAY)
             glEnableClientState(GL_TEXTURE_COORD_ARRAY)
             if (useColorData) glEnableClientState(GL_COLOR_ARRAY)
