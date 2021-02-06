@@ -178,6 +178,8 @@ class LazyFont private constructor(
         return if (character == '?') getChar(' ') else getChar('?')
     }
 
+    override fun toString() = "$fontName (texture id: $textureId)"
+
     private fun calcTabWidth(curWidth: Float, fontSize: Float) =
         (ceil((curWidth + 0.01f) / (fontSize * 1.5f)) * (fontSize * 1.5f)) - curWidth
 
@@ -332,7 +334,6 @@ class LazyFont private constructor(
         glTranslatef(x + 0.01f, y + 0.01f, 0f)
         glBegin(GL_QUADS)
 
-        // TODO: Colored substring support
         outer@
         for (tmp in toDraw) {
             // Ignore carriage returns and other unsupported whitespace
@@ -365,25 +366,6 @@ class LazyFont private constructor(
             val advance = kerning + ch.advance * scaleFactor
             val chWidth = ch.width * scaleFactor
             val chHeight = ch.height * scaleFactor
-
-            // TODO: If we're very certain of our wrapString() method, this shouldn't be necessary anymore
-            if (xOffset + advance > maxWidth) {
-                // Check if we're about to exceed the max textbox height
-                if (-yOffset + fontSize > maxHeight) {
-                    glEnd()
-                    glPopMatrix()
-                    glDisable(GL_TEXTURE_2D)
-                    glPopAttrib()
-
-                    sizeX = max(sizeX, xOffset)
-                    return Vector2f(sizeX, sizeY)
-                }
-
-                yOffset -= fontSize
-                sizeY += fontSize
-                sizeX = max(sizeX, xOffset)
-                xOffset = -kerning // Not a mistake - negates localX kerning adjustment below
-            }
 
             val localX = xOffset + kerning + ch.xOffset * scaleFactor
             val localY = yOffset - ch.yOffset * scaleFactor
@@ -442,6 +424,8 @@ class LazyFont private constructor(
         fun getKerning(otherChar: Char): Int {
             return kernings.getOrElse(otherChar.toInt()) { 0 }
         }
+
+        override fun toString() = id.toChar().toString()
     }
 
     // FIXME: wrapped strings with a hyphen will offset colored substrings by one
@@ -550,6 +534,7 @@ class LazyFont private constructor(
         //</editor-fold>
 
         // TODO: add to changelog and javadoc
+        // TODO: Include warning about using this before calling getHeight/getWidth in rendering code on a fresh DrawableString
         fun checkRebuild(): Boolean {
             if (isDisposed) throw RuntimeException("Tried to draw using a disposed of DrawableString!")
             if (!needsRebuild) return false
@@ -613,22 +598,6 @@ class LazyFont private constructor(
                 val advance = kerning + ch.advance * scaleFactor
                 val chWidth = ch.width * scaleFactor
                 val chHeight = ch.height * scaleFactor
-
-                // TODO: If we're very certain of our wrapString() method, this shouldn't be necessary anymore
-                if (xOffset + advance > maxWidth) {
-                    // Check if we're about to exceed the max textbox height
-                    if (-yOffset + fontSize > maxHeight) {
-                        sizeX = max(sizeX, xOffset)
-                        Log.debug("\n\nBroke line\n\n")
-                        break@outer
-                    }
-
-                    yOffset -= fontSize
-                    sizeY += fontSize
-                    sizeX = max(sizeX, xOffset)
-                    xOffset = -kerning // Not a mistake - negates localX kerning adjustment below
-                    Log.debug("\n\nAdjusted kerning\n\n")
-                }
 
                 val localX = xOffset + kerning + ch.xOffset * scaleFactor
                 val localY = yOffset - ch.yOffset * scaleFactor
@@ -746,6 +715,8 @@ class LazyFont private constructor(
                 dispose()
             }
         }
+
+        override fun toString() = sb.toString()
     }
 }
 
