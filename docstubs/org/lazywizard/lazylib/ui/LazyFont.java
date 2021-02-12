@@ -843,8 +843,8 @@ public class LazyFont
          * Cleans up the underlying OpenGL resources of this {@link DrawableString}. Calling any draw() method after
          * this will cause a {@link RuntimeException}.
          * <p>
-         * Calling this method is optional, and rarely required. However, there are a limited number of display lists
-         * available, so if you are creating many thousands of {@link DrawableString}s, you will need to call this when
+         * Calling this method is optional, and rarely required. However, there are a limited number of buffers
+         * available, so if you are creating many thousands of {@link DrawableString}s you will need to call this when
          * done with each to prevent the pool from being exhausted before the garbage collector can get around to
          * cleaning them up for you.
          *
