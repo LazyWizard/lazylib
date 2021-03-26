@@ -1,3 +1,27 @@
+ 2.6 (March 26, 2021)
+======================
+Updated to be compatible with Starsector 0.95a
+Updated bundled libraries:
+ - kotlin-stdlib: v1.4.21 -> v1.4.31
+ - kotlinx-coroutines: v1.4.2 -> v1.4.3
+The Javadoc's index is now one single page
+Added org.lazywizard.lazylib.IOUtils:
+ - Contains methods to help with reading/writing files using the API
+ - byte[] readAllBytes(String filePath), an API-safe port of
+   java.nio.Files.readAllBytes()
+Changes to LazyFont.DrawableString:
+ - Added tab support (2x the base vertical height of the text)
+ - Added append(String text)
+ - Added append(String text, Color color)
+ - Added appendIndented(String text, int indent)
+ - Added appendIndented(String text, Color color, int indent)
+ - Added getBlendSrc(), setBlendSrc(int blendSrc), getBlendDest(), and
+   setBlendDest(int blendDest) to control color blending
+Deprecated in LazyFont.DrawableString:
+ - Deprecated all appendText() methods in favor of new append() equivalents.
+   The append() variants take any object and return the DrawableString so that
+   calls can be chained together
+
  2.5c (January 23, 2021)
 =========================
 Changes to LazyFont.DrawableString:

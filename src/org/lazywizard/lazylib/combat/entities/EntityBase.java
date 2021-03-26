@@ -6,6 +6,8 @@ import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.ShieldAPI;
 import org.lwjgl.util.vector.Vector2f;
 
+import java.util.Map;
+
 /**
  * Contains basic implementations of {@link CombatEntityAPI}'s methods to avoid
  * clutter in {@link SimpleEntity} and {@link AnchoredEntity}.
@@ -185,6 +187,41 @@ class EntityBase implements CombatEntityAPI
      */
     @Override
     public Object getAI()
+    {
+        return null;
+    }
+
+    /**
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
+     */
+    @Override
+    public boolean isExpired()
+    {
+        return false;
+    }
+
+    /**
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
+     */
+    @Override
+    public void setCustomData(String s, Object o)
+    {
+
+    }
+
+    /**
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
+     */
+    @Override
+    public void removeCustomData(String s)
+    {
+    }
+
+    /**
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
+     */
+    @Override
+    public Map<String, Object> getCustomData()
     {
         return null;
     }

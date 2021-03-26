@@ -1,4 +1,5 @@
 import org.junit.Test;
+import org.lazywizard.lazylib.FastTrig;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 import org.lwjgl.util.vector.Vector2f;
@@ -10,7 +11,7 @@ import static org.lazywizard.lazylib.MathUtils.*;
 
 // Every test should have two parts: a loop to confirm the consistency of results,
 // and testing return values with known arguments to check the method's correctness
-public class MathTests
+public class MathUtilsTests
 {
     private static final int NUM_TESTS = 1_200_000;
 
@@ -37,6 +38,14 @@ public class MathTests
 
         assertEquals(getDistance(new Vector2f(0f, 0f),
                 new Vector2f(50f, 0f)), 50f, 0f);
+        assertEquals(getDistance(new Vector2f(0f, 0f),
+                new Vector2f(0f, 50f)), 50f, 0f);
+        assertEquals(getDistance(new Vector2f(0f, 0f),
+                new Vector2f(-50f, 0f)), 50f, 0f);
+        assertEquals(getDistance(new Vector2f(0f, 0f),
+                new Vector2f(0f, -50f)), 50f, 0f);
+        assertEquals(getDistance(new Vector2f(0f, 0f),
+                new Vector2f(50f, 50f)), 70.7106f, 0.0001f);
     }
 
     @Test
@@ -61,7 +70,15 @@ public class MathTests
         }
 
         assertEquals(getDistanceSquared(new Vector2f(0f, 0f),
-                new Vector2f(50f, 0f)), 50f * 50f, 0f);
+                new Vector2f(50f, 0f)), 2_500f, 0f);
+        assertEquals(getDistanceSquared(new Vector2f(0f, 0f),
+                new Vector2f(0f, 50f)), 2_500f, 0f);
+        assertEquals(getDistanceSquared(new Vector2f(0f, 0f),
+                new Vector2f(-50f, 0f)), 2_500f, 0f);
+        assertEquals(getDistanceSquared(new Vector2f(0f, 0f),
+                new Vector2f(0f, -50f)), 2_500f, 0f);
+        assertEquals(getDistanceSquared(new Vector2f(0f, 0f),
+                new Vector2f(50f, 50f)), 5_000f, 0f);
     }
 
     @Test
@@ -120,7 +137,15 @@ public class MathTests
                     Math.abs(rotation) <= 180f);
         }
 
-        //TODO: test return value with known arguments
+        // Test return value with known arguments
+        assertEquals(getShortestRotation(90f, 180f), 90f, 0f);
+        assertEquals(getShortestRotation(180f, 90f), -90f, 0f);
+        assertEquals(getShortestRotation(0f, 179f), 179f, 0f);
+        assertEquals(getShortestRotation(0f, 181f), -179f, 0.01f);
+        assertEquals(getShortestRotation(0f, 360f), 0f, 0f);
+        assertEquals(getShortestRotation(60f, 120f), 60f, 0f);
+        assertEquals(getShortestRotation(120f, 60f), -60f, 0f);
+        assertEquals(Math.abs(getShortestRotation(300f, 120f)), 180f, 0.001f);
     }
 
     //@Test
@@ -132,19 +157,25 @@ public class MathTests
     @Test
     public void testGetPoint()
     {
+        // Generate random points and check that they return the correct positions
         for (int i = 0; i < NUM_TESTS; i++)
         {
             final Vector2f origin = getRandomPointInCircle(null, 150_000f);
             final float angle = getRandomNumberInRange(0f, 359.9f);
             final Vector2f point = getPoint(origin, 100f, angle);
-            assertEquals(getDistance(point, origin), 100f, 0.01f);
+            assertEquals(getDistanceSquared(point, origin), 10_000f, 2f);
             assertEquals(angle, VectorUtils.getAngleStrict(origin, point), 0.01f);
         }
 
-        // TODO: test return value with known arguments
+        // Test return value with known arguments
+        assertEquals(getPoint(null, 50f, 0f), new Vector2f(50f, 0f));
+        assertEquals(getPoint(null, 50f, 90f), new Vector2f(0f, 50f));
+        assertEquals(getPoint(null, 50f, 180f), new Vector2f(-50f, 0f));
+        assertEquals(getPoint(null, 50f, 270f), new Vector2f(0f, -50f));
+        assertEquals(getPoint(null, 50f, 45f), new Vector2f(35.35534f, 35.35534f));
     }
 
-    //@Test
+    @Test
     public void testGetRandomPointOnLine()
     {
         // TODO
@@ -155,13 +186,12 @@ public class MathTests
     {
         for (int i = 0; i < NUM_TESTS; i++)
         {
-            final Vector2f inCircle = getRandomPointInCircle(null, 500f);
-            final Vector2f notInCircle = getRandomPointOnCircumference(null, 501f);
-            assertTrue(isPointWithinCircle(inCircle, null, 500f));
-            assertFalse(isPointWithinCircle(notInCircle, null, 500f));
+            final Vector2f origin = getRandomPointInCircle(null, 1_500f),
+                    inCircle = getRandomPointInCircle(origin, 499.999f),
+                    notInCircle = getRandomPointOnCircumference(origin, 500.001f);
+            assertTrue(isPointWithinCircle(inCircle, origin, 500f));
+            assertFalse(isPointWithinCircle(notInCircle, origin, 500f));
         }
-
-        // TODO: test return value with known arguments
     }
 
     //@Test
@@ -191,5 +221,16 @@ public class MathTests
         // Check for even distribution
         assertEquals(totalF / NUM_TESTS, 0f, 0.01f);
         assertEquals(totalI / NUM_TESTS, 0);
+    }
+
+    @Test
+    public void testFastTrig()
+    {
+        for (int i = 0; i < NUM_TESTS; i++)
+        {
+            final double rads = Math.toRadians(getRandomNumberInRange(-360f, 360f));
+            assertEquals(Math.cos(rads), FastTrig.cos(rads), 0.001f);
+            assertEquals(Math.sin(rads), FastTrig.sin(rads), 0.001f);
+        }
     }
 }

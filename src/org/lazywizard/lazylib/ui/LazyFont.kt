@@ -181,7 +181,7 @@ class LazyFont private constructor(
     override fun toString() = "$fontName (texture id: $textureId)"
 
     private fun calcTabWidth(curWidth: Float, fontSize: Float) =
-        (ceil((curWidth + 0.01f) / (fontSize * 1.5f)) * (fontSize * 1.5f)) - curWidth
+        (ceil((curWidth + 0.001f) / (fontSize * 2f)) * (fontSize * 2f)) - curWidth
 
     fun calcWidth(rawLine: String, fontSize: Float): Float {
         val scaleFactor = fontSize / baseHeight
@@ -318,77 +318,12 @@ class LazyFont private constructor(
         if (text == null || text.isBlank() || maxHeight < fontSize)
             return Vector2f(0f, 0f)
 
-        var lastChar: LazyChar? = null // For kerning purposes
-        val scaleFactor = fontSize / baseHeight
-        var xOffset = 0f
-        var yOffset = 0f
-        var sizeX = 0f
-        var sizeY = fontSize
-        val toDraw = wrapString(text, fontSize, maxWidth, maxHeight)
-
-        glBindTexture(GL_TEXTURE_2D, textureId)
-        glPushAttrib(GL_ALL_ATTRIB_BITS)
-        glEnable(GL_TEXTURE_2D)
-        glEnable(GL_BLEND)
-        glPushMatrix()
-        glTranslatef(x + 0.01f, y + 0.01f, 0f)
-        glBegin(GL_QUADS)
-
-        outer@
-        for (tmp in toDraw) {
-            // Ignore carriage returns and other unsupported whitespace
-            if (tmp.isWhitespace() && tmp != '\n' && tmp != ' ' && tmp != '\t')
-                continue
-
-            // Newline support
-            if (tmp == '\n') {
-                if (-yOffset + fontSize > maxHeight) {
-                    break@outer
-                }
-
-                yOffset -= fontSize
-                sizeY += fontSize
-                sizeX = max(sizeX, xOffset)
-                xOffset = 0f
-                lastChar = null
-                continue@outer
-            }
-
-            // Tab support
-            if (tmp == '\t') {
-                xOffset += calcTabWidth(xOffset, fontSize)
-                lastChar = null
-                continue@outer
-            }
-
-            val ch = getChar(tmp)
-            val kerning = if (lastChar == null) 0f else ch.getKerning(lastChar.id) * scaleFactor
-            val advance = kerning + ch.advance * scaleFactor
-            val chWidth = ch.width * scaleFactor
-            val chHeight = ch.height * scaleFactor
-
-            val localX = xOffset + kerning + ch.xOffset * scaleFactor
-            val localY = yOffset - ch.yOffset * scaleFactor
-
-            glTexCoord2f(ch.tx1, ch.ty1)
-            glVertex2f(localX, localY)
-            glTexCoord2f(ch.tx1, ch.ty2)
-            glVertex2f(localX, localY - chHeight)
-            glTexCoord2f(ch.tx2, ch.ty2)
-            glVertex2f(localX + chWidth, localY - chHeight)
-            glTexCoord2f(ch.tx2, ch.ty1)
-            glVertex2f(localX + chWidth, localY)
-
-            xOffset += advance
-            lastChar = ch
+        with(createText(text, Color.WHITE, fontSize, maxWidth, maxHeight)) {
+            val size = Vector2f(width, height)
+            draw(x, y)
+            dispose()
+            return size
         }
-
-        glEnd()
-        glPopMatrix()
-        glPopAttrib()
-
-        sizeX = max(sizeX, xOffset)
-        return Vector2f(sizeX, sizeY)
     }
 
     @JvmOverloads
@@ -501,35 +436,43 @@ class LazyFont private constructor(
             return this
         }
 
-        fun append(text: Any, indent: Int): DrawableString =
+        fun appendIndented(text: Any, indent: Int): DrawableString =
             append(wrapString(text.toString(), fontSize, maxWidth, maxHeight, indent))
 
-        fun append(text: Any, color: Color, indent: Int): DrawableString =
+        fun appendIndented(text: Any, color: Color, indent: Int): DrawableString =
             append(wrapString(text.toString(), fontSize, maxWidth, maxHeight, indent), color)
 
         //<editor-fold defaultstate="collapsed" desc="Deprecated appendText() functions">
-        @Deprecated("Use append() instead", ReplaceWith("append(text)"), DeprecationLevel.WARNING)
+        @Deprecated("Use append() instead", ReplaceWith("append(text)"), DeprecationLevel.HIDDEN)
         fun appendText(text: String) {
             LazyLib.onDeprecatedMethodUsage()
             append(text)
         }
 
-        @Deprecated("Use append() instead", ReplaceWith("append(text, color)"), DeprecationLevel.WARNING)
+        @Deprecated("Use append() instead", ReplaceWith("append(text, color)"), DeprecationLevel.HIDDEN)
         fun appendText(text: String, color: Color) {
             LazyLib.onDeprecatedMethodUsage()
             append(text, color)
         }
 
-        @Deprecated("Use append() instead", ReplaceWith("append(text, indent)"), DeprecationLevel.WARNING)
+        @Deprecated(
+            "Use appendIndented() instead",
+            ReplaceWith("appendIndented(text, indent)"),
+            DeprecationLevel.HIDDEN
+        )
         fun appendText(text: String, indent: Int) {
             LazyLib.onDeprecatedMethodUsage()
-            append(text, indent)
+            appendIndented(text, indent)
         }
 
-        @Deprecated("Use append() instead", ReplaceWith("append(text, color, indent)"), DeprecationLevel.WARNING)
+        @Deprecated(
+            "Use appendIndented() instead",
+            ReplaceWith("appendIndented(text, color, indent)"),
+            DeprecationLevel.HIDDEN
+        )
         fun appendText(text: String, color: Color, indent: Int) {
             LazyLib.onDeprecatedMethodUsage()
-            append(wrapString(text, fontSize, maxWidth, maxHeight, indent), color)
+            appendIndented(text, color, indent)
         }
         //</editor-fold>
 
@@ -626,7 +569,7 @@ class LazyFont private constructor(
                 colLen++
             }
 
-            // Send vertex, texture coordinate and color data to GPU
+            // Send vertex, texture coordinate and color data (if any) to GPU
             buffer.flip()
             glBindBuffer(GL_ARRAY_BUFFER, bufferId)
             glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW)

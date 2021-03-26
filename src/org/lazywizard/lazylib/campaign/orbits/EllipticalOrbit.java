@@ -185,4 +185,10 @@ public class EllipticalOrbit implements OrbitAPI
     {
         return orbitSpeed * 360f;
     }
+
+    @Override
+    public void updateLocation()
+    {
+
+    }
 }

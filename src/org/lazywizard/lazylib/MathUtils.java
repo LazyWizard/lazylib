@@ -319,7 +319,7 @@ public class MathUtils
      */
     public static float clampAngle(float angle)
     {
-        if ((angle < -360) || (angle > 360))
+        if ((angle < -360) || (angle >= 360))
         {
             angle %= 360;
         }
@@ -463,7 +463,7 @@ public class MathUtils
      * @param radius The radius of the circle.
      * @param angle  The angle, in degrees, to get the point at.
      *
-     * @return A {@link Vector2f} at [@code angle} degrees along the
+     * @return A {@link Vector2f} at {@code angle} degrees along the
      *         circumference of the given circle.
      *
      * @see MathUtils#getPointOnCircumference(Vector2f, float, float)
