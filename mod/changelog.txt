@@ -1,3 +1,10 @@
+ 2.7 (Blah Blah Blah)
+======================
+Updated bundled libraries:
+ - kotlin-stdlib: v1.4.31 -> v1.5.30
+ - kotlinx-coroutines: v1.4.3 -> v1.5.2
+ - jetbrains-annotations: v20.1.0 -> 22.0.0
+
  2.6 (March 26, 2021)
 ======================
 Updated to be compatible with Starsector 0.95a

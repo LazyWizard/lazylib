@@ -12,7 +12,7 @@
     <orderEntry type="library" name="Console Commands" level="application" />
     <orderEntry type="module" module-name="LazyLib" />
     <orderEntry type="module" module-name="LazyLib-Extensions" />
-    <orderEntry type="library" name="org.jetbrains:annotations:20.1.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="junit:junit:4.13.1" level="application" />
+    <orderEntry type="library" name="org.jetbrains:annotations:22.0.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="junit:junit:4.13.2" level="application" />
   </component>
 </module>

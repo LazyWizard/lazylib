@@ -169,12 +169,12 @@ class LazyFont private constructor(
 
     fun getChar(character: Char): LazyChar {
         val ch: LazyChar? =
-            if (character.toInt() in 32..255) lookupTable[character.toInt() - 32] else extendedChars[character]
+            if (character.code in 32..255) lookupTable[character.code - 32] else extendedChars[character]
         if (ch != null) return ch
 
         // If the character isn't in the defined set, return a question mark (or a
         // blank space if the font doesn't define a question mark, either)
-        Log.warn("Character '$character' is not defined in font data")
+        if (!character.isWhitespace()) Log.warn("Character '$character' is not defined in font data")
         return if (character == '?') getChar(' ') else getChar('?')
     }
 
@@ -353,11 +353,11 @@ class LazyFont private constructor(
         }
 
         fun setKerning(otherChar: Char, kerning: Int) {
-            kernings[otherChar.toInt()] = kerning
+            kernings[otherChar.code] = kerning
         }
 
         fun getKerning(otherChar: Char): Int {
-            return kernings.getOrElse(otherChar.toInt()) { 0 }
+            return kernings.getOrElse(otherChar.code) { 0 }
         }
 
         override fun toString() = id.toChar().toString()

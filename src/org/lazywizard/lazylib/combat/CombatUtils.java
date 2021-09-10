@@ -379,6 +379,7 @@ public class CombatUtils
     {
         // Create the ship, set its stats and spawn it on the combat map
         FleetMemberAPI member = Global.getFactory().createFleetMember(type, variantId);
+        member.setOwner(side.ordinal());
         member.getCrewComposition().addCrew(member.getNeededCrew());
         ShipAPI ship = Global.getCombatEngine().getFleetManager(side)
                 .spawnFleetMember(member, location, facing, 0f);
