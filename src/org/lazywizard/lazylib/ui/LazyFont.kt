@@ -161,8 +161,8 @@ class LazyFont private constructor(
         }
     }
 
-    object MemoryHandler {
-        private val toClean = Collections.synchronizedList<Int>(ArrayList<Int>())
+    private object MemoryHandler {
+        private val toClean = Collections.synchronizedList(ArrayList<Int>())
 
         fun registerForRemoval(id: Int) {
             Log.debug("Marked DrawableString $id for removal")
@@ -170,9 +170,9 @@ class LazyFont private constructor(
         }
 
         fun checkClean() {
-            if (!toClean.isEmpty()) {
+            if (toClean.isNotEmpty()) {
                 for (id in toClean) {
-                    Log.debug("Deleting buffer $id")
+                    Log.debug("Deleting buffer $id automatically")
                     glDeleteBuffers(id)
                 }
 
@@ -341,7 +341,7 @@ class LazyFont private constructor(
         with(createText(text, Color.WHITE, fontSize, maxWidth, maxHeight)) {
             val size = Vector2f(width, height)
             draw(x, y)
-            //dispose()
+            dispose()
             return size
         }
     }
@@ -384,7 +384,7 @@ class LazyFont private constructor(
     }
 
     // FIXME: wrapped strings with a hyphen will offset colored substrings by one
-    inner class DrawableString(text: String, fontSize: Float, maxWidth: Float, maxHeight: Float, color: Color) {
+    inner class DrawableString(text: String, fontSize: Float, maxWidth: Float, maxHeight: Float, baseColor: Color) {
         private val sb: StringBuilder = StringBuilder(text)
         private val substringColorData = HashMap<Int, FloatArray>()
         private val bufferId = glGenBuffers()
@@ -443,11 +443,9 @@ class LazyFont private constructor(
             }
 
         init {
-            MemoryHandler.checkClean()
-            // TODO: Port sun.misc.Cleaner class to LazyLib before release so this works with newer JREs
             // TODO: Switch to java.lang.ref.Cleaner if Starsector's JRE is ever upgraded
-            sun.misc.Cleaner.create(this, CleanupMemory(bufferId))
-            Log.debug("Registered buffer $bufferId for cleanup")
+            MemoryHandler.checkClean()
+            Log.debug("Buffer $bufferId created")
         }
 
         fun append(text: Any): DrawableString {
@@ -675,17 +673,20 @@ class LazyFont private constructor(
         fun drawAtAngle(location: Vector2f, angle: Float) = drawInternal(location.x, location.y, angle)
 
         // TODO: Add to changelog
-        @Deprecated("Manual disposal of OpenGL resources is no longer necessary", ReplaceWith(""), DeprecationLevel.HIDDEN)
         fun dispose() {
+            if (!isDisposed) {
+                Log.debug("Deleting buffer $bufferId manually")
+                glDeleteBuffers(bufferId)
+            }
+            isDisposed = true
+        }
+
+        @Suppress("ProtectedInFinal")
+        protected fun finalize() {
+            if (!isDisposed) MemoryHandler.registerForRemoval(bufferId)
         }
 
         override fun toString() = sb.toString()
-    }
-}
-
-internal class CleanupMemory(val id: Int) : Runnable {
-    override fun run() {
-        LazyFont.MemoryHandler.registerForRemoval(id)
     }
 }
 

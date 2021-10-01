@@ -2,6 +2,7 @@ package org.lazywizard.lazylib;
 
 import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
+import kotlin.KotlinVersion;
 import org.apache.log4j.Level;
 import org.json.JSONObject;
 import org.lazywizard.lazylib.campaign.CampaignUtils;
@@ -87,7 +88,9 @@ public class LazyLib extends BaseModPlugin
      */
     public static String getInfo()
     {
-        return "LazyLib v" + libVersion + ", built for Starsector " + gameVersion;
+        return "LazyLib v" + libVersion +
+                " with Kotlin v" + KotlinVersion.CURRENT +
+                ", built for Starsector " + gameVersion;
     }
 
     /**
@@ -142,6 +145,8 @@ public class LazyLib extends BaseModPlugin
         Global.getLogger(DrawUtils.class).setLevel(level);
         // org.lazywizard.lazylib.ui
         Global.getLogger(LazyFont.class).setLevel(level);
+        Global.getLogger(LazyFont.DrawableString.class).setLevel(level);
+        Global.getLogger(LazyFont.FontLoader.class).setLevel(level);
 
         logLevel = level;
     }
