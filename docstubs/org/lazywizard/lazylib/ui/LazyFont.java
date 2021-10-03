@@ -139,8 +139,8 @@ public class LazyFont
      *                  width.
      * @param maxHeight The max height of the text area. Text beyond this will be discarded.
      * @param indent    The number of empty spaces at the start of each line. Used by {@link
-     *                  DrawableString#appendText(String, int)} and {@link
-     *                  DrawableString#appendText(String, Color, int)}.
+     *                  DrawableString#appendIndented(String, int)} and {@link
+     *                  DrawableString#appendIndented(String, Color, int)}.
      *
      * @return {@code toWrap}, wrapped to fit within the area specified by {@code maxWidth} and {@code maxHeight}.
      *
@@ -656,7 +656,7 @@ public class LazyFont
         /**
          * Returns the default color of drawn text.
          *
-         * @return The color text will be drawn as if not overridden in {@link #append(string, color)}.
+         * @return The color text will be drawn as if not overridden in {@link #append(String, Color)}.
          *
          * @since 2.7
          */
@@ -668,7 +668,7 @@ public class LazyFont
         /**
          * Sets the default color of drawn text.
          *
-         * @param color The color text will be drawn as if not overridden in {@link #append(string, color)}.
+         * @param color The color text will be drawn as if not overridden in {@link #append(String, Color)}.
          *
          * @since 2.7
          */
@@ -682,7 +682,7 @@ public class LazyFont
          * when rendering this block of text. If you don't know what this means,
          * you can ignore it. The defaults are fine in most situations.
          *
-         * @return The blend destination factor, by default {@link GL11.GL_ONE_MINUS_SRC_ALPHA}.
+         * @return The blend destination factor, by default {@link GL11#GL_ONE_MINUS_SRC_ALPHA}.
          *
          * @since 2.6
          */
@@ -697,6 +697,8 @@ public class LazyFont
          * when rendering this block of text. If you don't know what this means,
          * you can ignore it. The defaults are fine in most situations.
          *
+         * @param blendDest The blend destination factor to use when drawing text.
+         *
          * @since 2.6
          */
         public void setBlendDest(int blendDest)
@@ -709,7 +711,7 @@ public class LazyFont
          * when rendering this block of text. If you don't know what this means,
          * you can ignore it. The defaults are fine in most situations.
          *
-         * @return The blend source factor, by default {@link GL11.GL_ONE}.
+         * @return The blend source factor, by default {@link GL11#GL_ONE}.
          *
          * @since 2.6
          */
@@ -723,6 +725,8 @@ public class LazyFont
          * <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBlendFunc.xhtml">glBlendFunc()</a>
          * when rendering this block of text. If you don't know what this means,
          * you can ignore it. The defaults are fine in most situations.
+         *
+         * @param blendSrc The blend source factor to use when drawing text.
          *
          * @since 2.6
          */
@@ -840,6 +844,8 @@ public class LazyFont
          * @param color The color this substring of text should appear as. Existing text, as well as following append
          *              calls, will use their own color.
          *
+         * @return This {@link DrawableString}, for easier chaining of append calls.
+         *
          * @since 2.6
          */
         public DrawableString append(String text, Color color)
@@ -856,10 +862,13 @@ public class LazyFont
          * @param text   The text to add to the {@link DrawableString}.
          * @param indent All lines will be prepended with this number of blank spaces.
          *
+         * @return This {@link DrawableString}, for easier chaining of append calls.
+         *
          * @since 2.6
          */
-        public void appendIndented(String text, int indent)
+        public DrawableString appendIndented(String text, int indent)
         {
+            return null;
         }
 
         /**
@@ -875,10 +884,13 @@ public class LazyFont
          * @param color  The color this substring of text should appear as. Existing text, as well as following append
          *               calls, will use their own color.
          *
+         * @return This {@link DrawableString}, for easier chaining of append calls.
+         *
          * @since 2.6
          */
-        public void appendIndented(String text, Color color, int indent)
+        public DrawableString appendIndented(String text, Color color, int indent)
         {
+            return null;
         }
 
         /**
