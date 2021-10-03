@@ -48,7 +48,7 @@ class LazyFont private constructor(
         @Throws(FontException::class)
         fun loadFont(fontPath: String): LazyFont {
             val canonPath = URI(fontPath).normalize().path
-            Log.debug("\n\nConverted font path: $fontPath -> $canonPath\n\n")
+            if (!canonPath.equals(fontPath)) Log.debug("Converted font path: $fontPath -> $canonPath")
             if (fontCache.contains(canonPath)) return fontCache.getValue(canonPath)
 
             // Load the font file contents for later parsing
@@ -132,7 +132,7 @@ class LazyFont private constructor(
                         yOffset = Integer.parseInt(charData[14]),
                         advance = Integer.parseInt(charData[16]) + 1
                         //page = Integer.parseInt(data[18]),
-                        // channel = Integer.parseInt(data[20]));
+                        //channel = Integer.parseInt(data[20]));
                     )
                 }
 
@@ -161,14 +161,17 @@ class LazyFont private constructor(
         }
     }
 
+    // Needed because GPU buffer cleanup must happen in the main thread
     private object MemoryHandler {
         private val toClean = Collections.synchronizedList(ArrayList<Int>())
 
+        // Called by the garbage collection thread when collected
         fun registerForRemoval(id: Int) {
             Log.debug("Marked DrawableString $id for removal")
             toClean.add(id)
         }
 
+        // Called by the main thread periodically
         fun checkClean() {
             if (toClean.isNotEmpty()) {
                 for (id in toClean) {
@@ -348,9 +351,9 @@ class LazyFont private constructor(
 
     @JvmOverloads
     fun createText(
-        text: String = "", color: Color = Color.WHITE, size: Float = baseHeight, maxWidth: Float = Float.MAX_VALUE,
+        text: String = "", baseColor: Color = Color.WHITE, size: Float = baseHeight, maxWidth: Float = Float.MAX_VALUE,
         maxHeight: Float = Float.MAX_VALUE
-    ): DrawableString = DrawableString(text, size, maxWidth, maxHeight, color)
+    ): DrawableString = DrawableString(text, size, maxWidth, maxHeight, baseColor)
 
     inner class LazyChar(
         val id: Int, tx: Int, ty: Int, val width: Int, val height: Int,
@@ -383,28 +386,30 @@ class LazyFont private constructor(
         override fun toString() = id.toChar().toString()
     }
 
-    // FIXME: wrapped strings with a hyphen will offset colored substrings by one
+    // FIXME: Wrapped strings with a hyphen will offset colored substrings by one
+    // TODO: Add anchor variable to control relative position of drawn text (TOP, LEFT, CENTER, BOTTOM, RIGHT, and combinations thereof)
     inner class DrawableString(text: String, fontSize: Float, maxWidth: Float, maxHeight: Float, baseColor: Color) {
         private val sb: StringBuilder = StringBuilder(text)
         private val substringColorData = HashMap<Int, FloatArray>()
         private val bufferId = glGenBuffers()
         private var len = 0
-        private var needsRebuild = true
         val font: LazyFont get() = this@LazyFont
         var renderDebugBounds = false
         var blendSrc = GL_ONE // TODO: Add to Javadoc
         var blendDest = GL_ONE_MINUS_SRC_ALPHA // TODO: Add to Javadoc
+        var isRebuildNeeded = true
+            private set
         var isDisposed = false
             private set
         var width: Float = 0f
             get() {
-                checkRebuild()
+                triggerRebuildIfNeeded()
                 return field
             }
             private set
         var height: Float = 0f
             get() {
-                checkRebuild()
+                triggerRebuildIfNeeded()
                 return field
             }
             private set
@@ -412,21 +417,21 @@ class LazyFont private constructor(
             set(value) {
                 if (value != field) {
                     field = value
-                    needsRebuild = true
+                    isRebuildNeeded = true
                 }
             }
         var maxWidth: Float = maxWidth
             set(value) {
                 if (value != field) {
                     field = value
-                    needsRebuild = true
+                    isRebuildNeeded = true
                 }
             }
         var maxHeight: Float = maxHeight
             set(value) {
                 if (value != field) {
                     field = value
-                    needsRebuild = true
+                    isRebuildNeeded = true
                 }
             }
         var text: String
@@ -436,10 +441,24 @@ class LazyFont private constructor(
                 substringColorData.clear()
                 append(value)
             }
-        var color: Color = color
+        var baseColor: Color = baseColor
             set(value) {
                 field = value
-                if (substringColorData.isNotEmpty()) needsRebuild = true
+                if (substringColorData.isNotEmpty()) isRebuildNeeded = true
+            }
+
+        // TODO: Remove deprecated method after next Starsector update
+        @Deprecated("Use baseColor instead", level = DeprecationLevel.HIDDEN)
+        var color: Color
+            @Deprecated("Use baseColor instead", level = DeprecationLevel.HIDDEN)
+            set(value) {
+                LazyLib.onDeprecatedMethodUsage()
+                baseColor = value
+            }
+            @Deprecated("Use baseColor instead", level = DeprecationLevel.HIDDEN)
+            get() {
+                LazyLib.onDeprecatedMethodUsage()
+                return baseColor
             }
 
         init {
@@ -450,7 +469,7 @@ class LazyFont private constructor(
 
         fun append(text: Any): DrawableString {
             sb.append(text)
-            needsRebuild = true
+            isRebuildNeeded = true
             return this
         }
 
@@ -458,7 +477,7 @@ class LazyFont private constructor(
         fun append(text: Any, color: Color): DrawableString {
             substringColorData[sb.length] = color.getRGBComponents(null)
             append(text)
-            substringColorData[sb.length] = this.color.getRGBComponents(null)
+            substringColorData[sb.length] = this.baseColor.getRGBComponents(null)
             return this
         }
 
@@ -504,14 +523,21 @@ class LazyFont private constructor(
 
         // TODO: add to changelog and javadoc
         // TODO: Include warning about using this before calling getHeight/getWidth in rendering code on a fresh DrawableString
-        fun checkRebuild(): Boolean {
+        @Deprecated(
+            "Use triggerRebuildIfNeeded() instead",
+            ReplaceWith("triggerRebuildIfNeeded()"),
+            DeprecationLevel.WARNING
+        )
+        fun checkRebuild(): Boolean = triggerRebuildIfNeeded()
+
+        fun triggerRebuildIfNeeded(): Boolean {
             if (isDisposed) throw RuntimeException("Tried to draw using a disposed of DrawableString!")
-            if (!needsRebuild) return false
+            if (!isRebuildNeeded) return false
 
             width = 0f
             height = 0f
             if (text.isBlank() || maxHeight < fontSize) {
-                needsRebuild = false
+                isRebuildNeeded = false
                 return true
             }
 
@@ -532,7 +558,7 @@ class LazyFont private constructor(
 
             len = 0 // Length ignoring whitespace; used for vertex data
             var colLen = 0 // Length including whitespace; used for coloring substrings
-            var colorBytes = color.getRGBComponents(null)
+            var colorBytes = baseColor.getRGBComponents(null)
 
             outer@
             for (char in toDraw) {
@@ -557,7 +583,6 @@ class LazyFont private constructor(
 
                 // Tab support
                 if (char == '\t') {
-                    val oldOffset = xOffset
                     xOffset += calcTabWidth(xOffset, fontSize)
                     continue@outer
                 }
@@ -606,12 +631,12 @@ class LazyFont private constructor(
             sizeX = max(sizeX, xOffset)
             width = sizeX
             height = sizeY
-            needsRebuild = false
+            isRebuildNeeded = false
             return true
         }
 
         private fun drawInternal(x: Float, y: Float, angle: Float = 0f) {
-            checkRebuild()
+            triggerRebuildIfNeeded()
 
             val useColorData = substringColorData.isNotEmpty()
 
@@ -634,7 +659,7 @@ class LazyFont private constructor(
                 glVertexPointer(2, GL_FLOAT, 32, 8)
                 glColorPointer(4, GL_FLOAT, 32, 16)
             } else {
-                glColor(color)
+                glColor(baseColor)
                 glTexCoordPointer(2, GL_FLOAT, 16, 0)
                 glVertexPointer(2, GL_FLOAT, 16, 8)
             }
@@ -650,7 +675,7 @@ class LazyFont private constructor(
             if (renderDebugBounds) {
                 glDisable(GL_TEXTURE_2D)
                 glLineWidth(1f)
-                glColor(color, 0.3f)
+                glColor(baseColor, 0.3f)
                 glBegin(GL_LINE_LOOP)
                 glVertex2f(0f, 0f)
                 glVertex2f(width, 0f)

@@ -1,4 +1,6 @@
 out/
+.idea/discord.xml
+.idea/uiDesigner.xml
 .scannerwork/
 *.lnk
 /docs/javadoc.zip
