@@ -1,9 +1,20 @@
  2.7 (Blah Blah Blah)
 ======================
 Updated bundled libraries:
- - kotlin-stdlib: v1.4.31 -> v1.5.30
+ - kotlin-stdlib: v1.4.31 -> v1.5.31
  - kotlinx-coroutines: v1.4.3 -> v1.5.2
  - jetbrains-annotations: v20.1.0 -> 22.0.0
+Changes to LazyFont.DrawableString:
+ - Fixed minor memory leak when dispose() is not called before GC
+ - Added setBaseColor() and getBaseColor() (replace setColor()/getColor())
+ - Added isRebuildNeeded() and triggerRebuildIfNeeded() (unnecessary 99% of
+   the time as rebuilding happens automatically, but useful in fringe cases)
+ - Cleaned up some out-of-date documentation
+Deprecated in LazyFont.DrawableString:
+ - Deprecated setColor() and getColor(), as users were assuming they set the
+   color of the next append. Added setBaseColor() and getBaseColor() as
+   replacements that better convey what these methods do (set/get the color of
+   all text that _doesn't_ have a color argument passed in)
 
  2.6 (March 26, 2021)
 ======================

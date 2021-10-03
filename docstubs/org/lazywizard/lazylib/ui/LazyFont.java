@@ -2,6 +2,7 @@ package org.lazywizard.lazylib.ui;
 
 import com.fs.starfarer.api.graphics.SpriteAPI;
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 
 import java.awt.Color;
@@ -23,7 +24,7 @@ import java.util.Map;
  * <li>Draw the text where you need it with {@link DrawableString#draw(float, float)} once per frame.</li>
  * <li>That's it! So long as you keep a reference to the {@link DrawableString}, you can re-draw the text
  * extremely efficiently, or edit/append the text at will. Editing the {@link DrawableString} in any way
- * will cause a full rebuild of its internal display list the next time you call
+ * will cause a full rebuild of its GPU-buffered data the next time you call
  * {@link DrawableString#draw(float, float)}, though the performance impact should be minimal even with
  * extremely long text blocks.</li>
  * <li>When finished using the {@link DrawableString}, optionally call {@link DrawableString#dispose()} to ensure
@@ -70,16 +71,20 @@ import java.util.Map;
  *             return;
  *         }
  *
- *         // Create a renderable block of text (in this case, will be yellow with font size 15)
+ *         // Create a renderable block of text
+ *         // In this case, the text will font size 15, and default to yellow text
  *         toDraw = font.createText("This is some sample text.", Color.YELLOW, 15f);
  *
  *         // Enable line wrapping when text reaches 400 pixels wide
  *         toDraw.setMaxWidth(400f);
  *
  *         // If you need to add text to the DrawableString, do so like this:
- *         toDraw.appendText("\nThis is a second line of sample text.");
- *         toDraw.appendText("\nThis is a third line of sample text that shows off the automatic" +
- *                 " word wrapping when a line of text reaches the maximum width you've chosen.");
+ *         toDraw.append("\nThis is a second line of sample text. It will be drawn orange.", Color.ORANGE);
+ *         toDraw.append("\nThis is a third line of sample text that shows off the automatic" +
+ *                 " word wrapping when a line of text reaches the maximum width you've chosen.\n" +
+ *                 "Since this append doesn't have a color attached, it will return to the original yellow.);
+ *         toDraw.append("You can also chain appends,").append(" like this," Color.BLUE)
+ *                 .append(" to make writing text easier.");
  *     }
  *
  *     &#064;Override
@@ -315,7 +320,8 @@ public class LazyFont
      * a max height - any appended text past that limit will be discarded.
      *
      * @param text      The initial text to be drawn. You can modify it later using the returned {@link DrawableString}.
-     * @param color     The color of the drawn text.
+     * @param baseColor The base color of the drawn text (color of appended text that doesn't have its own color
+     *                  argument passed in).
      * @param size      The font size of the drawn text. For best results, this should be evenly divisible by {@link
      *                  LazyFont#getBaseHeight()}. Other values may cause slight blurriness or jaggedness.
      * @param maxWidth  The maximum width of the drawn text before further text will be wrapped to a new line.
@@ -327,7 +333,7 @@ public class LazyFont
      * @since 2.3
      */
     @NotNull
-    public DrawableString createText(String text, Color color, float size, float maxWidth, float maxHeight)
+    public DrawableString createText(String text, Color baseColor, float size, float maxWidth, float maxHeight)
     {
         return null;
     }
@@ -335,11 +341,12 @@ public class LazyFont
     /**
      * Create a {@link DrawableString} with the specified initial text, color, and font size, with text wrapping.
      *
-     * @param text     The initial text to be drawn. You can modify it later using the returned {@link DrawableString}.
-     * @param color    The color of the drawn text.
-     * @param size     The font size of the drawn text. For best results, this should be evenly divisible by {@link
-     *                 LazyFont#getBaseHeight()}. Other values may cause slight blurriness or jaggedness.
-     * @param maxWidth The maximum width of the drawn text before further text will be wrapped to a new line.
+     * @param text      The initial text to be drawn. You can modify it later using the returned {@link DrawableString}.
+     * @param baseColor The base color of the drawn text (color of appended text that doesn't have its own color
+     *                  argument passed in).
+     * @param size      The font size of the drawn text. For best results, this should be evenly divisible by {@link
+     *                  LazyFont#getBaseHeight()}. Other values may cause slight blurriness or jaggedness.
+     * @param maxWidth  The maximum width of the drawn text before further text will be wrapped to a new line.
      *
      * @return A {@link DrawableString} with the specified text, color, and font size, with text wrapping
      *         at {@code maxWidth}.
@@ -348,7 +355,7 @@ public class LazyFont
      * @since 2.3
      */
     @NotNull
-    public DrawableString createText(String text, Color color, float size, float maxWidth)
+    public DrawableString createText(String text, Color baseColor, float size, float maxWidth)
     {
         return null;
     }
@@ -356,10 +363,11 @@ public class LazyFont
     /**
      * Create a {@link DrawableString} with the specified initial text, color, and font size, with no text wrapping.
      *
-     * @param text  The initial text to be drawn. You can modify it later using the returned {@link DrawableString}.
-     * @param color The color of the drawn text.
-     * @param size  The font size of the drawn text. For best results, this should be evenly divisible by {@link
-     *              LazyFont#getBaseHeight()}. Other values may cause slight blurriness or jaggedness.
+     * @param text      The initial text to be drawn. You can modify it later using the returned {@link DrawableString}.
+     * @param baseColor The base color of the drawn text (color of appended text that doesn't have its own color
+     *                  argument passed in).
+     * @param size      The font size of the drawn text. For best results, this should be evenly divisible by {@link
+     *                  LazyFont#getBaseHeight()}. Other values may cause slight blurriness or jaggedness.
      *
      * @return A {@link DrawableString} with the specified text, color, and font size, with no text wrapping.
      *
@@ -367,7 +375,7 @@ public class LazyFont
      * @since 2.3
      */
     @NotNull
-    public DrawableString createText(String text, Color color, float size)
+    public DrawableString createText(String text, Color baseColor, float size)
     {
         return null;
     }
@@ -376,8 +384,9 @@ public class LazyFont
      * Create a {@link DrawableString} with the specified initial text and color. Defaults to the base
      * font size, and no text wrapping.
      *
-     * @param text  The initial text to be drawn. You can modify it later using the returned {@link DrawableString}.
-     * @param color The color of the drawn text.
+     * @param text      The initial text to be drawn. You can modify it later using the returned {@link DrawableString}.
+     * @param baseColor The base color of the drawn text (color of appended text that doesn't have its own color
+     *                  argument passed in).
      *
      * @return A {@link DrawableString} with the specified text and color, the base font size, and no text wrapping.
      *
@@ -385,7 +394,7 @@ public class LazyFont
      * @since 2.3
      */
     @NotNull
-    public DrawableString createText(String text, Color color)
+    public DrawableString createText(String text, Color baseColor)
     {
         return null;
     }
@@ -645,28 +654,130 @@ public class LazyFont
         }
 
         /**
-         * Returns the current color text will be drawn as.
+         * Returns the default color of drawn text.
          *
-         * @return The color text will be drawn as.
+         * @return The color text will be drawn as if not overridden in {@link #append(string, color)}.
          *
-         * @since 2.3
+         * @since 2.7
          */
-        public Color getColor()
+        public Color getBaseColor()
         {
             return null;
         }
 
         /**
-         * Sets the color text will be drawn as.
-         * <p>
-         * Unlike most setX() methods in this class, calling this will <i>not</i> trigger a rebuild of the entire {@link
-         * DrawableString}.
+         * Sets the default color of drawn text.
          *
-         * @param color The color to draw the text as.
+         * @param color The color text will be drawn as if not overridden in {@link #append(string, color)}.
          *
-         * @since 2.3
+         * @since 2.7
          */
-        public void setColor(Color color)
+        public void setBaseColor(Color color)
+        {
+        }
+
+        /**
+         * Returns the blend destination factor used by
+         * <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBlendFunc.xhtml">glBlendFunc()</a>
+         * when rendering this block of text. If you don't know what this means,
+         * you can ignore it. The defaults are fine in most situations.
+         *
+         * @return The blend destination factor, by default {@link GL11.GL_ONE_MINUS_SRC_ALPHA}.
+         *
+         * @since 2.6
+         */
+        public int getBlendDest()
+        {
+            return 0;
+        }
+
+        /**
+         * Sets the blend destination factor used by
+         * <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBlendFunc.xhtml">glBlendFunc()</a>
+         * when rendering this block of text. If you don't know what this means,
+         * you can ignore it. The defaults are fine in most situations.
+         *
+         * @since 2.6
+         */
+        public void setBlendDest(int blendDest)
+        {
+        }
+
+        /**
+         * Returns the blend source factor used by
+         * <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBlendFunc.xhtml">glBlendFunc()</a>
+         * when rendering this block of text. If you don't know what this means,
+         * you can ignore it. The defaults are fine in most situations.
+         *
+         * @return The blend source factor, by default {@link GL11.GL_ONE}.
+         *
+         * @since 2.6
+         */
+        public int getBlendSrc()
+        {
+            return 0;
+        }
+
+        /**
+         * Sets the blend source factor used by
+         * <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBlendFunc.xhtml">glBlendFunc()</a>
+         * when rendering this block of text. If you don't know what this means,
+         * you can ignore it. The defaults are fine in most situations.
+         *
+         * @since 2.6
+         */
+        public void setBlendSrc(int blendSrc)
+        {
+        }
+
+        /**
+         * Returns whether bounds drawing is enabled. Used to visually show the size of a block of text for
+         * debugging/placement/resizing purposes.
+         *
+         * @return {@code true} if bounds rendering is enabled, {@code false} otherwise.
+         *
+         * @since 2.6
+         */
+        public boolean getRenderDebugBounds()
+        {
+            return false;
+        }
+
+        /**
+         * Sets whether bounds drawing is enabled. Used to visually show the size of a block of text for
+         * debugging/placement/resizing purposes.
+         *
+         * @param renderDebugBounds Whether to enable bounds drawing.
+         *
+         * @since 2.6
+         */
+        public void setRenderDebugBounds(boolean renderDebugBounds)
+        {
+        }
+
+        /**
+         * Returns whether a method has been performed since the last draw call that will trigger a rebuild. Most users
+         * will never need to call this.
+         *
+         * @return {code true} if the next draw call will trigger a rebuild, {@code false} otherwise.
+         *
+         * @since 2.7
+         */
+        public boolean isRebuildNeeded()
+        {
+            return false;
+        }
+
+        /**
+         * Triggers a rebuild of the native GPU buffers if needed. The only time this is necessary is if you're calling
+         * {@link #getWidth()} or {@link #getHeight()} between {@link GL11#glBegin(int)} and {@link GL11#glEnd()} on a
+         * {@link DrawableString} that needs to be rebuilt, as those methods trigger a rebuild which will fail if called
+         * inside those two methods. Calling {@link #triggerRebuildIfNeeded()} before {@link GL11#glBegin(int)} will
+         * solve this problem.
+         *
+         * @since 2.7
+         */
+        public void triggerRebuildIfNeeded()
         {
         }
 
@@ -708,31 +819,36 @@ public class LazyFont
          *
          * @param text The text to add to the {@link DrawableString}.
          *
-         * @since 2.3
+         * @return This {@link DrawableString}, for easier chaining of append calls.
+         *
+         * @since 2.6
          */
-        public void appendText(String text)
+        public DrawableString append(String text)
         {
+            return null;
         }
 
         /**
          * Adds a colored substring to the end of the current text. Only this substring
          * will use the given color, and all further normally appended text will use
-         * the color returned by {@link DrawableString#getColor()}.
+         * the color returned by {@link DrawableString#getBaseColor()}.
          * <p>
          * Changing a {@link DrawableString}'s text will necessitate a full rebuild of its contents the next time you
          * attempt to draw or measure the text.
          *
          * @param text  The text to add to the {@link DrawableString}.
-         * @param color The color this text should appear as.
+         * @param color The color this substring of text should appear as. Existing text, as well as following append
+         *              calls, will use their own color.
          *
-         * @since 2.5c
+         * @since 2.6
          */
-        public void appendText(String text, Color color)
+        public DrawableString append(String text, Color color)
         {
+            return null;
         }
 
         /**
-         * Adds additional text to the end of the current text.
+         * Adds additional text to the end of the current text, with indentation.
          * <p>
          * Changing a {@link DrawableString}'s text will necessitate a full rebuild of its contents the next time you
          * attempt to draw or measure the text.
@@ -740,35 +856,36 @@ public class LazyFont
          * @param text   The text to add to the {@link DrawableString}.
          * @param indent All lines will be prepended with this number of blank spaces.
          *
-         * @since 2.3
+         * @since 2.6
          */
-        public void appendText(String text, int indent)
+        public void appendIndented(String text, int indent)
         {
         }
 
         /**
-         * Adds a colored substring to the end of the current text. Only this substring
-         * will use the given color, and all further normally appended text will use
-         * the color returned by {@link DrawableString#getColor()}.
+         * Adds a colored substring to the end of the current text, with indentation.
+         * Only this substring will use the given color, and all further normally appended
+         * text will use the color returned by {@link DrawableString#getBaseColor()}.
          * <p>
          * Changing a {@link DrawableString}'s text will necessitate a full rebuild of its contents the next time you
          * attempt to draw or measure the text.
          *
          * @param text   The text to add to the {@link DrawableString}.
          * @param indent All lines will be prepended with this number of blank spaces.
-         * @param color  The color this text should appear as.
+         * @param color  The color this substring of text should appear as. Existing text, as well as following append
+         *               calls, will use their own color.
          *
-         * @since 2.5c
+         * @since 2.6
          */
-        public void appendText(String text, Color color, int indent)
+        public void appendIndented(String text, Color color, int indent)
         {
         }
 
         /**
          * Renders the text area at the specified coordinates. This method must be called once per frame.
          * <p>
-         * You can render the same block of text in multiple places. The OpenGL commands are cached in a display list,
-         * so performance should not be an issue (provided the underlying data isn't changed, necessitating a rebuild).
+         * You can render the same block of text in multiple places. The OpenGL data is stored in a buffer on your GPU,
+         * so performance should not be an issue (provided the underlying data hasn't changed, necessitating a rebuild).
          *
          * @param x The X coordinate to draw at.
          * @param y The Y coordinate to draw at.
@@ -782,8 +899,8 @@ public class LazyFont
         /**
          * Renders the text area at the specified coordinates. This method must be called once per frame.
          * <p>
-         * You can render the same block of text in multiple places. The OpenGL commands are cached in a display list,
-         * so performance should not be an issue (provided the underlying data isn't changed, necessitating a rebuild).
+         * You can render the same block of text in multiple places. The OpenGL data is stored in a buffer on your GPU,
+         * so performance should not be an issue (provided the underlying data hasn't changed, necessitating a rebuild).
          *
          * @param location The coordinates to draw at.
          *
@@ -797,8 +914,8 @@ public class LazyFont
          * Renders the text area at the specified coordinates with the specified angle. This method must be called once
          * per frame.
          * <p>
-         * You can render the same block of text in multiple places. The OpenGL commands are cached in a display list,
-         * so performance should not be an issue (provided the underlying data isn't changed, necessitating a rebuild).
+         * You can render the same block of text in multiple places. The OpenGL data is stored in a buffer on your GPU,
+         * so performance should not be an issue (provided the underlying data hasn't changed, necessitating a rebuild).
          *
          * @param x     The X coordinate to draw at.
          * @param y     The Y coordinate to draw at.
@@ -814,8 +931,8 @@ public class LazyFont
          * Renders the text area at the specified coordinates with the specified angle. This method must be called once
          * per frame.
          * <p>
-         * You can render the same block of text in multiple places. The OpenGL commands are cached in a display list,
-         * so performance should not be an issue (provided the underlying data isn't changed, necessitating a rebuild).
+         * You can render the same block of text in multiple places. The OpenGL data is stored in a buffer on your GPU,
+         * so performance should not be an issue (provided the underlying data hasn't changed, necessitating a rebuild).
          *
          * @param location The coordinates to draw at.
          * @param angle    The angle to draw at.
@@ -843,10 +960,9 @@ public class LazyFont
          * Cleans up the underlying OpenGL resources of this {@link DrawableString}. Calling any draw() method after
          * this will cause a {@link RuntimeException}.
          * <p>
-         * Calling this method is optional, and rarely required. However, there are a limited number of buffers
-         * available, so if you are creating many thousands of {@link DrawableString}s you will need to call this when
-         * done with each to prevent the pool from being exhausted before the garbage collector can get around to
-         * cleaning them up for you.
+         * Calling this method is optional. However, there are a limited number of buffers available, so if you are
+         * creating many thousands of {@link DrawableString}s you will need to call this when done with each to prevent
+         * the pool from being exhausted before the garbage collector can get around to cleaning them up for you.
          *
          * @since 2.3
          */

@@ -395,8 +395,8 @@ class LazyFont private constructor(
         private var len = 0
         val font: LazyFont get() = this@LazyFont
         var renderDebugBounds = false
-        var blendSrc = GL_ONE // TODO: Add to Javadoc
-        var blendDest = GL_ONE_MINUS_SRC_ALPHA // TODO: Add to Javadoc
+        var blendSrc = GL_ONE
+        var blendDest = GL_ONE_MINUS_SRC_ALPHA
         var isRebuildNeeded = true
             private set
         var isDisposed = false
@@ -473,7 +473,6 @@ class LazyFont private constructor(
             return this
         }
 
-        // TODO: Add to Javadoc
         fun append(text: Any, color: Color): DrawableString {
             substringColorData[sb.length] = color.getRGBComponents(null)
             append(text)
@@ -521,8 +520,6 @@ class LazyFont private constructor(
         }
         //</editor-fold>
 
-        // TODO: add to changelog and javadoc
-        // TODO: Include warning about using this before calling getHeight/getWidth in rendering code on a fresh DrawableString
         @Deprecated(
             "Use triggerRebuildIfNeeded() instead",
             ReplaceWith("triggerRebuildIfNeeded()"),
@@ -697,7 +694,6 @@ class LazyFont private constructor(
 
         fun drawAtAngle(location: Vector2f, angle: Float) = drawInternal(location.x, location.y, angle)
 
-        // TODO: Add to changelog
         fun dispose() {
             if (!isDisposed) {
                 Log.debug("Deleting buffer $bufferId manually")
