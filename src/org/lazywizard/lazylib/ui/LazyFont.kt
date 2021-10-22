@@ -388,22 +388,22 @@ class LazyFont private constructor(
         override fun toString() = id.toChar().toString()
     }
 
-    // TODO: Javadoc and add to changelog
     enum class TextAnchor {
         TOP_LEFT, TOP_CENTER, TOP_RIGHT,
         CENTER_LEFT, CENTER, CENTER_RIGHT,
         BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT
     }
 
+    enum class TextAlignment { LEFT, CENTER, RIGHT }
+
     // FIXME: Wrapped strings with a hyphen will offset colored substrings by one
-    // TODO: Add anchor variable to control relative position of drawn text (TOP, LEFT, CENTER, BOTTOM, RIGHT, and combinations thereof)
-    // TODO: Add justify variable to control justification of text (LEFT, CENTER, RIGHT)
     inner class DrawableString(text: String, fontSize: Float, maxWidth: Float, maxHeight: Float, baseColor: Color) {
         private val sb: StringBuilder = StringBuilder(text)
         private val substringColorData = HashMap<Int, FloatArray>()
         private val bufferId = glGenBuffers()
         private var len = 0
         val font: LazyFont get() = this@LazyFont
+        var anchor: TextAnchor = TextAnchor.TOP_LEFT
         var renderDebugBounds = false
         var blendSrc = GL_ONE
         var blendDest = GL_ONE_MINUS_SRC_ALPHA
@@ -411,8 +411,13 @@ class LazyFont private constructor(
             private set
         var isDisposed = false
             private set
-        // TODO: Test, Javadoc, and add to changelog
-        var anchor: TextAnchor = TextAnchor.TOP_LEFT
+        var alignment: TextAlignment = TextAlignment.LEFT
+            set(value) {
+                if (value != field) {
+                    field = value
+                    isRebuildNeeded = true
+                }
+            }
         var width: Float = 0f
             get() {
                 triggerRebuildIfNeeded()
@@ -570,15 +575,11 @@ class LazyFont private constructor(
             len = 0 // Length ignoring whitespace; used for vertex data
             var colLen = 0 // Length including whitespace; used for coloring substrings
             var colorBytes = baseColor.getRGBComponents(null)
+            var firstLine = true
 
             outer@
-            for (char in toDraw) {
-                // Ignore carriage returns and other unsupported whitespace
-                if (char.isWhitespace() && char != '\n' && char != ' ' && char != '\t')
-                    continue
-
-                // Newline support
-                if (char == '\n') {
+            for (line in toDraw.split('\n')) {
+                if (!firstLine) {
                     if (-yOffset + fontSize > maxHeight) {
                         break@outer
                     }
@@ -586,49 +587,61 @@ class LazyFont private constructor(
                     yOffset -= fontSize
                     sizeY += fontSize
                     sizeX = max(sizeX, xOffset)
-                    xOffset = 0f
+                    xOffset = when (alignment) {
+                        TextAlignment.LEFT -> 0f
+                        TextAlignment.CENTER -> (maxWidth - calcWidth(line, fontSize)) / 2f
+                        TextAlignment.RIGHT -> maxWidth - calcWidth(line, fontSize)
+                    }
                     lastChar = null
                     colLen++
-                    continue@outer
                 }
 
-                // Tab support
-                if (char == '\t') {
-                    xOffset += calcTabWidth(xOffset, fontSize)
-                    continue@outer
+                firstLine = false
+
+                inner@
+                for (char in line) {
+                    // Ignore carriage returns and other unsupported whitespace
+                    if (char.isWhitespace() && char != '\n' && char != ' ' && char != '\t')
+                        continue@inner
+
+                    // Tab support
+                    if (char == '\t') {
+                        xOffset += calcTabWidth(xOffset, fontSize)
+                        continue@inner
+                    }
+
+                    val ch = getChar(char)
+                    val kerning = if (lastChar == null) 0f else ch.getKerning(lastChar.id) * scaleFactor
+                    val advance = kerning + ch.advance * scaleFactor
+                    val chWidth = ch.width * scaleFactor
+                    val chHeight = ch.height * scaleFactor
+
+                    val localX = xOffset + kerning + ch.xOffset * scaleFactor
+                    val localY = yOffset - ch.yOffset * scaleFactor
+
+                    // Colored substring support
+                    if (useColorData && substringColorData.containsKey(colLen))
+                        colorBytes = substringColorData[colLen]
+
+                    // Individual puts are faster, but lack bounds checking
+                    buffer.put(ch.tx1).put(ch.ty1)
+                    buffer.put(localX).put(localY)
+                    if (useColorData) buffer.put(colorBytes)
+                    buffer.put(ch.tx1).put(ch.ty2)
+                    buffer.put(localX).put(localY - chHeight)
+                    if (useColorData) buffer.put(colorBytes)
+                    buffer.put(ch.tx2).put(ch.ty2)
+                    buffer.put(localX + chWidth).put(localY - chHeight)
+                    if (useColorData) buffer.put(colorBytes)
+                    buffer.put(ch.tx2).put(ch.ty1)
+                    buffer.put(localX + chWidth).put(localY)
+                    if (useColorData) buffer.put(colorBytes)
+
+                    xOffset += advance
+                    lastChar = ch
+                    len++
+                    colLen++
                 }
-
-                val ch = getChar(char)
-                val kerning = if (lastChar == null) 0f else ch.getKerning(lastChar.id) * scaleFactor
-                val advance = kerning + ch.advance * scaleFactor
-                val chWidth = ch.width * scaleFactor
-                val chHeight = ch.height * scaleFactor
-
-                val localX = xOffset + kerning + ch.xOffset * scaleFactor
-                val localY = yOffset - ch.yOffset * scaleFactor
-
-                // Colored substring support
-                if (useColorData && substringColorData.containsKey(colLen))
-                    colorBytes = substringColorData[colLen]
-
-                // Individual puts are faster, but lack bounds checking
-                buffer.put(ch.tx1).put(ch.ty1)
-                buffer.put(localX).put(localY)
-                if (useColorData) buffer.put(colorBytes)
-                buffer.put(ch.tx1).put(ch.ty2)
-                buffer.put(localX).put(localY - chHeight)
-                if (useColorData) buffer.put(colorBytes)
-                buffer.put(ch.tx2).put(ch.ty2)
-                buffer.put(localX + chWidth).put(localY - chHeight)
-                if (useColorData) buffer.put(colorBytes)
-                buffer.put(ch.tx2).put(ch.ty1)
-                buffer.put(localX + chWidth).put(localY)
-                if (useColorData) buffer.put(colorBytes)
-
-                xOffset += advance
-                lastChar = ch
-                len++
-                colLen++
             }
 
             // Send vertex, texture coordinate and color data (if any) to GPU

@@ -578,6 +578,38 @@ public class LazyFont
 
     //</editor-fold>
 
+    //<editor-fold desc="TextAlignment">
+
+    /**
+     * Represents the alignment of text within a {@link DrawableString}'s render area. Text can be left-aligned (the
+     * default), centered, or right-aligned. Anything other than left-aligned requires the {@link DrawableString}'s
+     * maximum width to be set, either through its construction in {@link #createText()} or by calling {@link
+     * DrawableString#setMaxWidth(float)}.
+     *
+     * @since 2.7
+     */
+    public enum TextAlignment
+    {
+        /**
+         * Text will align with the left side of the text area. This is the default behavior.
+         */
+        LEFT,
+        /**
+         * Text will be drawn centered within the text area. <b>Note:</b> the {@link DrawableString} <i>must</i> have
+         * its maximum width set (either through its construction in {@link #createText()} or by calling {@link
+         * DrawableString#setMaxWidth(float)}) for this to work properly.
+         */
+        CENTER,
+        /**
+         * Text will align with the right of the text area. <b>Note:</b> the {@link DrawableString} <i>must</i> have
+         * its maximum width set (either through its construction in {@link #createText()} or by calling {@link
+         * DrawableString#setMaxWidth(float)}) for this to work properly.
+         */
+        RIGHT
+    }
+
+    //</editor-fold>
+
     //<editor-fold desc="DrawableString">
 
     /**
@@ -707,6 +739,20 @@ public class LazyFont
         }
 
         /**
+         * Returns the current anchor (origin when drawing) for this {@link DrawableString}.
+         *
+         * @return The current anchor (origin of drawing) for this {@link DrawableString}.
+         *
+         * @see TextAnchor
+         * @since 2.7
+         */
+
+        public TextAnchor getAnchor()
+        {
+            return null;
+        }
+
+        /**
          * Sets the anchor (origin when drawing) for this {@link DrawableString}.
          *
          * @param anchor The new anchor (origin of drawing) for this {@link DrawableString}.
@@ -719,16 +765,28 @@ public class LazyFont
         }
 
         /**
-         * Returns the current anchor (origin when drawing) for this {@link DrawableString}.
+         * Returns which side of the text area the text will be aligned with.
          *
-         * @return The current anchor (origin of drawing) for this {@link DrawableString}.
+         * @return Which side of the text area to align text to.
          *
-         * @see TextAnchor
+         * @see TextAlignment
          * @since 2.7
          */
-        public TextAnchor getAnchor()
+        public TextAlignment getAlignment()
         {
             return null;
+        }
+
+        /**
+         * Sets which side of the text area the text will be aligned with.
+         *
+         * @param alignment Which side of the text area to align text to.
+         *
+         * @see TextAlignment
+         * @since 2.7
+         */
+        public void setAlignment(TextAlignment alignment)
+        {
         }
 
         /**

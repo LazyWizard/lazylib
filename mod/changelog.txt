@@ -11,6 +11,9 @@ Changes to LazyFont:
  - Fixed log spam with some whitespace being considered unsupported characters
 Changes to LazyFont.DrawableString:
  - Fixed minor memory leak when dispose() is not called before GC
+ - Added TextAlignment, setAlignment(), and getAlignment(). TextAlignment
+   controls whether text is drawn left-aligned (the default), right-aligned,
+   or centered
  - Added TextAnchor, setAnchor(), and getAnchor(). TextAnchor controls the
    origin when drawing text; for example, TextAnchor.TOP_LEFT (the default)
    will mean draw() will start drawing at the top left, so the text will
