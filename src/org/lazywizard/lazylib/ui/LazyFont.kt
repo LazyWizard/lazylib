@@ -388,6 +388,13 @@ class LazyFont private constructor(
         override fun toString() = id.toChar().toString()
     }
 
+    // TODO: Javadoc and add to changelog
+    enum class TextAnchor {
+        TOP_LEFT, TOP_CENTER, TOP_RIGHT,
+        CENTER_LEFT, CENTER, CENTER_RIGHT,
+        BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT
+    }
+
     // FIXME: Wrapped strings with a hyphen will offset colored substrings by one
     // TODO: Add anchor variable to control relative position of drawn text (TOP, LEFT, CENTER, BOTTOM, RIGHT, and combinations thereof)
     // TODO: Add justify variable to control justification of text (LEFT, CENTER, RIGHT)
@@ -404,6 +411,8 @@ class LazyFont private constructor(
             private set
         var isDisposed = false
             private set
+        // TODO: Test, Javadoc, and add to changelog
+        var anchor: TextAnchor = TextAnchor.TOP_LEFT
         var width: Float = 0f
             get() {
                 triggerRebuildIfNeeded()
@@ -453,14 +462,14 @@ class LazyFont private constructor(
             }
 
         // TODO: Remove deprecated method after next Starsector update
-        @Deprecated("Use baseColor instead", level = DeprecationLevel.HIDDEN)
+        @Deprecated("Use baseColor instead", level = DeprecationLevel.WARNING)
         var color: Color
-            @Deprecated("Use baseColor instead", level = DeprecationLevel.HIDDEN)
+            @Deprecated("Use baseColor instead", level = DeprecationLevel.WARNING)
             set(value) {
                 LazyLib.onDeprecatedMethodUsage()
                 baseColor = value
             }
-            @Deprecated("Use baseColor instead", level = DeprecationLevel.HIDDEN)
+            @Deprecated("Use baseColor instead", level = DeprecationLevel.WARNING)
             get() {
                 LazyLib.onDeprecatedMethodUsage()
                 return baseColor
@@ -668,9 +677,23 @@ class LazyFont private constructor(
 
             glBindBuffer(GL_ARRAY_BUFFER, 0)
 
+            // Anchor position (which point to consider the origin when drawing)
+            val offset = when (anchor) {
+                TextAnchor.TOP_LEFT -> Vector2f(0f, 0f)
+                TextAnchor.TOP_CENTER -> Vector2f(-width / 2f, 0f)
+                TextAnchor.TOP_RIGHT -> Vector2f(-width, 0f)
+                TextAnchor.CENTER_LEFT -> Vector2f(0f, height / 2f)
+                TextAnchor.CENTER -> Vector2f(-width / 2f, height / 2f)
+                TextAnchor.CENTER_RIGHT -> Vector2f(-width, height / 2f)
+                TextAnchor.BOTTOM_LEFT -> Vector2f(0f, height)
+                TextAnchor.BOTTOM_CENTER -> Vector2f(-width / 2f, height)
+                TextAnchor.BOTTOM_RIGHT -> Vector2f(-width, height)
+            }
+
             glPushMatrix()
             glTranslatef(x + 0.01f, y + 0.01f, 0.01f)
             if (angle != 0f) glRotatef(MathUtils.clampAngle(angle), 0f, 0f, 1f)
+            glTranslatef(offset.x, offset.y, 0f)
             glDrawArrays(GL_QUADS, 0, len * 4)
 
             // Render visual bounds if the debug flag is set
