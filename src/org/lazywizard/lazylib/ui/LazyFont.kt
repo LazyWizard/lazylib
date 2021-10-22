@@ -587,15 +587,15 @@ class LazyFont private constructor(
                     yOffset -= fontSize
                     sizeY += fontSize
                     sizeX = max(sizeX, xOffset)
-                    xOffset = when (alignment) {
-                        TextAlignment.LEFT -> 0f
-                        TextAlignment.CENTER -> (maxWidth - calcWidth(line, fontSize)) / 2f
-                        TextAlignment.RIGHT -> maxWidth - calcWidth(line, fontSize)
-                    }
-                    lastChar = null
-                    colLen++
                 }
 
+                xOffset = when (alignment) {
+                    TextAlignment.LEFT -> 0f
+                    TextAlignment.CENTER -> (maxWidth - calcWidth(line, fontSize)) / 2f
+                    TextAlignment.RIGHT -> maxWidth - calcWidth(line, fontSize)
+                }
+                lastChar = null
+                colLen++
                 firstLine = false
 
                 inner@
