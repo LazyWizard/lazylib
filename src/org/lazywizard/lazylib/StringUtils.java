@@ -59,7 +59,7 @@ public class StringUtils
                         // Make sure to post the previous line in the queue, if any
                         if (line.length() > 0)
                         {
-                            message.append(line.toString()).append("\n");
+                            message.append(line).append("\n");
                             line.setLength(0);
                         }
 
@@ -90,7 +90,7 @@ public class StringUtils
                     // a blank line - this is in case it trips the above block)
                     else if (words[y].length() + line.length() >= maxLineLength)
                     {
-                        message.append(line.toString()).append("\n");
+                        message.append(line).append("\n");
                         line.setLength(0);
                         y--;
                     }
@@ -104,7 +104,7 @@ public class StringUtils
                         // that we post the remaining part of the queue
                         if (y == (words.length - 1))
                         {
-                            message.append(line.toString()).append("\n");
+                            message.append(line).append("\n");
                         }
                     }
                 }

@@ -157,7 +157,8 @@ public class LazyLib extends BaseModPlugin
      * those methods. If "crashOnDeprecated" is true, this method will throw a
      * {@link RuntimeException} so modders can track down the problematic code
      * using the stacktrace. You can ignore this method; there's no reason to
-     * ever call it manually.
+     * ever call it manually, and calls from outside of LazyLib's namespace
+     * will be ignored.
      *
      * @since 1.7
      */

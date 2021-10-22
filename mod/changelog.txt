@@ -4,6 +4,11 @@ Updated bundled libraries:
  - kotlin-stdlib: v1.4.31 -> v1.5.31
  - kotlinx-coroutines: v1.4.3 -> v1.5.2
  - jetbrains-annotations: v20.1.0 -> 22.0.0
+Changes to CombatUtils:
+ - Fixed a bug where ships spawned by spawnShipOrWingDirectly() would
+   report the wrong fleet side in some circumstances
+Changes to LazyFont:
+ - Fixed log spam with some whitespace being considered unsupported characters
 Changes to LazyFont.DrawableString:
  - Fixed minor memory leak when dispose() is not called before GC
  - Added setBaseColor() and getBaseColor() (replace setColor()/getColor())

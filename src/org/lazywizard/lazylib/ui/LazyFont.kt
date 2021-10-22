@@ -390,6 +390,7 @@ class LazyFont private constructor(
 
     // FIXME: Wrapped strings with a hyphen will offset colored substrings by one
     // TODO: Add anchor variable to control relative position of drawn text (TOP, LEFT, CENTER, BOTTOM, RIGHT, and combinations thereof)
+    // TODO: Add justify variable to control justification of text (LEFT, CENTER, RIGHT)
     inner class DrawableString(text: String, fontSize: Float, maxWidth: Float, maxHeight: Float, baseColor: Color) {
         private val sb: StringBuilder = StringBuilder(text)
         private val substringColorData = HashMap<Int, FloatArray>()
