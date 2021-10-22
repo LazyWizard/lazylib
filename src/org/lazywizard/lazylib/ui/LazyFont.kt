@@ -52,7 +52,7 @@ class LazyFont private constructor(
             if (fontCache.contains(canonPath)) return fontCache.getValue(canonPath)
 
             // Load the font file contents for later parsing
-            var header = ""
+            var header: String
             val charLines = ArrayList<String>()
             val kernLines = ArrayList<String>()
             try {
@@ -174,12 +174,14 @@ class LazyFont private constructor(
         // Called by the main thread periodically
         fun checkClean() {
             if (toClean.isNotEmpty()) {
-                for (id in toClean) {
-                    Log.debug("Deleting buffer $id automatically")
-                    glDeleteBuffers(id)
-                }
+                synchronized(toClean) {
+                    for (id in toClean) {
+                        Log.debug("Deleting buffer $id automatically")
+                        glDeleteBuffers(id)
+                    }
 
-                toClean.clear()
+                    toClean.clear()
+                }
             }
         }
     }
@@ -443,8 +445,10 @@ class LazyFont private constructor(
             }
         var baseColor: Color = baseColor
             set(value) {
-                field = value
-                if (substringColorData.isNotEmpty()) isRebuildNeeded = true
+                if (value != field) {
+                    field = value
+                    if (substringColorData.isNotEmpty()) isRebuildNeeded = true
+                }
             }
 
         // TODO: Remove deprecated method after next Starsector update
@@ -703,6 +707,8 @@ class LazyFont private constructor(
         }
 
         @Suppress("ProtectedInFinal")
+        // TODO: Create JRE-dependent subclasses that use sun.misc.Cleaner or JRE9+'s Cleaner to avoid second GC cycle
+        // (phantom references don't avoid a second GC cycle before JRE9, so need to use undocumented classes in JRE7)
         protected fun finalize() {
             if (!isDisposed) MemoryHandler.registerForRemoval(bufferId)
         }
