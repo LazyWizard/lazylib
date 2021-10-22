@@ -11,6 +11,10 @@ Changes to LazyFont:
  - Fixed log spam with some whitespace being considered unsupported characters
 Changes to LazyFont.DrawableString:
  - Fixed minor memory leak when dispose() is not called before GC
+ - Added TextAnchor, setAnchor(), and getAnchor(). TextAnchor controls the
+   origin when drawing text; for example, TextAnchor.TOP_LEFT (the default)
+   will mean draw() will start drawing at the top left, so the text will
+   appear below and to the right of the position passed into draw()
  - Added setBaseColor() and getBaseColor() (replace setColor()/getColor())
  - Added isRebuildNeeded() and triggerRebuildIfNeeded() (unnecessary 99% of
    the time as rebuilding happens automatically, but useful in fringe cases)

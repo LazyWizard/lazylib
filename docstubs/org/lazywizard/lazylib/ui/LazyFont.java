@@ -525,6 +525,59 @@ public class LazyFont
     }
     //</editor-fold>
 
+    //<editor-fold desc="TextAnchor">
+
+    /**
+     * Represents the origin of drawing for {@link DrawableString}s. For example, calling {@link
+     * DrawableString#setAnchor(TextAnchor)} with {@link TextAnchor#TOP_RIGHT} would mean all calls to {@link
+     * DrawableString#draw(float, float)} will consider the top right of the {@link DrawableString} to be the origin
+     * when drawing, meaning all text would appear to the left and below the point passed into {@link
+     * DrawableString#draw(float, float)}.
+     *
+     * @since 2.7
+     */
+    public enum TextAnchor
+    {
+        /**
+         * Text will be drawn below and to the right of the origin.
+         */
+        TOP_LEFT,
+        /**
+         * Text will be drawn centered below the origin.
+         */
+        TOP_CENTER,
+        /**
+         * Text will be drawn below and to the left of the origin.
+         */
+        TOP_RIGHT,
+        /**
+         * Text will be drawn centered to the right of the origin.
+         */
+        CENTER_LEFT,
+        /**
+         * Text will be drawn centered around the origin.
+         */
+        CENTER,
+        /**
+         * Text will be drawn centered to the left of the origin.
+         */
+        CENTER_RIGHT,
+        /**
+         * Text will be drawn above and to the right of the origin.
+         */
+        BOTTOM_LEFT,
+        /**
+         * Text will be drawn centered above the origin.
+         */
+        BOTTOM_CENTER,
+        /**
+         * Text will be drawn below and to the left of the origin.
+         */
+        BOTTOM_RIGHT
+    }
+
+    //</editor-fold>
+
     //<editor-fold desc="DrawableString">
 
     /**
@@ -651,6 +704,31 @@ public class LazyFont
          */
         public void setMaxHeight(float maxHeight)
         {
+        }
+
+        /**
+         * Sets the anchor (origin when drawing) for this {@link DrawableString}.
+         *
+         * @param anchor The new anchor (origin of drawing) for this {@link DrawableString}.
+         *
+         * @see TextAnchor
+         * @since 2.7
+         */
+        public void setAnchor(TextAnchor anchor)
+        {
+        }
+
+        /**
+         * Returns the current anchor (origin when drawing) for this {@link DrawableString}.
+         *
+         * @return The current anchor (origin of drawing) for this {@link DrawableString}.
+         *
+         * @see TextAnchor
+         * @since 2.7
+         */
+        public TextAnchor getAnchor()
+        {
+            return null;
         }
 
         /**
