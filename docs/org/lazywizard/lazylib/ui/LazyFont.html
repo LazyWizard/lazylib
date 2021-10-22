@@ -126,7 +126,7 @@ extends <a href="https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html
  <li>Draw the text where you need it with <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html#draw-float-float-"><code>LazyFont.DrawableString.draw(float, float)</code></a> once per frame.</li>
  <li>That's it! So long as you keep a reference to the <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a>, you can re-draw the text
  extremely efficiently, or edit/append the text at will. Editing the <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a> in any way
- will cause a full rebuild of its internal display list the next time you call
+ will cause a full rebuild of its GPU-buffered data the next time you call
  <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html#draw-float-float-"><code>LazyFont.DrawableString.draw(float, float)</code></a>, though the performance impact should be minimal even with
  extremely long text blocks.</li>
  <li>When finished using the <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a>, optionally call <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html#dispose--"><code>LazyFont.DrawableString.dispose()</code></a> to ensure
@@ -173,16 +173,20 @@ extends <a href="https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html
              return;
          }
 
-         // Create a renderable block of text (in this case, will be yellow with font size 15)
+         // Create a renderable block of text
+         // In this case, the text will font size 15, and default to yellow text
          toDraw = font.createText("This is some sample text.", Color.YELLOW, 15f);
 
          // Enable line wrapping when text reaches 400 pixels wide
          toDraw.setMaxWidth(400f);
 
          // If you need to add text to the DrawableString, do so like this:
-         toDraw.appendText("\nThis is a second line of sample text.");
-         toDraw.appendText("\nThis is a third line of sample text that shows off the automatic" +
-                 " word wrapping when a line of text reaches the maximum width you've chosen.");
+         toDraw.append("\nThis is a second line of sample text. It will be drawn orange.", Color.ORANGE);
+         toDraw.append("\nThis is a third line of sample text that shows off the automatic" +
+                 " word wrapping when a line of text reaches the maximum width you've chosen.\n" +
+                 "Since this append doesn't have a color attached, it will return to the original yellow.);
+         toDraw.append("You can also chain appends,").append(" like this," Color.BLUE)
+                 .append(" to make writing text easier.");
      }
 
      &#064;Override
@@ -272,14 +276,14 @@ extends <a href="https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>@NotNull <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui">LazyFont.DrawableString</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/lazywizard/lazylib/ui/LazyFont.html#createText-java.lang.String-java.awt.Color-">createText</a></span>(<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;text,
-          <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;color)</code>
+          <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;baseColor)</code>
 <div class="block">Create a <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a> with the specified initial text and color.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>@NotNull <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui">LazyFont.DrawableString</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/lazywizard/lazylib/ui/LazyFont.html#createText-java.lang.String-java.awt.Color-float-">createText</a></span>(<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;text,
-          <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;color,
+          <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;baseColor,
           float&nbsp;size)</code>
 <div class="block">Create a <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a> with the specified initial text, color, and font size, with no text wrapping.</div>
 </td>
@@ -287,7 +291,7 @@ extends <a href="https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>@NotNull <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui">LazyFont.DrawableString</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/lazywizard/lazylib/ui/LazyFont.html#createText-java.lang.String-java.awt.Color-float-float-">createText</a></span>(<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;text,
-          <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;color,
+          <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;baseColor,
           float&nbsp;size,
           float&nbsp;maxWidth)</code>
 <div class="block">Create a <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a> with the specified initial text, color, and font size, with text wrapping.</div>
@@ -296,7 +300,7 @@ extends <a href="https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>@NotNull <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui">LazyFont.DrawableString</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/lazywizard/lazylib/ui/LazyFont.html#createText-java.lang.String-java.awt.Color-float-float-float-">createText</a></span>(<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;text,
-          <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;color,
+          <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;baseColor,
           float&nbsp;size,
           float&nbsp;maxWidth,
           float&nbsp;maxHeight)</code>
@@ -457,7 +461,7 @@ public&nbsp;@NotNull <a href="https://docs.oracle.com/javase/7/docs/api/java/lan
 <dd><code>maxWidth</code> - The max width of the text area. Text will be wrapped at the last word that fit within this
                   width.</dd>
 <dd><code>maxHeight</code> - The max height of the text area. Text beyond this will be discarded.</dd>
-<dd><code>indent</code> - The number of empty spaces at the start of each line. Used by <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html#appendText-java.lang.String-int-"><code>LazyFont.DrawableString.appendText(String, int)</code></a> and <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html#appendText-java.lang.String-java.awt.Color-int-"><code>LazyFont.DrawableString.appendText(String, Color, int)</code></a>.</dd>
+<dd><code>indent</code> - The number of empty spaces at the start of each line. Used by <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html#appendIndented-java.lang.String-int-"><code>LazyFont.DrawableString.appendIndented(String, int)</code></a> and <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html#appendIndented-java.lang.String-java.awt.Color-int-"><code>LazyFont.DrawableString.appendIndented(String, Color, int)</code></a>.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>toWrap</code>, wrapped to fit within the area specified by <code>maxWidth</code> and <code>maxHeight</code>.</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -575,7 +579,7 @@ public&nbsp;@NotNull <a href="https://docs.oracle.com/javase/7/docs/api/java/lan
 <li class="blockList">
 <h4>getTextureId</h4>
 <pre>public&nbsp;int&nbsp;getTextureId()</pre>
-<div class="block">Returns the ID of the font's underlying texture atlas. Equivalent to calling <code>SpriteAPI.getTextureId()</code>.</div>
+<div class="block">Returns the ID of the font's underlying texture atlas. Equivalent to calling <a href="http://fractalsoftworks.com/starfarer.api/com/fs/starfarer/api/graphics/SpriteAPI.html?is-external=true#getTextureId--" title="class or interface in com.fs.starfarer.api.graphics"><code>SpriteAPI.getTextureId()</code></a>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>The ID of the underlying texture atlas.</dd>
@@ -687,7 +691,7 @@ public&nbsp;@NotNull <a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/util/vec
 <h4>createText</h4>
 <pre>@NotNull
 public&nbsp;@NotNull <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui">LazyFont.DrawableString</a>&nbsp;createText(<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;text,
-                                                             <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;color,
+                                                             <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;baseColor,
                                                              float&nbsp;size,
                                                              float&nbsp;maxWidth,
                                                              float&nbsp;maxHeight)</pre>
@@ -696,7 +700,8 @@ public&nbsp;@NotNull <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.Dra
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>text</code> - The initial text to be drawn. You can modify it later using the returned <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a>.</dd>
-<dd><code>color</code> - The color of the drawn text.</dd>
+<dd><code>baseColor</code> - The base color of the drawn text (color of appended text that doesn't have its own color
+                  argument passed in).</dd>
 <dd><code>size</code> - The font size of the drawn text. For best results, this should be evenly divisible by <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.html#getBaseHeight--"><code>getBaseHeight()</code></a>. Other values may cause slight blurriness or jaggedness.</dd>
 <dd><code>maxWidth</code> - The maximum width of the drawn text before further text will be wrapped to a new line.</dd>
 <dd><code>maxHeight</code> - The maximum height of the drawn text. All further text past this point will be discarded.</dd>
@@ -716,14 +721,15 @@ public&nbsp;@NotNull <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.Dra
 <h4>createText</h4>
 <pre>@NotNull
 public&nbsp;@NotNull <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui">LazyFont.DrawableString</a>&nbsp;createText(<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;text,
-                                                             <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;color,
+                                                             <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;baseColor,
                                                              float&nbsp;size,
                                                              float&nbsp;maxWidth)</pre>
 <div class="block">Create a <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a> with the specified initial text, color, and font size, with text wrapping.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>text</code> - The initial text to be drawn. You can modify it later using the returned <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a>.</dd>
-<dd><code>color</code> - The color of the drawn text.</dd>
+<dd><code>baseColor</code> - The base color of the drawn text (color of appended text that doesn't have its own color
+                  argument passed in).</dd>
 <dd><code>size</code> - The font size of the drawn text. For best results, this should be evenly divisible by <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.html#getBaseHeight--"><code>getBaseHeight()</code></a>. Other values may cause slight blurriness or jaggedness.</dd>
 <dd><code>maxWidth</code> - The maximum width of the drawn text before further text will be wrapped to a new line.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -744,13 +750,14 @@ public&nbsp;@NotNull <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.Dra
 <h4>createText</h4>
 <pre>@NotNull
 public&nbsp;@NotNull <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui">LazyFont.DrawableString</a>&nbsp;createText(<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;text,
-                                                             <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;color,
+                                                             <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;baseColor,
                                                              float&nbsp;size)</pre>
 <div class="block">Create a <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a> with the specified initial text, color, and font size, with no text wrapping.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>text</code> - The initial text to be drawn. You can modify it later using the returned <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a>.</dd>
-<dd><code>color</code> - The color of the drawn text.</dd>
+<dd><code>baseColor</code> - The base color of the drawn text (color of appended text that doesn't have its own color
+                  argument passed in).</dd>
 <dd><code>size</code> - The font size of the drawn text. For best results, this should be evenly divisible by <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.html#getBaseHeight--"><code>getBaseHeight()</code></a>. Other values may cause slight blurriness or jaggedness.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>A <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a> with the specified text, color, and font size, with no text wrapping.</dd>
@@ -769,13 +776,14 @@ public&nbsp;@NotNull <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.Dra
 <h4>createText</h4>
 <pre>@NotNull
 public&nbsp;@NotNull <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui">LazyFont.DrawableString</a>&nbsp;createText(<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;text,
-                                                             <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;color)</pre>
+                                                             <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;baseColor)</pre>
 <div class="block">Create a <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a> with the specified initial text and color. Defaults to the base
  font size, and no text wrapping.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>text</code> - The initial text to be drawn. You can modify it later using the returned <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a>.</dd>
-<dd><code>color</code> - The color of the drawn text.</dd>
+<dd><code>baseColor</code> - The base color of the drawn text (color of appended text that doesn't have its own color
+                  argument passed in).</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>A <a href="../../../../org/lazywizard/lazylib/ui/LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a> with the specified text and color, the base font size, and no text wrapping.</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
