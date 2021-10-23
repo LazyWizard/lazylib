@@ -1067,7 +1067,7 @@ public class LazyFont
          *
          * @param x     The X coordinate to draw at.
          * @param y     The Y coordinate to draw at.
-         * @param angle The angle to draw at.
+         * @param angle The angle to draw at, in degrees.
          *
          * @since 2.3
          */
@@ -1083,7 +1083,7 @@ public class LazyFont
          * so performance should not be an issue (provided the underlying data hasn't changed, necessitating a rebuild).
          *
          * @param location The coordinates to draw at.
-         * @param angle    The angle to draw at.
+         * @param angle    The angle to draw at, in degrees.
          *
          * @since 2.3
          */
