@@ -717,6 +717,7 @@ class LazyFont private constructor(
 
             // Render visual bounds if the debug flag is set
             if (renderDebugBounds) {
+                // Draw height/width
                 glDisable(GL_TEXTURE_2D)
                 glLineWidth(1f)
                 glColor(baseColor, 0.3f)
@@ -725,6 +726,33 @@ class LazyFont private constructor(
                 glVertex2f(width, 0f)
                 glVertex2f(width, -height)
                 glVertex2f(0f, -height)
+                glEnd()
+
+                // Draw maxWidth/maxHeight
+                if (maxWidth != Float.MAX_VALUE || maxHeight != Float.MAX_VALUE) {
+                    val displayedMaxWidth =
+                        if (maxWidth == Float.MAX_VALUE) width
+                        else maxWidth
+                    val displayedMaxHeight =
+                        if (maxHeight == Float.MAX_VALUE) height
+                        else maxHeight
+
+                    glColor(baseColor.darker(), 0.5f)
+                    glBegin(GL_LINE_LOOP)
+                    glVertex2f(0f,0f)
+                    glVertex2f(displayedMaxWidth, 0f)
+                    glVertex2f(displayedMaxWidth, -displayedMaxHeight)
+                    glVertex2f(0f, -displayedMaxHeight)
+                    glEnd()
+                }
+
+                // Draw anchor
+                glColor(Color.RED)
+                glBegin(GL_LINES)
+                glVertex2f(-offset.x - 3f, -offset.y - 3f)
+                glVertex2f(-offset.x + 3f, -offset.y + 3f)
+                glVertex2f(-offset.x - 3f, -offset.y + 3f)
+                glVertex2f(-offset.x + 3f, -offset.y - 3f)
                 glEnd()
             }
 
