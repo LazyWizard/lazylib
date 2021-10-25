@@ -577,6 +577,11 @@ class LazyFont private constructor(
             var colorBytes = baseColor.getRGBComponents(null)
             var firstLine = true
 
+            // Used for proper placement of center/right-justified text
+            val maxWidthForOffset =
+                if (alignment == TextAlignment.LEFT) maxWidth
+                else calcWidth(toDraw, fontSize)
+
             outer@
             for (line in toDraw.split('\n')) {
                 if (!firstLine) {
@@ -589,10 +594,11 @@ class LazyFont private constructor(
                     sizeX = max(sizeX, xOffset)
                 }
 
+                // Calculate alignment adjustment for the text on this line
                 xOffset = when (alignment) {
                     TextAlignment.LEFT -> 0f
-                    TextAlignment.CENTER -> (maxWidth - calcWidth(line, fontSize)) / 2f
-                    TextAlignment.RIGHT -> maxWidth - calcWidth(line, fontSize)
+                    TextAlignment.CENTER -> (maxWidthForOffset - calcWidth(line, fontSize)) / 2f
+                    TextAlignment.RIGHT -> maxWidthForOffset - calcWidth(line, fontSize)
                 }
                 lastChar = null
                 colLen++
