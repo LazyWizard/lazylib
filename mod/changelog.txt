@@ -1,3 +1,12 @@
+ 2.7b (December 10, 2021)
+==========================
+Updated to be compatible with Starsector 0.95.1a
+Updated bundled libraries:
+ - jetbrains-annotations: v22.0.0 -> 23.0.0
+Changes to LazyFont.DrawableString:
+ - Center/right-aligned text no longer requires maxWidth to be set
+ - setRenderDebugBounds() now shows anchor and max size
+
  2.7 (October 22, 2021)
 ========================
 Fixed links to online Starsector API in javadoc.zip

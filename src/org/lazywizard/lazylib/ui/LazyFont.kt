@@ -595,6 +595,7 @@ class LazyFont private constructor(
                 }
 
                 // Calculate alignment adjustment for the text on this line
+                // TODO: Update Javadoc to mention how maxWidth is handled with non-left alignment
                 xOffset = when (alignment) {
                     TextAlignment.LEFT -> 0f
                     TextAlignment.CENTER -> (maxWidthForOffset - calcWidth(line, fontSize)) / 2f
@@ -728,7 +729,7 @@ class LazyFont private constructor(
                 glVertex2f(0f, -height)
                 glEnd()
 
-                // Draw maxWidth/maxHeight
+                // Draw maxWidth/maxHeight if at least one has been set
                 if (maxWidth != Float.MAX_VALUE || maxHeight != Float.MAX_VALUE) {
                     val displayedMaxWidth =
                         if (maxWidth == Float.MAX_VALUE) width
@@ -746,7 +747,7 @@ class LazyFont private constructor(
                     glEnd()
                 }
 
-                // Draw anchor
+                // Draw anchor (origin of rendering)
                 glColor(Color.RED)
                 glBegin(GL_LINES)
                 glVertex2f(-offset.x - 3f, -offset.y - 3f)

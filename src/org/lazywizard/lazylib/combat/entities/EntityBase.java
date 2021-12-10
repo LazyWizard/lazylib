@@ -225,4 +225,12 @@ class EntityBase implements CombatEntityAPI
     {
         return null;
     }
+
+    /**
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
+     */
+    @Override
+    public void setHitpoints(float hitpoints)
+    {
+    }
 }

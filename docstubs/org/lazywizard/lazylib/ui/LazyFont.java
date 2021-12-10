@@ -434,7 +434,7 @@ public class LazyFont
     //<editor-fold desc="LazyChar" defaultstate="collapsed">
 
     /**
-     * Keeps track of the metadata for each supported character in a font. This is used internally to render and wrap
+     * Keeps track of the metadata for each supported character in a font. This is used internally to wrap and render
      * text, and it is unlikely that end users will ever need to use this class or any of its methods in their code.
      * <p>
      * In the rare case that these methods are needed, their names should match the bitmap font file format found <a
@@ -582,9 +582,7 @@ public class LazyFont
 
     /**
      * Represents the alignment of text within a {@link DrawableString}'s render area. Text can be left-aligned (the
-     * default), centered, or right-aligned. Anything other than left-aligned requires the {@link DrawableString}'s
-     * maximum width to be set, either through its construction in {@link #createText()} or by calling {@link
-     * DrawableString#setMaxWidth(float)}.
+     * default), centered, or right-aligned.
      *
      * @since 2.7
      */
@@ -595,15 +593,11 @@ public class LazyFont
          */
         LEFT,
         /**
-         * Text will be drawn centered within the text area. <b>Note:</b> the {@link DrawableString} <i>must</i> have
-         * its maximum width set (either through its construction in {@link #createText()} or by calling {@link
-         * DrawableString#setMaxWidth(float)}) for this to work properly.
+         * Text will be drawn centered within the text area.
          */
         CENTER,
         /**
-         * Text will align with the right of the text area. <b>Note:</b> the {@link DrawableString} <i>must</i> have
-         * its maximum width set (either through its construction in {@link #createText()} or by calling {@link
-         * DrawableString#setMaxWidth(float)}) for this to work properly.
+         * Text will align with the right of the text area.
          */
         RIGHT
     }
