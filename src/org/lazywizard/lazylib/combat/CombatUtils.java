@@ -172,7 +172,7 @@ public class CombatUtils
     }
 
     /**
-     * Returns all projectiles in range of a given location, excluding missiles by dafault.
+     * Returns all projectiles in range of a given location, excluding missiles by default.
      *
      * @param location The location to search around.
      * @param range    How far around {@code location} to search.
