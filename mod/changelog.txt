@@ -1,3 +1,9 @@
+ 2.7c (July XX, 2022)
+======================
+Updated bundled libraries:
+ - kotlin-stdlib: v1.5.31 -> v1.6.21
+ - kotlinx-coroutines: v1.5.2 -> v1.6.3
+
  2.7b (December 10, 2021)
 ==========================
 Updated to be compatible with Starsector 0.95.1a
