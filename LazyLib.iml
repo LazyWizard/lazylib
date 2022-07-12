@@ -15,6 +15,7 @@
     <orderEntry type="library" name="Console Commands" level="application" />
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
     <orderEntry type="library" name="org.jetbrains:annotations:23.0.0" level="project" />
-    <orderEntry type="library" name="org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2" level="application" />
+    <orderEntry type="library" name="org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3" level="application" />
+    <orderEntry type="library" name="jetbrains.kotlin.stdlib.jdk7" level="project" />
   </component>
 </module>
