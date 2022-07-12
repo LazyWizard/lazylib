@@ -367,7 +367,7 @@ public class WeaponUtils
         boolean shieldCheck = target.getShield() != null
                            && target.getShield().isOn()
                            && target.getShield().isWithinArc(beam.getTo());
-        return targetCheck && shieldArcCheck;
+        return targetCheck && shieldCheck;
     }
 
     private WeaponUtils()
