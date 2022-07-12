@@ -172,7 +172,7 @@ public class CombatUtils
     }
 
     /**
-     * Returns all projectiles in range of a given location, excluding missiles.
+     * Returns all projectiles in range of a given location, excluding missiles by dafault.
      *
      * @param location The location to search around.
      * @param range    How far around {@code location} to search.
@@ -184,11 +184,28 @@ public class CombatUtils
      */
     public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location, float range)
     {
+        return getProjectilesWithinRange(location, range, true);
+    }
+
+    /**
+     * Returns all projectiles in range of a given location.
+     *
+     * @param location          The location to search around.
+     * @param range             How far around {@code location} to search.
+     * @param excludeMissile    How far around {@code location} to search.
+     *
+     * @return A {@link List} of {@link DamagingProjectileAPI}s within range of
+     *         {@code location}.
+     *
+     * @since
+     */
+    public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location, float range, boolean excludeMissile)
+    {
         List<DamagingProjectileAPI> projectiles = new ArrayList<>();
 
         for (DamagingProjectileAPI tmp : Global.getCombatEngine().getProjectiles())
         {
-            if (tmp instanceof MissileAPI)
+            if (excludeMissile && (tmp instanceof MissileAPI))
             {
                 continue;
             }
@@ -354,6 +371,44 @@ public class CombatUtils
         return entities;
     }
 
+     /**
+     * Gets all living figthers that the given carrier hosts, includes fighters that returning to the bay
+     *
+     * @param ship The carrier
+     *
+     * @return A {@link List} containing all living fighters that the carrier hosts.
+     *
+     * @since 
+     */
+    public static List<ShipAPI> getFighters(ShipAPI ship) {
+        return getFighters(ship, true);
+    }
+
+     /**
+     * Gets all living figthers that the given carrier hosts, includes fighters that returning to the bay or not
+     *
+     * @param ship The carrier
+     * @param includeReturning includes fighters that returning to the bay(such as from a bomb run), or not.
+     *
+     * @return A {@link List} containing all living fighters that the carrier hosts.
+     *
+     * @since 
+     */
+    public static List<ShipAPI> getFighters(ShipAPI ship, boolean includeReturning) {
+        List<ShipAPI> result = new ArrayList<>();
+        for (FighterWingAPI wing : ship.getAllWings()){
+            result.addAll(wing.getWingMembers());
+
+            if (includeReturning) {
+                for (FighterWingAPI.ReturningFighter returning : wing.getReturning()) {
+                    result.add(returning.fighter);
+                }
+            }
+        }
+
+        return result;
+    }
+
     /**
      * Spawns a ship directly onto the battle map, bypassing the fleet reserves.
      *
@@ -462,12 +517,14 @@ public class CombatUtils
 
         // Avoid divide-by-zero errors...
         float mass = Math.max(1f, entity.getMass());
+
         // Calculate the velocity change and its resulting vector
         // Don't bother going over Starsector's speed cap
         float velChange = Math.min(1250f, force / mass);
         Vector2f dir = new Vector2f();
         direction.normalise(dir);
         dir.scale(velChange);
+
         // Apply our velocity change
         Vector2f.add(dir, entity.getVelocity(), entity.getVelocity());
     }

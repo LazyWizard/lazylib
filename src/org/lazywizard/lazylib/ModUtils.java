@@ -129,6 +129,47 @@ public class ModUtils
         return new ArrayList<>(overriddenFiles);
     }
 
+    /**
+     * Check a mod's version if it meets the given major/minor/path demand.
+     * Useful when you need to incompatible with a lower version of a specific mod but compatible without it.
+     * 
+     * <b>Important note:</b> ONLY USABLE WHEN THE MOD'S VERSION IS ALL NUMBERIC
+     * 
+     * @param modId The ID of the mod to check.
+     * @param major The minimal 'major' part demand.
+     * @param minor The minimal 'minor' part demand.
+     * @param patch The minimal 'patch' part demand.
+     *
+     * @return Meets the given major/minor/path demand or not.
+     *
+     * @since 2.3
+     */
+    public boolean modCheck(String modId, int major, int minor, int patch) {
+        if (!isModEnabled(modId)) return false;
+
+        try {
+            VersionInfoAPI spec = Global.getSettings().getModManager().getModSpec(modId).getVersionInfo();
+            int currentMajor = Integer.parseInt(spec.getMajor());
+            int currentMinor = Integer.parseInt(spec.getMinor());
+            int currentPatch = Integer.parseInt(spec.getPatch());
+            if (major < currentMajor) return false;
+            if (major == currentMajor) {
+                if (minor < currentMinor) return false;
+                if (minor == currentMinor) {
+                    if (patch < currentPatch) return false;
+                    return true;
+                }
+            }
+
+            return true;
+        } catch (Exception ex) {
+            Log.info("Mod " + modId + " 's version is not all numberic");
+            return false;
+        }
+
+        return false;
+    }
+
     private ModUtils()
     {
     }

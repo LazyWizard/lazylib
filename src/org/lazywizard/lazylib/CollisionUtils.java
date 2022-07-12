@@ -10,6 +10,7 @@ import org.lwjgl.util.vector.Vector2f;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * Contains methods for line intersection, bounds and collision detection tests.
@@ -19,6 +20,35 @@ import java.util.List;
  */
 public class CollisionUtils
 {
+
+    /**
+     * Finds the part of the ship that would be intersected by a given path.
+     *
+     * @param target             The CombatEntityAPI to check collision with.
+     * @param lineStart          The start of the line to test collision with.
+     * @param lineEnd            The end of the line to test collision with.
+     * @param includeLineStart   If the line is completely within {@code target}'s bounds,
+     *                           returns the {@code lineStart} or not.
+     *
+     * @return The {@link Vector2f} of the point the line would hit at,
+     *         or {@code null} if it doesn't hit.
+     *
+     * @since 1.0
+     */
+    @Nullable
+    public static Vector2f getCollisionPoint(Vector2f lineStart, Vector2f lineEnd,
+                                             CombatEntityAPI target, boolean includeLineStart)
+    {
+        Vector2f closestIntersection = getCollisionPoint(lineStart, lineEnd, target);
+        if (closestIntersection == null && includeLineStart) {
+            if (CollisionUtils.isPointWithinBounds(lineStart, target)) {
+                return lineStart;
+            }
+        }
+
+        return closestIntersection;
+    }
+
     /**
      * Finds the part of the ship that would be intersected by a given path.
      *

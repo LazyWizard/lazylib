@@ -100,6 +100,30 @@ public class DefenseUtils
     }
 
     /**
+     * Get the armor level of a {@link ShipAPI} in total.
+     *
+     * @param ship The {@link ShipAPI} whose {@link ArmorGridAPI} we will use.
+     *
+     * @return The armor level for {@code ship}, 1.0 means full armor and 0 means empty.
+     *
+     * @since
+     */
+    public static float getArmorLevel(ShipAPI ship)
+    {
+        float totalLevel = 0f;
+        int width = ship.getArmorGrid().getGrid().length;
+        int height = ship.getArmorGrid().getGrid()[0].length;
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                totalLevel += ship.getArmorGrid().getArmorFraction(x, y);
+            }
+        }
+
+        return totalLevel / (width * height);
+    }
+
+    /**
      * Determine what {@link DefenseType} is present at a specific location
      * on a {@link ShipAPI}. This method will consider points not inside of the
      * ship's bounds as a miss even if said point is still within the armor

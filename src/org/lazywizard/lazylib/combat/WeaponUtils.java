@@ -351,6 +351,25 @@ public class WeaponUtils
         }
     }
 
+    /**
+     * Checks if a {@link BeamAPI} has damage target and within the arc of a
+     * {@link ShipAPI}'s shield, it may not actually dealing damage in this frame.
+     *
+     * @param beam The {@link BeamAPI} to check
+     * @param target The {@link WeaponAPI} to test against.
+     *
+     * @return {@code true} if in arc and in range, {@code false} otherwise.
+     *
+     * @since
+     */
+    public static boolean isHittingShield(BeamAPI beam, ShipAPI target) {
+        boolean targetCheck = beam.getDamageTarget() == target;
+        boolean shieldCheck = target.getShield() != null
+                           && target.getShield().isOn()
+                           && target.getShield().isWithinArc(beam.getTo());
+        return targetCheck && shieldArcCheck;
+    }
+
     private WeaponUtils()
     {
     }
