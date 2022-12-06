@@ -99,28 +99,56 @@ public class DefenseUtils
         return (ship.getArmorGrid().getArmorFraction(cell[0], cell[1]));
     }
 
+	/**
+	 * Get the armor level of a {@link ShipAPI} in total. No extra attention to the worst armor grid.
+	 *
+	 * @param ship The {@link ShipAPI} whose {@link ArmorGridAPI} we will use.
+	 *
+	 * @return The armor level for {@code ship}, 1.0 means full armor and 0 means empty.
+	 *
+	 * @since
+	 */
+	public static float getArmorLevel(ShipAPI ship)
+	{
+		return getArmorLevel(ship, 0f);
+	}
+
     /**
      * Get the armor level of a {@link ShipAPI} in total.
      *
      * @param ship The {@link ShipAPI} whose {@link ArmorGridAPI} we will use.
+	 * @param attentionToWorst The attention of the worst armor grid on the ship, higher means consider more on it.
      *
      * @return The armor level for {@code ship}, 1.0 means full armor and 0 means empty.
      *
      * @since
      */
-    public static float getArmorLevel(ShipAPI ship)
+    public static float getArmorLevel(ShipAPI ship, float attentionToWorst)
     {
         float totalLevel = 0f;
+        float worstLevel = 1f;
         int width = ship.getArmorGrid().getGrid().length;
         int height = ship.getArmorGrid().getGrid()[0].length;
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 totalLevel += ship.getArmorGrid().getArmorFraction(x, y);
+
+                if (totalLevel < worstLevel) {
+					worstLevel = totalLevel;
+				}
             }
         }
 
-        return totalLevel / (width * height);
+        if (attentionToWorst <= 0f) {
+			return totalLevel / (width * height);
+		}
+
+		if (attentionToWorst > 1f) {
+			attentionToWorst = 1f;
+		}
+
+        return totalLevel / (width * height) * (worstLevel * attentionToWorst + 1f - attentionToWorst);
     }
 
     /**
@@ -205,7 +233,7 @@ public class DefenseUtils
      */
     public static boolean hasHullDamage(ShipAPI ship)
     {
-        return (ship.getHitpoints() < ship.getMaxHitpoints());
+        return ship.getHitpoints() < ship.getMaxHitpoints();
     }
 
     /**

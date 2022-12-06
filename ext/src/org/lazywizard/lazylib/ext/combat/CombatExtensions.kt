@@ -6,6 +6,7 @@ import org.lazywizard.lazylib.MathUtils
 import org.lazywizard.lazylib.combat.AIUtils
 import org.lazywizard.lazylib.combat.CombatUtils
 import org.lazywizard.lazylib.combat.WeaponUtils
+import org.lazywizard.lazylib.combat.DefenseUtils
 import org.lwjgl.util.vector.Vector2f
 
 operator fun BoundsAPI.SegmentAPI.contains(point: Vector2f): Boolean = MathUtils.isPointOnLine(point, this.p1, this.p2)
@@ -63,3 +64,13 @@ fun WeaponAPI.getNearestEnemyMissileInArc(): MissileAPI? = WeaponUtils.getNeares
 fun WeaponAPI.getEnemyMissilesInArc(): List<MissileAPI> = WeaponUtils.getEnemyMissilesInArc(this)
 
 fun BeamAPI.isHittingShield(target: ShipAPI): Boolean = WeaponUtils.isHittingShield(this, target)
+
+fun ShipAPI.getArmorValue(loc: Vector2f): Float = DefenseUtils.getArmorValue(this, loc)
+fun ShipAPI.getArmorDamage(loc: Vector2f): Float = DefenseUtils.getArmorDamage(this, loc)
+fun ShipAPI.getArmorLevel(loc: Vector2f): Float = DefenseUtils.getArmorLevel(this, loc)
+
+fun ShipAPI.getArmorLevel(): Float = DefenseUtils.getArmorLevel(this)
+fun ShipAPI.getArmorLevel(attentionToWorst: Float): Float = DefenseUtils.getArmorLevel(this, attentionToWorst)
+
+fun ShipAPI.hasArmorDamage(): Boolean = DefenseUtils.hasArmorDamage(this)
+fun ShipAPI.hasHullDamage(): Boolean = DefenseUtils.hasHullDamage(this)

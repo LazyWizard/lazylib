@@ -12,10 +12,7 @@ import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 import org.lwjgl.util.vector.Vector2f;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Contains methods that deal with the battle map in general. These methods do
@@ -35,6 +32,7 @@ public class CombatUtils
      * Find a {@link ShipAPI}'s corresponding {@link FleetMemberAPI}. Due to the
      * way the game keeps tracks of ship ownership, this will be extremely slow
      * when used with hulks.
+	 * In most cases, use {@link ShipAPI}'s {@code getFleetMember()} instead.
      *
      * @param ship The {@link ShipAPI} whose corresponding
      *             {@link FleetMemberAPI} we are trying to find.
@@ -234,13 +232,14 @@ public class CombatUtils
     {
         List<MissileAPI> missiles = new ArrayList<>();
 
-        for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
-        {
-            if (MathUtils.isWithinRange(tmp.getLocation(), location, range))
-            {
-                missiles.add(tmp);
-            }
-        }
+		for (Iterator<Object> it = Global.getCombatEngine().getMissileGrid().getCheckIterator(location, range * 2f, range * 2f); it.hasNext(); ) {
+			MissileAPI tmp = (MissileAPI)it.next();
+
+			if (MathUtils.isWithinRange(tmp.getLocation(), location, range))
+			{
+				missiles.add(tmp);
+			}
+		}
 
         return missiles;
     }
@@ -261,18 +260,19 @@ public class CombatUtils
     {
         List<ShipAPI> ships = new ArrayList<>();
 
-        for (ShipAPI tmp : Global.getCombatEngine().getShips())
-        {
-            if (tmp.isShuttlePod())
-            {
-                continue;
-            }
+		for (Iterator<Object> it = Global.getCombatEngine().getShipGrid().getCheckIterator(location, range * 2f, range * 2f); it.hasNext(); ) {
+			ShipAPI tmp = (ShipAPI)it.next();
 
-            if (MathUtils.isWithinRange(tmp, location, range))
-            {
-                ships.add(tmp);
-            }
-        }
+			if (tmp.isShuttlePod())
+			{
+				continue;
+			}
+
+			if (MathUtils.isWithinRange(tmp, location, range))
+			{
+				ships.add(tmp);
+			}
+		}
 
         return ships;
     }
@@ -291,13 +291,14 @@ public class CombatUtils
     {
         List<CombatEntityAPI> asteroids = new ArrayList<>();
 
-        for (CombatEntityAPI tmp : Global.getCombatEngine().getAsteroids())
-        {
-            if (MathUtils.isWithinRange(tmp, location, range))
-            {
-                asteroids.add(tmp);
-            }
-        }
+		for (Iterator<Object> it = Global.getCombatEngine().getAsteroidGrid().getCheckIterator(location, range * 2f, range * 2f); it.hasNext(); ) {
+			CombatEntityAPI tmp = (CombatEntityAPI)it.next();
+
+			if (MathUtils.isWithinRange(tmp, location, range))
+			{
+				asteroids.add(tmp);
+			}
+		}
 
         return asteroids;
     }
@@ -330,7 +331,8 @@ public class CombatUtils
     }
 
     /**
-     * Returns all entities in range of a given location. This includes ships, projectiles, missiles, and asteroids.
+     * Returns all entities in range of a given location. This includes ships, projectiles, missiles, and
+	 * asteroids, this excluding objectives.
      *
      * @param location The location to search around.
      * @param range    How far around {@code location} to search.
@@ -343,36 +345,25 @@ public class CombatUtils
     {
         List<CombatEntityAPI> entities = new ArrayList<>();
 
-        for (CombatEntityAPI tmp : Global.getCombatEngine().getShips())
-        {
-            if (MathUtils.isWithinRange(tmp, location, range))
-            {
-                entities.add(tmp);
-            }
-        }
+		for (Iterator<Object> it = Global.getCombatEngine().getAllObjectGrid().getCheckIterator(location, range * 2f, range * 2f); it.hasNext(); ) {
+			CombatEntityAPI tmp = (CombatEntityAPI)it.next();
 
-        // This also includes missiles
-        for (CombatEntityAPI tmp : Global.getCombatEngine().getProjectiles())
-        {
-            if (MathUtils.isWithinRange(tmp, location, range))
-            {
-                entities.add(tmp);
-            }
-        }
+			if (tmp instanceof BattleObjectiveAPI)
+			{
+				continue;
+			}
 
-        for (CombatEntityAPI tmp : Global.getCombatEngine().getAsteroids())
-        {
-            if (MathUtils.isWithinRange(tmp, location, range))
-            {
-                entities.add(tmp);
-            }
-        }
+			if (MathUtils.isWithinRange(tmp, location, range))
+			{
+				entities.add(tmp);
+			}
+		}
 
         return entities;
     }
 
      /**
-     * Gets all living figthers that the given carrier hosts, includes fighters that returning to the bay
+     * Returns all living fighters that the given carrier hosts, includes fighters that returning to the bay.
      *
      * @param ship The carrier
      *
@@ -385,7 +376,7 @@ public class CombatUtils
     }
 
      /**
-     * Gets all living figthers that the given carrier hosts, includes fighters that returning to the bay or not
+     * Returns all living fighters that the given carrier hosts, includes fighters that returning to the bay or not.
      *
      * @param ship The carrier
      * @param includeReturning includes fighters that returning to the bay(such as from a bomb run), or not.

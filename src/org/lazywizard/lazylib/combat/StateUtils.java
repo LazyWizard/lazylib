@@ -1,21 +1,8 @@
 package org.lazywizard.lazylib.combat;
 
-import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.*;
-import com.fs.starfarer.api.fleet.FleetMemberAPI;
-import com.fs.starfarer.api.fleet.FleetMemberType;
-import com.fs.starfarer.api.mission.FleetSide;
+import com.fs.starfarer.api.combat.CombatEntityAPI;
+import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.util.Misc;
-import org.apache.log4j.Logger;
-import org.jetbrains.annotations.Nullable;
-import org.lazywizard.lazylib.MathUtils;
-import org.lazywizard.lazylib.VectorUtils;
-import org.lwjgl.util.vector.Vector2f;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Contains methods that check with the states of a single ship or other entity in general,

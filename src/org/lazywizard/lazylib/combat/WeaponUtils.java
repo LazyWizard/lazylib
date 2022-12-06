@@ -1,10 +1,7 @@
 package org.lazywizard.lazylib.combat;
 
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.CombatEntityAPI;
-import com.fs.starfarer.api.combat.MissileAPI;
-import com.fs.starfarer.api.combat.ShipAPI;
-import com.fs.starfarer.api.combat.WeaponAPI;
+import com.fs.starfarer.api.combat.*;
 import org.jetbrains.annotations.Nullable;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;

@@ -2,6 +2,7 @@ package org.lazywizard.lazylib;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.ModSpecAPI;
+import com.fs.starfarer.api.VersionInfoAPI;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -166,8 +167,6 @@ public class ModUtils
             Log.info("Mod " + modId + " 's version is not all numberic");
             return false;
         }
-
-        return false;
     }
 
     private ModUtils()
