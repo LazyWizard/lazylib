@@ -209,7 +209,7 @@ public class MathUtils
     public static boolean isWithinRange(SectorEntityToken token1, SectorEntityToken token2, float range)
     {
         return isWithinRange(token1.getLocation(), token2.getLocation(),
-                (range + token1.getRadius() + token2.getRadius()));
+                range + token1.getRadius() + token2.getRadius());
     }
 
     /**
@@ -230,7 +230,7 @@ public class MathUtils
      */
     public static boolean isWithinRange(SectorEntityToken token, Vector2f loc, float range)
     {
-        return isWithinRange(token.getLocation(), loc, (range + token.getRadius()));
+        return isWithinRange(token.getLocation(), loc, range + token.getRadius());
     }
 
     /**
@@ -254,7 +254,7 @@ public class MathUtils
     public static boolean isWithinRange(CombatEntityAPI entity1, CombatEntityAPI entity2, float range)
     {
         return isWithinRange(entity1.getLocation(), entity2.getLocation(),
-                (range + entity1.getCollisionRadius() + entity2.getCollisionRadius()));
+                range + entity1.getCollisionRadius() + entity2.getCollisionRadius());
     }
 
     /**
@@ -277,7 +277,7 @@ public class MathUtils
     public static boolean isWithinRange(CombatEntityAPI entity, Vector2f loc, float range)
     {
         return isWithinRange(entity.getLocation(), loc,
-                (range + entity.getCollisionRadius()));
+                range + entity.getCollisionRadius());
     }
 
     /**
@@ -293,7 +293,7 @@ public class MathUtils
      */
     public static boolean isWithinRange(Vector2f loc1, Vector2f loc2, float range)
     {
-        return (getDistanceSquared(loc1, loc2) <= (range * range));
+        return getDistanceSquared(loc1, loc2) <= (range * range);
     }
 
     // TODO: Test, rename, Javadoc, add to changelog
@@ -642,8 +642,8 @@ public class MathUtils
      */
     public static boolean isPointOnLine(Vector2f point, Vector2f lineStart, Vector2f lineEnd)
     {
-        return (Line2D.Float.ptSegDistSq(lineStart.x, lineStart.y,
-                lineEnd.x, lineEnd.y, point.x, point.y) <= 0.0001);
+        return Line2D.Float.ptSegDistSq(lineStart.x, lineStart.y,
+                lineEnd.x, lineEnd.y, point.x, point.y) <= 0.0001;
     }
 
     /**
