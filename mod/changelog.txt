@@ -1,8 +1,13 @@
- 2.7c (July XX, 2022)
-======================
+ 2.8 (April XX, 2023)
+=====================
 Updated bundled libraries:
  - kotlin-stdlib: v1.5.31 -> v1.6.21
- - kotlinx-coroutines: v1.5.2 -> v1.6.3
+ - kotlinx-coroutines: v1.5.2 -> v1.4.3 (reverted)
+ - kotlinx-coroutines-jvm: v1.4.3 (added)
+ - These are the last versions that support Java 7
+Changes to CombatUtils:
+ - Updated to use CombatEngineAPI's bin-lattice system where applicable, as
+   requested by several modders since its introduction
 
  2.7b (December 10, 2021)
 ==========================
