@@ -2,8 +2,7 @@
 =====================
 Updated bundled libraries:
  - kotlin-stdlib: v1.5.31 -> v1.6.21
- - kotlinx-coroutines: v1.5.2 -> v1.4.3 (reverted)
- - kotlinx-coroutines-jvm: v1.4.3 (added)
+ - kotlinx-coroutines: v1.5.2 -> v1.6.4 (custom build)
  - These are the last versions that support Java 7
 Changes to CombatUtils:
  - Updated to use CombatEngineAPI's bin-lattice system where applicable, as
