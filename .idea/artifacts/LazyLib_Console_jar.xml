@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="LazyLib-Console:jar">
+    <output-path>$STARSECTOR_INSTALL_DIR$/mods/LazyLib/jars</output-path>
+    <root id="archive" name="LazyLib-Console.jar">
+      <element id="module-output" name="LazyLib-Console" />
+    </root>
+  </artifact>
+</component>

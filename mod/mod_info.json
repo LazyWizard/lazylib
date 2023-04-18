@@ -3,9 +3,9 @@
     "name": "LazyLib",
     "author": "LazyWizard",
     "utility": "true",
-    "version": "2.7c",
+    "version": "2.8",
     "description": "A collection of classes to aid modding. Not a mod in itself, but required by certain other mods.",
     "gameVersion": "0.95.1a-RC6",
-    "jars": ["jars/LazyLib.jar","jars/LazyLib-Kotlin.jar","jars/lib/Kotlin-Runtime.jar"],
+    "jars": ["jars/LazyLib.jar","jars/LazyLib-Kotlin.jar","jars/LazyLib-Console.jar","jars/lib/Kotlin-Runtime.jar"],
     "modPlugin": "org.lazywizard.lazylib.LazyLib"
 }
