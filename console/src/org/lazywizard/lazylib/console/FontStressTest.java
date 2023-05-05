@@ -33,7 +33,7 @@ public class FontStressTest implements BaseCommand
         {
             //Console.showMessage(CommonStrings.ERROR_COMBAT_ONLY);
             Global.getSector().addTransientScript(new FontTestCampaignPlugin());
-            return CommandResult.WRONG_CONTEXT;
+            return CommandResult.SUCCESS;
         }
 
         final int numPlugins;

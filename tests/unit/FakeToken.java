@@ -776,5 +776,17 @@ public class FakeToken implements SectorEntityToken
     {
 
     }
+
+    @Override
+    public void setLightSource(SectorEntityToken star, Color color)
+    {
+
+    }
+
+    @Override
+    public List<EveryFrameScript> getScripts()
+    {
+        return null;
+    }
     //</editor-fold>
 }

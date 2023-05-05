@@ -243,10 +243,8 @@ public class CombatUtils
     {
         List<ShipAPI> ships = new ArrayList<>();
 
-        for (Iterator iter = Global.getCombatEngine().getShipGrid().getCheckIterator(
-                location, range * 2f, range * 2f); iter.hasNext(); )
+        for (ShipAPI tmp : Global.getCombatEngine().getShips())
         {
-            ShipAPI tmp = (ShipAPI) iter.next();
             if (tmp.isShuttlePod())
             {
                 continue;
@@ -276,7 +274,7 @@ public class CombatUtils
         List<CombatEntityAPI> asteroids = new ArrayList<>();
 
         for (Iterator iter = Global.getCombatEngine().getAsteroidGrid().getCheckIterator(
-                location, range * 2f, range * 2f); iter.hasNext(); )
+                location, range * 2f + 100f, range * 2f + 100f); iter.hasNext(); )
         {
             CombatEntityAPI tmp = (CombatEntityAPI) iter.next();
             if (MathUtils.isWithinRange(tmp, location, range))
@@ -330,13 +328,11 @@ public class CombatUtils
         List<CombatEntityAPI> entities = new ArrayList<>();
         CombatEntityAPI tmp;
 
-        for (Iterator iter = Global.getCombatEngine().getShipGrid().getCheckIterator(
-                location, range * 2f, range * 2f); iter.hasNext(); )
+        for (ShipAPI ship : Global.getCombatEngine().getShips())
         {
-            tmp = (CombatEntityAPI) iter.next();
-            if (MathUtils.isWithinRange(tmp, location, range))
+            if (MathUtils.isWithinRange(ship, location, range))
             {
-                entities.add(tmp);
+                entities.add(ship);
             }
         }
 
@@ -350,7 +346,7 @@ public class CombatUtils
         }
 
         for (Iterator iter = Global.getCombatEngine().getAsteroidGrid().getCheckIterator(
-                location, range * 2f, range * 2f); iter.hasNext(); )
+                location, range * 2f + 100f, range * 2f + 100f); iter.hasNext(); )
         {
             tmp = (CombatEntityAPI) iter.next();
             if (MathUtils.isWithinRange(tmp, location, range))

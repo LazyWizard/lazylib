@@ -1,12 +1,15 @@
- 2.8 (April XX, 2023)
-=====================
+ 2.8 (April 05, 2023)
+======================
+Updated to be compatible with Starsector 0.96a
 Updated bundled libraries:
  - kotlin-stdlib: v1.5.31 -> v1.6.21
  - kotlinx-coroutines: v1.5.2 -> v1.6.4 (custom build)
  - These are the last versions that support Java 7
+Added org.lazywizard.lazylib.campaign.orbits.KeplerOrbit:
+ - Submitted by Liral, this provides more accurate orbits than EllipticalOrbit
 Changes to CombatUtils:
  - Updated to use CombatEngineAPI's bin-lattice system where applicable, as
-   requested by several modders since its introduction
+   requested by several modders since those methods introduction
 
  2.7b (December 10, 2021)
 ==========================
