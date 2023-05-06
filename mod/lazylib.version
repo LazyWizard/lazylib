@@ -1,4 +1,5 @@
 {
+    "changelogURL":"https://raw.githubusercontent.com/LazyWizard/lazylib/master/mod/changelog.txt",
     "masterVersionFile":"https://raw.githubusercontent.com/LazyWizard/lazylib/master/mod/lazylib.version",
     "modName":"LazyLib",
     "modNexusId":1,

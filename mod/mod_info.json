@@ -5,7 +5,7 @@
     "utility": "true",
     "version": "2.8",
     "description": "A collection of classes to aid modding. Not a mod in itself, but required by certain other mods.",
-    "gameVersion": "0.96a-RC6",
+    "gameVersion": "0.96a-RC8",
     "jars": ["jars/LazyLib.jar","jars/LazyLib-Kotlin.jar","jars/LazyLib-Console.jar","jars/lib/Kotlin-Runtime.jar"],
     "modPlugin": "org.lazywizard.lazylib.LazyLib"
 }
