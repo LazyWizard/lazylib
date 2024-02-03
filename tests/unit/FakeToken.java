@@ -12,6 +12,7 @@ import org.lwjgl.util.vector.Vector2f;
 
 import java.awt.Color;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -786,7 +787,33 @@ public class FakeToken implements SectorEntityToken
     @Override
     public List<EveryFrameScript> getScripts()
     {
-        return null;
+        return Collections.emptyList();
+    }
+
+    @Override
+    public float getExtendedDetectedAtRange()
+    {
+        return 0;
+    }
+
+    @Override
+    public void setExtendedDetectedAtRange(Float extendedDetectedAtRange)
+    {
+    }
+
+    @Override
+    public void fadeOutIndicator()
+    {
+    }
+
+    @Override
+    public void fadeInIndicator()
+    {
+    }
+
+    @Override
+    public void forceOutIndicator()
+    {
     }
     //</editor-fold>
 }

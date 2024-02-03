@@ -1,3 +1,11 @@
+ 2.8b (February 02, 2024)
+==========================
+Updated to be compatible with Starsector 0.97a
+Changes to LazyFont:
+ - Changed default blendSrc back to GL_SRC_ALPHA (was GL_ONE since 2.4c)
+Deprecated org.lazywizard.lazylib.campaign.orbits.KeplerOrbit:
+ - Deprecated at the request of its contributor
+
  2.8 (April 05, 2023)
 ======================
 Updated to be compatible with Starsector 0.96a

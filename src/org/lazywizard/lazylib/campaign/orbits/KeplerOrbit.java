@@ -10,7 +10,9 @@ import org.lwjgl.util.vector.Vector2f;
  *
  * @author Liral
  * @since 2.8
+ * @deprecated Deprecated in 2.8b at the author's request due to unresolvable problems.
  */
+@Deprecated
 public class KeplerOrbit implements OrbitAPI {
 
     public static final float MINIMUM_ECCENTRICITY = 0.001f, MAXIMUM_ECCENTRICITY = 0.999f,
