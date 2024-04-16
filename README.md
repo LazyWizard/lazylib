@@ -33,7 +33,7 @@ Every method and class in this mod is fully documented (~2,000 lines of document
 
 
 ### Contributing to this mod ###
-If you wish to contribute to LazyLib, feel free. All of my projects use Mercurial for revision control. [Pull requests](https://confluence.atlassian.com/display/BITBUCKET/Fork+a+Repo,+Compare+Code,+and+Create+a+Pull+Request) are preferred, but if you want direct write access just PM me (include a link to your Bitbucket account) and I'll add you to the repository.
+If you wish to contribute to LazyLib, feel free. All of my projects use Git for revision control. [Pull requests](https://docs.github.com/en/pull-requests) are preferred, but if you want direct write access just PM me (include a link to your GitHub account) and I'll add you to the repository.
 
 There are a few things you should keep in mind when contributing:
  * Any class ending with 'Utils' should only contain static methods and shouldn't be instantiatable.
