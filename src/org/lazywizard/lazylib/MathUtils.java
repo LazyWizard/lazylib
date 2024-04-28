@@ -2,6 +2,7 @@ package org.lazywizard.lazylib;
 
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
+import com.fs.starfarer.api.combat.ShipAPI;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -799,6 +800,30 @@ public class MathUtils
     public static Random getRandom()
     {
         return rng;
+    }
+
+
+
+    /**
+     * Returns the angle (in degrees) between the <i>originShip</i>'s Forward Vector and <i>anotherShip</i>>
+     * @return the difference in degrees
+     * @see VectorUtils#getForwardVector(ShipAPI)
+     */
+    public static float getAngleToAnotherShip(ShipAPI originShip, ShipAPI anotherShip) {
+        float targetDirectionAngle = VectorUtils.getAngle(originShip.getLocation(), anotherShip.getLocation());
+        Vector2f myForwardVector = VectorUtils.getForwardVector(originShip);
+        float myAngle = VectorUtils.getAngle(myForwardVector, anotherShip.getLocation());
+
+        return (myAngle - targetDirectionAngle);
+    }
+
+    /**
+     * Returns the absolue angle (in degrees) between this ship and *anotherShip*
+     * @return the difference in degrees, as absolute value
+     * @see MathUtils#getAngleToAnotherShip(ShipAPI, ShipAPI)
+     */
+    public static float getAbsoluteAngleToAnotherShip(ShipAPI originShip, ShipAPI anotherShip) {
+        return Math.abs(getAngleToAnotherShip(originShip, anotherShip));
     }
 
     private MathUtils()

@@ -1,5 +1,6 @@
 package org.lazywizard.lazylib;
 
+import com.fs.starfarer.api.combat.ShipAPI;
 import org.lwjgl.util.vector.Vector2f;
 
 import java.util.ArrayList;
@@ -418,6 +419,21 @@ public class VectorUtils
         }
 
         return rotated;
+    }
+
+    /**
+     * Returns the {@link Vector2f} of where the ship is looking (facing) at
+     * @return the ship's forward vector, similar to {@link com.fs.starfarer.api.util.Misc#getUnitVectorAtDegreeAngle} used with the ship's {@link ShipAPI#getFacing}
+     */
+    public static Vector2f getForwardVector(ShipAPI ship) {
+        double rotationRadians = Math.toRadians(ship.getFacing());
+
+        // Calculate the components of the forward vector
+        float x = (float)Math.cos(rotationRadians);
+        float y = (float)Math.sin(rotationRadians);
+
+        // Return the forward vector
+        return new Vector2f(x, y);
     }
 
     private VectorUtils()
