@@ -336,21 +336,6 @@ class LazyFont private constructor(
         return wrappedString.substring(0, wrappedString.length - 1)
     }
 
-    @Deprecated("Use createText() instead! This method will be removed soon.")
-    fun drawText(text: String?, x: Float, y: Float, fontSize: Float, maxWidth: Float, maxHeight: Float): Vector2f {
-        LazyLib.onDeprecatedMethodUsage()
-
-        if (text == null || text.isBlank() || maxHeight < fontSize)
-            return Vector2f(0f, 0f)
-
-        with(createText(text, Color.WHITE, fontSize, maxWidth, maxHeight)) {
-            val size = Vector2f(width, height)
-            draw(x, y)
-            dispose()
-            return size
-        }
-    }
-
     @JvmOverloads
     fun createText(
         text: String = "", baseColor: Color = Color.WHITE, size: Float = baseHeight, maxWidth: Float = Float.MAX_VALUE,
@@ -467,14 +452,14 @@ class LazyFont private constructor(
             }
 
         // TODO: Remove deprecated method after next Starsector update
-        @Deprecated("Use baseColor instead", level = DeprecationLevel.WARNING)
+        @Deprecated("Use baseColor instead", level = DeprecationLevel.HIDDEN)
         var color: Color
-            @Deprecated("Use baseColor instead", level = DeprecationLevel.WARNING)
+            @Deprecated("Use baseColor instead", level = DeprecationLevel.HIDDEN)
             set(value) {
                 LazyLib.onDeprecatedMethodUsage()
                 baseColor = value
             }
-            @Deprecated("Use baseColor instead", level = DeprecationLevel.WARNING)
+            @Deprecated("Use baseColor instead", level = DeprecationLevel.HIDDEN)
             get() {
                 LazyLib.onDeprecatedMethodUsage()
                 return baseColor
@@ -505,44 +490,10 @@ class LazyFont private constructor(
         fun appendIndented(text: Any, color: Color, indent: Int): DrawableString =
             append(wrapString(text.toString(), fontSize, maxWidth, maxHeight, indent), color)
 
-        //<editor-fold defaultstate="collapsed" desc="Deprecated appendText() functions">
-        @Deprecated("Use append() instead", ReplaceWith("append(text)"), DeprecationLevel.HIDDEN)
-        fun appendText(text: String) {
-            LazyLib.onDeprecatedMethodUsage()
-            append(text)
-        }
-
-        @Deprecated("Use append() instead", ReplaceWith("append(text, color)"), DeprecationLevel.HIDDEN)
-        fun appendText(text: String, color: Color) {
-            LazyLib.onDeprecatedMethodUsage()
-            append(text, color)
-        }
-
-        @Deprecated(
-            "Use appendIndented() instead",
-            ReplaceWith("appendIndented(text, indent)"),
-            DeprecationLevel.HIDDEN
-        )
-        fun appendText(text: String, indent: Int) {
-            LazyLib.onDeprecatedMethodUsage()
-            appendIndented(text, indent)
-        }
-
-        @Deprecated(
-            "Use appendIndented() instead",
-            ReplaceWith("appendIndented(text, color, indent)"),
-            DeprecationLevel.HIDDEN
-        )
-        fun appendText(text: String, color: Color, indent: Int) {
-            LazyLib.onDeprecatedMethodUsage()
-            appendIndented(text, color, indent)
-        }
-        //</editor-fold>
-
         @Deprecated(
             "Use triggerRebuildIfNeeded() instead",
             ReplaceWith("triggerRebuildIfNeeded()"),
-            DeprecationLevel.WARNING
+            DeprecationLevel.HIDDEN
         )
         fun checkRebuild(): Boolean = triggerRebuildIfNeeded()
 
@@ -557,7 +508,7 @@ class LazyFont private constructor(
                 return true
             }
 
-            var lastChar: LazyFont.LazyChar? = null // For kerning purposes
+            var lastChar: LazyFont.LazyChar? // For kerning purposes
             val scaleFactor = fontSize / baseHeight
             var xOffset = 0f
             var yOffset = 0f

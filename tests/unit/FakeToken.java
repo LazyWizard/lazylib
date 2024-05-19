@@ -815,5 +815,10 @@ public class FakeToken implements SectorEntityToken
     public void forceOutIndicator()
     {
     }
+
+    @Override
+    public void setOrbitFocus(SectorEntityToken sectorEntityToken)
+    {
+    }
     //</editor-fold>
 }

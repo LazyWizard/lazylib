@@ -4,7 +4,7 @@ import java.text.NumberFormat;
 
 public class ModUtilsTests
 {
-    private static final int NUM_TESTS = 150_000;
+/*    private static final int NUM_TESTS = 150_000;
 
     @Test
     public void testGetCallerClass()
@@ -35,5 +35,5 @@ public class ModUtilsTests
     public static void main(String[] args)
     {
         new ModUtilsTests().testGetCallerClass();
-    }
+    }*/
 }

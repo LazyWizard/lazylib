@@ -1,0 +1,5 @@
+# Abuse gitattributes to force GitHub to show library changes in changeset view
+.idea/** -linguist-generated
+
+# Don't include generated documentation in changeset view or project stats
+docs/** linguist-generated linguist-vendored linguist-documentation -diff

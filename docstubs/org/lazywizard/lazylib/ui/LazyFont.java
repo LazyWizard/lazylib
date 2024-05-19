@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * An efficiently drawable bitmap font implementation. May not be a pixel-perfect match to Starsector's implementation.
  * <p>
- * <h3>Basic Usage:</h3>
+ * <h2>Basic Usage:</h2>
  * <ul>
  * <li>Load a font with {@link LazyFont#loadFont(String)}. This can be kept around safely without worrying about
  * memory usage - the underlying texture makes up the bulk of the size, and that is only loaded once per unique
@@ -33,7 +33,7 @@ import java.util.Map;
  * will crash!</li>
  * </ul>
  *
- * <h3>Example Usage:</h3>
+ * <h2>Example Usage:</h2>
  * <pre><code>
  * package data.scripts.plugins;
  *
@@ -283,34 +283,6 @@ public class LazyFont
      */
     @NotNull
     public LazyFont.LazyChar getChar(char character)
-    {
-        return null;
-    }
-
-    /**
-     * <b>DEPRECATED AND SLATED FOR REMOVAL - DO NOT USE!</b>
-     * <br>
-     * Renders a block of text, used to manually create display lists - <b>not recommended for general
-     * usage</b>. Use {@link LazyFont#createText(String, Color, float, float, float)} instead.
-     *
-     * @param text      The text to be drawn.
-     * @param x         The x coordinate of the starting point for rendering (top left corner of text).
-     * @param y         The y coordinate of the starting point for rendering (top left corner of text).
-     * @param fontSize  The size of the text to be drawn. For best results, this should be evenly divisible by {@link
-     *                  LazyFont#getBaseHeight()}. Other values may cause slight blurriness or jaggedness.
-     * @param maxWidth  The maximum width of the drawn text before further text will be wrapped to a new line.
-     * @param maxHeight The maximum height of the drawn text. All further text past this point will be discarded.
-     *
-     * @return A {@link Vector2f} containing the width and height of the drawn text area.
-     *
-     * @see LazyFont#createText(String, Color, float, float, float) for when you need to draw the same
-     *         block of text multiple times (99% of use cases).
-     * @since 2.3
-     * @deprecated Use {@link #createText(String, Color, float, float, float)} instead! This will be removed soon.
-     */
-    @NotNull
-    @Deprecated
-    public Vector2f drawText(String text, float x, float y, float fontSize, float maxWidth, float maxHeight)
     {
         return null;
     }
