@@ -139,6 +139,9 @@ class LazyFont private constructor(
                     )
                 }
 
+                if (font.lookupTable[' '.code - 32] == null)
+                    throw FontException("Font ${font.fontName} does not define a space character!")
+
                 // Used when a character isn't defined in a font
                 font.fallbackChar = (font.lookupTable['?'.code - 32] ?: font.lookupTable[' '.code - 32])!!
 
@@ -198,6 +201,7 @@ class LazyFont private constructor(
         else extendedChars[tmp.id.toChar()] = tmp
     }
 
+    private val warnedChars: MutableSet<Char> = mutableSetOf()
     fun getChar(character: Char): LazyChar {
         val ch: LazyChar? =
             if (character.code in 32..255) lookupTable[character.code - 32] else extendedChars[character]
@@ -212,9 +216,14 @@ class LazyFont private constructor(
             '\u201c', '\u201d', '\u201e', '\u201f' -> return getChar('"')
         }
 
+        // Only warn once per character (fixes log spam when modders create a new DrawableString each frame)
+        if (!character.isWhitespace() && character !in warnedChars) {
+            Log.warn("Character '$character' is not defined in font data")
+            warnedChars.add(character)
+        }
+
         // If the character isn't in the defined set, return a question mark (or a
         // blank space if the font doesn't define a question mark, either)
-        if (!character.isWhitespace()) Log.warn("Character '$character' is not defined in font data")
         return fallbackChar
     }
 
