@@ -32,6 +32,9 @@ class LazyFont private constructor(
     // Much slower map-based lookup for international characters (256+ in Unicode)
     private val extendedChars = HashMap<Char, LazyChar>()
 
+    // Fallback character for when a character isn't defined in the font
+    private lateinit var fallbackChar: LazyChar
+
     // File format documentation: http://www.angelcode.com/products/bmfont/doc/file_format.html
     companion object FontLoader {
         // These are used for validating read data
@@ -136,6 +139,9 @@ class LazyFont private constructor(
                     )
                 }
 
+                // Used when a character isn't defined in a font
+                font.fallbackChar = (font.lookupTable['?'.code - 32] ?: font.lookupTable[' '.code - 32])!!
+
                 // Parse and add kerning data
                 for (kernLine in kernLines) {
                     val kernData = kernLine.split(SPLIT_REGEX).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -171,7 +177,7 @@ class LazyFont private constructor(
             toClean.add(id)
         }
 
-        // Called by the main thread periodically
+        // Called by the main thread periodically to free up old buffers
         fun checkClean() {
             if (toClean.isNotEmpty()) {
                 synchronized(toClean) {
@@ -197,10 +203,19 @@ class LazyFont private constructor(
             if (character.code in 32..255) lookupTable[character.code - 32] else extendedChars[character]
         if (ch != null) return ch
 
+        // Replace Unicode smart characters with their basic equivalents
+        // DO NOT put basic characters here or you could create an infinite loop in getChar()!
+        when (character) {
+            // Smart single quotes
+            '\u2018', '\u2019', '\u201A', '\u201B' -> return getChar('\'')
+            // Smart double quotes
+            '\u201c', '\u201d', '\u201e', '\u201f' -> return getChar('"')
+        }
+
         // If the character isn't in the defined set, return a question mark (or a
         // blank space if the font doesn't define a question mark, either)
         if (!character.isWhitespace()) Log.warn("Character '$character' is not defined in font data")
-        return if (character == '?') getChar(' ') else getChar('?')
+        return fallbackChar
     }
 
     override fun toString() = "$fontName (texture id: $textureId)"
@@ -466,7 +481,6 @@ class LazyFont private constructor(
             }
 
         init {
-            // TODO: Switch to java.lang.ref.Cleaner if Starsector's JRE is ever upgraded
             MemoryHandler.checkClean()
             Log.debug("Buffer $bufferId created")
         }
@@ -478,6 +492,8 @@ class LazyFont private constructor(
         }
 
         fun append(text: Any, color: Color): DrawableString {
+            // Set indices for color data
+            // TODO: Handle invisible characters that mess up length
             substringColorData[sb.length] = color.getRGBComponents(null)
             append(text)
             substringColorData[sb.length] = this.baseColor.getRGBComponents(null)
@@ -691,7 +707,7 @@ class LazyFont private constructor(
 
                     glColor(baseColor.darker(), 0.5f)
                     glBegin(GL_LINE_LOOP)
-                    glVertex2f(0f,0f)
+                    glVertex2f(0f, 0f)
                     glVertex2f(displayedMaxWidth, 0f)
                     glVertex2f(displayedMaxWidth, -displayedMaxHeight)
                     glVertex2f(0f, -displayedMaxHeight)
@@ -726,6 +742,7 @@ class LazyFont private constructor(
                 Log.debug("Deleting buffer $bufferId manually")
                 glDeleteBuffers(bufferId)
             }
+
             isDisposed = true
         }
 
