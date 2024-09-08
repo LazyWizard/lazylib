@@ -5,6 +5,17 @@ Updated bundled libraries to take advantage of move to Java 17:
  - kotlin-stdlib: v1.6.21 -> v2.0.10
  - kotlinx-coroutines: v1.6.4 -> v1.8.1
  - jetbrains-annotations: v23.0.0 -> REMOVED (now included in kotlin-stdlib)
+Changes to LazyFont:
+ - Cached fallback char used when font doesn't contain a requested character;
+   very slight performance improvement
+ - LazyFont.loadFont() will now throw a FontException if the font doesn't
+   contain character data for an empty space
+ - Unicode smart quotes (single and double) are converted into basic quotes
+ - Attempting to create a DrawableString with missing character data will only
+   log a warning once per missing character, instead of every time one is used
+   (explanation: if the font doesn't define Ç, it will log a warning the first
+    time you try to draw one, while replacing the missing character with either
+    a question mark, or empty space if the font doesn't define a question mark)
 Removed org.lazywizard.lazylib.campaign.orbits.KeplerOrbit
 Removed from org.lazywizard.lazylib.ui.LazyFont:
  - Removed drawText(); use createText() instead
