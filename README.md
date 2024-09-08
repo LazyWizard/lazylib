@@ -1,3 +1,5 @@
+_**Note:** development to support the upcoming Java 17 version of Starsector can be found in the [lazylib-next](https://github.com/LazyWizard/lazylib/tree/lazylib-next) branch._
+
 # LazyLib #
 ![GitHub all releases](https://img.shields.io/github/downloads/LazyWizard/lazylib/total) ![GitHub release (latest by date)](https://img.shields.io/github/downloads/LazyWizard/lazylib/latest/total)
 
