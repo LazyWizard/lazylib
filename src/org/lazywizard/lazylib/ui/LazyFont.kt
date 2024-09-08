@@ -255,7 +255,7 @@ class LazyFont private constructor(
         return curWidth
     }
 
-    private fun buildUntilLimit(rawLine: String, fontSize: Float, maxWidth: Float): String {
+    fun buildUntilLimit(rawLine: String, fontSize: Float, maxWidth: Float): String {
         if (rawLine.isBlank() || maxWidth <= 0f) return ""
 
         val scaleFactor = fontSize / baseHeight

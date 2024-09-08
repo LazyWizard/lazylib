@@ -107,6 +107,7 @@ import java.util.Map;
  */
 // Javadoc stubs for LazyFont, since Dokka is a steaming pile
 // The actual source code can be found in LazyFont.kt
+// TODO: Move this back to LazyFont as KDoc and give Dokka a second chance, now that it's had a few years to grow
 @SuppressWarnings("ALL")
 public class LazyFont
 {
@@ -126,6 +127,26 @@ public class LazyFont
     public static LazyFont loadFont(String fontPath) throws FontException
     {
         return null;
+    }
+
+    /**
+     * Returns the longest {@link String} that will fit within a single line, given the space limits passed in.
+     * This can and will return a String ending with a partial word. For proper word-wrapping, use 
+     * {@link LazyFont#wrapString(String, float, float, float) instead.
+     *
+     * @param rawLine   The text to be measured. This should be a single line of text with no newlines.
+     * @param fontSize  The font size the text would be rendered at.
+     * @param maxWidth  The max width of the text area. Text will be cut off at the last character that fit
+     *                  within this width.
+     *
+     * @return The longest substring of {@code rawLine} that will fit within a single line of up to {@code maxWidth} width.
+     *
+     * @since 3.0
+     */
+    @NotNull
+    public String buildUntilLimit(String rawLine, float fontSize, float maxWidth)
+    {
+        return "";
     }
 
     /**
@@ -416,6 +437,7 @@ public class LazyFont
      * @author LazyWizard
      * @since 2.3
      */
+    // TODO: Add Javadoc, even if it will never be needed (stupid perfectionism)
     public class LazyChar
     {
         public Map<Integer, Integer> getKernings()
