@@ -19,6 +19,7 @@ import kotlin.math.ceil
 import kotlin.math.max
 
 // Javadoc for this class is in the docstubs directory
+// TODO: Move Javadoc back here as KDoc, give Dokka another chance
 class LazyFont private constructor(
     val fontName: String,
     val textureId: Int,
@@ -139,6 +140,8 @@ class LazyFont private constructor(
                     )
                 }
 
+                // TODO: It should be trivial to create a space character ourselves if the font lacks one
+                // (take bottom right pixel and create 1x1 character with relevant xadvance?)
                 if (font.lookupTable[' '.code - 32] == null)
                     throw FontException("Font ${font.fontName} does not define a space character!")
 
@@ -755,7 +758,6 @@ class LazyFont private constructor(
             isDisposed = true
         }
 
-        @Suppress("ProtectedInFinal")
         // TODO: Create JRE-dependent subclasses that use sun.misc.Cleaner or JRE9+'s Cleaner to avoid second GC cycle
         // (phantom references don't avoid a second GC cycle before JRE9, so need to use undocumented classes in JRE7)
         protected fun finalize() {
