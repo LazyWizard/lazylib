@@ -140,12 +140,26 @@ class LazyFont private constructor(
                     )
                 }
 
-                // TODO: It should be trivial to create a space character ourselves if the font lacks one
-                // (take bottom right pixel and create 1x1 character with relevant xadvance?)
-                if (font.lookupTable[' '.code - 32] == null)
-                    throw FontException("Font ${font.fontName} does not define a space character!")
+                // If the font data does not define a space character, define it manually
+                // We take the bottom right pixel and create a 1x1 character followed by a lengthy advance
+                // TODO: TEST THIS!
+                if (font.lookupTable[' '.code - 32] == null) {
+                    Log.warn("Font ${font.fontName} does not define a space character! Creating one manually...");
+                    font.addChar(
+                        id = 32,
+                        tx = textureWidth.toInt() - 1,
+                        ty = textureHeight.toInt() - 1,
+                        width = 1,
+                        height = font.baseHeight.toInt() - 1,
+                        xOffset = 0,
+                        yOffset = 0,
+                        // Use average xAdvance to support monospaced fonts
+                        advance = font.lookupTable.mapNotNull { it?.advance }.average().toInt()
+                        //advance = (font.baseHeight / 2f).toInt() + 1) // FIXME: Not correct for monospaced fonts
+                    )
+                }
 
-                // Used when a character isn't defined in a font
+                // Displayed in place of any character that isn't defined in this font
                 font.fallbackChar = (font.lookupTable['?'.code - 32] ?: font.lookupTable[' '.code - 32])!!
 
                 // Parse and add kerning data
