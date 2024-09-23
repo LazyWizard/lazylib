@@ -87,7 +87,8 @@ loadScripts(document, 'script');</script>
  text, and it is unlikely that end users will ever need to use this class or any of its methods in their code.
  <p>
  In the rare case that these methods are needed, their names should match the bitmap font file format found <a href="http://www.angelcode.com/products/bmfont/doc/file_format.html">here</a> under the <code>char</code> and
- <code>kerning</code> headings.</div>
+ <code>kerning</code> headings. The exact details differ for reasons based on implementing them into OpenGL -
+ check the Javadoc for any differences from the specification.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>2.3</dd>
@@ -110,51 +111,86 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAdvance()" class="member-name-link">getAdvance</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the total amount of horizontal space this character takes up at base font size.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeight()" class="member-name-link">getHeight</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the height of the character in the underlying texture atlas.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getId()" class="member-name-link">getId</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the Unicode character code matching this character.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getKerning(char)" class="member-name-link">getKerning</a><wbr>(char&nbsp;otherChar)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the amount of kerning (extra padding) to add before drawing this character immmediately after the
+ other.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getKerning(int)" class="member-name-link">getKerning</a><wbr>(int&nbsp;otherCharId)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the amount of kerning (extra padding) to add before drawing this character immmediately after the
+ other.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getKernings()" class="member-name-link">getKernings</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns a map containing the amount of kerning (extra padding) to add before drawing this character
+ immmediately after various others.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTx1()" class="member-name-link">getTx1</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">The leftmost position of the character in the underlying texture, as a ratio of its total width.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTx2()" class="member-name-link">getTx2</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">The rightmost position of the character in the underlying texture, as a ratio of its total width.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTy1()" class="member-name-link">getTy1</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">The topmost position of the character in the underlying texture, as a ratio of its total width.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTy2()" class="member-name-link">getTy2</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">The bottom-most position of the character in the underlying texture, as a ratio of its total width.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getWidth()" class="member-name-link">getWidth</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the width of the character in the underlying texture atlas.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getXOffset()" class="member-name-link">getXOffset</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns how much extra empty space to add to the left of this character before drawing it.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getYOffset()" class="member-name-link">getYOffset</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns how much extra empty space to add to the top of this character before drawing it.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKerning(char,int)" class="member-name-link">setKerning</a><wbr>(char&nbsp;otherChar,
  int&nbsp;kerning)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the amount of kerning (extra padding) to add before drawing this character immmediately after the
+ other.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKerning(int,int)" class="member-name-link">setKerning</a><wbr>(int&nbsp;otherCharId,
  int&nbsp;kerning)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the amount of kerning (extra padding) to add before drawing this character immmediately after the
+ other.</div>
+</div>
 </div>
 </div>
 </div>
@@ -176,30 +212,76 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getKernings()">
 <h3>getKernings</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span>&nbsp;<span class="element-name">getKernings</span>()</div>
+<div class="block">Returns a map containing the amount of kerning (extra padding) to add before drawing this character
+ immmediately after various others. Kerning makes fonts look better.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>A map containing the number of extra pixels to add at base font size before drawing this character
+         immediately after various others. The key is the Unicode ID of the other character, and the value is
+         the number of pixels to add when drawing this <a href="LazyFont.LazyChar.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.LazyChar</code></a> after it.</dd>
+<dt>Since:</dt>
+<dd>2.3</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getTx1()">
 <h3>getTx1</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getTx1</span>()</div>
+<div class="block">The leftmost position of the character in the underlying texture, as a ratio of its total width.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The leftmost position of the character in the underlying texture, as a ratio of its total width
+         (for example, a character whose texture starts exactly 1/5th along the x axis of the texture atlas
+         would have a tx1 of 0.2).</dd>
+<dt>Since:</dt>
+<dd>2.3</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getTx2()">
 <h3>getTx2</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getTx2</span>()</div>
+<div class="block">The rightmost position of the character in the underlying texture, as a ratio of its total width.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The rightmost position of the character in the underlying texture, as a ratio of its total width
+         (for example, a character whose texture ends exactly 1/5th along the x axis of the texture atlas
+         would have a tx2 of 0.2).</dd>
+<dt>Since:</dt>
+<dd>2.3</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getTy1()">
 <h3>getTy1</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getTy1</span>()</div>
+<div class="block">The topmost position of the character in the underlying texture, as a ratio of its total width.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The topmost position of the character in the underlying texture, as a ratio of its total width
+         (for example, a character whose texture starts exactly 1/5th along the y axis of the texture atlas
+         would have a ty1 of 0.2).</dd>
+<dt>Since:</dt>
+<dd>2.3</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getTy2()">
 <h3>getTy2</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getTy2</span>()</div>
+<div class="block">The bottom-most position of the character in the underlying texture, as a ratio of its total width.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The bottom-most position of the character in the underlying texture, as a ratio of its total width
+         (for example, a character whose texture ends exactly 1/5th along the y axis of the texture atlas
+         would have a ty2 of 0.2).</dd>
+<dt>Since:</dt>
+<dd>2.3</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -207,12 +289,37 @@ loadScripts(document, 'script');</script>
 <h3>setKerning</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setKerning</span><wbr><span class="parameters">(int&nbsp;otherCharId,
  int&nbsp;kerning)</span></div>
+<div class="block">Sets the amount of kerning (extra padding) to add before drawing this character immmediately after the
+ other. Kerning makes fonts look better.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>otherCharId</code> - The Unicode ID of the character to add kerning data for. When drawing a
+                    <a href="LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a>, this character will have extra padding when drawn after the
+                    <a href="LazyFont.LazyChar.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.LazyChar</code></a> with the id <code>otherCharId</code>.</dd>
+<dd><code>kerning</code> - The number of extra pixels to add at base font size before drawing this character
+                    immediately after the <a href="LazyFont.LazyChar.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.LazyChar</code></a> with ID <code>otherCharId</code>.</dd>
+<dt>Since:</dt>
+<dd>2.3</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getKerning(int)">
 <h3>getKerning</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getKerning</span><wbr><span class="parameters">(int&nbsp;otherCharId)</span></div>
+<div class="block">Returns the amount of kerning (extra padding) to add before drawing this character immmediately after the
+ other. Kerning makes fonts look better.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>otherCharId</code> - The Unicode ID of the character to add kerning data for. When drawing a
+                    <a href="LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a>, this character will have extra padding when drawn after the
+                    <a href="LazyFont.LazyChar.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.LazyChar</code></a> with the id <code>otherCharId</code>.</dd>
+<dt>Returns:</dt>
+<dd>The number of extra pixels to add at base font size before drawing this character
+         immediately after the <a href="LazyFont.LazyChar.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.LazyChar</code></a> with ID <code>otherCharId</code>.</dd>
+<dt>Since:</dt>
+<dd>2.3</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -220,48 +327,117 @@ loadScripts(document, 'script');</script>
 <h3>setKerning</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setKerning</span><wbr><span class="parameters">(char&nbsp;otherChar,
  int&nbsp;kerning)</span></div>
+<div class="block">Sets the amount of kerning (extra padding) to add before drawing this character immmediately after the
+ other. Kerning makes fonts look better.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>otherChar</code> - The character to add kerning data for. When drawing a <a href="LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a>, this character
+                  will have extra padding when drawn after <code>otherChar</code>.</dd>
+<dd><code>kerning</code> - The number of extra pixels to add at base font size before drawing this character
+                  immediately after <code>otherChar</code>.</dd>
+<dt>Since:</dt>
+<dd>2.3</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getKerning(char)">
 <h3>getKerning</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getKerning</span><wbr><span class="parameters">(char&nbsp;otherChar)</span></div>
+<div class="block">Returns the amount of kerning (extra padding) to add before drawing this character immmediately after the
+ other. Kerning makes fonts look better.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>otherChar</code> - The character to add kerning data for. When drawing a <a href="LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a>, this character
+                  will have extra padding when drawn after <code>otherCharId</code>.</dd>
+<dt>Returns:</dt>
+<dd>The number of extra pixels to add at base font size before drawing this character immediately after
+         <code>otherChar</code>.</dd>
+<dt>Since:</dt>
+<dd>2.3</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getId()">
 <h3>getId</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getId</span>()</div>
+<div class="block">Returns the Unicode character code matching this character.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The character code of the underlying <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Character.html" title="class or interface in java.lang" class="external-link"><code>Character</code></a> in Unicode.</dd>
+<dt>Since:</dt>
+<dd>2.3</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getWidth()">
 <h3>getWidth</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getWidth</span>()</div>
+<div class="block">Returns the width of the character in the underlying texture atlas.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The width of the character in the texture atlas, in pixels.</dd>
+<dt>Since:</dt>
+<dd>2.3</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getHeight()">
 <h3>getHeight</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getHeight</span>()</div>
+<div class="block">Returns the height of the character in the underlying texture atlas.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The height of the character in the texture atlas, in pixels.</dd>
+<dt>Since:</dt>
+<dd>2.3</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getXOffset()">
 <h3>getXOffset</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getXOffset</span>()</div>
+<div class="block">Returns how much extra empty space to add to the left of this character before drawing it. Used for
+ alignment.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The amount of space to move right horizontally before drawing, in pixels, at the base font size. Used
+         for alignment.</dd>
+<dt>Since:</dt>
+<dd>2.3</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getYOffset()">
 <h3>getYOffset</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getYOffset</span>()</div>
+<div class="block">Returns how much extra empty space to add to the top of this character before drawing it. Used for
+ alignment.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The amount of space to move down vertically before drawing, in pixels, at the base font size. Used
+         for alignment.</dd>
+<dt>Since:</dt>
+<dd>2.3</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getAdvance()">
 <h3>getAdvance</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getAdvance</span>()</div>
+<div class="block">Returns the total amount of horizontal space this character takes up at base font size.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The number of pixels this character takes up horizontally at base font size, minus any kerning.</dd>
+<dt>Since:</dt>
+<dd>2.3</dd>
+</dl>
 </section>
 </li>
 </ul>

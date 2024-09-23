@@ -126,16 +126,27 @@ class LazyFont private constructor(
                         throw FontException("Character data length mismatch in '$canonPath'")
                     }
 
+                    // Register each character with the parent font
                     font.addChar(
+                        // What character this is in Unicode
                         id = Integer.parseInt(charData[2]),
+                        // The leftmost position of the character in the underlying texture
                         tx = Integer.parseInt(charData[4]),
+                        // The topmost position of the character in the underlying texture
                         ty = Integer.parseInt(charData[6]),
+                        // The width of the character in the underlying texture
                         width = Integer.parseInt(charData[8]),
+                        // The height of the character in the underlying texture
                         height = Integer.parseInt(charData[10]),
+                        // Extra empty space before character when displaying it
                         xOffset = Integer.parseInt(charData[12]),
+                        // Extra empty space above character when displaying it
                         yOffset = Integer.parseInt(charData[14]),
+                        // How much horizontal space this character takes up, including offset and padding
                         advance = Integer.parseInt(charData[16]) + 1
+                        // Which subtexture this character's image is stored on (NOT IMPLEMENTED; ASSUMES 0)
                         //page = Integer.parseInt(data[18]),
+                        // Which texture channel this character is encoded in (NOT IMPLEMENTED; ASSUMES 15)
                         //channel = Integer.parseInt(data[20]));
                     )
                 }
@@ -153,7 +164,8 @@ class LazyFont private constructor(
                         height = font.baseHeight.toInt() - 1,
                         xOffset = 0,
                         yOffset = 0,
-                        // Use average xAdvance to support monospaced fonts
+                        // Use average advance to support monospaced fonts
+                        // TODO: test that average advance looks right on regular fonts
                         advance = font.lookupTable.mapNotNull { it?.advance }.average().toInt()
                         //advance = (font.baseHeight / 2f).toInt() + 1) // FIXME: Not correct for monospaced fonts
                     )

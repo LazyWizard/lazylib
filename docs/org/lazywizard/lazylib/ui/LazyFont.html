@@ -385,16 +385,17 @@ loadScripts(document, 'script');</script>
  float&nbsp;fontSize,
  float&nbsp;maxWidth)</span></div>
 <div class="block">Returns the longest <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link"><code>String</code></a> that will fit within a single line, given the space limits passed in.
- This can and will return a String ending with a partial word. For proper word-wrapping, use 
+ This can and will return a String ending with a partial word. For proper word-wrapping, use
  <a href="#wrapString(java.lang.String,float,float,float)"><code>wrapString(String, float, float, float)</code></a> instead.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>rawLine</code> - The text to be measured. This should be a single line of text with no newlines.</dd>
 <dd><code>fontSize</code> - The font size the text would be rendered at.</dd>
 <dd><code>maxWidth</code> - The max width of the text area. Text will be cut off at the last character that fit
-                  within this width.</dd>
+                 within this width.</dd>
 <dt>Returns:</dt>
-<dd>The longest substring of <code>rawLine</code> that will fit within a single line of up to <code>maxWidth</code> width.</dd>
+<dd>The longest substring of <code>rawLine</code> that will fit within a single line of up to <code>maxWidth</code>
+         width.</dd>
 <dt>Since:</dt>
 <dd>3.0</dd>
 </dl>
