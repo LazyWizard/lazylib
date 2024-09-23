@@ -132,7 +132,7 @@ public class LazyFont
     /**
      * Returns the longest {@link String} that will fit within a single line, given the space limits passed in.
      * This can and will return a String ending with a partial word. For proper word-wrapping, use 
-     * {@link LazyFont#wrapString(String, float, float, float) instead.
+     * {@link LazyFont#wrapString(String, float, float, float)} instead.
      *
      * @param rawLine   The text to be measured. This should be a single line of text with no newlines.
      * @param fontSize  The font size the text would be rendered at.
