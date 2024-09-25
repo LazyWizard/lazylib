@@ -12,13 +12,15 @@ Changes to LazyFont:
  - Attempting to create a DrawableString with missing character data will only
    log a warning once per missing character, instead of every time one is used
    (explanation: if the font doesn't define Ç, it will log a warning the first
-    time you try to draw one, while replacing the missing character with either
+    time you try to draw one while replacing the missing character with either
     a question mark, or empty space if the font doesn't define a question mark)
- - LazyFont.loadFont() will now throw a FontException if the font doesn't
-   contain character data for an empty space
+ - LazyFont.loadFont() will now make up fake data for a space character if the
+   font file lacks one (it creates an invisible pixel with extra padding)
  - Cached fallback char used when font doesn't contain a requested character;
    very slight performance improvement
+ - Added missing Javadoc to LazyChar
 Removed org.lazywizard.lazylib.campaign.orbits.KeplerOrbit
+ - Removed at the request of its contributor
 Removed from org.lazywizard.lazylib.ui.LazyFont:
  - Removed drawText(); use createText() instead
  - Removed appendText(); use append() instead
