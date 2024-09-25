@@ -145,7 +145,7 @@ public class ModUtils
      *
      * @since 2.3
      */
-    public boolean modCheck(String modId, int major, int minor, int patch) {
+    public boolean isVersionNewerThan(String modId, int major, int minor, int patch) {
         if (!isModEnabled(modId)) return false;
 
         try {
