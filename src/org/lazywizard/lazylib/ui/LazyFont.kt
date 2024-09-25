@@ -405,7 +405,7 @@ class LazyFont private constructor(
         val font: LazyFont get() = this@LazyFont
         var anchor: TextAnchor = TextAnchor.TOP_LEFT
         var renderDebugBounds = false
-        var blendSrc = GL_ONE
+        var blendSrc = GL_SRC_ALPHA
         var blendDest = GL_ONE_MINUS_SRC_ALPHA
         var isRebuildNeeded = true
             private set

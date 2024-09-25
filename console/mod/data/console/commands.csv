@@ -1,0 +1,4 @@
+command,class,tags,syntax,help
+#TestCoroutines,org.lazywizard.lazylib.console.TestCoroutines,"lazylib",tcr (no arguments),"Tests Kotlin coroutine support."
+#TestLazyFont,org.lazywizard.lazylib.console.FontStressTest,"lazylib,combat,campaign",testfont (no arguments),"Stress test LazyLib's font rendering."
+#TestWithinRange,org.lazywizard.lazylib.console.TestWithinRange,"lazylib,combat",testwithinrange (no arguments),""
