@@ -1,7 +1,7 @@
 _**Note:** development to support the upcoming Java 17 version of Starsector can be found in the [lazylib-next](https://github.com/LazyWizard/lazylib/tree/lazylib-next) branch._
 
 # LazyLib #
-![Documentation](https://img.shields.io/badge/documentation-stable-blue?link=https%3A%2F%2Flazywizard.github.io%2Flazylib) ![GitHub all releases](https://img.shields.io/github/downloads/LazyWizard/lazylib/total) ![GitHub release (latest by date)](https://img.shields.io/github/downloads/LazyWizard/lazylib/latest/total)
+[<img src="https://img.shields.io/badge/documentation-stable-blue">](https://lazywizard.github.io/lazylib/ "Documentation") [<img src="https://img.shields.io/github/downloads/LazyWizard/lazylib/total">](https://github.com/lazywizard/lazylib/releases "GitHub all releases") [<img src="https://img.shields.io/github/downloads/LazyWizard/lazylib/latest/total">](https://github.com/lazywizard/lazylib/releases/latest "GitHub release (latest by date)")
 
 LazyLib is not a regular mod. It doesn't add any ships, weapons or factions. In fact, it doesn't change anything at all in your game! All it does is make writing code for mods easier. It contains methods to deal with otherwise complicated tasks like collision detection and formatted sector messages, among many other things.
 
