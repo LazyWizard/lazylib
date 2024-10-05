@@ -126,7 +126,7 @@ public class VectorUtils
      */
     public static float getCrossProduct(Vector2f vector1, Vector2f vector2)
     {
-        return (vector1.x * vector2.y) - (vector1.y * vector2.x);
+        return vector1.x * vector2.y - vector1.y * vector2.x;
     }
 
     /**
@@ -140,7 +140,7 @@ public class VectorUtils
      */
     public static boolean isZeroVector(Vector2f vector)
     {
-        return (vector.x == 0 && vector.y == 0);
+        return vector.x == 0 && vector.y == 0;
     }
 
     /**

@@ -32,6 +32,7 @@ public class CombatUtils
      * Find a {@link ShipAPI}'s corresponding {@link FleetMemberAPI}. Due to the
      * way the game keeps tracks of ship ownership, this will be extremely slow
      * when used with hulks.
+	 * In most cases, use {@link ShipAPI}'s {@code getFleetMember()} instead.
      *
      * @param ship The {@link ShipAPI} whose corresponding
      *             {@link FleetMemberAPI} we are trying to find.
@@ -169,7 +170,7 @@ public class CombatUtils
     }
 
     /**
-     * Returns all projectiles in range of a given location, excluding missiles.
+     * Returns all projectiles in range of a given location, excluding missiles by default.
      *
      * @param location The location to search around.
      * @param range    How far around {@code location} to search.
@@ -181,11 +182,28 @@ public class CombatUtils
      */
     public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location, float range)
     {
+        return getProjectilesWithinRange(location, range, true);
+    }
+
+    /**
+     * Returns all projectiles in range of a given location.
+     *
+     * @param location          The location to search around.
+     * @param range             How far around {@code location} to search.
+     * @param excludeMissile    How far around {@code location} to search.
+     *
+     * @return A {@link List} of {@link DamagingProjectileAPI}s within range of
+     *         {@code location}.
+     *
+     * @since
+     */
+    public static List<DamagingProjectileAPI> getProjectilesWithinRange(Vector2f location, float range, boolean excludeMissile)
+    {
         List<DamagingProjectileAPI> projectiles = new ArrayList<>();
 
         for (DamagingProjectileAPI tmp : Global.getCombatEngine().getProjectiles())
         {
-            if (tmp instanceof MissileAPI)
+            if (excludeMissile && (tmp instanceof MissileAPI))
             {
                 continue;
             }
@@ -214,15 +232,14 @@ public class CombatUtils
     {
         List<MissileAPI> missiles = new ArrayList<>();
 
-        for (Iterator iter = Global.getCombatEngine().getMissileGrid().getCheckIterator(
-                location, range * 2f, range * 2f); iter.hasNext(); )
-        {
-            MissileAPI tmp = (MissileAPI) iter.next();
-            if (MathUtils.isWithinRange(tmp.getLocation(), location, range))
-            {
-                missiles.add(tmp);
-            }
-        }
+		for (Iterator<Object> it = Global.getCombatEngine().getMissileGrid().getCheckIterator(location, range * 2f, range * 2f); it.hasNext(); ) {
+			MissileAPI tmp = (MissileAPI)it.next();
+
+			if (MathUtils.isWithinRange(tmp.getLocation(), location, range))
+			{
+				missiles.add(tmp);
+			}
+		}
 
         return missiles;
     }
@@ -243,18 +260,19 @@ public class CombatUtils
     {
         List<ShipAPI> ships = new ArrayList<>();
 
-        for (ShipAPI tmp : Global.getCombatEngine().getShips())
-        {
-            if (tmp.isShuttlePod())
-            {
-                continue;
-            }
+		for (Iterator<Object> it = Global.getCombatEngine().getShipGrid().getCheckIterator(location, range * 2f, range * 2f); it.hasNext(); ) {
+			ShipAPI tmp = (ShipAPI)it.next();
 
-            if (MathUtils.isWithinRange(tmp, location, range))
-            {
-                ships.add(tmp);
-            }
-        }
+			if (tmp.isShuttlePod())
+			{
+				continue;
+			}
+
+			if (MathUtils.isWithinRange(tmp, location, range))
+			{
+				ships.add(tmp);
+			}
+		}
 
         return ships;
     }
@@ -273,15 +291,14 @@ public class CombatUtils
     {
         List<CombatEntityAPI> asteroids = new ArrayList<>();
 
-        for (Iterator iter = Global.getCombatEngine().getAsteroidGrid().getCheckIterator(
-                location, range * 2f + 100f, range * 2f + 100f); iter.hasNext(); )
-        {
-            CombatEntityAPI tmp = (CombatEntityAPI) iter.next();
-            if (MathUtils.isWithinRange(tmp, location, range))
-            {
-                asteroids.add(tmp);
-            }
-        }
+		for (Iterator<Object> it = Global.getCombatEngine().getAsteroidGrid().getCheckIterator(location, range * 2f, range * 2f); it.hasNext(); ) {
+			CombatEntityAPI tmp = (CombatEntityAPI)it.next();
+
+			if (MathUtils.isWithinRange(tmp, location, range))
+			{
+				asteroids.add(tmp);
+			}
+		}
 
         return asteroids;
     }
@@ -314,7 +331,8 @@ public class CombatUtils
     }
 
     /**
-     * Returns all entities in range of a given location. This includes ships, projectiles, missiles, and asteroids.
+     * Returns all entities in range of a given location. This includes ships, projectiles, missiles, and
+	 * asteroids, this excluding objectives.
      *
      * @param location The location to search around.
      * @param range    How far around {@code location} to search.
@@ -326,36 +344,60 @@ public class CombatUtils
     public static List<CombatEntityAPI> getEntitiesWithinRange(Vector2f location, float range)
     {
         List<CombatEntityAPI> entities = new ArrayList<>();
-        CombatEntityAPI tmp;
 
-        for (ShipAPI ship : Global.getCombatEngine().getShips())
-        {
-            if (MathUtils.isWithinRange(ship, location, range))
-            {
-                entities.add(ship);
-            }
-        }
+		for (Iterator<Object> it = Global.getCombatEngine().getAllObjectGrid().getCheckIterator(location, range * 2f, range * 2f); it.hasNext(); ) {
+			CombatEntityAPI tmp = (CombatEntityAPI)it.next();
 
-        // This also includes missiles
-        for (CombatEntityAPI proj : Global.getCombatEngine().getProjectiles())
-        {
-            if (MathUtils.isWithinRange(proj, location, range))
-            {
-                entities.add(proj);
-            }
-        }
+			if (tmp instanceof BattleObjectiveAPI)
+			{
+				continue;
+			}
 
-        for (Iterator iter = Global.getCombatEngine().getAsteroidGrid().getCheckIterator(
-                location, range * 2f + 100f, range * 2f + 100f); iter.hasNext(); )
-        {
-            tmp = (CombatEntityAPI) iter.next();
-            if (MathUtils.isWithinRange(tmp, location, range))
-            {
-                entities.add(tmp);
-            }
-        }
+			if (MathUtils.isWithinRange(tmp, location, range))
+			{
+				entities.add(tmp);
+			}
+		}
 
         return entities;
+    }
+
+     /**
+     * Returns all living fighters that the given carrier hosts, includes fighters that returning to the bay.
+     *
+     * @param ship The carrier
+     *
+     * @return A {@link List} containing all living fighters that the carrier hosts.
+     *
+     * @since 
+     */
+    public static List<ShipAPI> getFighters(ShipAPI ship) {
+        return getFighters(ship, true);
+    }
+
+     /**
+     * Returns all living fighters that the given carrier hosts, includes fighters that returning to the bay or not.
+     *
+     * @param ship The carrier
+     * @param includeReturning includes fighters that returning to the bay(such as from a bomb run), or not.
+     *
+     * @return A {@link List} containing all living fighters that the carrier hosts.
+     *
+     * @since 
+     */
+    public static List<ShipAPI> getFighters(ShipAPI ship, boolean includeReturning) {
+        List<ShipAPI> result = new ArrayList<>();
+        for (FighterWingAPI wing : ship.getAllWings()){
+            result.addAll(wing.getWingMembers());
+
+            if (includeReturning) {
+                for (FighterWingAPI.ReturningFighter returning : wing.getReturning()) {
+                    result.add(returning.fighter);
+                }
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -466,12 +508,14 @@ public class CombatUtils
 
         // Avoid divide-by-zero errors...
         float mass = Math.max(1f, entity.getMass());
+
         // Calculate the velocity change and its resulting vector
         // Don't bother going over Starsector's speed cap
         float velChange = Math.min(1250f, force / mass);
         Vector2f dir = new Vector2f();
         direction.normalise(dir);
         dir.scale(velChange);
+
         // Apply our velocity change
         Vector2f.add(dir, entity.getVelocity(), entity.getVelocity());
     }
