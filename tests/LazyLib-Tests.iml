@@ -8,7 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="TEST" name="Starsector API" level="application" />
-    <orderEntry type="library" name="Console Commands" level="application" />
     <orderEntry type="module" module-name="LazyLib" />
     <orderEntry type="module" module-name="LazyLib-Extensions" />
     <orderEntry type="library" scope="TEST" name="junit" level="project" />

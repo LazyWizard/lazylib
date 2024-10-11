@@ -1,10 +1,14 @@
  3.0 (who knows?)
 ==================
 Updated to be compatible with Starsector 0.Xa and Java 17
+Updated to Kotlin 2 and the K2 compiler
 Updated bundled libraries to take advantage of move to Java 17:
  - kotlin-stdlib: v1.6.21 -> v2.0.20
- - kotlinx-coroutines: v1.6.4 -> v1.9.0
+ - kotlinx-coroutines: v1.6.4 (custom build) -> v1.9.0
  - jetbrains-annotations: v23.0.0 -> REMOVED (now included in kotlin-stdlib)
+Changes to jar file locations:
+ - Moved LazyLib-Console.jar and Kotlin-Runtime.jar to jars/internal, to
+   better signify that they aren't meant to be added as dependencies
 Changes to LazyFont:
  - Added buildUntilLimit(String line, float fontSize, float maxWidth), which
    returns a substring of line that will fit within maxWidth width
