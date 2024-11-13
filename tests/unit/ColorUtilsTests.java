@@ -14,7 +14,7 @@ public class ColorUtilsTests
     public void testGenRandomColor()
     {
         int totalRed = 0, totalGreen = 0, totalBlue = 0, totalAlpha = 0;
-        float[] colComponents = new float[4];
+        final float[] colComponents = new float[4];
         for (int i = 0; i < NUM_TESTS; i++)
         {
             final Color color = new Color(MathUtils.getRandomNumberInRange(0, 0xff000000));
