@@ -9,6 +9,10 @@ Updated bundled libraries to take advantage of move to Java 17:
 Changes to jar file locations:
  - Moved LazyLib-Console.jar and Kotlin-Runtime.jar to jars/internal, to
    better signify that they aren't meant to be added as dependencies
+Changes to CollisionUtils:
+ - Fixed getCollisionPoint(Vector2f lineStart, Vector2f lineEnd,
+   CombatEntityAPI target) returning null if entire line was within target's
+   bounds without touching a bounds segment (now returns copy of lineStart)
 Changes to LazyFont:
  - Added buildUntilLimit(String line, float fontSize, float maxWidth), which
    returns a substring of line that will fit within maxWidth width
