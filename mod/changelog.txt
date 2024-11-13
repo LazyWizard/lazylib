@@ -13,7 +13,11 @@ Changes to CollisionUtils:
  - Fixed getCollisionPoint(Vector2f lineStart, Vector2f lineEnd,
    CombatEntityAPI target) returning null if entire line was within target's
    bounds without touching a bounds segment (now returns copy of lineStart)
+ - getNearestPointOnBounds() no longer requires you to call bounds.update();
+   as with all other CollisionUtils methods it now calls update() itself
 Changes to LazyFont:
+ - Fixed display of fonts whose texture scaling doesn't match their texture size
+   (credit to Psiyon for the bug report and the fix)
  - Added buildUntilLimit(String line, float fontSize, float maxWidth), which
    returns a substring of line that will fit within maxWidth width
  - Unicode smart quotes (single and double) are converted into basic quotes

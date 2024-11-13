@@ -192,6 +192,7 @@ public class CollisionUtils
         // Fallback in case entity somehow lacks any segments in its bounds
         final Vector2f closestPoint = new Vector2f(entity.getLocation());
         float closestDistanceSquared = Float.MAX_VALUE;
+        bounds.update(entity.getLocation(), entity.getFacing());
         for (SegmentAPI segment : bounds.getSegments())
         {
             final Vector2f tmp = MathUtils.getNearestPointOnLine(source, segment.getP1(), segment.getP2());
@@ -280,10 +281,9 @@ public class CollisionUtils
         // Transform the bounds into a series of points
         List<SegmentAPI> segments = bounds.getSegments();
         List<Vector2f> points = new ArrayList<>(segments.size() + 1);
-        SegmentAPI seg;
         for (int x = 0; x < segments.size(); x++)
         {
-            seg = segments.get(x);
+            final SegmentAPI seg = segments.get(x);
 
             // Use this opportunity to test if the point is exactly on the bounds
             if (CollisionUtils.isPointOnSegment(point, seg))
