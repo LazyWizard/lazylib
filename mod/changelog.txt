@@ -17,6 +17,9 @@ Changes to CollisionUtils:
    as with all other CollisionUtils methods it now calls update() itself
 Changes to ColorUtils:
  - Added genRandomColor(), returns a Color with random RGB values
+Changes to FastTrig:
+ - atan() properly reduces its argument
+   (credit to Genir for the bug report and the fix)
 Changes to LazyFont:
  - Fixed display of fonts whose texture scaling doesn't match their texture size
    (credit to Psiyon for the bug report and the fix)
