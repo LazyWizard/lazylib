@@ -102,10 +102,14 @@ class LazyFont private constructor(
                 // TODO: Add support for multiple image files; 'pages' in the font file
                 // (this is a low priority as no vanilla font uses multiple pages)
                 val textureId: Int
+                val textureWidth: Float
+                val textureHeight: Float
                 try {
                     Global.getSettings().loadTexture(imgFile)
                     val texture = Global.getSettings().getSprite(imgFile)
                     textureId = texture.textureId
+                    textureWidth = texture.width
+                    textureHeight = texture.height
                 } catch (ex: IOException) {
                     throw FontException("Failed to load texture atlas '$imgFile'", ex)
                 }
