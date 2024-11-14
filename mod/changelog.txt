@@ -15,6 +15,8 @@ Changes to CollisionUtils:
    bounds without touching a bounds segment (now returns copy of lineStart)
  - getNearestPointOnBounds() no longer requires you to call bounds.update();
    as with all other CollisionUtils methods it now calls update() itself
+Changes to ColorUtils:
+ - Added genRandomColor(), returns a Color with random RGB values
 Changes to LazyFont:
  - Fixed display of fonts whose texture scaling doesn't match their texture size
    (credit to Psiyon for the bug report and the fix)
