@@ -1,13 +1,10 @@
-package org.lazywizard.lazylib.opengl;
+package org.lazywizard.lazylib;
 
-import com.fs.starfarer.api.Global;
-import org.apache.log4j.Logger;
-import org.lazywizard.lazylib.FastTrig;
 import org.lazywizard.lazylib.opengl.DrawUtils;
 
 /**
  * Provides methods to calculate vertices of common shapes. Equivalent
- * algorithms to LazyLib's {@link DrawUtils}, but returns the raw vertices
+ * algorithms to {@link DrawUtils}, but returns the raw vertices
  * instead of drawing them for you.
  *
  * @author LazyWizard
@@ -15,8 +12,6 @@ import org.lazywizard.lazylib.opengl.DrawUtils;
  */
 public class ShapeUtils
 {
-    private static final Logger LOG = Global.getLogger(ShapeUtils.class);
-
     /**
      * Creates the vertices for a simple circle.
      * <p>
@@ -29,13 +24,13 @@ public class ShapeUtils
      * @param radius      The radius of the circle to be drawn.
      * @param numSegments How many line segments the circle should be made up
      *                    of (higher number = smoother circle).
-     * <p>
+     *
      * @return The vertices needed to draw a circle with the given parameters.
-     * <p>
+     *
      * @since 3.0
      */
     public static float[] createCircle(float centerX, float centerY,
-            float radius, int numSegments)
+                                       float radius, int numSegments)
     {
         // Precalculate the sine and cosine
         // Instead of recalculating sin/cos for each line segment,
@@ -80,13 +75,13 @@ public class ShapeUtils
      *                    in degrees.
      * @param numSegments How many line segments the ellipse should be made up
      *                    of (higher number = smoother ellipse).
-     * <p>
+     *
      * @return The vertices needed to draw an ellipse with the given parameters.
-     * <p>
+     *
      * @since 3.0
      */
     public static float[] createEllipse(float centerX, float centerY,
-            float width, float height, float angleOffset, int numSegments)
+                                        float width, float height, float angleOffset, int numSegments)
     {
         // Convert angles into radians for our calculations
         angleOffset = (float) Math.toRadians(angleOffset);
@@ -140,13 +135,13 @@ public class ShapeUtils
      * @param arcAngle    The size of the arc, in degrees.
      * @param numSegments How many line segments the arc should be made up
      *                    of (higher number = smoother arc).
-     * <p>
+     *
      * @return The vertices needed to draw an arc with the given parameters.
-     * <p>
+     *
      * @since 3.0
      */
     public static float[] createArc(float centerX, float centerY, float radius,
-            float startAngle, float arcAngle, int numSegments)
+                                    float startAngle, float arcAngle, int numSegments)
     {
         // Convert angles into radians for our calculations
         startAngle = (float) Math.toRadians(startAngle);

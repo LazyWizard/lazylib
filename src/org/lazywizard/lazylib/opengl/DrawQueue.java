@@ -1,15 +1,5 @@
 package org.lazywizard.lazylib.opengl;
 
-import java.awt.Color;
-import java.lang.ref.WeakReference;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.fs.starfarer.api.Global;
 import org.apache.log4j.Logger;
 import org.lwjgl.BufferUtils;
@@ -17,6 +7,12 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.vector.Vector2f;
+
+import java.awt.Color;
+import java.lang.ref.WeakReference;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+import java.util.*;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
@@ -65,6 +61,7 @@ import static org.lwjgl.opengl.GL15.*;
  * @author LazyWizard
  * @since 3.0
  */
+// TODO: Add to changelog
 // TODO: Implement interleavened VBO for maximum efficiency
 // TODO: Remove all references to the radar mod
 public class DrawQueue
@@ -88,7 +85,6 @@ public class DrawQueue
      * garbage collected. Necessary due to the lack of a callback at the end of
      * a combat/campaign scenario. This is called internally by the mod, so you
      * should never need to call it yourself.
-     * <p>
      *
      * @since 3.0
      */
@@ -118,7 +114,6 @@ public class DrawQueue
     /**
      * Creates a new auto-resizing DrawQueue with the draw flag
      * {@link GL15#GL_DYNAMIC_DRAW}.
-     * <p>
      *
      * @param initialCapacity The initial maximum number of vertices this
      *                        DrawQueue should hold, used for allocating native
@@ -128,7 +123,6 @@ public class DrawQueue
      *                        relatively expensive operation, so you should try
      *                        to set this to the maximum number of vertices you
      *                        expect the DrawQueue to hold over its lifetime.
-     *                        <p>
      *
      * @since 3.0
      */
@@ -139,7 +133,6 @@ public class DrawQueue
 
     /**
      * Creates a new auto-resizing DrawQueue.
-     * <p>
      *
      * @param initialCapacity The initial maximum number of vertices this
      *                        DrawQueue should hold, used for allocating native
@@ -151,7 +144,6 @@ public class DrawQueue
      *                        expect the DrawQueue to hold over its lifetime.
      * @param drawFlag        The buffer data stream type, only used if VBOs are
      *                        active. Default is {@link GL15#GL_DYNAMIC_DRAW}.
-     *                        <p>
      *
      * @since 3.0
      */
@@ -196,7 +188,6 @@ public class DrawQueue
 
     /**
      * Clears all data from the DrawQueue.
-     * <p>
      *
      * @since 3.0
      */
@@ -213,7 +204,6 @@ public class DrawQueue
      *
      * @return {@code true} if no vertices have been added to the DrawQueue,
      *         {@code false} otherwise.
-     *         <p>
      *
      * @since 3.0
      */
@@ -224,7 +214,6 @@ public class DrawQueue
 
     /**
      * Sets the color of any vertices added after this method is called.
-     * <p>
      *
      * @param color    The color of the next shape. All vertices added until
      *                 this method is called again will use this color.
@@ -234,7 +223,6 @@ public class DrawQueue
      *                 {@link CommonRadar#getRadarAlpha()} for UI elements. Also
      *                 useful to avoid creating a new Color object every frame
      *                 just to add fade effects.
-     *                 <p>
      *
      * @since 3.0
      */
@@ -250,7 +238,6 @@ public class DrawQueue
     /**
      * Sets the color of any vertices added after this method is called. Color
      * values must be in the [0..1] range.
-     * <p>
      *
      * @param red   The red channel value of the color you wish to use (should
      *              be between 0 and 1).
@@ -260,7 +247,6 @@ public class DrawQueue
      *              be between 0 and 1).
      * @param alpha The alpha channel value of the color you wish to use (should
      *              be between 0 and 1).
-     *              <p>
      *
      * @since 3.0
      */
@@ -275,7 +261,6 @@ public class DrawQueue
     /**
      * Sets the color of any vertices added after this method is called. Color
      * values must be in the [0..255] range.
-     * <p>
      *
      * @param red   The red channel value of the color you wish to use (should
      *              be between 0 and 255).
@@ -285,7 +270,6 @@ public class DrawQueue
      *              be between 0 and 255).
      * @param alpha The alpha channel value of the color you wish to use (should
      *              be between 0 and 255).
-     *              <p>
      *
      * @since 3.0
      */
@@ -300,14 +284,11 @@ public class DrawQueue
     /**
      * Add vertex data to the current shape. If called on a finished DrawQueue,
      * this will reset it and start a new set of vertex data.
-     * <p>
      *
      * @param vertices The vertex x,y pairs to be added.
-     *                 <p>
      *
      * @return {@code true} if the DrawQueue had to resize to fit
      *         {@code vertices}, {@code false} otherwise.
-     *         <p>
      *
      * @since 3.0
      */
@@ -358,14 +339,11 @@ public class DrawQueue
     /**
      * Add vertex data to the current shape. If called on a finished DrawQueue,
      * this will reset it and start a new set of vertex data.
-     * <p>
      *
      * @param vertices The vertices to be added.
-     *                 <p>
      *
      * @return {@code true} if the DrawQueue had to resize to fit
      *         {@code vertices}, {@code false} otherwise.
-     *         <p>
      *
      * @since 3.0
      */
@@ -387,15 +365,12 @@ public class DrawQueue
     /**
      * Add a single vertex to the current shape. If called on a finished
      * DrawQueue, this will reset it and start a new set of vertex data.
-     * <p>
      *
      * @param x The x coordinate of the vertex to be added.
      * @param y The y coordinate of the vertex to be added.
-     *          <p>
      *
      * @return {@code true} if the DrawQueue had to resize to fit
      *         {@code vertex}, {@code false} otherwise.
-     *         <p>
      *
      * @since 3.0
      */
@@ -433,14 +408,11 @@ public class DrawQueue
     /**
      * Add a single vertex to the current shape. If called on a finished
      * DrawQueue, this will reset it and start a new set of vertex data.
-     * <p>
      *
      * @param vertex The vertex to be added.
-     *               <p>
      *
      * @return {@code true} if the DrawQueue had to resize to fit
      *         {@code vertex}, {@code false} otherwise.
-     *         <p>
      *
      * @since 3.0
      */
@@ -452,11 +424,9 @@ public class DrawQueue
     /**
      * Finalizes the current shape. You <i>must</i> call this after every shape,
      * otherwise rendering errors will occur.
-     * <p>
      *
      * @param shapeDrawMode The draw mode for this shape (what you would
      *                      normally call with {@link GL11#glBegin(int)}).
-     *                      <p>
      *
      * @since 3.0
      */
@@ -473,7 +443,6 @@ public class DrawQueue
      * Once this method has been called, any further calls to
      * {@link DrawQueue#addVertices(float[])} will <i>replace</i> the
      * DrawQueue's existing contents, not add to them.
-     * <p>
      *
      * @since 3.0
      */
@@ -511,7 +480,6 @@ public class DrawQueue
      * called before using this. This method requires OpenGL client states
      * {@link GL11#GL_VERTEX_ARRAY} and {@link GL11#GL_COLOR_ARRAY} to be
      * enabled.
-     * <p>
      *
      * @since 3.0
      */

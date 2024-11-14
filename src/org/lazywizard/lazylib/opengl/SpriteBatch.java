@@ -16,6 +16,7 @@ import static org.lwjgl.opengl.GL11.*;
  * @since 3.0
  */
 // TODO: Javadoc all methods
+// TODO: Add to changelog
 // TODO: Rewrite to handle multiple SpriteAPIs
 // TODO: Rewrite to use buffers (clone of DrawQueue?)
 // TODO: Remove all references to the radar mod
