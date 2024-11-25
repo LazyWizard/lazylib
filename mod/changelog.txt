@@ -9,6 +9,9 @@ Updated bundled libraries to take advantage of move to Java 17:
 Changes to jar file locations:
  - Moved LazyLib-Console.jar and Kotlin-Runtime.jar to jars/internal, to
    better signify that they aren't meant to be added as dependencies
+Added org.lazywizard.lazylib.ShapeUtils:
+ - Copy of org.lazywizard.lazylib.opengl.DrawUtils, except its methods
+   return a list of vertices instead of drawing the requested shape
 Changes to CollisionUtils:
  - Fixed getCollisionPoint(Vector2f lineStart, Vector2f lineEnd,
    CombatEntityAPI target) returning null if entire line was within target's
@@ -36,6 +39,11 @@ Changes to LazyFont:
  - Cached fallback char used when font doesn't contain a requested character;
    very slight performance improvement
  - Added missing Javadoc to LazyChar
+Changes to VectorUtils:
+ - Added toFloatArray(List<Vector2f> vectors), which converts a List of
+   Vector2fs into an array of floats containing their coordinates
+ - Added toVectorList(float[] coordinates), which converts a float array of
+   coordinates into a List of Vector2fs
 Removed org.lazywizard.lazylib.campaign.orbits.KeplerOrbit
  - Removed at the request of its contributor
 Removed from org.lazywizard.lazylib.ui.LazyFont:

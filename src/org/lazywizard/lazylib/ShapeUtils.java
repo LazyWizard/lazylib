@@ -1,11 +1,16 @@
 package org.lazywizard.lazylib;
 
 import org.lazywizard.lazylib.opengl.DrawUtils;
+import org.lwjgl.util.vector.Vector2f;
+
+import java.util.List;
 
 /**
  * Provides methods to calculate vertices of common shapes. Equivalent
  * algorithms to {@link DrawUtils}, but returns the raw vertices
- * instead of drawing them for you.
+ * instead of drawing them for you. These float arrays can be converted
+ * to a {@link List} of {@link Vector2f}s if needed by calling
+ * {@link VectorUtils#toVectorList(float[])} on them.
  *
  * @author LazyWizard
  * @since 3.0
