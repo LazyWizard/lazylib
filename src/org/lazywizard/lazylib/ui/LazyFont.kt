@@ -157,7 +157,7 @@ class LazyFont private constructor(
                 // We take the bottom right pixel and create a 1x1 character followed by a lengthy advance
                 // TODO: TEST THIS!
                 if (font.lookupTable[' '.code - 32] == null) {
-                    Log.warn("Font ${font.fontName} does not define a space character! Creating one manually...");
+                    Log.warn("Font ${font.fontName} does not define a space character! Creating one manually...")
                     font.addChar(
                         id = 32,
                         tx = textureWidth.toInt() - 1,
@@ -564,7 +564,7 @@ class LazyFont private constructor(
                 return true
             }
 
-            var lastChar: LazyFont.LazyChar? // For kerning purposes
+            var lastChar: LazyChar? // For kerning purposes
             val scaleFactor = fontSize / baseHeight
             var xOffset = 0f
             var yOffset = 0f
