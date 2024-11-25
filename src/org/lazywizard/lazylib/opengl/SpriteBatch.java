@@ -1,9 +1,11 @@
 package org.lazywizard.lazylib.opengl;
 
+import com.fs.starfarer.api.graphics.SpriteAPI;
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-import com.fs.starfarer.api.graphics.SpriteAPI;
+
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -19,10 +21,8 @@ import static org.lwjgl.opengl.GL11.*;
 // TODO: Add to changelog
 // TODO: Rewrite to handle multiple SpriteAPIs
 // TODO: Rewrite to use buffers (clone of DrawQueue?)
-// TODO: Remove all references to the radar mod
 public class SpriteBatch
 {
-    //private static final Logger Log = Logger.getLogger(SpriteBatch.class);
     private static final boolean DEBUG_MODE = false;
     private final int textureId, blendSrc, blendDest;
     private final float textureWidth, textureHeight, offsetScaleX, offsetScaleY, hScale;
@@ -149,16 +149,16 @@ public class SpriteBatch
         {
             final int value = color.getRGB();
             return new byte[]
-            {
-                (byte) ((value >> 16) & 0xFF),
-                (byte) ((value >> 8) & 0xFF),
-                (byte) (value & 0xFF),
-                (byte) (Math.round((value >> 24) & 0xFF) * alphaMod)
-            };
+                    {
+                            (byte) ((value >> 16) & 0xFF),
+                            (byte) ((value >> 8) & 0xFF),
+                            (byte) (value & 0xFF),
+                            (byte) Math.round(((value >> 24) & 0xFF) * alphaMod)
+                    };
         }
 
         private DrawCall(float x, float y, float angle, float width, float height,
-                Color color, float alphaMod)
+                         Color color, float alphaMod)
         {
             this.x = x;
             this.y = y;

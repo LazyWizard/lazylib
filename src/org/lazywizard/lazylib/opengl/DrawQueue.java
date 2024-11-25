@@ -156,7 +156,7 @@ public class DrawQueue
             glGenBuffers(ids);
             vertexId = ids.get(0);
             colorId = ids.get(1);
-            refs.put(new WeakReference(this), ids);
+            refs.put(new WeakReference<>(this), ids);
         }
         else
         {
