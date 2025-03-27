@@ -2,8 +2,8 @@
   <artifact type="jar" build-on-make="true" name="Kotlin:jar">
     <output-path>$STARSECTOR_INSTALL_DIR$/mods/LazyLib/jars/internal</output-path>
     <root id="archive" name="Kotlin-Runtime.jar">
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/2.0.20/kotlin-stdlib-2.0.20.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/13.0/annotations-13.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/2.1.20/kotlin-stdlib-2.1.20.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
