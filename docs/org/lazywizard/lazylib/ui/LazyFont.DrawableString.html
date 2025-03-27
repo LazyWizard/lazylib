@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="../../../../script-dir/jquery-ui.min.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="../../../../script.js"></script>
-<script type="text/javascript" src="../../../../script-dir/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../../../../script-dir/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="class-declaration-page">
@@ -99,8 +99,8 @@ loadScripts(document, 'script');</script>
 <h2>Method Summary</h2>
 <div id="method-summary-table">
 <div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
-<div id="method-summary-table.tabpanel" role="tabpanel">
-<div class="summary-table three-column-summary" aria-labelledby="method-summary-table-tab0">
+<div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
+<div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
@@ -656,9 +656,9 @@ loadScripts(document, 'script');</script>
 <h3>triggerRebuildIfNeeded</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">triggerRebuildIfNeeded</span>()</div>
 <div class="block">Triggers a rebuild of the native GPU buffers if needed. The only time this is necessary is if you're calling
- <a href="#getWidth()"><code>getWidth()</code></a> or <a href="#getHeight()"><code>getHeight()</code></a> between <a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/opengl/GL11.html#glBegin(int)" title="class or interface in org.lwjgl.opengl" class="external-link"><code>GL11.glBegin(int)</code></a> and <a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/opengl/GL11.html#glEnd()" title="class or interface in org.lwjgl.opengl" class="external-link"><code>GL11.glEnd()</code></a> on a
+ <a href="#getWidth()"><code>getWidth()</code></a> or <a href="#getHeight()"><code>getHeight()</code></a> between <a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/opengl/GL11.html#glBegin-int-" title="class or interface in org.lwjgl.opengl" class="external-link"><code>GL11.glBegin(int)</code></a> and <a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/opengl/GL11.html#glEnd--" title="class or interface in org.lwjgl.opengl" class="external-link"><code>GL11.glEnd()</code></a> on a
  <a href="LazyFont.DrawableString.html" title="class in org.lazywizard.lazylib.ui"><code>LazyFont.DrawableString</code></a> that needs to be rebuilt, as those methods trigger a rebuild which will fail if called
- inside those two methods. Calling <a href="#triggerRebuildIfNeeded()"><code>triggerRebuildIfNeeded()</code></a> before <a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/opengl/GL11.html#glBegin(int)" title="class or interface in org.lwjgl.opengl" class="external-link"><code>GL11.glBegin(int)</code></a> will
+ inside those two methods. Calling <a href="#triggerRebuildIfNeeded()"><code>triggerRebuildIfNeeded()</code></a> before <a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/opengl/GL11.html#glBegin-int-" title="class or interface in org.lwjgl.opengl" class="external-link"><code>GL11.glBegin(int)</code></a> will
  solve this problem.</div>
 <dl class="notes">
 <dt>Since:</dt>

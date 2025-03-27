@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="../../../script-dir/jquery-ui.min.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="../../../script.js"></script>
-<script type="text/javascript" src="../../../script-dir/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../../../script-dir/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="../../../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="class-declaration-page">
@@ -95,8 +95,8 @@ loadScripts(document, 'script');</script>
 <h2>Method Summary</h2>
 <div id="method-summary-table">
 <div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
-<div id="method-summary-table.tabpanel" role="tabpanel">
-<div class="summary-table three-column-summary" aria-labelledby="method-summary-table-tab0">
+<div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
+<div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
@@ -224,6 +224,17 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Rotates a <a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/util/vector/Vector2f.html" title="class or interface in org.lwjgl.util.vector" class="external-link"><code>Vector2f</code></a> by a specified amount around a pivot point and stores the result in a destination
  vector.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static float[]</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toFloatArray(java.util.List)" class="member-name-link">toFloatArray</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/util/vector/Vector2f.html" title="class or interface in org.lwjgl.util.vector" class="external-link">Vector2f</a>&gt;&nbsp;vectors)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Converts a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a> of <a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/util/vector/Vector2f.html" title="class or interface in org.lwjgl.util.vector" class="external-link"><code>Vector2f</code></a>s into a float array of vertices for
+ use with <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/FloatBuffer.html" title="class or interface in java.nio" class="external-link"><code>FloatBuffer</code></a>s in OpenGL.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/util/vector/Vector2f.html" title="class or interface in org.lwjgl.util.vector" class="external-link">Vector2f</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toVectorList(float%5B%5D)" class="member-name-link">toVectorList</a><wbr>(float[]&nbsp;coordinates)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Converts a float array of vertices into a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a> of <a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/util/vector/Vector2f.html" title="class or interface in org.lwjgl.util.vector" class="external-link"><code>Vector2f</code></a>s.</div>
 </div>
 </div>
 </div>
@@ -645,6 +656,38 @@ loadScripts(document, 'script');</script>
          <code>pivotPoint</code>.</dd>
 <dt>Since:</dt>
 <dd>2.0</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="toVectorList(float[])">
+<h3>toVectorList</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/util/vector/Vector2f.html" title="class or interface in org.lwjgl.util.vector" class="external-link">Vector2f</a>&gt;</span>&nbsp;<span class="element-name">toVectorList</span><wbr><span class="parameters">(float[]&nbsp;coordinates)</span></div>
+<div class="block">Converts a float array of vertices into a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a> of <a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/util/vector/Vector2f.html" title="class or interface in org.lwjgl.util.vector" class="external-link"><code>Vector2f</code></a>s.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>coordinates</code> - An array of floats representing a list of x and y coordinates. The length of
+                    <code>coordinates</code> must be even or this method will throw a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/RuntimeException.html" title="class or interface in java.lang" class="external-link"><code>RuntimeException</code></a>!.</dd>
+<dt>Returns:</dt>
+<dd>A <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a> of <a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/util/vector/Vector2f.html" title="class or interface in org.lwjgl.util.vector" class="external-link"><code>Vector2f</code></a>s that contains all coordinates passed in.</dd>
+<dt>Since:</dt>
+<dd>3.0</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="toFloatArray(java.util.List)">
+<h3>toFloatArray</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float[]</span>&nbsp;<span class="element-name">toFloatArray</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/util/vector/Vector2f.html" title="class or interface in org.lwjgl.util.vector" class="external-link">Vector2f</a>&gt;&nbsp;vectors)</span></div>
+<div class="block">Converts a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a> of <a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/util/vector/Vector2f.html" title="class or interface in org.lwjgl.util.vector" class="external-link"><code>Vector2f</code></a>s into a float array of vertices for
+ use with <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/FloatBuffer.html" title="class or interface in java.nio" class="external-link"><code>FloatBuffer</code></a>s in OpenGL.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>vectors</code> - A <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a> of <a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/util/vector/Vector2f.html" title="class or interface in org.lwjgl.util.vector" class="external-link"><code>Vector2f</code></a>s to convert into a float array.</dd>
+<dt>Returns:</dt>
+<dd>A float array containing the coordinates contained in <code>vectors</code>.</dd>
+<dt>Since:</dt>
+<dd>3.0</dd>
 </dl>
 </section>
 </li>

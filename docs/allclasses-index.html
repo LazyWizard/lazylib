@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="script-dir/jquery-ui.min.css" title="Style">
 <link rel="stylesheet" type="text/css" href="jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="script.js"></script>
-<script type="text/javascript" src="script-dir/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="script-dir/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="all-classes-index-page">
@@ -57,8 +57,8 @@ loadScripts(document, 'script');</script>
 </div>
 <div id="all-classes-table">
 <div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="all-classes-table-tab0" role="tab" aria-selected="true" aria-controls="all-classes-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('all-classes-table', 'all-classes-table', 2)" class="active-table-tab">All Classes and Interfaces</button><button id="all-classes-table-tab1" role="tab" aria-selected="false" aria-controls="all-classes-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('all-classes-table', 'all-classes-table-tab1', 2)" class="table-tab">Interfaces</button><button id="all-classes-table-tab2" role="tab" aria-selected="false" aria-controls="all-classes-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('all-classes-table', 'all-classes-table-tab2', 2)" class="table-tab">Classes</button><button id="all-classes-table-tab3" role="tab" aria-selected="false" aria-controls="all-classes-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('all-classes-table', 'all-classes-table-tab3', 2)" class="table-tab">Enum Classes</button><button id="all-classes-table-tab5" role="tab" aria-selected="false" aria-controls="all-classes-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('all-classes-table', 'all-classes-table-tab5', 2)" class="table-tab">Exceptions</button></div>
-<div id="all-classes-table.tabpanel" role="tabpanel">
-<div class="summary-table two-column-summary" aria-labelledby="all-classes-table-tab0">
+<div id="all-classes-table.tabpanel" role="tabpanel" aria-labelledby="all-classes-table-tab0">
+<div class="summary-table two-column-summary">
 <div class="table-header col-first">Class</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="org/lazywizard/lazylib/combat/AIUtils.html" title="class in org.lazywizard.lazylib.combat">AIUtils</a></div>
@@ -185,23 +185,27 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Contains methods for dealing with mod level (non-gameplay) tasks.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="org/lazywizard/lazylib/combat/entities/SimpleEntity.html" title="class in org.lazywizard.lazylib.combat.entities">SimpleEntity</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="org/lazywizard/lazylib/ShapeUtils.html" title="class in org.lazywizard.lazylib">ShapeUtils</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Provides methods to calculate vertices of common shapes.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="org/lazywizard/lazylib/combat/entities/SimpleEntity.html" title="class in org.lazywizard.lazylib.combat.entities">SimpleEntity</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A bare-bones implementation of <a href="http://fractalsoftworks.com/starfarer.api/com/fs/starfarer/api/combat/CombatEntityAPI.html" title="class or interface in com.fs.starfarer.api.combat" class="external-link"><code>CombatEntityAPI</code></a>, mostly useful for
  decorative EMP arc targeting.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab3"><a href="org/lazywizard/lazylib/combat/entities/SimpleEntity.SimpleEntityType.html" title="enum class in org.lazywizard.lazylib.combat.entities">SimpleEntity.SimpleEntityType</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="org/lazywizard/lazylib/StringUtils.html" title="class in org.lazywizard.lazylib">StringUtils</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab3"><a href="org/lazywizard/lazylib/combat/entities/SimpleEntity.SimpleEntityType.html" title="enum class in org.lazywizard.lazylib.combat.entities">SimpleEntity.SimpleEntityType</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="org/lazywizard/lazylib/StringUtils.html" title="class in org.lazywizard.lazylib">StringUtils</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Contains methods for working with <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link"><code>String</code></a>s.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="org/lazywizard/lazylib/VectorUtils.html" title="class in org.lazywizard.lazylib">VectorUtils</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="org/lazywizard/lazylib/VectorUtils.html" title="class in org.lazywizard.lazylib">VectorUtils</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Contains methods for manipulating <a href="http://legacy.lwjgl.org/javadoc/org/lwjgl/util/vector/Vector2f.html" title="class or interface in org.lwjgl.util.vector" class="external-link"><code>Vector2f</code></a>s.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="org/lazywizard/lazylib/combat/WeaponUtils.html" title="class in org.lazywizard.lazylib.combat">WeaponUtils</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="org/lazywizard/lazylib/combat/WeaponUtils.html" title="class in org.lazywizard.lazylib.combat">WeaponUtils</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Contains methods that deal with weapons and weapon arcs.</div>
 </div>
 </div>
