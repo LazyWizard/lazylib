@@ -21,7 +21,7 @@ public class CollisionUtils
 {
     /**
      * Finds the part of the ship that would be intersected by a given path.
-     *
+     * <p>
      * <b>Important note:</b> if the line is completely within {@code target}'s bounds,
      * no collision will be detected!
      *
@@ -52,10 +52,16 @@ public class CollisionUtils
             return null;
         }
 
+        // Check for lines completely within bounds
+        // (called method also updates bounds, so unnecessary later)
+        if (isPointWithinBounds(lineStart, target))
+        {
+            return new Vector2f(lineStart);
+        }
+
         Vector2f closestIntersection = null;
 
         // Convert all segments to lines, do collision checks to find closest hit
-        bounds.update(target.getLocation(), target.getFacing());
         for (SegmentAPI tmp : bounds.getSegments())
         {
             Vector2f intersection
@@ -76,7 +82,6 @@ public class CollisionUtils
         }
 
         // Null if no segment was hit
-        // FIXME: Lines completely within bounds return null (would affect custom fighter weapons)
         return closestIntersection;
     }
 
@@ -187,6 +192,7 @@ public class CollisionUtils
         // Fallback in case entity somehow lacks any segments in its bounds
         final Vector2f closestPoint = new Vector2f(entity.getLocation());
         float closestDistanceSquared = Float.MAX_VALUE;
+        bounds.update(entity.getLocation(), entity.getFacing());
         for (SegmentAPI segment : bounds.getSegments())
         {
             final Vector2f tmp = MathUtils.getNearestPointOnLine(source, segment.getP1(), segment.getP2());
@@ -275,10 +281,9 @@ public class CollisionUtils
         // Transform the bounds into a series of points
         List<SegmentAPI> segments = bounds.getSegments();
         List<Vector2f> points = new ArrayList<>(segments.size() + 1);
-        SegmentAPI seg;
         for (int x = 0; x < segments.size(); x++)
         {
-            seg = segments.get(x);
+            final SegmentAPI seg = segments.get(x);
 
             // Use this opportunity to test if the point is exactly on the bounds
             if (CollisionUtils.isPointOnSegment(point, seg))

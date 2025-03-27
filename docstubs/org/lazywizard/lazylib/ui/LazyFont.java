@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * An efficiently drawable bitmap font implementation. May not be a pixel-perfect match to Starsector's implementation.
  * <p>
- * <h3>Basic Usage:</h3>
+ * <h2>Basic Usage:</h2>
  * <ul>
  * <li>Load a font with {@link LazyFont#loadFont(String)}. This can be kept around safely without worrying about
  * memory usage - the underlying texture makes up the bulk of the size, and that is only loaded once per unique
@@ -33,7 +33,7 @@ import java.util.Map;
  * will crash!</li>
  * </ul>
  *
- * <h3>Example Usage:</h3>
+ * <h2>Example Usage:</h2>
  * <pre><code>
  * package data.scripts.plugins;
  *
@@ -107,6 +107,7 @@ import java.util.Map;
  */
 // Javadoc stubs for LazyFont, since Dokka is a steaming pile
 // The actual source code can be found in LazyFont.kt
+// TODO: Move this back to LazyFont as KDoc and give Dokka a second chance, now that it's had a few years to grow
 @SuppressWarnings("ALL")
 public class LazyFont
 {
@@ -126,6 +127,27 @@ public class LazyFont
     public static LazyFont loadFont(String fontPath) throws FontException
     {
         return null;
+    }
+
+    /**
+     * Returns the longest {@link String} that will fit within a single line, given the space limits passed in.
+     * This can and will return a String ending with a partial word. For proper word-wrapping, use
+     * {@link LazyFont#wrapString(String, float, float, float)} instead.
+     *
+     * @param rawLine  The text to be measured. This should be a single line of text with no newlines.
+     * @param fontSize The font size the text would be rendered at.
+     * @param maxWidth The max width of the text area. Text will be cut off at the last character that fit
+     *                 within this width.
+     *
+     * @return The longest substring of {@code rawLine} that will fit within a single line of up to {@code maxWidth}
+     *         width.
+     *
+     * @since 3.0
+     */
+    @NotNull
+    public String buildUntilLimit(String rawLine, float fontSize, float maxWidth)
+    {
+        return "";
     }
 
     /**
@@ -288,34 +310,6 @@ public class LazyFont
     }
 
     /**
-     * <b>DEPRECATED AND SLATED FOR REMOVAL - DO NOT USE!</b>
-     * <br>
-     * Renders a block of text, used to manually create display lists - <b>not recommended for general
-     * usage</b>. Use {@link LazyFont#createText(String, Color, float, float, float)} instead.
-     *
-     * @param text      The text to be drawn.
-     * @param x         The x coordinate of the starting point for rendering (top left corner of text).
-     * @param y         The y coordinate of the starting point for rendering (top left corner of text).
-     * @param fontSize  The size of the text to be drawn. For best results, this should be evenly divisible by {@link
-     *                  LazyFont#getBaseHeight()}. Other values may cause slight blurriness or jaggedness.
-     * @param maxWidth  The maximum width of the drawn text before further text will be wrapped to a new line.
-     * @param maxHeight The maximum height of the drawn text. All further text past this point will be discarded.
-     *
-     * @return A {@link Vector2f} containing the width and height of the drawn text area.
-     *
-     * @see LazyFont#createText(String, Color, float, float, float) for when you need to draw the same
-     *         block of text multiple times (99% of use cases).
-     * @since 2.3
-     * @deprecated Use {@link #createText(String, Color, float, float, float)} instead! This will be removed soon.
-     */
-    @NotNull
-    @Deprecated
-    public Vector2f drawText(String text, float x, float y, float fontSize, float maxWidth, float maxHeight)
-    {
-        return null;
-    }
-
-    /**
      * Create a {@link DrawableString} with the specified initial text, color, and font size, with text wrapping and
      * a max height - any appended text past that limit will be discarded.
      *
@@ -439,81 +433,222 @@ public class LazyFont
      * <p>
      * In the rare case that these methods are needed, their names should match the bitmap font file format found <a
      * href="http://www.angelcode.com/products/bmfont/doc/file_format.html">here</a> under the {@code char} and
-     * {@code kerning} headings.
+     * {@code kerning} headings. The exact details differ for reasons based on implementing them into OpenGL -
+     * check the Javadoc for any differences from the specification.
      *
      * @author LazyWizard
      * @since 2.3
      */
     public class LazyChar
     {
+        /**
+         * Returns a map containing the amount of kerning (extra padding) to add before drawing this character
+         * immmediately after various others. Kerning makes fonts look better.
+         *
+         * @return A map containing the number of extra pixels to add at base font size before drawing this character
+         *         immediately after various others. The key is the Unicode ID of the other character, and the value is
+         *         the number of pixels to add when drawing this {@link LazyChar} after it.
+         *
+         * @since 2.3
+         */
         public Map<Integer, Integer> getKernings()
         {
             return null;
         }
 
+        /**
+         * The leftmost position of the character in the underlying texture, as a ratio of its total width.
+         *
+         * @return The leftmost position of the character in the underlying texture, as a ratio of its total width
+         *         (for example, a character whose texture starts exactly 1/5th along the x axis of the texture atlas
+         *         would have a tx1 of 0.2).
+         *
+         * @since 2.3
+         */
         public float getTx1()
         {
             return 0f;
         }
 
+        /**
+         * The rightmost position of the character in the underlying texture, as a ratio of its total width.
+         *
+         * @return The rightmost position of the character in the underlying texture, as a ratio of its total width
+         *         (for example, a character whose texture ends exactly 1/5th along the x axis of the texture atlas
+         *         would have a tx2 of 0.2).
+         *
+         * @since 2.3
+         */
         public float getTx2()
         {
             return 0f;
         }
 
+        /**
+         * The topmost position of the character in the underlying texture, as a ratio of its total width.
+         *
+         * @return The topmost position of the character in the underlying texture, as a ratio of its total width
+         *         (for example, a character whose texture starts exactly 1/5th along the y axis of the texture atlas
+         *         would have a ty1 of 0.2).
+         *
+         * @since 2.3
+         */
         public float getTy1()
         {
             return 0f;
         }
 
+        /**
+         * The bottom-most position of the character in the underlying texture, as a ratio of its total width.
+         *
+         * @return The bottom-most position of the character in the underlying texture, as a ratio of its total width
+         *         (for example, a character whose texture ends exactly 1/5th along the y axis of the texture atlas
+         *         would have a ty2 of 0.2).
+         *
+         * @since 2.3
+         */
         public float getTy2()
         {
             return 0f;
         }
 
+        /**
+         * Sets the amount of kerning (extra padding) to add before drawing this character immmediately after the
+         * other. Kerning makes fonts look better.
+         *
+         * @param otherCharId The Unicode ID of the character to add kerning data for. When drawing a
+         *                    {@link DrawableString}, this character will have extra padding when drawn after the
+         *                    {@link LazyChar} with the id {@code otherCharId}.
+         * @param kerning     The number of extra pixels to add at base font size before drawing this character
+         *                    immediately after the {@link LazyChar} with ID {@code otherCharId}.
+         *
+         * @since 2.3
+         */
         public void setKerning(int otherCharId, int kerning)
         {
         }
 
+        /**
+         * Returns the amount of kerning (extra padding) to add before drawing this character immmediately after the
+         * other. Kerning makes fonts look better.
+         *
+         * @param otherCharId The Unicode ID of the character to add kerning data for. When drawing a
+         *                    {@link DrawableString}, this character will have extra padding when drawn after the
+         *                    {@link LazyChar} with the id {@code otherCharId}.
+         *
+         * @return The number of extra pixels to add at base font size before drawing this character
+         *         immediately after the {@link LazyChar} with ID {@code otherCharId}.
+         *
+         * @since 2.3
+         */
         public int getKerning(int otherCharId)
         {
             return 0;
         }
 
+        /**
+         * Sets the amount of kerning (extra padding) to add before drawing this character immmediately after the
+         * other. Kerning makes fonts look better.
+         *
+         * @param otherChar The character to add kerning data for. When drawing a {@link DrawableString}, this character
+         *                  will have extra padding when drawn after {@code otherChar}.
+         * @param kerning   The number of extra pixels to add at base font size before drawing this character
+         *                  immediately after {@code otherChar}.
+         *
+         * @since 2.3
+         */
         public void setKerning(char otherChar, int kerning)
         {
         }
 
+        /**
+         * Returns the amount of kerning (extra padding) to add before drawing this character immmediately after the
+         * other. Kerning makes fonts look better.
+         *
+         * @param otherChar The character to add kerning data for. When drawing a {@link DrawableString}, this character
+         *                  will have extra padding when drawn after {@code otherCharId}.
+         *
+         * @return The number of extra pixels to add at base font size before drawing this character immediately after
+         *         {@code otherChar}.
+         *
+         * @since 2.3
+         */
         public int getKerning(char otherChar)
         {
             return 0;
         }
 
+        /**
+         * Returns the Unicode character code matching this character.
+         *
+         * @return The character code of the underlying {@link Character} in Unicode.
+         *
+         * @since 2.3
+         */
         public int getId()
         {
             return 0;
         }
 
+        /**
+         * Returns the width of the character in the underlying texture atlas.
+         *
+         * @return The width of the character in the texture atlas, in pixels.
+         *
+         * @since 2.3
+         */
         public int getWidth()
         {
             return 0;
         }
 
+        /**
+         * Returns the height of the character in the underlying texture atlas.
+         *
+         * @return The height of the character in the texture atlas, in pixels.
+         *
+         * @since 2.3
+         */
         public int getHeight()
         {
             return 0;
         }
 
+        /**
+         * Returns how much extra empty space to add to the left of this character before drawing it. Used for
+         * alignment.
+         *
+         * @return The amount of space to move right horizontally before drawing, in pixels, at the base font size. Used
+         *         for alignment.
+         *
+         * @since 2.3
+         */
         public int getXOffset()
         {
             return 0;
         }
 
+        /**
+         * Returns how much extra empty space to add to the top of this character before drawing it. Used for
+         * alignment.
+         *
+         * @return The amount of space to move down vertically before drawing, in pixels, at the base font size. Used
+         *         for alignment.
+         *
+         * @since 2.3
+         */
         public int getYOffset()
         {
             return 0;
         }
 
+        /**
+         * Returns the total amount of horizontal space this character takes up at base font size.
+         *
+         * @return The number of pixels this character takes up horizontally at base font size, minus any kerning.
+         *
+         * @since 2.3
+         */
         public int getAdvance()
         {
             return 0;

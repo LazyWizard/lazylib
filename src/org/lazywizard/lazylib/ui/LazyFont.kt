@@ -19,6 +19,7 @@ import kotlin.math.ceil
 import kotlin.math.max
 
 // Javadoc for this class is in the docstubs directory
+// TODO: Move Javadoc back here as KDoc, give Dokka another chance
 class LazyFont private constructor(
     val fontName: String,
     val textureId: Int,
@@ -31,6 +32,9 @@ class LazyFont private constructor(
 
     // Much slower map-based lookup for international characters (256+ in Unicode)
     private val extendedChars = HashMap<Char, LazyChar>()
+
+    // Fallback character for when a character isn't defined in the font
+    private lateinit var fallbackChar: LazyChar
 
     // File format documentation: http://www.angelcode.com/products/bmfont/doc/file_format.html
     companion object FontLoader {
@@ -110,7 +114,9 @@ class LazyFont private constructor(
                     throw FontException("Failed to load texture atlas '$imgFile'", ex)
                 }
 
-                val font = LazyFont(fontName, textureId, baseHeight, textureWidth, textureHeight)
+                val scaleW = java.lang.Float.parseFloat(metadata[31])
+                val scaleH = java.lang.Float.parseFloat(metadata[33])
+                val font = LazyFont(fontName, textureId, baseHeight, scaleW, scaleH)
                 Log.debug("Created empty font ${font.fontName} from $fontPath, preparing to add character data")
 
                 // Parse character data and place into a quick lookup table or extended character map
@@ -122,19 +128,53 @@ class LazyFont private constructor(
                         throw FontException("Character data length mismatch in '$canonPath'")
                     }
 
+                    // Register each character with the parent font
                     font.addChar(
+                        // What character this is in Unicode
                         id = Integer.parseInt(charData[2]),
+                        // The leftmost position of the character in the underlying texture
                         tx = Integer.parseInt(charData[4]),
+                        // The topmost position of the character in the underlying texture
                         ty = Integer.parseInt(charData[6]),
+                        // The width of the character in the underlying texture
                         width = Integer.parseInt(charData[8]),
+                        // The height of the character in the underlying texture
                         height = Integer.parseInt(charData[10]),
+                        // Extra empty space before character when displaying it
                         xOffset = Integer.parseInt(charData[12]),
+                        // Extra empty space above character when displaying it
                         yOffset = Integer.parseInt(charData[14]),
+                        // How much horizontal space this character takes up, including offset and padding
                         advance = Integer.parseInt(charData[16]) + 1
+                        // Which subtexture this character's image is stored on (NOT IMPLEMENTED; ASSUMES 0)
                         //page = Integer.parseInt(data[18]),
+                        // Which texture channel this character is encoded in (NOT IMPLEMENTED; ASSUMES 15)
                         //channel = Integer.parseInt(data[20]));
                     )
                 }
+
+                // If the font data does not define a space character, define it manually
+                // We take the bottom right pixel and create a 1x1 character followed by a lengthy advance
+                // TODO: TEST THIS!
+                if (font.lookupTable[' '.code - 32] == null) {
+                    Log.warn("Font ${font.fontName} does not define a space character! Creating one manually...")
+                    font.addChar(
+                        id = 32,
+                        tx = textureWidth.toInt() - 1,
+                        ty = textureHeight.toInt() - 1,
+                        width = 1,
+                        height = font.baseHeight.toInt() - 1,
+                        xOffset = 0,
+                        yOffset = 0,
+                        // Use average advance to support monospaced fonts
+                        // TODO: test that average advance looks right on regular fonts
+                        advance = font.lookupTable.mapNotNull { it?.advance }.average().toInt()
+                        //advance = (font.baseHeight / 2f).toInt() + 1) // FIXME: Not correct for monospaced fonts
+                    )
+                }
+
+                // Displayed in place of any character that isn't defined in this font
+                font.fallbackChar = (font.lookupTable['?'.code - 32] ?: font.lookupTable[' '.code - 32])!!
 
                 // Parse and add kerning data
                 for (kernLine in kernLines) {
@@ -171,7 +211,7 @@ class LazyFont private constructor(
             toClean.add(id)
         }
 
-        // Called by the main thread periodically
+        // Called by the main thread periodically to free up old buffers
         fun checkClean() {
             if (toClean.isNotEmpty()) {
                 synchronized(toClean) {
@@ -192,15 +232,30 @@ class LazyFont private constructor(
         else extendedChars[tmp.id.toChar()] = tmp
     }
 
+    private val warnedChars: MutableSet<Char> = mutableSetOf()
     fun getChar(character: Char): LazyChar {
         val ch: LazyChar? =
             if (character.code in 32..255) lookupTable[character.code - 32] else extendedChars[character]
         if (ch != null) return ch
 
+        // Replace Unicode smart characters with their basic equivalents
+        // DO NOT put basic characters here or you could create an infinite loop in getChar()!
+        when (character) {
+            // Smart single quotes
+            '\u2018', '\u2019', '\u201A', '\u201B' -> return getChar('\'')
+            // Smart double quotes
+            '\u201c', '\u201d', '\u201e', '\u201f' -> return getChar('"')
+        }
+
+        // Only warn once per character (fixes log spam when modders create a new DrawableString each frame)
+        if (!character.isWhitespace() && character !in warnedChars) {
+            Log.warn("Character '$character' is not defined in font data")
+            warnedChars.add(character)
+        }
+
         // If the character isn't in the defined set, return a question mark (or a
         // blank space if the font doesn't define a question mark, either)
-        if (!character.isWhitespace()) Log.warn("Character '$character' is not defined in font data")
-        return if (character == '?') getChar(' ') else getChar('?')
+        return fallbackChar
     }
 
     override fun toString() = "$fontName (texture id: $textureId)"
@@ -228,7 +283,7 @@ class LazyFont private constructor(
         return curWidth
     }
 
-    private fun buildUntilLimit(rawLine: String, fontSize: Float, maxWidth: Float): String {
+    fun buildUntilLimit(rawLine: String, fontSize: Float, maxWidth: Float): String {
         if (rawLine.isBlank() || maxWidth <= 0f) return ""
 
         val scaleFactor = fontSize / baseHeight
@@ -334,21 +389,6 @@ class LazyFont private constructor(
 
         // Return the wrapped string, minus the extra newline we added at the end
         return wrappedString.substring(0, wrappedString.length - 1)
-    }
-
-    @Deprecated("Use createText() instead! This method will be removed soon.")
-    fun drawText(text: String?, x: Float, y: Float, fontSize: Float, maxWidth: Float, maxHeight: Float): Vector2f {
-        LazyLib.onDeprecatedMethodUsage()
-
-        if (text == null || text.isBlank() || maxHeight < fontSize)
-            return Vector2f(0f, 0f)
-
-        with(createText(text, Color.WHITE, fontSize, maxWidth, maxHeight)) {
-            val size = Vector2f(width, height)
-            draw(x, y)
-            dispose()
-            return size
-        }
     }
 
     @JvmOverloads
@@ -467,21 +507,20 @@ class LazyFont private constructor(
             }
 
         // TODO: Remove deprecated method after next Starsector update
-        @Deprecated("Use baseColor instead", level = DeprecationLevel.WARNING)
+        @Deprecated("Use baseColor instead", level = DeprecationLevel.HIDDEN)
         var color: Color
-            @Deprecated("Use baseColor instead", level = DeprecationLevel.WARNING)
+            @Deprecated("Use baseColor instead", level = DeprecationLevel.HIDDEN)
             set(value) {
                 LazyLib.onDeprecatedMethodUsage()
                 baseColor = value
             }
-            @Deprecated("Use baseColor instead", level = DeprecationLevel.WARNING)
+            @Deprecated("Use baseColor instead", level = DeprecationLevel.HIDDEN)
             get() {
                 LazyLib.onDeprecatedMethodUsage()
                 return baseColor
             }
 
         init {
-            // TODO: Switch to java.lang.ref.Cleaner if Starsector's JRE is ever upgraded
             MemoryHandler.checkClean()
             Log.debug("Buffer $bufferId created")
         }
@@ -493,6 +532,8 @@ class LazyFont private constructor(
         }
 
         fun append(text: Any, color: Color): DrawableString {
+            // Set indices for color data
+            // TODO: Handle invisible characters that mess up length
             substringColorData[sb.length] = color.getRGBComponents(null)
             append(text)
             substringColorData[sb.length] = this.baseColor.getRGBComponents(null)
@@ -505,44 +546,10 @@ class LazyFont private constructor(
         fun appendIndented(text: Any, color: Color, indent: Int): DrawableString =
             append(wrapString(text.toString(), fontSize, maxWidth, maxHeight, indent), color)
 
-        //<editor-fold defaultstate="collapsed" desc="Deprecated appendText() functions">
-        @Deprecated("Use append() instead", ReplaceWith("append(text)"), DeprecationLevel.HIDDEN)
-        fun appendText(text: String) {
-            LazyLib.onDeprecatedMethodUsage()
-            append(text)
-        }
-
-        @Deprecated("Use append() instead", ReplaceWith("append(text, color)"), DeprecationLevel.HIDDEN)
-        fun appendText(text: String, color: Color) {
-            LazyLib.onDeprecatedMethodUsage()
-            append(text, color)
-        }
-
-        @Deprecated(
-            "Use appendIndented() instead",
-            ReplaceWith("appendIndented(text, indent)"),
-            DeprecationLevel.HIDDEN
-        )
-        fun appendText(text: String, indent: Int) {
-            LazyLib.onDeprecatedMethodUsage()
-            appendIndented(text, indent)
-        }
-
-        @Deprecated(
-            "Use appendIndented() instead",
-            ReplaceWith("appendIndented(text, color, indent)"),
-            DeprecationLevel.HIDDEN
-        )
-        fun appendText(text: String, color: Color, indent: Int) {
-            LazyLib.onDeprecatedMethodUsage()
-            appendIndented(text, color, indent)
-        }
-        //</editor-fold>
-
         @Deprecated(
             "Use triggerRebuildIfNeeded() instead",
             ReplaceWith("triggerRebuildIfNeeded()"),
-            DeprecationLevel.WARNING
+            DeprecationLevel.HIDDEN
         )
         fun checkRebuild(): Boolean = triggerRebuildIfNeeded()
 
@@ -557,7 +564,7 @@ class LazyFont private constructor(
                 return true
             }
 
-            var lastChar: LazyFont.LazyChar? = null // For kerning purposes
+            var lastChar: LazyChar? // For kerning purposes
             val scaleFactor = fontSize / baseHeight
             var xOffset = 0f
             var yOffset = 0f
@@ -740,7 +747,7 @@ class LazyFont private constructor(
 
                     glColor(baseColor.darker(), 0.5f)
                     glBegin(GL_LINE_LOOP)
-                    glVertex2f(0f,0f)
+                    glVertex2f(0f, 0f)
                     glVertex2f(displayedMaxWidth, 0f)
                     glVertex2f(displayedMaxWidth, -displayedMaxHeight)
                     glVertex2f(0f, -displayedMaxHeight)
@@ -775,10 +782,10 @@ class LazyFont private constructor(
                 Log.debug("Deleting buffer $bufferId manually")
                 glDeleteBuffers(bufferId)
             }
+
             isDisposed = true
         }
 
-        @Suppress("ProtectedInFinal")
         // TODO: Create JRE-dependent subclasses that use sun.misc.Cleaner or JRE9+'s Cleaner to avoid second GC cycle
         // (phantom references don't avoid a second GC cycle before JRE9, so need to use undocumented classes in JRE7)
         protected fun finalize() {

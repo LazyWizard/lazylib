@@ -2,7 +2,7 @@ package org.lazywizard.lazylib.opengl;
 
 import org.lazywizard.lazylib.MathUtils;
 
-import java.awt.*;
+import java.awt.Color;
 
 import static org.lwjgl.opengl.GL11.glColor4ub;
 
@@ -59,6 +59,18 @@ public class ColorUtils
     {
         glColor4ub((byte) color.getRed(), (byte) color.getGreen(),
                 (byte) color.getBlue(), (byte) color.getAlpha());
+    }
+
+    /**
+     * Generates a {@link Color} with randomized RGB components.
+     *
+     * @return A {@link Color} whose RGB components are all randomized. Alpha will be at 100%.
+     *
+     * @since 3.0
+     */
+    public static Color genRandomColor()
+    {
+        return new Color(MathUtils.getRandomNumberInRange(0, 0xff000000));
     }
 
     private ColorUtils()

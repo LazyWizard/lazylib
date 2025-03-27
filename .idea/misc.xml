@@ -6,16 +6,16 @@
     <option name="OPTION_DOCUMENT_TAG_USE" value="true" />
     <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
     <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
-    <option name="OTHER_OPTIONS" value="-Xdoclint:all -header &quot;LazyLib&quot; -notimestamp -noqualifier all  -exclude org.lazywizard.lazylib.tests:org.lazywizard.lazylib.ext -link https://docs.oracle.com/javase/7/docs/api/ -linkoffline http://fractalsoftworks.com/starfarer.api/ &quot;D:\\Data\\Desktop\\Starfarer Mods\\API Sources\javadoc&quot; -link https://stleary.github.io/JSON-java/ -linkoffline http://legacy.lwjgl.org/javadoc/ &quot;D:\\Data\\Desktop\\Starfarer Mods\\zzzOld\\NotMyCode\\Library Sources\\LWJGL\\javadoc&quot;" />
+    <option name="OTHER_OPTIONS" value="-header &quot;LazyLib&quot; -notimestamp -noqualifier all  -exclude org.lazywizard.lazylib.tests:org.lazywizard.lazylib.ext -link https://docs.oracle.com/javase/17/docs/api/ -linkoffline http://fractalsoftworks.com/starfarer.api/ &quot;D:\\Data\\Desktop\\Starfarer Mods\\API Sources\javadoc&quot; -link https://stleary.github.io/JSON-java/ -linkoffline http://legacy.lwjgl.org/javadoc/ &quot;D:\\Data\\Desktop\\Starfarer Mods\\LWJGL Javadoc\\lwjgl-2.9.3-javadoc&quot; -linkoffline http://legacy.lwjgl.org/javadoc/ &quot;D:\\Data\\Desktop\\Starfarer Mods\\LWJGL Javadoc\\lwjgl_util-2.9.3-javadoc&quot;" />
     <option name="HEAP_SIZE" value="1024" />
-    <option name="OPTION_INCLUDE_LIBS" value="true" />
+    <option name="LOCALE" value="en" />
   </component>
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="org.jetbrains.annotations.Nullable" />
     <option name="myDefaultNotNull" value="org.jetbrains.annotations.NotNull" />
     <option name="myNullables">
       <value>
-        <list size="14">
+        <list size="16">
           <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.Nullable" />
           <item index="1" class="java.lang.String" itemvalue="javax.annotation.Nullable" />
           <item index="2" class="java.lang.String" itemvalue="javax.annotation.CheckForNull" />
@@ -30,12 +30,14 @@
           <item index="11" class="java.lang.String" itemvalue="org.eclipse.jdt.annotation.Nullable" />
           <item index="12" class="java.lang.String" itemvalue="io.reactivex.annotations.Nullable" />
           <item index="13" class="java.lang.String" itemvalue="io.reactivex.rxjava3.annotations.Nullable" />
+          <item index="14" class="java.lang.String" itemvalue="org.jspecify.annotations.Nullable" />
+          <item index="15" class="java.lang.String" itemvalue="jakarta.annotation.Nullable" />
         </list>
       </value>
     </option>
     <option name="myNotNulls">
       <value>
-        <list size="15">
+        <list size="17">
           <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.NotNull" />
           <item index="1" class="java.lang.String" itemvalue="javax.annotation.Nonnull" />
           <item index="2" class="java.lang.String" itemvalue="javax.validation.constraints.NotNull" />
@@ -51,18 +53,13 @@
           <item index="12" class="java.lang.String" itemvalue="io.reactivex.annotations.NonNull" />
           <item index="13" class="java.lang.String" itemvalue="io.reactivex.rxjava3.annotations.NonNull" />
           <item index="14" class="java.lang.String" itemvalue="lombok.NonNull" />
+          <item index="15" class="java.lang.String" itemvalue="org.jspecify.annotations.NonNull" />
+          <item index="16" class="java.lang.String" itemvalue="jakarta.annotation.Nonnull" />
         </list>
       </value>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
-  </component>
-  <component name="SuppressABINotification">
-    <option name="modulesWithSuppressedNotConfigured">
-      <set>
-        <option value="LazyLib" />
-      </set>
-    </option>
   </component>
 </project>

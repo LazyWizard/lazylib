@@ -98,6 +98,12 @@ public class FastTrig
      */
     public static double atan(double z)
     {
+        // Fix supplied by Genir on the Discord, https://discord.com/channels/187635036525166592/310517733458706442/1253123181275775017
+        if (Math.abs(z) > 1.0)
+        {
+            return Math.signum(z) * Math.PI / 2f - FastTrig.atan(1f / z);
+        }
+
         return (0.97239411 + -0.19194795 * z * z) * z;
     }
 

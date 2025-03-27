@@ -1,6 +1,7 @@
 package org.lazywizard.lazylib;
 
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.ModManagerAPI;
 import com.fs.starfarer.api.ModSpecAPI;
 import org.apache.log4j.Logger;
 
@@ -61,8 +62,8 @@ public class ModUtils
      * @since 2.3
      */
     public static boolean loadClassesIfClassIsPresent(String classCanonicalName,
-                                               List<String> classesToLoadCanonicalNames,
-                                               boolean initializeClasses) throws ClassNotFoundException
+                                                      List<String> classesToLoadCanonicalNames,
+                                                      boolean initializeClasses) throws ClassNotFoundException
     {
         if (isClassPresent(classCanonicalName))
         {
@@ -80,7 +81,7 @@ public class ModUtils
     }
 
     /**
-     * Check if a mod is enabled. Equivalent to {@link com.fs.starfarer.api.ModManagerAPI#isModEnabled(String)}.
+     * Check if a mod is enabled. Equivalent to {@link ModManagerAPI#isModEnabled(String)}.
      *
      * @param modId The ID of the mod to check.
      *

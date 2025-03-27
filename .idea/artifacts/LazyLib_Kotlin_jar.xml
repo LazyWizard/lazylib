@@ -4,8 +4,7 @@
     <root id="archive" name="LazyLib-Kotlin.jar">
       <element id="module-output" name="LazyLib-Extensions" />
       <element id="dir-copy" path="$PROJECT_DIR$/ext/src" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/kotlinx-coroutines-core-1.6.4-SNAPSHOT.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/kotlinx-coroutines-core-jvm-1.6.4-SNAPSHOT.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.10.1/kotlinx-coroutines-core-jvm-1.10.1.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

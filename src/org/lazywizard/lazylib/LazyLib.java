@@ -4,6 +4,9 @@ import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
 import kotlin.KotlinVersion;
 import org.apache.log4j.Level;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.lazywizard.lazylib.campaign.CampaignUtils;
 import org.lazywizard.lazylib.campaign.CargoUtils;
@@ -166,24 +169,17 @@ public class LazyLib extends BaseModPlugin
     {
         // Don't do something as expensive as dumping a stack trace if we don't need to!
         if (!logDeprecated && !crashOnDeprecated)
-        {
             return;
-        }
 
         // Basic sanity check
         StackTraceElement[] tmp = Thread.currentThread().getStackTrace();
-        if (tmp.length < 3)
-        {
-            return;
-        }
+        if (tmp.length < 3) return;
 
         StackTraceElement caller = tmp[2];
 
         // Only do something if this method was actually called by LazyLib
         if (!caller.getClassName().startsWith("org.lazywizard.lazylib."))
-        {
             return;
-        }
 
         if (logDeprecated)
         {
@@ -211,8 +207,24 @@ public class LazyLib extends BaseModPlugin
         }
     }
 
-    private static float parseVersion(String version)
+    private static String collapseVersion(@NotNull JSONObject versionObject) throws JSONException
     {
+        String version = versionObject.optString("major", Float.toString(libVersion));
+        if (versionObject.has("minor"))
+            version += "." + versionObject.getString("minor");
+        if (versionObject.has("patch"))
+            version += versionObject.getString("patch"); // Assumes patch is always a character
+
+        return version;
+    }
+
+    private static float parseVersion(@Nullable Object versionData) throws JSONException
+    {
+        if (versionData == null) return libVersion;
+
+        final String version = (versionData instanceof JSONObject
+                ? collapseVersion((JSONObject) versionData)
+                : (String) versionData);
         final StringBuilder sb = new StringBuilder(version.length());
         for (char ch : version.toCharArray())
         {
@@ -222,9 +234,7 @@ public class LazyLib extends BaseModPlugin
                 sb.append((char) (ch - ('a' - '0')));
             }
             else if (Character.isDigit(ch) || ch == '.')
-            {
                 sb.append(ch);
-            }
         }
 
         return Float.parseFloat(sb.toString());
@@ -234,7 +244,7 @@ public class LazyLib extends BaseModPlugin
     public void onApplicationLoad() throws Exception
     {
         // Load LazyLib settings from JSON file
-        JSONObject settings = Global.getSettings().loadJSON(SETTINGS_FILE);
+        JSONObject settings = Global.getSettings().loadJSON(SETTINGS_FILE, MOD_ID);
         setLogLevel(Level.toLevel(settings.optString("logLevel", "ERROR"), Level.ERROR));
         cacheEnabled = settings.optBoolean("enableCaching", false);
         logDeprecated = settings.optBoolean("logDeprecated", false);
@@ -243,14 +253,14 @@ public class LazyLib extends BaseModPlugin
         try
         {
             settings = Global.getSettings().loadJSON("mod_info.json", MOD_ID);
-            libVersion = parseVersion(settings.optString("version", "" + libVersion));
+            libVersion = parseVersion(settings.opt("version"));
             gameVersion = settings.optString("gameVersion", gameVersion);
         }
         catch (Exception ex)
         {
             Global.getLogger(LazyLib.class).log(Level.ERROR,
                     "Failed to open LazyLib's mod_info.json! Mod id must match LazyLib.MOD_ID ('" +
-                            MOD_ID + "').\nUsing fallback values...");
+                            MOD_ID + "'). Using fallback values...", ex);
         }
 
         Global.getLogger(LazyLib.class).log(Level.INFO, "Running " + getInfo());

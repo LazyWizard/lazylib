@@ -241,7 +241,7 @@ public class FontStressTest implements BaseCommand
             toDraw.setMaxWidth(Display.getWidth() - 20f);
             toDraw.setMaxHeight(Display.getHeight() - 20f);
             toDraw.setFontSize(8);// * MathUtils.getRandomNumberInRange(1, 4));
-            toDraw.setColor(genRandomColor());
+            toDraw.setBaseColor(genRandomColor());
         }
 
         @Override

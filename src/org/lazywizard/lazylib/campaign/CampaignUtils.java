@@ -183,21 +183,15 @@ public class CampaignUtils
                                    IncludeRep include, RepLevel rep)
     {
         final RepLevel actualRep = getReputation(token1, token2);
-        switch (include)
+        return switch (include)
         {
-            case LOWER:
-                return actualRep.ordinal() < rep.ordinal();
-            case AT_OR_LOWER:
-                return actualRep.ordinal() <= rep.ordinal();
-            case AT:
-                return actualRep.ordinal() == rep.ordinal();
-            case AT_OR_HIGHER:
-                return actualRep.ordinal() >= rep.ordinal();
-            case HIGHER:
-                return actualRep.ordinal() > rep.ordinal();
-            default:
-                throw new RuntimeException("Unsupported IncludeRep: " + include.name());
-        }
+            case LOWER -> actualRep.ordinal() < rep.ordinal();
+            case AT_OR_LOWER -> actualRep.ordinal() <= rep.ordinal();
+            case AT -> actualRep.ordinal() == rep.ordinal();
+            case AT_OR_HIGHER -> actualRep.ordinal() >= rep.ordinal();
+            case HIGHER -> actualRep.ordinal() > rep.ordinal();
+            default -> throw new RuntimeException("Unsupported IncludeRep: " + include.name());
+        };
     }
 
     /**

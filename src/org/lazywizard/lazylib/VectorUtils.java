@@ -2,6 +2,7 @@ package org.lazywizard.lazylib;
 
 import org.lwjgl.util.vector.Vector2f;
 
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -418,6 +419,66 @@ public class VectorUtils
         }
 
         return rotated;
+    }
+
+    /**
+     * Converts a float array of vertices into a {@link List} of {@link Vector2f}s.
+     *
+     * @param coordinates An array of floats representing a list of x and y coordinates. The length of
+     *                    {@code coordinates} must be even or this method will throw a {@link RuntimeException}!.
+     *
+     * @return A {@link List} of {@link Vector2f}s that contains all coordinates passed in.
+     *
+     * @since 3.0
+     */
+    public static List<Vector2f> toVectorList(float[] coordinates)
+    {
+        if (coordinates.length % 2 != 0)
+        {
+            throw new RuntimeException("Coordinates must be in pairs!");
+        }
+
+        final List<Vector2f> vertices = new ArrayList<>(coordinates.length / 2);
+        boolean isX = false;
+        final Vector2f vertex = new Vector2f();
+        for (float part : coordinates)
+        {
+            isX = !isX;
+            if (isX)
+            {
+                vertex.x = part;
+            }
+            else
+            {
+                vertex.y = part;
+                vertices.add(new Vector2f(vertex));
+            }
+        }
+
+        return vertices;
+    }
+
+    /**
+     * Converts a {@link List} of {@link Vector2f}s into a float array of vertices for
+     * use with {@link FloatBuffer}s in OpenGL.
+     *
+     * @param vectors A {@link List} of {@link Vector2f}s to convert into a float array.
+     *
+     * @return A float array containing the coordinates contained in {@code vectors}.
+     *
+     * @since 3.0
+     */
+    public static float[] toFloatArray(List<Vector2f> vectors)
+    {
+        final float[] coordinates = new float[vectors.size() * 2];
+        for (int i = 0; i < vectors.size(); i++)
+        {
+            final Vector2f vector = vectors.get(i);
+            coordinates[i * 2] = vector.x;
+            coordinates[i * 2 + 1] = vector.y;
+        }
+
+        return coordinates;
     }
 
     private VectorUtils()
