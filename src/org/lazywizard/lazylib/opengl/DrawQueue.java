@@ -218,11 +218,9 @@ public class DrawQueue
      * @param color    The color of the next shape. All vertices added until
      *                 this method is called again will use this color.
      * @param alphaMod Multiplies {@code color}'s alpha channel by this number
-     *                 (should be between 0 and 1). You will usually pass in
-     *                 {@link CommonRadar#getContactAlpha()} for contacts, or
-     *                 {@link CommonRadar#getRadarAlpha()} for UI elements. Also
-     *                 useful to avoid creating a new Color object every frame
-     *                 just to add fade effects.
+     *                 (should be between 0 and 1). This is useful to avoid
+     *                 creating a new Color object every frame just to add
+     *                 fade effects.
      *
      * @since 3.0
      */

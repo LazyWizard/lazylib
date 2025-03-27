@@ -1,8 +1,8 @@
- 3.0 (who knows?)
-==================
-Updated to be compatible with Starsector 0.Xa and Java 17
-Updated to Kotlin 2 and the K2 compiler
-Updated bundled libraries to take advantage of move to Java 17:
+ 3.0 (March 27, 2025)
+======================
+Updated to be compatible with Starsector 0.98a and Java 17
+Updated to Kotlin 2.1 and the K2 compiler
+Updated bundled libraries to take advantage of the move to Java 17:
  - kotlin-stdlib: v1.6.21 -> v2.1.20
  - kotlinx-coroutines: v1.6.4 (custom build) -> v1.10.1
  - jetbrains-annotations: v23.0.0 -> REMOVED (now included in kotlin-stdlib)

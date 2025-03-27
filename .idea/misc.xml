@@ -6,10 +6,9 @@
     <option name="OPTION_DOCUMENT_TAG_USE" value="true" />
     <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
     <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
-    <option name="OTHER_OPTIONS" value="-Xdoclint:all -header &quot;LazyLib&quot; -notimestamp -noqualifier all  -exclude org.lazywizard.lazylib.tests:org.lazywizard.lazylib.ext -link https://docs.oracle.com/javase/7/docs/api/ -linkoffline http://fractalsoftworks.com/starfarer.api/ &quot;D:\\Data\\Desktop\\Starfarer Mods\\API Sources\javadoc&quot; -link https://stleary.github.io/JSON-java/ -linkoffline http://legacy.lwjgl.org/javadoc/ &quot;D:\\Data\\Desktop\\Starfarer Mods\\LWJGL Javadoc\\lwjgl-2.9.3-javadoc&quot; -linkoffline http://legacy.lwjgl.org/javadoc/ &quot;D:\\Data\\Desktop\\Starfarer Mods\\LWJGL Javadoc\\lwjgl_util-2.9.3-javadoc&quot;" />
+    <option name="OTHER_OPTIONS" value="-header &quot;LazyLib&quot; -notimestamp -noqualifier all  -exclude org.lazywizard.lazylib.tests:org.lazywizard.lazylib.ext -link https://docs.oracle.com/javase/17/docs/api/ -linkoffline http://fractalsoftworks.com/starfarer.api/ &quot;D:\\Data\\Desktop\\Starfarer Mods\\API Sources\javadoc&quot; -link https://stleary.github.io/JSON-java/ -linkoffline http://legacy.lwjgl.org/javadoc/ &quot;D:\\Data\\Desktop\\Starfarer Mods\\LWJGL Javadoc\\lwjgl-2.9.3-javadoc&quot; -linkoffline http://legacy.lwjgl.org/javadoc/ &quot;D:\\Data\\Desktop\\Starfarer Mods\\LWJGL Javadoc\\lwjgl_util-2.9.3-javadoc&quot;" />
     <option name="HEAP_SIZE" value="1024" />
     <option name="LOCALE" value="en" />
-    <option name="OPTION_INCLUDE_LIBS" value="true" />
   </component>
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="org.jetbrains.annotations.Nullable" />

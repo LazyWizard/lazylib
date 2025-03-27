@@ -233,4 +233,22 @@ class EntityBase implements CombatEntityAPI
     public void setHitpoints(float hitpoints)
     {
     }
+
+    /**
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
+     */
+    @Override
+    public boolean isPointInBounds(Vector2f p)
+    {
+        return false;
+    }
+
+    /**
+     * <small><i>NONFUNCTIONAL/PLACEHOLDER</i></small>
+     */
+    @Override
+    public boolean wasRemoved()
+    {
+        return false;
+    }
 }
