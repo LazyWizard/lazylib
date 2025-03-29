@@ -4,3 +4,4 @@ out/
 .scannerwork/
 *.lnk
 /docs/javadoc.zip
+src/lazylib.iml
