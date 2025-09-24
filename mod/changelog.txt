@@ -1,3 +1,10 @@
+ 3.0b (XX XX, XXXX)
+====================
+Updated to Kotlin 2.2
+Updated bundled libraries:
+ - kotlin-stdlib: v2.1.20 -> v2.2.20
+ - kotlinx-coroutines: v1.10.1 -> v1.10.2
+
  3.0 (March 27, 2025)
 ======================
 Updated to be compatible with Starsector 0.98a and Java 17
