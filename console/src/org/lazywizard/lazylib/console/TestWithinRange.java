@@ -3,6 +3,7 @@ package org.lazywizard.lazylib.console;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.input.InputEventAPI;
+import org.jetbrains.annotations.NotNull;
 import org.lazywizard.console.BaseCommand;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
@@ -15,7 +16,7 @@ import java.util.*;
 public class TestWithinRange implements BaseCommand
 {
     @Override
-    public CommandResult runCommand(String args, CommandContext context)
+    public CommandResult runCommand(@NotNull String args, CommandContext context)
     {
         if (!context.isInCombat())
         {
@@ -81,7 +82,7 @@ public class TestWithinRange implements BaseCommand
         return entities;
     }
 
-    class TestWithinRangePlugin extends BaseEveryFrameCombatPlugin
+    static class TestWithinRangePlugin extends BaseEveryFrameCombatPlugin
     {
         private static final float TEST_RANGE = 1500f;
 
@@ -101,8 +102,8 @@ public class TestWithinRange implements BaseCommand
 
             final Set<CombatEntityAPI> uniqueNew = new HashSet<>(newInRange),
                     uniqueOld = new HashSet<>(oldInRange);
-            uniqueNew.removeAll(oldInRange);
-            uniqueOld.removeAll(newInRange);
+            oldInRange.forEach(uniqueNew::remove);
+            newInRange.forEach(uniqueOld::remove);
 
             for (CombatEntityAPI entity : uniqueNew)
             {

@@ -360,7 +360,7 @@ public class CombatUtils
 
     /**
      * Spawns a ship directly onto the battle map, bypassing the fleet reserves.
-     *
+     * <p>
      * <b>NOTE: this method will not work out of the box in the campaign (.6.2a)
      * due to an after-battle crash in the default FleetEncounterContextPlugin
      * caused by spawned ships not being registered with the fleet.</b>

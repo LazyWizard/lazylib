@@ -57,7 +57,7 @@ public class StringUtils
                     if (words[y].length() >= maxLineLength)
                     {
                         // Make sure to post the previous line in the queue, if any
-                        if (line.length() > 0)
+                        if (!line.isEmpty())
                         {
                             message.append(line).append("\n");
                             line.setLength(0);

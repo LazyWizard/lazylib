@@ -30,9 +30,9 @@ public class ColorUtilsTests
         }
 
         // Ensure equal distribution of colors
-        assertEquals(totalRed / NUM_TESTS, 127);
-        assertEquals(totalGreen / NUM_TESTS, 127);
-        assertEquals(totalBlue / NUM_TESTS, 127);
-        assertEquals(totalAlpha / NUM_TESTS, 255);
+        assertEquals(127, totalRed / NUM_TESTS);
+        assertEquals(127, totalGreen / NUM_TESTS);
+        assertEquals(127, totalBlue / NUM_TESTS);
+        assertEquals(255, totalAlpha / NUM_TESTS);
     }
 }

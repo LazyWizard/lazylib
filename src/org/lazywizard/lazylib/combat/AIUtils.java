@@ -484,18 +484,14 @@ public class AIUtils
         }
 
         // If there's no combat target, check for the ship we're maneuvering around
-        final Object tmpTarget = ship.getAIFlags().getCustom(AIFlags.MANEUVER_TARGET);
-        if (tmpTarget instanceof ShipAPI)
+        // If it exists and is an enemy, return that as the current target
+        if (ship.getAIFlags().getCustom(AIFlags.MANEUVER_TARGET) instanceof ShipAPI maneuverTarget
+                && (maneuverTarget.getOwner() + ship.getOwner() == 1))
         {
-            // If it exists and is an enemy, return that as the current target
-            final ShipAPI maneuverTarget = (ShipAPI) tmpTarget;
-            if (maneuverTarget.getOwner() + ship.getOwner() == 1)
-            {
-                return (ShipAPI) tmpTarget;
-            }
+            return maneuverTarget;
         }
 
-        // Not targetting anyone and not maneuvering around an enemy
+        // Not targeting anyone and not maneuvering around an enemy
         return null;
     }
 

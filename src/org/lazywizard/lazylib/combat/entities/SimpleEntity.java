@@ -93,29 +93,15 @@ public class SimpleEntity extends EntityBase
     @Override
     public Vector2f getLocation()
     {
-        switch (type)
+        return switch (type)
         {
             // Vector2f-based constructor
-            case VECTOR:
-            {
-                return location;
-            }
+            case VECTOR -> location;
             // WeaponAPI-based constructor
-            case WEAPON:
-            {
-                return weapon.getLocation();
-            }
+            case WEAPON -> weapon.getLocation();
             // ShipEngineAPI-based constructor
-            case ENGINE:
-            {
-                return engine.getLocation();
-            }
-            // Should be impossible
-            default:
-            {
-                throw new NullPointerException("No location bound!");
-            }
-        }
+            case ENGINE -> engine.getLocation();
+        };
     }
 
     /**

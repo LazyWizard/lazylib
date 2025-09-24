@@ -96,7 +96,7 @@ class LazyFont private constructor(
                 val imgFile = (if (dirIndex == -1)
                     canonPath
                 else
-                    canonPath.substring(0, dirIndex + 1)) + metadata[50].replace("\"", "")
+                    canonPath.take(dirIndex + 1)) + metadata[50].replace("\"", "")
 
                 // Load the font image into a texture
                 // TODO: Add support for multiple image files; 'pages' in the font file

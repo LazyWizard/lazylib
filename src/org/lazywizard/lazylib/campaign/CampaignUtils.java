@@ -190,7 +190,6 @@ public class CampaignUtils
             case AT -> actualRep.ordinal() == rep.ordinal();
             case AT_OR_HIGHER -> actualRep.ordinal() >= rep.ordinal();
             case HIGHER -> actualRep.ordinal() > rep.ordinal();
-            default -> throw new RuntimeException("Unsupported IncludeRep: " + include.name());
         };
     }
 
@@ -360,7 +359,7 @@ public class CampaignUtils
     }
 
     /**
-     * Find the closest entity with a specifc tag to a
+     * Find the closest entity with a specific tag to a
      * {@link SectorEntityToken}, excluding itself.
      *
      * @param token     The {@link SectorEntityToken} to search around.

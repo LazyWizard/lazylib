@@ -7,6 +7,7 @@ import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.ViewportAPI;
 import com.fs.starfarer.api.input.InputEventAPI;
 import com.fs.starfarer.api.util.IntervalUtil;
+import org.jetbrains.annotations.NotNull;
 import org.lazywizard.console.BaseCommand;
 import org.lazywizard.console.CommandUtils;
 import org.lazywizard.console.Console;
@@ -27,7 +28,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class FontStressTest implements BaseCommand
 {
     @Override
-    public CommandResult runCommand(String args, CommandContext context)
+    public CommandResult runCommand(@NotNull String args, CommandContext context)
     {
         if (context.isInCampaign())
         {

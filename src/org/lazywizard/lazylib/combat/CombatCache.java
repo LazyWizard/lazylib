@@ -15,10 +15,8 @@ class CombatCache
     {
         // If support for more than two sides is ever added, just
         // add the side's owner number to this list
-        visCache.put(0, Collections.newSetFromMap(
-                new WeakHashMap<ShipAPI, Boolean>()));
-        visCache.put(1, Collections.newSetFromMap(
-                new WeakHashMap<ShipAPI, Boolean>()));
+        visCache.put(0, Collections.newSetFromMap(new WeakHashMap<>()));
+        visCache.put(1, Collections.newSetFromMap(new WeakHashMap<>()));
     }
 
     static List<ShipAPI> getCachedVisibleEnemies(int side)

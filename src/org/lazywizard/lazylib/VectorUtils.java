@@ -146,7 +146,7 @@ public class VectorUtils
 
     /**
      * Scales a vector to the requested length and stores the result in a destination vector.
-     *
+     * <p>
      * <b>Note:</b> <i>if the vector's length is 0, no scaling will be performed.</i>
      *
      * @param vector The vector to be resized. Will not be modified; instead the result will be placed in {@code dest}.
@@ -166,7 +166,7 @@ public class VectorUtils
 
     /**
      * Scales a vector to the requested length.
-     *
+     * <p>
      * <b>Note:</b> <i>if the vector's length is 0, no scaling will be performed.</i>
      *
      * @param vector The vector to be modified.

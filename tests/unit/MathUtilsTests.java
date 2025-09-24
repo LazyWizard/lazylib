@@ -36,16 +36,16 @@ public class MathUtilsTests
                     getDistance(end2, origin2), 0f);
         }
 
-        assertEquals(getDistance(new Vector2f(0f, 0f),
-                new Vector2f(50f, 0f)), 50f, 0f);
-        assertEquals(getDistance(new Vector2f(0f, 0f),
-                new Vector2f(0f, 50f)), 50f, 0f);
-        assertEquals(getDistance(new Vector2f(0f, 0f),
-                new Vector2f(-50f, 0f)), 50f, 0f);
-        assertEquals(getDistance(new Vector2f(0f, 0f),
-                new Vector2f(0f, -50f)), 50f, 0f);
-        assertEquals(getDistance(new Vector2f(0f, 0f),
-                new Vector2f(50f, 50f)), 70.7106f, 0.0001f);
+        assertEquals(50f, getDistance(new Vector2f(0f, 0f),
+                new Vector2f(50f, 0f)), 0f);
+        assertEquals(50f, getDistance(new Vector2f(0f, 0f),
+                new Vector2f(0f, 50f)), 0f);
+        assertEquals(50f, getDistance(new Vector2f(0f, 0f),
+                new Vector2f(-50f, 0f)), 0f);
+        assertEquals(50f, getDistance(new Vector2f(0f, 0f),
+                new Vector2f(0f, -50f)), 0f);
+        assertEquals(70.7106f, getDistance(new Vector2f(0f, 0f),
+                new Vector2f(50f, 50f)), 0.0001f);
     }
 
     @Test
@@ -69,16 +69,16 @@ public class MathUtilsTests
                     getDistanceSquared(end2, origin2), 0f);
         }
 
-        assertEquals(getDistanceSquared(new Vector2f(0f, 0f),
-                new Vector2f(50f, 0f)), 2_500f, 0f);
-        assertEquals(getDistanceSquared(new Vector2f(0f, 0f),
-                new Vector2f(0f, 50f)), 2_500f, 0f);
-        assertEquals(getDistanceSquared(new Vector2f(0f, 0f),
-                new Vector2f(-50f, 0f)), 2_500f, 0f);
-        assertEquals(getDistanceSquared(new Vector2f(0f, 0f),
-                new Vector2f(0f, -50f)), 2_500f, 0f);
-        assertEquals(getDistanceSquared(new Vector2f(0f, 0f),
-                new Vector2f(50f, 50f)), 5_000f, 0f);
+        assertEquals(2_500f, getDistanceSquared(new Vector2f(0f, 0f),
+                new Vector2f(50f, 0f)), 0f);
+        assertEquals(2_500f, getDistanceSquared(new Vector2f(0f, 0f),
+                new Vector2f(0f, 50f)), 0f);
+        assertEquals(2_500f, getDistanceSquared(new Vector2f(0f, 0f),
+                new Vector2f(-50f, 0f)), 0f);
+        assertEquals(2_500f, getDistanceSquared(new Vector2f(0f, 0f),
+                new Vector2f(0f, -50f)), 0f);
+        assertEquals(5_000f, getDistanceSquared(new Vector2f(0f, 0f),
+                new Vector2f(50f, 50f)), 0f);
     }
 
     @Test
@@ -94,11 +94,11 @@ public class MathUtilsTests
         }
 
         // Test return value with known arguments
-        assertEquals(clampAngle(420f), 60f, 0f);
-        assertEquals(clampAngle(-420f), 300f, 0f);
-        assertEquals(clampAngle(0f), 0f, 0f);
-        assertEquals(clampAngle(360f), 0f, 0f);
-        assertEquals(clampAngle(120f), 120f, 0f);
+        assertEquals(60f, clampAngle(420f), 0f);
+        assertEquals(300f, clampAngle(-420f), 0f);
+        assertEquals(0f, clampAngle(0f), 0f);
+        assertEquals(0f, clampAngle(360f), 0f);
+        assertEquals(120f, clampAngle(120f), 0f);
     }
 
     @Test
@@ -114,14 +114,14 @@ public class MathUtilsTests
         }
 
         // Float variant
-        assertEquals(clamp(5f, 1f, 3f), 3f, 0f);
-        assertEquals(clamp(-5f, 1f, 3f), 1f, 0f);
-        assertEquals(clamp(2f, 1f, 3f), 2f, 0f);
+        assertEquals(3f, clamp(5f, 1f, 3f), 0f);
+        assertEquals(1f, clamp(-5f, 1f, 3f), 0f);
+        assertEquals(2f, clamp(2f, 1f, 3f), 0f);
 
         // Integer variant
-        assertEquals(clamp(5, 1, 3), 3);
-        assertEquals(clamp(-5, 1, 3), 1);
-        assertEquals(clamp(2, 1, 3), 2);
+        assertEquals(3, clamp(5, 1, 3));
+        assertEquals(1, clamp(-5, 1, 3));
+        assertEquals(2, clamp(2, 1, 3));
     }
 
     @Test
@@ -138,14 +138,14 @@ public class MathUtilsTests
         }
 
         // Test return value with known arguments
-        assertEquals(getShortestRotation(90f, 180f), 90f, 0f);
-        assertEquals(getShortestRotation(180f, 90f), -90f, 0f);
-        assertEquals(getShortestRotation(0f, 179f), 179f, 0f);
-        assertEquals(getShortestRotation(0f, 181f), -179f, 0.01f);
-        assertEquals(getShortestRotation(0f, 360f), 0f, 0f);
-        assertEquals(getShortestRotation(60f, 120f), 60f, 0f);
-        assertEquals(getShortestRotation(120f, 60f), -60f, 0f);
-        assertEquals(Math.abs(getShortestRotation(300f, 120f)), 180f, 0.001f);
+        assertEquals(90f, getShortestRotation(90f, 180f), 0f);
+        assertEquals(-90f, getShortestRotation(180f, 90f), 0f);
+        assertEquals(179f, getShortestRotation(0f, 179f), 0f);
+        assertEquals(-179f, getShortestRotation(0f, 181f), 0.01f);
+        assertEquals(0f, getShortestRotation(0f, 360f), 0f);
+        assertEquals(60f, getShortestRotation(60f, 120f), 0f);
+        assertEquals(-60f, getShortestRotation(120f, 60f), 0f);
+        assertEquals(180f, Math.abs(getShortestRotation(300f, 120f)), 0.001f);
     }
 
     //@Test
@@ -163,16 +163,16 @@ public class MathUtilsTests
             final Vector2f origin = getRandomPointInCircle(null, 150_000f);
             final float angle = getRandomNumberInRange(0f, 359.9f);
             final Vector2f point = getPoint(origin, 100f, angle);
-            assertEquals(getDistanceSquared(point, origin), 10_000f, 2f);
+            assertEquals(10_000f, getDistanceSquared(point, origin), 2f);
             assertEquals(angle, VectorUtils.getAngleStrict(origin, point), 0.01f);
         }
 
         // Test return value with known arguments
-        assertEquals(getPoint(null, 50f, 0f), new Vector2f(50f, 0f));
-        assertEquals(getPoint(null, 50f, 90f), new Vector2f(0f, 50f));
-        assertEquals(getPoint(null, 50f, 180f), new Vector2f(-50f, 0f));
-        assertEquals(getPoint(null, 50f, 270f), new Vector2f(0f, -50f));
-        assertEquals(getPoint(null, 50f, 45f), new Vector2f(35.35534f, 35.35534f));
+        assertEquals(new Vector2f(50f, 0f), getPoint(null, 50f, 0f));
+        assertEquals(new Vector2f(0f, 50f), getPoint(null, 50f, 90f));
+        assertEquals(new Vector2f(-50f, 0f), getPoint(null, 50f, 180f));
+        assertEquals(new Vector2f(0f, -50f), getPoint(null, 50f, 270f));
+        assertEquals(new Vector2f(35.35534f, 35.35534f), getPoint(null, 50f, 45f));
     }
 
     @Test
@@ -219,8 +219,8 @@ public class MathUtilsTests
         }
 
         // Check for even distribution
-        assertEquals(totalF / NUM_TESTS, 0f, 0.01f);
-        assertEquals(totalI / NUM_TESTS, 0);
+        assertEquals(0f, totalF / NUM_TESTS, 0.01f);
+        assertEquals(0, totalI / NUM_TESTS);
     }
 
     @Test

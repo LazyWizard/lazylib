@@ -655,7 +655,7 @@ public class MathUtils
      *
      * @return The point on the line between {@code lineStart} and {@code lineEnd} nearest to {@code source}.
      *
-     * @author Alex Mosolov (http://fractalsoftworks.com/forum/index.php?topic=5061.msg229605#msg229605)
+     * @author Alex Mosolov (<a href="http://fractalsoftworks.com/forum/index.php?topic=5061.msg229605#msg229605">source</a>)
      * @since 2.3
      */
     public static Vector2f getNearestPointOnLine(Vector2f source, Vector2f lineStart, Vector2f lineEnd)
