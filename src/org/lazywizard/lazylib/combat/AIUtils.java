@@ -96,13 +96,8 @@ public class AIUtils
         ShipAPI closest = null;
         float distance, closestDistance = Float.MAX_VALUE;
 
-        for (ShipAPI tmp : Global.getCombatEngine().getShips())
+        for (ShipAPI tmp : getAlliesOnMap(entity))
         {
-            if (tmp == entity || tmp.getOwner() != entity.getOwner()
-                    || tmp.isHulk() || tmp.isShuttlePod())
-            {
-                continue;
-            }
 
             distance = MathUtils.getDistance(tmp, entity.getLocation());
             if (distance < closestDistance)
@@ -319,17 +314,41 @@ public class AIUtils
         MissileAPI closest = null;
         float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
 
-        for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
+        for (MissileAPI tmp : getEnemyMissilesOnMap(entity))
         {
-            if (tmp.getOwner() == entity.getOwner())
-            {
-                continue;
-            }
 
-            if (!CombatUtils.isVisibleToSide(tmp, entity.getOwner()))
+            distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
+                    entity.getLocation());
+
+            if (distanceSquared < closestDistanceSquared)
             {
-                continue;
+                closest = tmp;
+                closestDistanceSquared = distanceSquared;
             }
+        }
+
+        return closest;
+    }
+
+    /**
+     * Find the closest ally missile near an entity.
+     *
+     * @param entity The {@link CombatEntityAPI} to search around.
+     *
+     * @return The ally {@link MissileAPI} closest to {@code entity} that can
+     *         be seen despite the fog of war as it is ally side,
+     *         or {@code null} if none are found.
+     *
+     * @since
+     */
+    @Nullable
+    public static MissileAPI getNearestAllyMissile(CombatEntityAPI entity)
+    {
+        MissileAPI closest = null;
+        float distanceSquared, closestDistanceSquared = Float.MAX_VALUE;
+
+        for (MissileAPI tmp : getAllyMissilesOnMap(entity))
+        {
 
             distanceSquared = MathUtils.getDistanceSquared(tmp.getLocation(),
                     entity.getLocation());
@@ -362,6 +381,44 @@ public class AIUtils
         {
             if (tmp.getOwner() != entity.getOwner() || tmp.isFizzling())
             {
+
+                if (!CombatUtils.isVisibleToSide(tmp, entity.getOwner()))
+                {
+                    continue;
+                }
+
+                missiles.add(tmp);
+            }
+        }
+
+        return missiles;
+    }
+
+    /**
+     * Find all ally missiles of an entity.
+     *
+     * @param entity The {@link CombatEntityAPI} to search around.
+     *
+     * @return All enemy {@link MissileAPI}s of {@code entity} on the battle
+     *         map that can be seen despite the fog of war as it is ally side.
+     *
+     * @since
+     */
+    public static List<MissileAPI> getAllyMissilesOnMap(CombatEntityAPI entity)
+    {
+        List<MissileAPI> missiles = new ArrayList<>();
+
+        for (MissileAPI tmp : Global.getCombatEngine().getMissiles())
+        {
+            if (tmp.getOwner() == entity.getOwner() || tmp.isFizzling())
+            {
+
+                // do not check fog of war as it is ally side
+                //if (!CombatUtils.isVisibleToSide(tmp, entity.getOwner()))
+                //{
+                //    continue;
+                //}
+                
                 missiles.add(tmp);
             }
         }
@@ -385,6 +442,32 @@ public class AIUtils
         List<MissileAPI> missiles = new ArrayList<>();
 
         for (MissileAPI enemy : getEnemyMissilesOnMap(entity))
+        {
+            if (MathUtils.isWithinRange(entity, enemy, range))
+            {
+                missiles.add(enemy);
+            }
+        }
+
+        return missiles;
+    }
+
+    /**
+     * Finds all ally missiles within a certain range around an entity.
+     *
+     * @param entity The entity to search around.
+     * @param range  How far around {@code entity} to search.
+     *
+     * @return A {@link List} containing all ally missiles within range,
+     *         despite the fog of war as it is ally side.
+     *
+     * @since
+     */
+    public static List<MissileAPI> getNearbyAllyMissiles(CombatEntityAPI entity, float range)
+    {
+        List<MissileAPI> missiles = new ArrayList<>();
+
+        for (MissileAPI enemy : getAllyMissilesOnMap(entity))
         {
             if (MathUtils.isWithinRange(entity, enemy, range))
             {
