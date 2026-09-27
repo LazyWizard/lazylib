@@ -436,10 +436,17 @@ class LazyFont private constructor(
 
     enum class TextAlignment { LEFT, CENTER, RIGHT }
 
+    // DO NOT use `getRGBComponents`
+    // Keep inline
+    private inline fun uint8Color(c: Color): Float {
+        val bits = c.rgb
+        return Float.fromBits(bits and 0xff00ff00.toInt() or (bits shr 16 and 0xff) or (bits shl 16 and 0xff0000))
+    }
+
     // FIXME: Wrapped strings with a hyphen will offset colored substrings by one
     inner class DrawableString(text: String, fontSize: Float, maxWidth: Float, maxHeight: Float, baseColor: Color) {
         private val sb: StringBuilder = StringBuilder(text)
-        private val substringColorData = HashMap<Int, FloatArray>()
+        private val substringColorData = HashMap<Int, Float>()
         private val bufferId = glGenBuffers()
         private var len = 0
         val font: LazyFont get() = this@LazyFont
@@ -534,9 +541,9 @@ class LazyFont private constructor(
         fun append(text: Any, color: Color): DrawableString {
             // Set indices for color data
             // TODO: Handle invisible characters that mess up length
-            substringColorData[sb.length] = color.getRGBComponents(null)
+            substringColorData[sb.length] = uint8Color(color)
             append(text)
-            substringColorData[sb.length] = this.baseColor.getRGBComponents(null)
+            substringColorData[sb.length] = uint8Color(this.baseColor)
             return this
         }
 
@@ -574,14 +581,11 @@ class LazyFont private constructor(
 
             // Don't store per-vertex color data if the entire string is the same color!
             val useColorData = substringColorData.isNotEmpty()
-            val buffer = if (useColorData) {
-                BufferUtils.createFloatBuffer(toDraw.length * 32)
-            } else
-                BufferUtils.createFloatBuffer(toDraw.length * 16)
+            val buffer = BufferUtils.createFloatBuffer(toDraw.length * if (useColorData) 20 else 16)
 
             len = 0 // Length ignoring whitespace; used for vertex data
             var colLen = 0 // Length including whitespace; used for coloring substrings
-            var colorBytes = baseColor.getRGBComponents(null)
+            var colorBytes = uint8Color(baseColor)
             var firstLine = true
 
             // Used for proper placement of center/right-justified text
@@ -635,7 +639,7 @@ class LazyFont private constructor(
 
                     // Colored substring support
                     if (useColorData && substringColorData.containsKey(colLen))
-                        colorBytes = substringColorData[colLen]
+                        colorBytes = substringColorData[colLen] ?: Float.fromBits(0xffffffff.toInt())
 
                     // Individual puts are faster, but lack bounds checking
                     buffer.put(ch.tx1).put(ch.ty1)
@@ -692,10 +696,11 @@ class LazyFont private constructor(
 
             // Color data doubles the size of the buffer, so we don't store it
             // unless absolutely necessary (string contains colored substrings)
+            // fix: only extra 4bytes for each vertex now
             if (useColorData) {
-                glTexCoordPointer(2, GL_FLOAT, 32, 0)
-                glVertexPointer(2, GL_FLOAT, 32, 8)
-                glColorPointer(4, GL_FLOAT, 32, 16)
+                glTexCoordPointer(2, GL_FLOAT, 20, 0)
+                glVertexPointer(2, GL_FLOAT, 20, 8)
+                glColorPointer(4, GL_UNSIGNED_BYTE, 20, 16)
             } else {
                 glColor(baseColor)
                 glTexCoordPointer(2, GL_FLOAT, 16, 0)

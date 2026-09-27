@@ -1,6 +1,5 @@
 package org.lazywizard.lazylib.opengl;
 
-import org.lazywizard.lazylib.FastTrig;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
@@ -50,8 +49,8 @@ public class DrawUtils
         // Instead of recalculating sin/cos for each line segment,
         // this algorithm rotates the line around the center point
         final float theta = 2f * 3.1415926f / (float) numSegments;
-        final float cos = (float) FastTrig.cos(theta);
-        final float sin = (float) FastTrig.sin(theta);
+        final float cos = (float) Math.cos(theta);
+        final float sin = (float) Math.sin(theta);
 
         // Start at angle = 0
         float x = radius;
@@ -121,10 +120,10 @@ public class DrawUtils
         // Instead of recalculating sin/cos for each line segment,
         // this algorithm rotates the line around the center point
         final float theta = 2f * 3.1415926f / (float) numSegments;
-        final float cos = (float) FastTrig.cos(theta);
-        final float sin = (float) FastTrig.sin(theta);
-        final float offsetCos = (float) FastTrig.cos(angleOffset);
-        final float offsetSin = (float) FastTrig.sin(angleOffset);
+        final float cos = (float) Math.cos(theta);
+        final float sin = (float) Math.sin(theta);
+        final float offsetCos = (float) Math.cos(angleOffset);
+        final float offsetSin = (float) Math.sin(angleOffset);
         final float yFactor = (height / width);
 
         // Start at angle = 0
@@ -198,12 +197,12 @@ public class DrawUtils
         // Instead of recalculating sin/cos for each line segment,
         // this algorithm rotates the line around the center point
         final float theta = arcAngle / (float) (numSegments);
-        final float cos = (float) FastTrig.cos(theta);
-        final float sin = (float) FastTrig.sin(theta);
+        final float cos = (float) Math.cos(theta);
+        final float sin = (float) Math.sin(theta);
 
         // Start at angle startAngle
-        float x = (float) (radius * FastTrig.cos(startAngle));
-        float y = (float) (radius * FastTrig.sin(startAngle));
+        float x = (float) (radius * Math.cos(startAngle));
+        float y = (float) (radius * Math.sin(startAngle));
         float tmp;
 
         float[] vertices = new float[numSegments * 2 + (drawFilled ? 4 : 2)];
